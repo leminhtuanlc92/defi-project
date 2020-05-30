@@ -3,6 +3,7 @@ import styled, { css } from 'styled-components/macro'
 import { ToastContainer } from 'react-toastify'
 import { SiteContext } from '../../contexts/SiteContext'
 import Aside from './aside'
+import MainRoutes from '../../router'
 export default () => {
     const { siteState: { aside } } = useContext(SiteContext)
     return (
@@ -11,7 +12,7 @@ export default () => {
                 <Aside />
                 <MainContentWrap aside={aside}>
                     <MainBody aside={aside}>
-
+                        <MainRoutes/>
                     </MainBody>
                 </MainContentWrap>
                 <ToastContainer />
@@ -22,21 +23,23 @@ export default () => {
 const WrapBody = memo(styled.div`
     background-size:cover;
     background-position:center;
+    background-color: #fff;
     height:100vh;
     overflow:hidden;
     display: flex;
-    flex-direction: column;
+    flex:1
 `)
 const MainContentWrap = memo(styled.div`
     position:relative;
-    @media (min-width:992px){
+    /* @media (min-width:992px){
         height:calc(100vh - 90px);
-    }
+    } */
     @media (max-width:991px){
         height:100vh;
         transition: all 0.3s cubic-bezier(0.215,0.61,0.355,1);
-        ${(props: any) => props.aside !== 3 ?
-        css`width:80%;` :
+        flex:1;
+        ${(props: any) => props.aside ?
+        css`width:80%` :
         css`width:calc(100% - 30px);`
     }
     }

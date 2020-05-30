@@ -42,7 +42,7 @@ export default ({ children }: any) => {
             preState = JSON.parse(lastState)
         }
         if (!!preState) {
-            console.log('here', preState.locale)
+            // console.log('here', preState.locale)
             i18n.locale = preState.locale;
             localStorage.setItem('siteState', JSON.stringify({ ...siteState, locale: preState.locale }))
             dispatchSite({
