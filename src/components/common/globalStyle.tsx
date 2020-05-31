@@ -18,7 +18,7 @@ const GlobalStyle = createGlobalStyle`
         padding: 0;
         border: 0;
         font-size: 100%;
-        font-family: 'Asap', sans-serif;
+        font-family: 'Roboto', sans-serif;
         vertical-align: baseline;
         line-height: inherit;
     }
@@ -33,7 +33,10 @@ const GlobalStyle = createGlobalStyle`
         list-style: none;
     } 
     span, p{
-        line-height:15px;
+        line-height:inherit;
+    }
+    div{
+        display:flex;
     }
     blockquote, q {
         quotes: none;
@@ -56,15 +59,15 @@ const GlobalStyle = createGlobalStyle`
 
     body,html {
         height: 100%;
-        font-size: 0.9em;
+        font-size: 14px;
         /* font-size: calc(10px + (20 - 10) * ((100vw - 300px) / (1920 - 300))); */
         font-family: inherit;
         color:#fff;
         @media (min-width: 992px) and(max-width:1199px) {
-            font-size:0.9em;
+            font-size:15px;
         }
-        @media (max-width:991px) {
-            font-size: 0.8em;
+        @media (max-width:768px) {
+            font-size: 16px
         }
         ::-webkit-scrollbar {
             width: 3px;
@@ -88,7 +91,7 @@ const GlobalStyle = createGlobalStyle`
         max-width: 100%;
     }
     textarea {
-        font-family: 'Asap', sans-serif;
+        font-family: 'Roboto', sans-serif;
     }
     a {
         text-decoration: none;
@@ -212,7 +215,7 @@ const GlobalStyle = createGlobalStyle`
         justify-content: space-between;
         max-height: 800px;
         overflow: hidden;
-        font-family: sans-serif;
+        font-family: 'Roboto', sans-serif
         cursor: pointer;
         direction: ltr;
     }
@@ -257,7 +260,7 @@ const GlobalStyle = createGlobalStyle`
     .Toastify__close-button {
         color: #fff;
         font-weight: bold;
-        font-size: 14px;
+        font-size: 1em;
         background: transparent;
         outline: none;
         border: none;

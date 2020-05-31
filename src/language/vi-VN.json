@@ -1,0 +1,18 @@
+{
+    "dashboard": "Trang chủ",
+    "sunNetwork": "Sun network",
+    "matrixNetwork": "Matrix network",
+    "partners": "Đối tác",
+    "transactionHistory": "Danh sách giao dịch",
+    "buyshare": "Buy share",
+    "usageInstruction": "Hướng dẫn sử dụng",
+    "logout": "Đăng xuất",
+    "tronLoginErorquote1": "Chờ đã, có lỗi xảy ra rồi! Để tiếp tục sử dụng hệ thống bạn cần:",
+    "tronLoginErorquote2": "- Cài đặt Extension TronLink",
+    "tronLoginErorquote3": "- Đăng nhập vào tài khoản TronLink",
+    "installTronLink": "Cài đặt TronLink tại đây",
+    "confirmrefInfo": "Xác nhận thông tin Ref",
+    "confirm": "Xác nhận",
+    "username": "Tên người dùng",
+    "address": "Địa chỉ"
+}

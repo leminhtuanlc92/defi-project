@@ -6,13 +6,14 @@ i18n.translations = SiteLocale;
 i18n.missingTranslationPrefix = "miss: ";
 const initState = {
     isLoading: true,
-    locale: 'en',
+    locale: 'vi',
     baseCurrency: "usd",
     aside: true
 }
 const initSiteContext = {
     siteState: initState,
-    changeLocale: (locale: string) => { }
+    changeLocale: (locale: string) => { },
+    toggleAside: (aside: boolean) => { }
 }
 const SiteContext = React.createContext(initSiteContext);
 export default ({ children }: any) => {
@@ -25,6 +26,9 @@ export default ({ children }: any) => {
             }
             case "changeLocale": {
                 return { ...preState, locale: action.locale };
+            }
+            case "toggleAside": {
+                return { ...preState, aside: action.aside };
             }
             default:
                 return preState;
@@ -57,7 +61,6 @@ export default ({ children }: any) => {
                 initState: { ...initState, isLoading: false }
             });
         }
-
         isInit.current = false;
     };
     const changeLocale = (locale: string) => {
@@ -68,6 +71,13 @@ export default ({ children }: any) => {
             type: "changeLocale"
         });
     };
+    const toggleAside = (aside: boolean) => {
+        localStorage.setItem('siteState', JSON.stringify({ ...siteState, aside: !aside }))
+        dispatchSite({
+            aside: !aside,
+            type: "toggleAside"
+        });
+    }
     useEffect(() => {
         initConfig();
     }, []);
@@ -75,7 +85,8 @@ export default ({ children }: any) => {
         <SiteContext.Provider
             value={{
                 siteState,
-                changeLocale
+                changeLocale,
+                toggleAside
             }}
         >
             {siteState.isLoading ? <div>...</div> : children}

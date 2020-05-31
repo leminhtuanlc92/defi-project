@@ -1,6 +1,6 @@
 import React, { lazy, Suspense } from 'react'
 import { Router, Route, Switch, Redirect } from 'react-router-dom'
-import { history } from './App'
+import { history } from '../src/App'
 import Loading from '../src/components/common/loading'
 
 const DashBoard = lazy(() => import('../src/containers/dashboard'))

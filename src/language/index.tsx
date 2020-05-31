@@ -1,6 +1,6 @@
 import en from "./en-US.json";
-import zh from "./zh-CN.json";
+import vi from "./vi-VN.json";
 export default {
-  en,
-  zh
+  vi,
+  en
 };

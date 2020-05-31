@@ -1,48 +1,97 @@
-import React, { memo, Fragment, useContext } from 'react'
+import React, { memo, Fragment, useContext, useState } from 'react'
 import styled, { css } from 'styled-components/macro'
 import { ToastContainer } from 'react-toastify'
 import { SiteContext } from '../../contexts/SiteContext'
 import Aside from './aside'
 import MainRoutes from '../../router'
+import Colors from '../../constants/Colors'
+import ReactTooltip from "react-tooltip";
+import LoginTron from '../../containers/LoginTron'
+const closeImg = require('../../assets/images/white-back.png')
+const openImg = require('../../assets/images/white-next.png')
 export default () => {
-    const { siteState: { aside } } = useContext(SiteContext)
+    const { siteState: { aside }, changeLocale, toggleAside } = useContext(SiteContext)
+    const [loginTron, setLoginTron] = useState(false)
     return (
-        <Fragment>
-            <WrapBody>
-                <Aside />
-                <MainContentWrap aside={aside}>
-                    <MainBody aside={aside}>
-                        <MainRoutes/>
-                    </MainBody>
-                </MainContentWrap>
-                <ToastContainer />
-            </WrapBody>
-        </Fragment>
+        <WrapBody>
+            {loginTron ?
+                <Fragment>
+                    <Aside />
+                    <MainContentWrap aside={aside}>
+                        <ToggleButton onClick={() => toggleAside(aside)}>
+                            <div>
+                                {aside ?
+                                    <img src={closeImg} style={{ objectFit: 'contain' }} /> :
+                                    <img src={openImg} style={{ objectFit: 'contain' }} />
+                                }
+                            </div>
+                        </ToggleButton>
+                        <MainBody aside={aside}>
+                            <MainRoutes />
+                        </MainBody>
+                    </MainContentWrap>
+
+                </Fragment>
+                :
+                <LoginTron />
+            }
+            <ToastContainer />
+            <ReactTooltip />
+        </WrapBody>
     )
 }
 const WrapBody = memo(styled.div`
     background-size:cover;
     background-position:center;
-    background-color: #fff;
+    background-color: ${Colors.white};
     height:100vh;
+    width:100vw;
     overflow:hidden;
     display: flex;
-    flex:1
+    flex:1;
+    align-items:center;
+    justify-content:center;
+    flex-wrap:wrap
+`)
+const ToggleButton = memo(styled.div`
+    border-radius: 50%;
+    background-color:${Colors.mainbodyBg};
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    position:absolute;
+    top:10%;
+    left:-25px;
+    z-index:2;
+    width:50px;
+    height:50px;
+    cursor: pointer;
+    div{
+        background-color: ${Colors.green1};
+        border-radius: 50%;
+        width:40px;
+        height:40px;
+        display:flex;
+        align-items:center;
+        justify-content:center
+    }
 `)
 const MainContentWrap = memo(styled.div`
     position:relative;
+    display:flex;
+    justify-content:flex-start;
+    align-items:center;
+    background-color:${Colors.green1};
+    ${(props: any) => props.aside ?
+        css`width:80%` :
+        css`width:calc(100% - 70px);`
+    };
+    height:100%;
+    transition: all 0.3s cubic-bezier(0.215,0.61,0.355,1);
     /* @media (min-width:992px){
         height:calc(100vh - 90px);
     } */
-    @media (max-width:991px){
-        height:100vh;
-        transition: all 0.3s cubic-bezier(0.215,0.61,0.355,1);
-        flex:1;
-        ${(props: any) => props.aside ?
-        css`width:80%` :
-        css`width:calc(100% - 30px);`
-    }
-    }
+
     .hash{
         position:fixed;
         top: 1em;
@@ -86,14 +135,18 @@ const MainContentWrap = memo(styled.div`
 `)
 
 const MainBody = memo(styled.div`
-    height:100%;
+    width:calc(100% - 20px);
+    height:calc(100% - 40px);
+    background-color:${Colors.mainbodyBg};
+    border-top-left-radius:30px;
+    border-top-right-radius:30px;
     transition: all 0.3s cubic-bezier(0.215,0.61,0.355,1);
     position: relative;
-    ${(props: any) => props.aside !== 3 ?
+    /* ${(props: any) => props.aside !== 3 ?
         css`padding: 0 16% 0 12%;`
         :
         css`padding:0 16% 0 0;`
-    }
+    } */
     @media (min-width:992px) and (max-width:1199px){
         ${(props: any) => props.aside !== 3 ?
         css`padding:0 20% 0 15%;`
