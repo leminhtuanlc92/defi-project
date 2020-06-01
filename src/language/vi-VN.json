@@ -14,5 +14,9 @@
     "confirmrefInfo": "Xác nhận thông tin Ref",
     "confirm": "Xác nhận",
     "username": "Tên người dùng",
-    "address": "Địa chỉ"
+    "address": "Địa chỉ",
+    "popConfirmUsdtquote": "Bạn có muốn cấp quyền sử dụng USDT cho hệ thống không?",
+    "yes": "Có",
+    "no": "Không",
+    "level": "Cấp độ"
 }

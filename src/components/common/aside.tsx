@@ -1,6 +1,6 @@
 import React, { memo, useContext } from 'react'
 import styled, { css } from 'styled-components'
-import { SiteContext } from '../../contexts/SiteContext'
+import { SiteContext } from '../../contexts/siteContext'
 import Colors from '../../constants/Colors'
 import Texts from '../../constants/Texts'
 import { Link } from 'react-router-dom'
@@ -37,7 +37,7 @@ export default () => {
                                 data-delay-show={500}
                             >
                                 <MenuItemWrapper aside={siteState.aside}>
-                                    <img src={item.img} style={{ marginRight: siteState.aside ? '20px' : 0, objectFit: 'contain' }} />
+                                    <img src={item.img} style={{ marginRight: siteState.aside ? '20px' : 0, objectFit: 'contain' }} alt=""/>
                                     {siteState.aside ?
                                         <span>{i18n.t(item.name)}</span>
                                         :

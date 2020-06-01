@@ -5,7 +5,6 @@ import Loading from '../../components/common/loading'
 
 const LoginNotify = lazy(() => import('../LoginTron/loginNotify'))
 const ConfirmRef = lazy(() => import('../LoginTron/confirmRef'))
-const ConfirmUSDT = lazy(() => import('../LoginTron/confirmUsdt'))
 
 export default () => {
     return (
@@ -14,7 +13,6 @@ export default () => {
                 <Switch>
                     <Route exact path='/' component={LoginNotify} />
                     <Route path='/confirm-ref' component={ConfirmRef} />
-                    <Route path='/confirm-usdt' component={ConfirmUSDT} />
                 </Switch>
             </Suspense>
         </Router>

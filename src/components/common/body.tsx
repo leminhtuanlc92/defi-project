@@ -1,17 +1,18 @@
 import React, { memo, Fragment, useContext, useState } from 'react'
 import styled, { css } from 'styled-components/macro'
 import { ToastContainer } from 'react-toastify'
-import { SiteContext } from '../../contexts/SiteContext'
+import { SiteContext } from '../../contexts/siteContext'
 import Aside from './aside'
 import MainRoutes from '../../router'
 import Colors from '../../constants/Colors'
 import ReactTooltip from "react-tooltip";
 import LoginTron from '../../containers/LoginTron'
+import HeadContent from '../MainBody/headContent'
 const closeImg = require('../../assets/images/white-back.png')
 const openImg = require('../../assets/images/white-next.png')
 export default () => {
     const { siteState: { aside }, changeLocale, toggleAside } = useContext(SiteContext)
-    const [loginTron, setLoginTron] = useState(false)
+    const [loginTron, setLoginTron] = useState(true)
     return (
         <WrapBody>
             {loginTron ?
@@ -21,13 +22,19 @@ export default () => {
                         <ToggleButton onClick={() => toggleAside(aside)}>
                             <div>
                                 {aside ?
-                                    <img src={closeImg} style={{ objectFit: 'contain' }} /> :
-                                    <img src={openImg} style={{ objectFit: 'contain' }} />
+                                    <img src={closeImg} style={{ objectFit: 'contain' }} alt="" /> :
+                                    <img src={openImg} style={{ objectFit: 'contain' }} alt="" />
                                 }
                             </div>
                         </ToggleButton>
                         <MainBody aside={aside}>
-                            <MainRoutes />
+                            <div id="wrap-main">
+                                <HeadContent />
+                                <div id="wrap-main-content">
+                                    <MainRoutes />
+                                </div>
+
+                            </div>
                         </MainBody>
                     </MainContentWrap>
 
@@ -61,16 +68,16 @@ const ToggleButton = memo(styled.div`
     justify-content:center;
     position:absolute;
     top:10%;
-    left:-25px;
+    left:-23px;
     z-index:2;
-    width:50px;
-    height:50px;
+    width:46px;
+    height:46px;
     cursor: pointer;
     div{
         background-color: ${Colors.green1};
         border-radius: 50%;
-        width:40px;
-        height:40px;
+        width:36px;
+        height:36px;
         display:flex;
         align-items:center;
         justify-content:center
@@ -142,11 +149,20 @@ const MainBody = memo(styled.div`
     border-top-right-radius:30px;
     transition: all 0.3s cubic-bezier(0.215,0.61,0.355,1);
     position: relative;
+    align-items:center;
+    justify-content:center;
     /* ${(props: any) => props.aside !== 3 ?
         css`padding: 0 16% 0 12%;`
         :
         css`padding:0 16% 0 0;`
     } */
+    #wrap-main{
+        width:calc(100% - 30px);
+        height:calc(100% - 30px);
+    }
+    #wrap-main-content{
+        flex-grow:2;
+    }
     @media (min-width:992px) and (max-width:1199px){
         ${(props: any) => props.aside !== 3 ?
         css`padding:0 20% 0 15%;`

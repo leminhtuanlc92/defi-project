@@ -10,9 +10,7 @@ export default () => {
 }
 
 const DashboardWrap = memo(styled.div`
-    flex:1;
-    height:100%;
     border-top-left-radius:30px;
     border-top-right-radius:30px;
-    background-color: ${Colors.mainbodyBg}
+    flex:1;
 `)
