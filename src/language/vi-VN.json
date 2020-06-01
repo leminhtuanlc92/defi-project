@@ -18,5 +18,11 @@
     "popConfirmUsdtquote": "Bạn có muốn cấp quyền sử dụng USDT cho hệ thống không?",
     "yes": "Có",
     "no": "Không",
-    "level": "Cấp độ"
+    "level": "Cấp độ",
+    "affiliateLink": "Link giới thiệu",
+    "totalReceive": "Tổng nhận",
+    "stockRightBalance": "Tổng giá trị",
+    "fine": "Thưởng",
+    "goldMemeber": "Thành viên vàng",
+    "shareHolding": "Share nắm giữ"
 }

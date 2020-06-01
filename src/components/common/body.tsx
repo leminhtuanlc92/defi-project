@@ -68,16 +68,16 @@ const ToggleButton = memo(styled.div`
     justify-content:center;
     position:absolute;
     top:10%;
-    left:-23px;
+    left:-20px;
     z-index:2;
-    width:46px;
-    height:46px;
+    width:40px;
+    height:40px;
     cursor: pointer;
     div{
         background-color: ${Colors.green1};
         border-radius: 50%;
-        width:36px;
-        height:36px;
+        width:30px;
+        height:30px;
         display:flex;
         align-items:center;
         justify-content:center
@@ -142,7 +142,8 @@ const MainContentWrap = memo(styled.div`
 `)
 
 const MainBody = memo(styled.div`
-    width:calc(100% - 20px);
+    width: calc(100% - 60px);
+    padding: 0 20px;
     height:calc(100% - 40px);
     background-color:${Colors.mainbodyBg};
     border-top-left-radius:30px;
@@ -157,11 +158,17 @@ const MainBody = memo(styled.div`
         css`padding:0 16% 0 0;`
     } */
     #wrap-main{
-        width:calc(100% - 30px);
-        height:calc(100% - 30px);
+        width:calc(100% - 40px);
+        height:calc(100% - 40px);
+        flex:1;
+        justify-content:flex-start;
+        flex-direction:column
     }
     #wrap-main-content{
-        flex-grow:2;
+        height: calc(100% - (1em*2));
+        width:100%;
+        overflow:hidden;
+        background-color:orange;
     }
     @media (min-width:992px) and (max-width:1199px){
         ${(props: any) => props.aside !== 3 ?

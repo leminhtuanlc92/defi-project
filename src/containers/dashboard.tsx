@@ -1,16 +1,7 @@
-import React, { memo } from 'react'
-import styled from 'styled-components'
-import Colors from '../constants/Colors'
+import React, { memo, useState } from 'react'
+import DashboardComp from '../components/MainBody/dashboard'
 export default () => {
     return (
-        <DashboardWrap>
-            
-        </DashboardWrap>
+        <DashboardComp/>
     )
 }
-
-const DashboardWrap = memo(styled.div`
-    border-top-left-radius:30px;
-    border-top-right-radius:30px;
-    flex:1;
-`)

@@ -35,6 +35,7 @@ export default () => {
                                 data-tip-disable={siteState.aside}
                                 data-tip={`${i18n.t(`${item.name}`)}`}
                                 data-delay-show={500}
+                                style={{width:'100%'}}
                             >
                                 <MenuItemWrapper aside={siteState.aside}>
                                     <img src={item.img} style={{ marginRight: siteState.aside ? '20px' : 0, objectFit: 'contain' }} alt=""/>
@@ -84,7 +85,7 @@ const AsideWrap = memo(styled.div`
 const Logo = memo(styled.div`
     display: flex;
     justify-content: center;
-    flex: 0.2;
+    /* flex: 0.2; */
     span{
         color: ${Colors.white};
         text-transform: uppercase;
@@ -93,7 +94,7 @@ const Logo = memo(styled.div`
 `)
 
 const MainMenu = (styled.div`
-    flex: 0.7;
+    /* flex: 0.7; */
     display: flex;
     flex-direction: column;
     overflow-y: 'scroll'
@@ -119,7 +120,7 @@ const MenuItemWrapper = memo(styled.div`
 `)
 const Logout = memo(styled.div`
     display:flex;
-    flex:0.1;
+    /* flex:0.1; */
     >div{
         cursor: pointer;
     }
