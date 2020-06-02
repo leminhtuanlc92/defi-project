@@ -27,28 +27,30 @@ export default () => {
                 }
             </Logo>
             <MainMenu>
-                {listmenu.map((item, index) => {
-                    return (
-                        <div style={{ alignItems: 'center', width: '100%' }} key={index}>
-                            <Link to={item.url}
-                                key={index}
-                                data-tip-disable={siteState.aside}
-                                data-tip={`${i18n.t(`${item.name}`)}`}
-                                data-delay-show={500}
-                                style={{width:'100%'}}
-                            >
-                                <MenuItemWrapper aside={siteState.aside}>
-                                    <img src={item.img} style={{ marginRight: siteState.aside ? '20px' : 0, objectFit: 'contain' }} alt=""/>
-                                    {siteState.aside ?
-                                        <span>{i18n.t(item.name)}</span>
-                                        :
-                                        null
-                                    }
-                                </MenuItemWrapper>
-                            </Link>
-                        </div>
-                    )
-                })}
+                <div id="mainmenu-wrapper">
+                    {listmenu.map((item, index) => {
+                        return (
+                            <div style={{ alignItems: 'center', width: '100%' }} key={index}>
+                                <Link to={item.url}
+                                    key={index}
+                                    data-tip-disable={siteState.aside}
+                                    data-tip={`${i18n.t(`${item.name}`)}`}
+                                    data-delay-show={500}
+                                    style={{ width: '100%' }}
+                                >
+                                    <MenuItemWrapper aside={siteState.aside}>
+                                        <img src={item.img} style={{ marginRight: siteState.aside ? '20px' : 0, objectFit: 'contain' }} alt="" />
+                                        {siteState.aside ?
+                                            <span>{i18n.t(item.name)}</span>
+                                            :
+                                            null
+                                        }
+                                    </MenuItemWrapper>
+                                </Link>
+                            </div>
+                        )
+                    })}
+                </div>
             </MainMenu>
             <Logout>
                 <div onClick={() => { }} style={{ width: '100%' }}
@@ -85,7 +87,6 @@ const AsideWrap = memo(styled.div`
 const Logo = memo(styled.div`
     display: flex;
     justify-content: center;
-    /* flex: 0.2; */
     span{
         color: ${Colors.white};
         text-transform: uppercase;
@@ -94,10 +95,14 @@ const Logo = memo(styled.div`
 `)
 
 const MainMenu = (styled.div`
-    /* flex: 0.7; */
     display: flex;
     flex-direction: column;
-    overflow-y: 'scroll'
+    overflow-y: scroll;
+    flex-grow:2;
+    margin-Top:40px;
+    #mainmenu-wrapper{
+        flex-direction: column;
+    }
 `)
 
 const MenuItemWrapper = memo(styled.div`

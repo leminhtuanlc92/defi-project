@@ -160,15 +160,14 @@ const MainBody = memo(styled.div`
     #wrap-main{
         width:calc(100% - 40px);
         height:calc(100% - 40px);
-        flex:1;
         justify-content:flex-start;
-        flex-direction:column
+        flex-direction:column;
+        overflow:scroll;
     }
     #wrap-main-content{
         height: calc(100% - (1em*2));
         width:100%;
         overflow:hidden;
-        background-color:orange;
     }
     @media (min-width:992px) and (max-width:1199px){
         ${(props: any) => props.aside !== 3 ?
