@@ -25,5 +25,14 @@
     "fine": "Thưởng",
     "goldMemeber": "Thành viên vàng",
     "shareHolding": "Share nắm giữ",
-    "personalInfo":"Thông tin cá nhân"
+    "personalInfo": "Thông tin cá nhân",
+    "backOffice": "Back office",
+    "timeAvailable": "Time available",
+    "totalUser": "Total user",
+    "totalSlot": "Total slot",
+    "reinvest": "Reinvest",
+    "upgrade": "Nâng cấp",
+    "upgradeAccount": "Nâng cấp tài khoản",
+    "upgradeAccountquote": "Hãy upgrade tài khoản để nhận được nhiều ưu đãi của hệ thống hơn",
+    "approveUsdt":"Approve usdt"
 }

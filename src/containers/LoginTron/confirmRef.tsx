@@ -3,7 +3,7 @@ import styled from 'styled-components/macro'
 import Colors from '../../constants/Colors'
 import Texts from '../../constants/Texts'
 import i18n from 'i18n-js'
-const confirmImg = require('../../assets/images/confirm-ref.png')
+const confirmImg = require('../../assets/images/confirm-ref.svg')
 const confirmImg1 = require('../../assets/images/confirm.svg')
 const closeImg = require('../../assets/images/close.png')
 export default () => {

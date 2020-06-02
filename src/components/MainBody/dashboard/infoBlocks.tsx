@@ -17,7 +17,7 @@ export default ({ item, length }: InfoBlockProps) => {
             <div id="inner-content-info">
                 <div id="inner-info-wrap">
                     <span id="info-content-title">{i18n.t(item.category)}</span>
-                    <span id="info-content-value">{item.value}</span>
+                    <span id="info-content-value">{i18n.toNumber(item.value, {precision:0})}</span>
                 </div>
             </div>
         </InfoBlock>
@@ -50,6 +50,7 @@ const InfoBlock = memo(styled.div`
                 line-height: ${Texts.size.extra};
                 color: #ED8C47;
                 text-align:center;
+                font-weight: 700;
             }
         }
        

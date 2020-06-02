@@ -29,11 +29,12 @@ export default () => {
                         </ToggleButton>
                         <MainBody aside={aside}>
                             <div id="wrap-main">
-                                <HeadContent />
-                                <div id="wrap-main-content">
-                                    <MainRoutes />
+                                <div id="scroll-section">
+                                    <HeadContent />
+                                    <div id="wrap-main-content">
+                                        <MainRoutes />
+                                    </div>
                                 </div>
-
                             </div>
                         </MainBody>
                     </MainContentWrap>
@@ -95,9 +96,6 @@ const MainContentWrap = memo(styled.div`
     };
     height:100%;
     transition: all 0.3s cubic-bezier(0.215,0.61,0.355,1);
-    /* @media (min-width:992px){
-        height:calc(100vh - 90px);
-    } */
 
     .hash{
         position:fixed;
@@ -163,6 +161,10 @@ const MainBody = memo(styled.div`
         justify-content:flex-start;
         flex-direction:column;
         overflow:scroll;
+        #scroll-section{
+            width:100%;
+            flex-direction:column;
+        }
     }
     #wrap-main-content{
         height: calc(100% - (1em*2));
@@ -170,13 +172,5 @@ const MainBody = memo(styled.div`
         overflow:hidden;
     }
     @media (min-width:992px) and (max-width:1199px){
-        ${(props: any) => props.aside !== 3 ?
-        css`padding:0 20% 0 15%;`
-        :
-        css`padding:0 20% 0 0;`
-    }
-    }
-    @media (max-width:991px){
-        padding:0;
     }
 `)
