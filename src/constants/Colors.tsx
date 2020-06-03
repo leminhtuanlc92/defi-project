@@ -28,6 +28,7 @@ export default {
     'black4': '#E8E8E8',
     'black5': '#000000',
     'black6': '#D8D8D8',
-    'black7': "#AFAFAF",
+    'black7': '#AFAFAF',
+    'black8': '#525252',
     'mainbodyBg': '#F4F5F9',
 }

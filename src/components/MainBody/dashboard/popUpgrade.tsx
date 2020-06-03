@@ -1,4 +1,4 @@
-import React, { memo, useState,useEffect,useContext } from 'react';
+import React, { memo, useState, Fragment, useContext } from 'react';
 import styled, { css } from 'styled-components/macro';
 import Colors from '../../../constants/Colors';
 import Texts from '../../../constants/Texts';
@@ -11,6 +11,8 @@ import { contract } from "../../../config";
 
 const closeImg = require('../../../assets/images/close.png')
 const checkImg = require('../../../assets/images/ic-green-check.png')
+const upgradeSuccess = require('../../../assets/images/upgrade-successful.svg')
+const backImg = require('../../../assets/images/white-back.png')
 interface PopUpgradeProps {
     showPop: boolean;
     setShowPop: any;
@@ -25,71 +27,45 @@ export default ({ showPop, setShowPop, selectPlan, setSelectPlan }: PopUpgradePr
     for (let i = 1; i <= 8; i++) {
         if (i > selectPlan) { dataSelect.push({ value: i, title: `${i18n.t('level')} ${i}` }) }
     }
-    const handleConfirm = () => {
-        // setSelectPlan(value)
-        setSelectPlan()
-    }
-
-
     const { matrixMarketing, ref, usdt, address } = useContext(TronContract);
     const pricePackage = [0, 15, 45, 90, 180, 240, 420, 600, 900];
     const getAmountUpgrade = (currentLevel: number, upgradeLevel: number) => {
-      let total = 0;
-      let detail = [];
-      for (let i = currentLevel + 1; i <= upgradeLevel; i++) {
-        total += pricePackage[i];
-        detail.push({
-          level: i,
-          price: pricePackage[i],
-        });
-      }
-      //Total là tổng số tiền
-      // Detail là danh sách các level nâng cấp
-      return {
-        total,
-        detail,
-      };
+        let total = 0;
+        let detail = [];
+        for (let i = currentLevel + 1; i <= upgradeLevel; i++) {
+            total += pricePackage[i];
+            detail.push({
+                level: i,
+                price: pricePackage[i],
+            });
+        }
+        //Total là tổng số tiền
+        // Detail là danh sách các level nâng cấp
+        // console.log('BBBB', { total, detail })
+        return {
+            total,
+            detail
+        };
+
     };
-  
+    const handleConfirm = () => {
+        // setSelectPlan(value)
+        // getAmountUpgrade(selectPlan, 8)
+        setSelectPlan()
+    }
     //Upgrade funtion
     const upgrade = async (upgradeLevel: number) => {
-      let result = await matrixMarketing.upgradePackage(upgradeLevel, ref);
-      console.log(result);
+        let result = await matrixMarketing.upgradePackage(upgradeLevel, ref);
+        console.log(result);
     };
 
-    const [approve, setApprove] = useState(false);
-    //Checking USDT Approve
-    useEffect(() => {
-      const checkApprove = async () => {
-        let remaining = (
-          await usdt.allowance(address, contract.matrixMarketingAddress).call()
-        ).remaining;
-        if (Number(remaining) > 10 ** 10) {
-          setApprove(true);
-        }
-      };
-      checkApprove();
-    }, []);
-  
-    //Neu approve bang false thi hien thi cap quyen Approve nut dong y se la goi funtion duoi
-    const approveUSDT = async () => {
-      let result = await usdt
-        .approve(contract.matrixMarketingAddress, 10 ** 15)
-        .send({
-          callValue: 0,
-          feeLimit: 1e7,
-          shouldPollResponse: true,
-        });
-      if (result) {
-        setApprove(true);
-      }
-    };
-  
-  
-    
     return (
         <PopUpgradeWrap>
-            <ClickOutside handleClickOutSide={() => setShowPop(false)} style={{ minWidth: '60%', minHeight: '70%' }}>
+            <ClickOutside style={{ minWidth: '60%', minHeight: '70%' }}
+                handleClickOutSide={() => {
+                    setShowPop(false)
+                    step === 2 && setStep(1)
+                }}>
                 <div id="pop-upgrade-content">
                     <div id="pop-upgrade-content-inner">
                         <span id="pop-upgrade-title">{i18n.t('upgradeAccount')}</span>
@@ -106,7 +82,7 @@ export default ({ showPop, setShowPop, selectPlan, setSelectPlan }: PopUpgradePr
                                     <PumDivider step={step}></PumDivider>
                                     <PumStep2 step={step}>
                                         <div className="p-u-m-icon">
-                                            {selectPlan === 2 ?
+                                            {step === 2 ?
                                                 <img src={checkImg} alt="" />
                                                 :
                                                 <span className="pum-">2</span>
@@ -117,53 +93,80 @@ export default ({ showPop, setShowPop, selectPlan, setSelectPlan }: PopUpgradePr
                                 </div>
                                 <div id="pum_current_lv">
                                     <div id="pumclv_inner">
-                                        <div id="pumclvi_lv">
-                                            <span>{i18n.t('currentLevel')}:</span>
-                                            <span>{selectPlan}</span>
-                                        </div>
-                                        <div id="pumclvilv_upgrade">
-                                            <span id="pumclvilvu_title">{i18n.t('levelUpgrade')}:</span>
-                                            <div id="pumcl_select">
-                                                <Select
-                                                    listSelect={dataSelect}
-                                                    action={setCurrentSelect}
-                                                    defaultSelect={i18n.t('selectUpdate')}
-                                                    currentSelect={currentSelect}
-                                                />
-                                            </div>
-                                        </div>
-                                        <div id="pumclvi_purchase">
-                                            <div id="pumclvip_amount">
-                                                <span>{i18n.t('purchaseAmount')}</span>
-                                                <span>45 USDT</span>
-                                            </div>
-                                            <div id="pumclvip_cal1">
-                                                <span>{i18n.t('level')} {selectPlan}</span>
-                                                <span>15 USDT</span>
-                                            </div>
-                                            {currentSelect.title !== '' ?
-                                                <div id="pumclvip_cal2">
-                                                    <span>{i18n.t('level')} {currentSelect.value}</span>
-                                                    <span>45 USDT</span>
+                                        {step === 1 ?
+                                            <Fragment>
+                                                <div id="pumclvi_lv">
+                                                    <span>{i18n.t('currentLevel')}:</span>
+                                                    <span>{selectPlan}</span>
                                                 </div>
-                                                :
-                                                null
-                                            }
-                                        </div>
-                                        <div id="pumclvi_button">
-                                            <div id="pumclvib_inner">
-                                                <button onClick={() => handleConfirm}
-                                                    disabled={!(currentSelect.title !== '')}>
-                                                    {i18n.t('confirm')}
-                                                </button>
-                                            </div>
-                                        </div>
+                                                <div id="pumclvilv_upgrade">
+                                                    <span id="pumclvilvu_title">{i18n.t('levelUpgrade')}:</span>
+                                                    <div id="pumcl_select">
+                                                        <Select
+                                                            listSelect={dataSelect}
+                                                            action={setCurrentSelect}
+                                                            defaultSelect={i18n.t('selectUpdate')}
+                                                            currentSelect={currentSelect}
+                                                        />
+                                                    </div>
+                                                </div>
+                                                <div id="pumclvi_purchase">
+                                                    <div id="pumclvip_amount">
+                                                        <span>{i18n.t('purchaseAmount')}</span>
+                                                        <span>45 USDT</span>
+                                                    </div>
+                                                    <div id="pumclvip_cal1">
+                                                        <span>{i18n.t('level')} {selectPlan}</span>
+                                                        <span>15 USDT</span>
+                                                    </div>
+                                                    {currentSelect.title !== '' ?
+                                                        <div id="pumclvip_cal2">
+                                                            <span>{i18n.t('level')} {currentSelect.value}</span>
+                                                            <span>45 USDT</span>
+                                                        </div>
+                                                        :
+                                                        null
+                                                    }
+                                                </div>
+                                                <div id="pumclvi_button">
+                                                    <div id="pumclvib_inner">
+                                                        <button onClick={() => handleConfirm()}
+                                                            disabled={!(currentSelect.title !== '')}>
+                                                            {i18n.t('confirm')}
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            </Fragment>
+                                            :
+                                            <Fragment>
+                                                <div id="pumclvi_success">
+                                                    <img src={upgradeSuccess} alt="" />
+                                                </div>
+                                                <div id="pumclvi_quote">
+                                                    <span>{i18n.t('upgradeSuccessQuote1')}</span>
+                                                    <span>{i18n.t('upgradeSuccessQuote2')}</span>
+                                                </div>
+                                                <div id="pumclvi_button">
+                                                    <div id="pumclvib_inner">
+                                                        <button onClick={() => {
+                                                            setShowPop(false)
+                                                            setStep(1)
+                                                        }}>
+                                                            <img src={backImg} alt="" /> {i18n.t('backToDashboard')}
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            </Fragment>
+                                        }
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <div id="pop-upgrade-close-button" onClick={() => setShowPop(!showPop)}>
+                    <div id="pop-upgrade-close-button" onClick={() => {
+                        setShowPop(!showPop)
+                        step === 2 && setStep(1)
+                    }}>
                         <img src={closeImg} alt="" />
                     </div>
                 </div>
@@ -282,6 +285,8 @@ const PopUpgradeWrap = memo(styled.div`
                             #pumclvi_purchase{
                                 flex-direction:column;
                                 #pumclvip_amount{
+                                    align-items:center;
+                                    justify-content:space-between;
                                     span{
                                         font-size:${Texts.size.large};
                                         line-height: ${Texts.size.large};
@@ -289,20 +294,40 @@ const PopUpgradeWrap = memo(styled.div`
                                         &:first-child{
                                             text-transform:uppercase
                                         }
-                                        &:nth-child(1){
+                                        &:nth-child(2){
                                             font-weight:700;
                                         }
                                     }
                                 }
                                 #pumclvip_cal1{
+                                    align-items:center;
+                                    justify-content:space-between;
                                     span{
                                         &:first-child{
                                             font-size:${Texts.size.normal};
                                             line-height: ${Texts.size.normal};
                                             color: ${Colors.black};
                                         }
+                                        &:nth-child(2){
+                                            font-size:${Texts.size.large};
+                                            line-height: ${Texts.size.large};
+                                            color: ${Colors.black};
+                                        }
                                     }
-                                   
+                                }
+                                #pumclvip_cal2{
+                                    span{
+                                        &:first-child{
+                                            font-size:${Texts.size.normal};
+                                            line-height: ${Texts.size.normal};
+                                            color: ${Colors.black};
+                                        }
+                                        &:nth-child(1){
+                                            font-size:${Texts.size.large};
+                                            line-height: ${Texts.size.large};
+                                            color: ${Colors.black};
+                                        }
+                                    }
                                 }
                             }
                             #pumclvi_button{
@@ -334,6 +359,28 @@ const PopUpgradeWrap = memo(styled.div`
                                     }
                                 }
                             }
+                            #pumclvi_success{
+                               justify-content:center;
+                               margin:10px 0;
+                            }
+                            #pumclvi_quote{
+                                margin:10px 0 20px;
+                                flex-direction:column;
+                                align-items:center;
+                                span{
+                                    font-size:${Texts.size.large};
+                                    line-height: ${Texts.size.large};
+                                    color: ${Colors.black8};
+                                }
+                            }
+                            #pumclvi_button{
+                                margin:10px 0;
+                                button{
+                                    display:flex;
+                                    align-items:center;
+                                    justify-content:center;
+                                }
+                            }
                         }
                     }
                 }
@@ -360,29 +407,15 @@ const PumDivider = memo(styled.div`
 const PumStep1 = memo(styled.div`
     .p-u-m-icon{
         border-radius:50%;
-        ${(props: any) => props.step === 1 ? css`
-            background-color: ${Colors.orange};
-            span{
-                color: ${Colors.orange}
-            }
-        `: css`
-            background-color: ${Colors.green};
-            span{
-                color: ${Colors.green3}
-            }
-        `}
+        background-color: ${Colors.orange};
+        span{
+            color: ${Colors.orange}
+        }
     }
     .pum-title{
         font-size:${Texts.size.normal};
         line-height: ${Texts.size.normal};
-        ${(props: any) => props.step === 1 ?
-        css`
-            color: ${Colors.orange};
-        `:
-        css`
-            color: ${Colors.green3};
-        `
-    }
+        color: ${Colors.orange};
     }
 `)
 const PumStep2 = memo(styled.div`

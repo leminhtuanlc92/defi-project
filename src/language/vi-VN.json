@@ -38,6 +38,9 @@
     "currentLevel": "Cấp độ hiện tại",
     "levelUpgrade": "Cấp độ muốn nâng cấp",
     "select": "Lựa chọn",
-    "selectUpdate":"Lựa chọn gói nâng cấp",
-    "purchaseAmount":"Số tiền thanh toánÏ"
+    "selectUpdate": "Lựa chọn gói nâng cấp",
+    "purchaseAmount": "Số tiền thanh toán",
+    "upgradeSuccessQuote1": "Bạn đã upgrade thành công account từ",
+    "upgradeSuccessQuote2": "Hãy trải nghiệm những lợi ích của hệ thống nhé",
+    "backToDashboard": "Trở về trang chủ"
 }

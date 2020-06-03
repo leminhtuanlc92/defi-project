@@ -11,11 +11,7 @@ import TronContract from "../../contexts/tronWeb";
 const closeImg = require("../../assets/images/white-back.png");
 const openImg = require("../../assets/images/white-next.png");
 export default () => {
-  const {
-    siteState: { aside },
-    changeLocale,
-    toggleAside,
-  } = useContext(SiteContext);
+  const { siteState: { aside }, changeLocale, toggleAside, } = useContext(SiteContext);
   return (
     <WrapBody>
       <TronContract>
@@ -27,19 +23,19 @@ export default () => {
                 {aside ? (
                   <img src={closeImg} style={{ objectFit: "contain" }} alt="" />
                 ) : (
-                  <img src={openImg} style={{ objectFit: "contain" }} alt="" />
-                )}
+                    <img src={openImg} style={{ objectFit: "contain" }} alt="" />
+                  )}
               </div>
             </ToggleButton>
             <MainBody aside={aside}>
-              <div id="wrap-main">
-                <div id="scroll-section">
-                  <HeadContent />
-                  <div id="wrap-main-content">
-                    <MainRoutes />
+                <div id="wrap-main">
+                  <div id="scroll-section">
+                    <HeadContent />
+                    <div id="wrap-main-content">
+                      <MainRoutes />
+                    </div>
                   </div>
                 </div>
-              </div>
             </MainBody>
           </MainContentWrap>
         </Fragment>
@@ -156,11 +152,11 @@ const MainBody = memo(styled.div`
     align-items:center;
     justify-content:center;
     /* ${(props: any) =>
-      props.aside !== 3
-        ? css`
+    props.aside !== 3
+      ? css`
             padding: 0 16% 0 12%;
           `
-        : css`
+      : css`
             padding: 0 16% 0 0;
           `} */
     #wrap-main{

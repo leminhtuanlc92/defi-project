@@ -144,7 +144,7 @@ export default ({ children }: IProps) => {
       setTronState(state);
     });
   }, []);
-  console.log(tronState);
+  // console.log(tronState);
   return (
     <TronContract.Provider value={{ ...tronState, ref }}>
       <Fragment>
