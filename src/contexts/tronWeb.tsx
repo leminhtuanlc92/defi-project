@@ -65,17 +65,17 @@ const initContract = async () => {
     };
   } else {
     let [
+      usdt,
       member,
       token,
-      usdt,
       matrixMember,
       matrixMarketing,
       userData,
       shareHolder,
     ] = await Promise.all([
+      (window as any).tronWeb.contract().at(usdtAddress),
       // (window as any).tronWeb.contract().at(memberAddress),
       // (window as any).tronWeb.contract().at(tokenAddress),
-      // (window as any).tronWeb.contract().at(usdtAddress),
       // (window as any).tronWeb.contract().at(matrixMemberAddress),
       // (window as any).tronWeb.contract().at(matrixMarketingAddress),
       // (window as any).tronWeb.contract().at(userDataAddress),
