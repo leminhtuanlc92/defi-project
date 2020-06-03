@@ -34,5 +34,10 @@
     "upgrade": "Nâng cấp",
     "upgradeAccount": "Nâng cấp tài khoản",
     "upgradeAccountquote": "Hãy upgrade tài khoản để nhận được nhiều ưu đãi của hệ thống hơn",
-    "approveUsdt":"Approve usdt"
+    "approveUsdt": "Approve usdt",
+    "currentLevel": "Cấp độ hiện tại",
+    "levelUpgrade": "Cấp độ muốn nâng cấp",
+    "select": "Lựa chọn",
+    "selectUpdate":"Lựa chọn gói nâng cấp",
+    "purchaseAmount":"Số tiền thanh toánÏ"
 }
