@@ -27,14 +27,14 @@ export default () => {
     { category: "shareHolding", value: 9000 },
   ];
   const offices = [
-    { level: 1, time: 1591104510, user: 2, slot: 3 },
-    { level: 2, time: 1591104510, user: 2, slot: 3 },
-    { level: 3, time: 1591104510, user: 2, slot: 3 },
-    { level: 4, time: 1591104510, user: 2, slot: 3 },
-    { level: 5, time: 1591104510, user: 2, slot: 3 },
-    { level: 6, time: 1591104510, user: 2, slot: 3 },
-    { level: 8, time: 1591104510, user: 2, slot: 3 },
-    { level: 8, time: 1591104510, user: 2, slot: 3 },
+    { level: 1, time: 1591104510, user: 2 },
+    { level: 2, time: 1591104510, user: 2 },
+    { level: 3, time: 1591104510, user: 2 },
+    { level: 4, time: 1591104510, user: 2 },
+    { level: 5, time: 1591104510, user: 2 },
+    { level: 6, time: 1591104510, user: 2 },
+    { level: 8, time: 1591104510, user: 2 },
+    { level: 8, time: 1591104510, user: 2 },
   ];
   return (
     <DashboardWrap>
