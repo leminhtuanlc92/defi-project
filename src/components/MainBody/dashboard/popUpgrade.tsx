@@ -1,4 +1,4 @@
-import React, { memo, useState } from 'react';
+import React, { memo, useState,useEffect,useContext } from 'react';
 import styled, { css } from 'styled-components/macro';
 import Colors from '../../../constants/Colors';
 import Texts from '../../../constants/Texts';
@@ -6,6 +6,9 @@ import i18n from 'i18n-js';
 import moment from 'moment';
 import Select from '../../common/core/Select'
 import ClickOutside from '../../../utils/clickOutSide'
+import { TronContract } from "../../../contexts/tronWeb";
+import { contract } from "../../../config";
+
 const closeImg = require('../../../assets/images/close.png')
 const checkImg = require('../../../assets/images/ic-green-check.png')
 interface PopUpgradeProps {
@@ -14,13 +17,7 @@ interface PopUpgradeProps {
     selectPlan: number;
     setSelectPlan: any;
 }
-interface Office {
-    level: number;
-    time: number;
-    user: number;
-    slot: number;
-    netValue: number;
-}
+
 export default ({ showPop, setShowPop, selectPlan, setSelectPlan }: PopUpgradeProps) => {
     const [step, setStep] = useState(1)
     const [currentSelect, setCurrentSelect] = useState({ title: '', value: '' })
@@ -32,6 +29,64 @@ export default ({ showPop, setShowPop, selectPlan, setSelectPlan }: PopUpgradePr
         // setSelectPlan(value)
         setSelectPlan()
     }
+
+
+    const { matrixMarketing, ref, usdt, address } = useContext(TronContract);
+    const pricePackage = [0, 15, 45, 90, 180, 240, 420, 600, 900];
+    const getAmountUpgrade = (currentLevel: number, upgradeLevel: number) => {
+      let total = 0;
+      let detail = [];
+      for (let i = currentLevel + 1; i <= upgradeLevel; i++) {
+        total += pricePackage[i];
+        detail.push({
+          level: i,
+          price: pricePackage[i],
+        });
+      }
+      //Total là tổng số tiền
+      // Detail là danh sách các level nâng cấp
+      return {
+        total,
+        detail,
+      };
+    };
+  
+    //Upgrade funtion
+    const upgrade = async (upgradeLevel: number) => {
+      let result = await matrixMarketing.upgradePackage(upgradeLevel, ref);
+      console.log(result);
+    };
+
+    const [approve, setApprove] = useState(false);
+    //Checking USDT Approve
+    useEffect(() => {
+      const checkApprove = async () => {
+        let remaining = (
+          await usdt.allowance(address, contract.matrixMarketingAddress).call()
+        ).remaining;
+        if (Number(remaining) > 10 ** 10) {
+          setApprove(true);
+        }
+      };
+      checkApprove();
+    }, []);
+  
+    //Neu approve bang false thi hien thi cap quyen Approve nut dong y se la goi funtion duoi
+    const approveUSDT = async () => {
+      let result = await usdt
+        .approve(contract.matrixMarketingAddress, 10 ** 15)
+        .send({
+          callValue: 0,
+          feeLimit: 1e7,
+          shouldPollResponse: true,
+        });
+      if (result) {
+        setApprove(true);
+      }
+    };
+  
+  
+    
     return (
         <PopUpgradeWrap>
             <ClickOutside handleClickOutSide={() => setShowPop(false)} style={{ minWidth: '60%', minHeight: '70%' }}>
@@ -225,7 +280,30 @@ const PopUpgradeWrap = memo(styled.div`
                                 }
                             }
                             #pumclvi_purchase{
-
+                                flex-direction:column;
+                                #pumclvip_amount{
+                                    span{
+                                        font-size:${Texts.size.large};
+                                        line-height: ${Texts.size.large};
+                                        color: ${Colors.black};
+                                        &:first-child{
+                                            text-transform:uppercase
+                                        }
+                                        &:nth-child(1){
+                                            font-weight:700;
+                                        }
+                                    }
+                                }
+                                #pumclvip_cal1{
+                                    span{
+                                        &:first-child{
+                                            font-size:${Texts.size.normal};
+                                            line-height: ${Texts.size.normal};
+                                            color: ${Colors.black};
+                                        }
+                                    }
+                                   
+                                }
                             }
                             #pumclvi_button{
                                 width:100%;
