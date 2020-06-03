@@ -1,6 +1,18 @@
 const config = {
-    // API
-    mainNet: "https://api.shasta.trongrid.io"
-}
+  // API
+  mainNet: "https://api.shasta.trongrid.io",
+};
 
-export { config }
+const contract = {
+  adminAddress: "",
+  //Contract
+  matrixMarketingAddress: "",
+  matrixMemberAddress: "",
+  userDataAddress: "",
+  memberAddress: "",
+  shareHolderAddress: "",
+  tokenAddress: "",
+  usdtAddress: "",
+};
+
+export { config, contract };

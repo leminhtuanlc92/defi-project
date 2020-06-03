@@ -1,54 +1,81 @@
-import React, { memo, useState } from 'react'
-import styled, { css } from 'styled-components/macro'
-import Colors from '../../constants/Colors'
-import Texts from '../../constants/Texts'
-import i18n from 'i18n-js'
-import Copy from 'copy-to-clipboard'
-const avatImg = require('../../assets/images/avt.png')
-const copyImg = require('../../assets/images/copy.png')
+import React, { memo, useState, useContext, useEffect } from "react";
+import styled, { css } from "styled-components/macro";
+import Colors from "../../constants/Colors";
+import Texts from "../../constants/Texts";
+import i18n from "i18n-js";
+import Copy from "copy-to-clipboard";
+import { TronContract } from "../../contexts/tronWeb";
+const avatImg = require("../../assets/images/avt.png");
+const copyImg = require("../../assets/images/copy.png");
 export default () => {
-    const [userInfo, setUserInfo] = useState({
-        username: 'dunglovely',
-        address: '0x667715028667715028667715028',
-        affiliate: '0x5ac6hd3kuf9uo10ce9vkndln3rd10ce5ac6hd3kuf9uo10ce9',
-        level: 0,
-        avatar: ''
-    })
-    const [copied, setCopied] = useState(false)
-    const writeToClipboard = async () => {
-        setCopied(true)
-        Copy(userInfo.affiliate)
-        let copying = setTimeout(() => setCopied(false), 3000);
-        return () => {
-            clearTimeout(copying)
-        }
+  const { address, member, userData } = useContext(TronContract);
+
+  const [userInfo, setUserInfo] = useState({
+    username: "Not set",
+    level: 0,
+  });
+  const affiliate =
+    userInfo.username !== "Not set"
+      ? (window as any).location.origin + "/?username=" + userInfo.username
+      : (window as any).location.origin + "/?ref=" + address;
+  const [copied, setCopied] = useState(false);
+  const writeToClipboard = async () => {
+    setCopied(true);
+    Copy(affiliate);
+    let copying = setTimeout(() => setCopied(false), 3000);
+    return () => {
+      clearTimeout(copying);
+    };
+  };
+
+  useEffect(() => {
+    //TODO get user info
+    const getUserData = async () => {
+      const [user, level] = await Promise.all([
+        member.getUser(address).call(),
+        userData.getLevel(address).call(),
+      ]);
+      setUserInfo({
+        username: user.username === "" ? "Not set" : user.username,
+        level,
+      });
+    };
+    if (member && userData) {
+      //TODO get UserData
+      //   getUserData();
     }
-    return (
-        <HeadContentWrap>
-            <div id="affiliate-link">
-                <span>{i18n.t('affiliateLink')}:</span>
-                <div id="aff-link-box">
-                    <div id="aff-link-text">
-                        <span>{userInfo.affiliate}</span>
-                    </div>
-                    <CopyButton onClick={() => !copied && writeToClipboard()} copied={copied}>
-                        <img src={copyImg} alt="" />
-                    </CopyButton>
-                </div>
-            </div>
-            <div id="top-account-info">
-                <div id="avt-lvl">
-                    <img src={avatImg} alt="" />
-                    <span>{i18n.t('level')}: {userInfo.level}</span>
-                </div>
-                <div id="username-address">
-                    <span>{userInfo.username}</span>
-                    <span>{`${userInfo.affiliate.slice(0, 5)}...${userInfo.affiliate.slice(-6)}`}</span>
-                </div>
-            </div>
-        </HeadContentWrap>
-    )
-}
+  }, [userData, member]);
+  return (
+    <HeadContentWrap>
+      <div id="affiliate-link">
+        <span>{i18n.t("affiliateLink")}:</span>
+        <div id="aff-link-box">
+          <div id="aff-link-text">
+            <span>{affiliate}</span>
+          </div>
+          <CopyButton
+            onClick={() => !copied && writeToClipboard()}
+            copied={copied}
+          >
+            <img src={copyImg} alt="" />
+          </CopyButton>
+        </div>
+      </div>
+      <div id="top-account-info">
+        <div id="avt-lvl">
+          <img src={avatImg} alt="" />
+          <span>
+            {i18n.t("level")}: {userInfo.level}
+          </span>
+        </div>
+        <div id="username-address">
+          <span>{userInfo.username}</span>
+          <span>{`${address.slice(0, 5)}...${address.slice(-6)}`}</span>
+        </div>
+      </div>
+    </HeadContentWrap>
+  );
+};
 
 const HeadContentWrap = memo(styled.div`
     width:100%;
@@ -110,20 +137,24 @@ const HeadContentWrap = memo(styled.div`
             }
         }
     }
-`)
+`);
 
 const CopyButton = memo(styled.div`
-    align-items:center;
-    justify-content:center;
-    ${(props: any) => props.copied ?
-        css`background-color:${Colors.green};` :
-        css`background-color:${Colors.green1};`
-    }
-    height:40px;
-    width:40px;
-    cursor:pointer;
-    img{
-        width:20px;
-        height:22px;
-    }
-`)
+  align-items: center;
+  justify-content: center;
+  ${(props: any) =>
+    props.copied
+      ? css`
+          background-color: ${Colors.green};
+        `
+      : css`
+          background-color: ${Colors.green1};
+        `}
+  height:40px;
+  width: 40px;
+  cursor: pointer;
+  img {
+    width: 20px;
+    height: 22px;
+  }
+`);
