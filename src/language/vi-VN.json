@@ -42,5 +42,17 @@
     "purchaseAmount": "Số tiền thanh toán",
     "upgradeSuccessQuote1": "Bạn đã upgrade thành công account từ",
     "upgradeSuccessQuote2": "Hãy trải nghiệm những lợi ích của hệ thống nhé",
-    "backToDashboard": "Trở về trang chủ"
+    "backToDashboard": "Trở về trang chủ",
+    "matchPendingToEmptyNode": "Gắn pending user vào node trống",
+    "match": "Ghép",
+    "pendingUserList": "Danh sách pending user",
+    "userEmptyNode": "Nhập username của node trống",
+    "selectUserPending": "Chọn user đang pending",
+    "searchEmptyNode": "Tìm vị trí node trống",
+    "searchEmptyNodeQuote": "Hãy nhập username để tìm kiếm node trống gần nhất",
+    "searchResult": "Kết quả tìm kiếm",
+    "emptyLevel": "Empty level",
+    "emptyNode": "Empty node",
+    "done": "Hoàn tất",
+    "levelEmptyNode": "Level empty node"
 }

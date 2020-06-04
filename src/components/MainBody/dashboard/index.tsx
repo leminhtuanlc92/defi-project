@@ -74,21 +74,21 @@ export default () => {
     <DashboardWrap>
       {approve ?
         <Fragment>
-          <div id="db-personal-info-panel">
-            <span id="db-info-title">{i18n.t("personalInfo")}</span>
-            <div id="db-blocks">
+          <div id="db_personal_info_panel">
+            <span id="db_info_title">{i18n.t("personalInfo")}</span>
+            <div id="db_blocks">
               {data.map((item, index) => {
                 return <InfoBlock item={item} key={index} length={data.length} />;
               })}
             </div>
           </div>
           <div id="db-back-office">
-            <div id="db-back-office-top">
+            <div id="db_back_office_top">
               <span id="db-back-office-title">{i18n.t("backOffice")}</span>
               <button onClick={() => setShowPop(true)}>{i18n.t("upgrade")}</button>
             </div>
 
-            <div id="db-blocks-office">
+            <div id="db_blocks-office">
               {offices.map((item, index) => {
                 return <OfficeBlocks item={item} key={index} />;
               })}
@@ -137,23 +137,22 @@ export default () => {
 };
 
 const DashboardWrap = memo(styled.div`
-  border-top-left-radius: 30px;
-  border-top-right-radius: 30px;
   flex: 1;
   width: 100%;
   flex-direction: column;
-  #db-personal-info-panel {
+  overflow-y:scroll;
+  #db_personal_info_panel {
     flex-direction: column;
     width: 100%;
     margin-bottom: 50px;
-    #db-info-title {
+    #db_info_title {
       font-size: ${Texts.size.huge};
       line-height: ${Texts.size.huge};
       color: ${Colors.black};
       margin-bottom: 10px;
       font-weight: 500;
     }
-    #db-blocks {
+    #db_blocks {
       width: 100%;
       align-items: center;
       justify-content: space-between;
@@ -163,7 +162,7 @@ const DashboardWrap = memo(styled.div`
     flex-direction: column;
     width: 100%;
     flex: 1;
-    #db-back-office-top {
+    #db_back_office_top {
       justify-content: space-between;
       align-items: center;
       margin-bottom: 10px;
@@ -193,7 +192,7 @@ const DashboardWrap = memo(styled.div`
         }
       }
     }
-    #db-blocks-office {
+    #db_blocks-office {
       flex-wrap: wrap;
       align-items: center;
       justify-content: space-between;

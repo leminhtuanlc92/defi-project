@@ -28,14 +28,14 @@ export default () => {
               </div>
             </ToggleButton>
             <MainBody aside={aside}>
-                <div id="wrap-main">
-                  <div id="scroll-section">
-                    <HeadContent />
-                    <div id="wrap-main-content">
-                      <MainRoutes />
-                    </div>
+              <div id="wrap-main">
+                <div id="scroll_section">
+                  <HeadContent />
+                  <div id="wrap_main_content">
+                    <MainRoutes />
                   </div>
                 </div>
+              </div>
             </MainBody>
           </MainContentWrap>
         </Fragment>
@@ -165,15 +165,17 @@ const MainBody = memo(styled.div`
         justify-content:flex-start;
         flex-direction:column;
         overflow:scroll;
-        #scroll-section{
+        #scroll_section{
             width:100%;
             flex-direction:column;
+            min-height:100%;
         }
     }
-    #wrap-main-content{
+    #wrap_main_content{
         height: calc(100% - (1em*2));
         width:100%;
         overflow:hidden;
+        flex:1;
     }
     @media (min-width:992px) and (max-width:1199px){
     }

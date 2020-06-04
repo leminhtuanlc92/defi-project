@@ -71,8 +71,8 @@ export default ({ showPop, setShowPop, selectPlan, setSelectPlan }: PopUpgradePr
                         <span id="pop-upgrade-title">{i18n.t('upgradeAccount')}</span>
                         <span id="pop-upgrade-quote">{i18n.t('upgradeAccountquote')}</span>
                         <div id="pop-upgrade-main">
-                            <div id="pum-inner">
-                                <div id="p-u-m-step">
+                            <div id="pum_inner">
+                                <div id="pum_step">
                                     <PumStep1 step={step}>
                                         <div className="p-u-m-icon">
                                             <img src={checkImg} alt="" />
@@ -217,14 +217,14 @@ const PopUpgradeWrap = memo(styled.div`
                 flex:1;
                 flex-direction:column;
                 align-items:center;
-                #pum-inner{
+                #pum_inner{
                     padding: 20px;
                     flex: 1;
                     flex-direction: column;
                     align-items:center;
                     justify-content:space-between;
                     width: calc(100% - 40px);
-                    #p-u-m-step{
+                    #pum_step{
                         align-items:center;
                         margin-bottom:30px;
                         div{
@@ -443,6 +443,6 @@ const PumStep2 = memo(styled.div`
         css`
             color: ${Colors.green3};
         `
-    }
+        }
     }
 `)

@@ -5,8 +5,8 @@ import Loading from '../src/components/common/loading'
 import { TronContract } from "../src/contexts/tronWeb";
 import { contract } from "../src/config";
 const DashBoard = lazy(() => import('../src/containers/dashboard'))
-const SunNetwork = lazy(() => import('../src/containers/dashboard'))
-const MatrixNetwork = lazy(() => import('../src/containers/dashboard'))
+const SunNetwork = lazy(() => import('../src/containers/sunNetwork'))
+const MatrixNetwork = lazy(() => import('../src/containers/matrixNetwork'))
 const Partners = lazy(() => import('../src/containers/dashboard'))
 const Transactions = lazy(() => import('../src/containers/dashboard'))
 const BuyShare = lazy(() => import('../src/containers/dashboard'))
@@ -33,7 +33,7 @@ export default () => {
             <Suspense fallback={<Loading />}>
                 <Switch>
                     <Route exact path='/' component={DashBoard} />
-                    {approve ?
+                    {/* {approve ? */}
                         <Fragment>
                             <Route path='/sun-network' component={SunNetwork} />
                             <Route path='/matrix-network' component={MatrixNetwork} />
@@ -42,9 +42,9 @@ export default () => {
                             <Route path='/buy-share' component={BuyShare} />
                             <Route path='/instructions' component={Instruction} />
                         </Fragment>
-                        :
+                        {/* :
                         null
-                    }
+                    } */}
                 </Switch>
             </Suspense>
         </Router>
