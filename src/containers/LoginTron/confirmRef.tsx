@@ -17,9 +17,8 @@ export default () => {
         .getUser(ref)
         .call()
         .then((user: any) => {
-          setUsername(user?.username === "" ? "Not set" : user?.username);
+          setUsername(user?.userId === "" ? "Not set" : user?.userId);
         });
-      //TODO setUsername
     }
   }, [ref, member]);
   return (

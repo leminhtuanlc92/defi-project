@@ -6,7 +6,7 @@ const config = {
 const contract = {
   adminAddress: "TTnk8vg7EvKyoic5GcTdpca6rqYwo3GmpW",
   //Contract
-  matrixMarketingAddress: "TXtgbELPmvehhTBhdxZWaCxdFDnuPXVNMd",
+  matrixMarketingAddress: "TBnMmQH2wDfWKwT2Xfdtk34tWkWPZqSnRB",
   matrixMemberAddress: "TWLuojVt13mZT7HgCBvMpVvdKa77kMijnb",
   userDataAddress: "TNwj9mK3YaYhRKZxc3JK9q5PzZuuj82rDw",
   memberAddress: "TBtcXLVJ3KQfjnj5KpKLDqEy4mXaUjiPTJ",

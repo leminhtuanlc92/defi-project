@@ -35,8 +35,9 @@ export default () => {
         member.getUser(address).call(),
         userData.getLevel(address).call(),
       ]);
+      console.log("user", user);
       setUserInfo({
-        username: user.username === "" ? "Not set" : user.username,
+        username: user.userId === "" ? "Not set" : user.userId,
         level,
       });
     };
