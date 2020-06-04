@@ -132,28 +132,21 @@ export default ({ children }: IProps) => {
           }
           setRef((parsed as any).ref);
         } else {
-          setRef(undefined);
+          setRef(null as any);
         }
-      } else {
-        if (parsed.username) {
-          if (tronState.member) {
-            let addressRef = await (tronState as any).member
-              .username(parsed.username)
-              .call();
-            console.log(
-              "addressRef",
-              addressRef,
-              addressRef !== "410000000000000000000000000000000000000000"
-                ? addressRef
-                : null
-            );
-            setRef(
-              addressRef !== "410000000000000000000000000000000000000000"
-                ? addressRef
-                : null
-            );
-          }
+      } else if (parsed.username) {
+        if (tronState.member) {
+          let addressRef = await (tronState as any).member
+            .username(parsed.username)
+            .call();
+          setRef(
+            addressRef !== "410000000000000000000000000000000000000000"
+              ? addressRef
+              : null
+          );
         }
+      } else if (ref === undefined) {
+        setRef(null as any);
       }
     };
     getRef();
