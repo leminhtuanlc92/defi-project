@@ -116,29 +116,48 @@ export default ({ children }: IProps) => {
   const [ref, setRef] = useState(() => {
     let local = window.localStorage.getItem("ref");
     if (local) {
-      if (WAValidator.validate(local, "trx")) {
-        return local;
-      } else {
-        return undefined;
-      }
+      return local;
     } else {
       return undefined;
     }
   });
 
   useEffect(() => {
-    const parsed = qs.parse(window.location.search);
-    if (parsed.ref) {
-      if (WAValidator.validate(parsed.ref, "trx")) {
-        setRef((parsed as any).ref);
+    const getRef = async () => {
+      const parsed = qs.parse(window.location.search);
+      if (parsed.ref) {
+        if (WAValidator.validate(parsed.ref, "trx")) {
+          if (window.localStorage) {
+            window.localStorage.setItem("ref", (parsed as any).ref);
+          }
+          setRef((parsed as any).ref);
+        } else {
+          setRef(undefined);
+        }
       } else {
-        setRef(undefined);
+        if (parsed.username) {
+          if (tronState.member) {
+            let addressRef = await (tronState as any).member
+              .username(parsed.username)
+              .call();
+            console.log(
+              "addressRef",
+              addressRef,
+              addressRef !== "410000000000000000000000000000000000000000"
+                ? addressRef
+                : null
+            );
+            setRef(
+              addressRef !== "410000000000000000000000000000000000000000"
+                ? addressRef
+                : null
+            );
+          }
+        }
       }
-      if (window.localStorage) {
-        window.localStorage.setItem("ref", (parsed as any).ref);
-      }
-    }
-  }, []);
+    };
+    getRef();
+  }, [tronState.member]);
   useEffect(() => {
     initContract().then((state) => {
       setTronState(state);
