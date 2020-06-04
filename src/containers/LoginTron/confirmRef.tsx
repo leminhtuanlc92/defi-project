@@ -13,12 +13,12 @@ export default () => {
   const [username, setUsername] = useState("Not set");
   useEffect(() => {
     if (ref && member) {
-      //   member
-      //     .getUser(ref)
-      //     .call()
-      //     .then((user: any) => {
-      //       setUsername(user?.username);
-      //     });
+      member
+        .getUser(ref)
+        .call()
+        .then((user: any) => {
+          setUsername(user?.username === "" ? "Not set" : user?.username);
+        });
       //TODO setUsername
     }
   }, [ref, member]);

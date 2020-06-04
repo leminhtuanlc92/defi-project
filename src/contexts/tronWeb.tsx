@@ -74,12 +74,12 @@ const initContract = async () => {
       shareHolder,
     ] = await Promise.all([
       (window as any).tronWeb.contract().at(usdtAddress),
-      // (window as any).tronWeb.contract().at(memberAddress),
-      // (window as any).tronWeb.contract().at(tokenAddress),
-      // (window as any).tronWeb.contract().at(matrixMemberAddress),
-      // (window as any).tronWeb.contract().at(matrixMarketingAddress),
-      // (window as any).tronWeb.contract().at(userDataAddress),
-      // (window as any).tronWeb.contract().at(shareHolderAddress),
+      (window as any).tronWeb.contract().at(memberAddress),
+      (window as any).tronWeb.contract().at(tokenAddress),
+      (window as any).tronWeb.contract().at(matrixMemberAddress),
+      (window as any).tronWeb.contract().at(matrixMarketingAddress),
+      (window as any).tronWeb.contract().at(userDataAddress),
+      (window as any).tronWeb.contract().at(shareHolderAddress),
     ]);
 
     return {

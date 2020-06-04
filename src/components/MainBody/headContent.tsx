@@ -42,7 +42,7 @@ export default () => {
     };
     if (member && userData) {
       //TODO get UserData
-      //   getUserData();
+      getUserData();
     }
   }, [userData, member]);
   return (
