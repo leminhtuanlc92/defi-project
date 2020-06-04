@@ -96,6 +96,9 @@ const DropListItem = memo(styled.div`
         font-size:${Texts.size.large};
         line-height: ${Texts.size.large};
         color: ${Colors.black};   
+        text-overflow:ellipsis;
+        overflow:hidden;
+        white-space:nowrap;
     }
     &:hover{
         background-color:${Colors.white4}

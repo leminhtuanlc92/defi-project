@@ -88,6 +88,7 @@ const MatchPendingUserWrap = memo(styled.div`
                         border:solid 1px ${Colors.black};
                         border-top-left-radius: 5px;
                         border-bottom-left-radius: 5px;
+                        border-right:none;
                     }
                 }
                 button{

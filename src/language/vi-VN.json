@@ -54,5 +54,8 @@
     "emptyLevel": "Empty level",
     "emptyNode": "Empty node",
     "done": "Hoàn tất",
-    "levelEmptyNode": "Level empty node"
+    "levelEmptyNode": "Level empty node",
+    "listPendingUsers": "List pending user",
+    "selectUserToMatch": "Chọn user muốn gán",
+    "submit": "Gửi"
 }

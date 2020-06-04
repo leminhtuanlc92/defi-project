@@ -3,13 +3,21 @@ import styled, { css } from "styled-components/macro";
 import Colors from "../../../../constants/Colors";
 import Texts from "../../../../constants/Texts";
 import i18n from 'i18n-js'
+import Select from '../../../../components/common/core/Select'
 const closeImg = require('../../../../assets/images/close.png')
 const checkImg = require('../../../../assets/images/ic-green-check.png')
 const upgradeSuccess = require('../../../../assets/images/upgrade-successful.svg')
 const backImg = require('../../../../assets/images/white-back.png')
 export default () => {
     const [username, setUsername] = useState('')
-    const [step, setStep] = useState(1)
+    const [step, setStep] = useState(3)
+    const listUser = [
+        { title: 'User 1   - 0x5ac6hd3krd…rd10ce5ac6hd', value: 1 },
+        { title: 'User 2   - 0x5ac6hd3krd…rd10ce5ac6hd', value: 1 },
+        { title: 'User 3   - 0x5ac6hd3krd…rd10ce5ac6hd', value: 1 },
+        { title: 'User 4   - 0x5ac6hd3krd…rd10ce5ac6hd', value: 1 },
+        { title: 'User 5   - 0x5ac6hd3krd…rd10ce5ac6hd', value: 1 }
+    ]
     return (
         <SearchNodesWrap>
             <span id="search_node_title">{i18n.t('searchEmptyNode')}</span>
@@ -34,7 +42,7 @@ export default () => {
                             <SnircsDivider1 step={step}></SnircsDivider1>
                             <Snircs2 step={step}>
                                 <div className="snircs_icon">
-                                    {step === 2 ?
+                                    {step > 1 ?
                                         <img src={checkImg} alt="" />
                                         :
                                         <span className="pum-">2</span>
@@ -60,24 +68,38 @@ export default () => {
                             <span className="label">{i18n.t('emptyLevel')}:</span>
                             <span className="content">3</span>
                         </div>
-                        <div id="snircr_step2">
-                            <span className="label">{i18n.t('emptyNode')}:</span>
-                            <div className="nircrs2_username">
-                                <span className="child_label">{i18n.t('username')}:</span>
-                                <span className="child_value">Dunglovely</span>
+                        {step > 2 ?
+                            <div id="snircr_step2">
+                                <span className="label">{i18n.t('emptyNode')}:</span>
+                                <div className="nircrs2_username">
+                                    <span className="child_label">{i18n.t('username')}:</span>
+                                    <span className="child_value">Dunglovely</span>
+                                </div>
+                                <div className="nircrs2_address">
+                                    <span className="child_label">{i18n.t('address')}:</span>
+                                    <span className="child_value">0x5ac6hd3krd…10ce5ac6hd</span>
+                                </div>
+                                <div className="nircrs2_level_empty">
+                                    <span className="child_label">{i18n.t('levelEmptyNode')}:</span>
+                                    <span className="child_value">3</span>
+                                </div>
                             </div>
-                            <div className="nircrs2_address">
-                                <span className="child_label">{i18n.t('address')}:</span>
-                                <span className="child_value">0x5ac6hd3krd…10ce5ac6hd</span>
+                            :
+                            null
+                        }
+                        {step === 3 ?
+                            <div id="snircr_step3">
+                                <span className="label">{i18n.t('listPendingUsers')}:</span>
+                                <Select
+                                    listSelect={listUser}
+                                    action={() => { }}
+                                    defaultSelect={i18n.t('selectUserToMatch')}
+                                />
+                                <button onClick={() => { }}>{i18n.t('submit')}</button>
                             </div>
-                            <div className="nircrs2_level_empty">
-                                <span className="child_label">{i18n.t('levelEmptyNode')}:</span>
-                                <span className="child_value">3</span>
-                            </div>
-                        </div>
-                        <div id="snircr_step3">
-
-                        </div>
+                            :
+                            null
+                        }
                     </div>
                 </div>
             </div>
@@ -117,6 +139,7 @@ const SearchNodesWrap = memo(styled.div`
                 border:solid 1px ${Colors.black};
                 border-top-left-radius: 5px;
                 border-bottom-left-radius: 5px;
+                border-right:none;
             }
         }
         button{
@@ -189,11 +212,11 @@ const SearchNodesWrap = memo(styled.div`
                 padding: 15px;
                 flex-direction: column;
                 #snircr_step1{
-                    margin-bottom:10px;
+                    margin-bottom:15px;
                 }
                 #snircr_step2{
                     flex-direction: column;
-                    margin-bottom:10px;
+                    margin-bottom:15px;
                     .label{
                         margin-bottom:10px;
                     }
@@ -204,7 +227,32 @@ const SearchNodesWrap = memo(styled.div`
                         margin-bottom:5px;
                     }
                 }
-                #snircr_step3{}
+                #snircr_step3{
+                    flex-direction:column;
+                    .label{
+                        margin-bottom:10px;
+                    }
+                    button{
+                        margin-top:20px;
+                        border-radius: 5px;
+                        background-color: ${Colors.orange};
+                        box-shadow: none;
+                        color: ${Colors.white};
+                        font-size: ${Texts.size.large};
+                        border: solid 1px  ${Colors.orange};
+                        padding: 10px 40px;
+                        &:hover {
+                            background-color: ${Colors.orange1};
+                            box-shadow: 0 3px 6px 1px rgba(255, 159, 91, 0.2);
+                        }
+                        &:disabled {
+                            background-color: ${Colors.orange2};
+                            color: ${Colors.orange3};
+                            box-shadow: none;
+                            cursor: not-allowed;
+                        }
+                    }
+                }
                 .label{
                     font-size: ${Texts.size.large};
                     line-height: ${Texts.size.large};
@@ -221,7 +269,7 @@ const SearchNodesWrap = memo(styled.div`
                     font-size: ${Texts.size.normal};
                     line-height: ${Texts.size.normal};
                     color: ${Colors.black1};
-                    flex:0.3;
+                    flex:0.35;
                     text-align:right;
                 }
                 .child_value{
@@ -257,7 +305,7 @@ const Snircs1 = memo(styled.div`
 const Snircs2 = memo(styled.div`
     .snircs_icon{
         border-radius:50%;
-        ${(props: any) => props.step === 2 ? css`
+        ${(props: any) => props.step > 1 ? css`
             background-color: ${Colors.orange};
             span{
                 color: ${Colors.orange}
@@ -274,7 +322,7 @@ const Snircs2 = memo(styled.div`
         line-height: ${Texts.size.large};
         text-transform:uppercase;
         text-align:center;
-        ${(props: any) => props.step === 2 ?
+        ${(props: any) => props.step > 1 ?
         css`
             color: ${Colors.orange};
         `:
@@ -317,7 +365,7 @@ const Snircs3 = memo(styled.div`
 const SnircsDivider1 = memo(styled.div`
     width: 50px;
     height: 5px;
-    ${(props: any) => props.step === 2 ?
+    ${(props: any) => props.step > 1 ?
         css`background-color: ${Colors.orange};`
         :
         css`background-color: ${Colors.green3};`
