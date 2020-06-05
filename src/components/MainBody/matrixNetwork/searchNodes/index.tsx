@@ -143,8 +143,7 @@ const SearchNodesWrap = memo(styled.div`
             }
         }
         button{
-            border-top-right-radius: 5px;
-            border-bottom-right-radius: 5px;
+            border-radius: 5px;
             background-color: ${Colors.orange};
             box-shadow: none;
             color: ${Colors.white};

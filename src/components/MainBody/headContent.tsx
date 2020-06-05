@@ -35,7 +35,7 @@ export default () => {
         member.getUser(address).call(),
         userData.getLevel(address).call(),
       ]);
-      console.log("user", user);
+      // console.log("user", user);
       setUserInfo({
         username: user.userId === "" ? "Not set" : user.userId,
         level,
@@ -51,7 +51,7 @@ export default () => {
       <div id="affiliate-link">
         <span>{i18n.t("affiliateLink")}:</span>
         <div id="aff-link-box">
-          <div id="aff-link-text">
+          <div id="aff_link_text">
             <span>{affiliate}</span>
           </div>
           <CopyButton
@@ -95,7 +95,9 @@ const HeadContentWrap = memo(styled.div`
        #aff-link-box{
            height:40px;
            align-items:center;
-           #aff-link-text{
+           #aff_link_text{
+            overflow: hidden;
+            max-width: 300px;
             height:40px;
             align-items:center;
             justify-content:center;
@@ -108,6 +110,10 @@ const HeadContentWrap = memo(styled.div`
                 font-size:${Texts.size.large};
                 line-height: ${Texts.size.large};
                 color: ${Colors.black};
+                overflow: hidden;
+                text-overflow: ellipsis;
+                white-space: nowrap;
+
             }
            }
        }

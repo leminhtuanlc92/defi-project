@@ -3,10 +3,11 @@ import styled, { css } from "styled-components";
 import { SiteContext } from "../../contexts/siteContext";
 import Colors from "../../constants/Colors";
 import Texts from "../../constants/Texts";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import i18n from "i18n-js";
 const logoutImg = require("../../assets/images/logout.png");
 export default () => {
+  let currentPath = useLocation();
   const { siteState } = useContext(SiteContext);
   const listmenu = [
     {
@@ -35,8 +36,8 @@ export default () => {
       img: require("../../assets/images/back-home.png"),
     },
     {
-      name: "buyshare",
-      url: "/buy-share",
+      name: "buyDfc",
+      url: "/buy-dfc",
       img: require("../../assets/images/back-home.png"),
     },
     {
@@ -61,7 +62,9 @@ export default () => {
                   data-delay-show={500}
                   style={{ width: "100%" }}
                 >
-                  <MenuItemWrapper aside={siteState.aside}>
+                  <MenuItemWrapper aside={siteState.aside} active={
+                    item.url === currentPath.pathname || (currentPath.pathname.includes(item.url) && item.url !== '/')
+                  }>
                     <img
                       src={item.img}
                       style={{
@@ -80,7 +83,7 @@ export default () => {
       </MainMenu>
       <Logout>
         <div
-          onClick={() => {}}
+          onClick={() => { }}
           style={{ width: "100%" }}
           data-tip-disable={siteState.aside}
           data-tip={`${i18n.t("logout")}`}
@@ -154,12 +157,16 @@ const MenuItemWrapper = memo(styled.div`
   padding: 20px;
   ${(props: any) =>
     props.aside
-      ? css`
-          justify-content: flex-start;
-        `
-      : css`
-          justify-content: center;
-        `}
+      ? css`justify-content: flex-start;`
+      :
+      css`justify-content: center;`
+  };
+  ${(props: any) =>
+    props.active
+      ? css`background-color: ${Colors.white};`
+      :
+      css`background-color: none;`
+  }; 
   &:hover {
     background-color: ${Colors.white};
     span {
