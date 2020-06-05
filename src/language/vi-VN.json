@@ -93,5 +93,17 @@
     "DFCavailable": "Số có thể mua",
     "DFCbonus": "Thưởng ",
     "volume": "Trị số",
-    "bonus": "Thưởng"
+    "bonus": "Thưởng",
+    "quantityAvailable": "Số lượng có thể mua",
+    "usdtDesiteToBuy": "Số USDT muốn mua",
+    "rêciveTokenEstimated": "Ước tính số token nhận được",
+    "usdt": "USDT",
+    "with": "Với",
+    "cancel": "Hủy",
+    "buySuccess": "Mua thành công",
+    "buySuccessQuote": "Bạn đã mua thành công",
+    "inRound": "ở vòng",
+    "withPrice": "với giá",
+    "backToHomePageContinue": "Về trang chủ để tiếp tục mua token",
+    "backToDashboard": "Về trang chủ"
 }

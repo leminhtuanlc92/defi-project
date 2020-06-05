@@ -13,19 +13,19 @@ interface BenItemProps {
 export default ({ id, name, volume, bonus, txs, lastItem }: BenItemProps) => {
     return (
         <BenItemWrap lastItem={lastItem}>
-            <div className="bi_id">
+            <div className="bdfcmmct_id">
                 <span>{id}</span>
             </div>
-            <div className="bi_name">
+            <div className="bdfcmmct_name">
                 <span>{name}</span>
             </div>
-            <div className="bi_volume">
+            <div className="bdfcmmct_volume">
                 <span>{volume}</span>
             </div>
-            <div className="bi_bonus">
+            <div className="bdfcmmct_bonus">
                 <span>{bonus}</span>
             </div>
-            <div className="bi_txs">
+            <div className="bdfcmmct_tx">
                 <span>{txs}</span>
             </div>
         </BenItemWrap>
@@ -70,22 +70,22 @@ const BenItemWrap = memo(styled.div`
             height:0;
         }
     }
-    .bi_id{
+    .bdfcmmct_id{
         span{
             text-align:left;
         }
     }
-    .bi_name{
+    .bdfcmmct_name{
         span{
             text-align:center;
         }
     }
-    .bi_volume{
+    .bdfcmmct_volume{
         span{
             text-align:center;
         }
     }
-    .bi_bonus{
+    .bdfcmmct_bonus{
         span{
             text-align:center;
         }

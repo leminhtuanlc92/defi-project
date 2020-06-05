@@ -63,8 +63,8 @@ export default () => {
                     <div id="bdfcmmc_left">
                         <span className="bdfcmr_block_title">{i18n.t('benTable')}</span>
                         <div id="bdfcmmc_table_wrap">
-                            <div id="bdfcmmct_header">
-                                <div className="bdfcmmct_no">
+                            <div className="bdfcmmct_header">
+                                <div className="bdfcmmct_id">
                                     <span>{i18n.t('noNumber')}</span>
                                 </div>
                                 <div className="bdfcmmct_name">
@@ -80,7 +80,7 @@ export default () => {
                                     <span>{i18n.t('tx')}</span>
                                 </div>
                             </div>
-                            <div id="bdfcmmct_body">
+                            <div className="bdfcmmct_body">
                                 {benData.map((item, index) => {
                                     return <BenTableItem
                                         key={index}
@@ -98,7 +98,7 @@ export default () => {
                     <div id="bdfcmmc_right">
                         <span className="bdfcmr_block_title">{i18n.t('usdtBonus')}</span>
                         <div id="bdfcmmc_table_wrap">
-                            <div id="bdfcmmct_header">
+                            <div className="bdfcmmct_header">
                                 <div className="bdfcmmct_id">
                                     <span>{i18n.t('noNumber')}</span>
                                 </div>
@@ -109,7 +109,7 @@ export default () => {
                                     <span>%</span>
                                 </div>
                             </div>
-                            <div id="bdfcmmct_body">
+                            <div className="bdfcmmct_body">
                                 {bonusData.map((item, index) => {
                                     return <USDTBonusTableItem
                                         key={index}
@@ -159,15 +159,78 @@ const BuyDFCWrap = memo(styled.div`
         }
         #bdfcm_mid_content{
             justify-content:space-between;
-            min-height:300px;
-            #bdfcmmc_left{}
-            #bdfcmmc_right{}
-            .bdfcmmc_table_wrap{
+            min-height: 300px;
+            max-height: 450px;
+            overflow: hidden;
+            #bdfcmmc_left{
+                flex-direction:column;
+                flex:0.7;
+            }
+            #bdfcmmc_right{
+                flex:0.3;
+                margin-left:30px;
+                flex-direction:column;
+            }
+            #bdfcmmc_table_wrap{
                 background-color:${Colors.white};
                 flex-direction:column;
                 flex:1;
                 border-radius:10px;
                 padding:10px;
+                .bdfcmmct_body{
+                    flex-direction:column;
+                }
+            }
+            .bdfcmmct_id{
+                flex:.1;
+                flex-wrap:wrap;
+                align-items:center;
+                padding:0 5px 0 0;
+            }
+            .bdfcmmct_name{
+                flex:.2;
+                flex-wrap:wrap;
+                justify-content:center;
+                align-items:center;
+                padding:0 5px;
+            }
+            .bdfcmmct_volume{
+                flex:.2;
+                flex-wrap:wrap;
+                justify-content:center;
+                align-items:center;
+                padding:0 5px;
+            }
+            .bdfcmmct_bonus{
+                flex:.2;
+                flex-wrap:wrap;
+                justify-content:center;
+                align-items:center;
+                padding:0 5px;
+            }
+            .bdfcmmct_tx{
+                flex:.25;
+                flex-wrap:wrap;
+                justify-content:flex-end;
+                align-items:center;
+                padding:0 0 0 5px;
+                span{
+                    text-align:right;
+                }
+            }
+            .bdfcmmct_header{
+                margin:0 20px;
+                padding:15px 0;
+                flex:1;
+                justify-content:space-between;
+                align-items:center;
+                border-bottom: solid 1px ${Colors.black};
+                span{
+                    font-size: ${Texts.size.large};
+                    line-height: ${Texts.size.large};
+                    color: ${Colors.black};
+                    font-weight: 500;
+                }
             }
         }
         #bdfcm_sumup{

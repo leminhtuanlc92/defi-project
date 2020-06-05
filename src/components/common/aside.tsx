@@ -5,7 +5,7 @@ import Colors from "../../constants/Colors";
 import Texts from "../../constants/Texts";
 import { Link, useLocation } from "react-router-dom";
 import i18n from "i18n-js";
-const logoutImg = require("../../assets/images/logout.png");
+const logoutImg = require("../../assets/images/ic-logout.svg");
 export default () => {
   let currentPath = useLocation();
   const { siteState } = useContext(SiteContext);
@@ -13,37 +13,44 @@ export default () => {
     {
       name: "dashboard",
       url: "/",
-      img: require("../../assets/images/back-home.png"),
+      img: require("../../assets/images/ic-dashboard.svg"),
+      imgActive: require('../../assets/images/ic-dashboard-active.svg')
     },
     {
       name: "sunNetwork",
       url: "/sun-network",
-      img: require("../../assets/images/back-home.png"),
+      img: require("../../assets/images/ic-network.svg"),
+      imgActive: require('../../assets/images/ic-network-active.svg')
     },
     {
       name: "matrixNetwork",
       url: "/matrix-network",
-      img: require("../../assets/images/back-home.png"),
+      img: require("../../assets/images/ic-network.svg"),
+      imgActive: require('../../assets/images/ic-network-active.svg')
     },
     {
       name: "partners",
       url: "/partners",
-      img: require("../../assets/images/back-home.png"),
+      img: require("../../assets/images/ic-partner.svg"),
+      imgActive: require("../../assets/images/ic-partner-active.svg")
     },
     {
       name: "transactionHistory",
       url: "/transaction-history",
-      img: require("../../assets/images/back-home.png"),
+      img: require("../../assets/images/ic-ds-giaodich.svg"),
+      imgActive: require("../../assets/images/ic-ds-giaodich-active.svg")
     },
     {
       name: "buyDfc",
       url: "/buy-dfc",
-      img: require("../../assets/images/back-home.png"),
+      img: require("../../assets/images/ic-mua-dfc.svg"),
+      imgActive: require("../../assets/images/ic-mua-dfc-active.svg")
     },
     {
       name: "usageInstruction",
       url: "/instructions",
-      img: require("../../assets/images/back-home.png"),
+      img: require("../../assets/images/ic-logout.svg"),
+      imgActive: require("../../assets/images/ic-logout-active.svg")
     },
   ];
   return (
@@ -66,10 +73,11 @@ export default () => {
                     item.url === currentPath.pathname || (currentPath.pathname.includes(item.url) && item.url !== '/')
                   }>
                     <img
-                      src={item.img}
+                      src={item.url === currentPath.pathname || (currentPath.pathname.includes(item.url) && item.url !== '/') ? item.imgActive : item.img}
                       style={{
                         marginRight: siteState.aside ? "20px" : 0,
                         objectFit: "contain",
+                        width:'20px'
                       }}
                       alt=""
                     />
@@ -98,11 +106,12 @@ export default () => {
             }}
             aside={siteState.aside}
           >
-            <img
+            <img 
               src={logoutImg}
               style={{
                 marginRight: siteState.aside ? "20px" : 0,
                 aspectRatio: "1/1",
+                width:'20px'
               }}
             />
             {siteState.aside ? <span>{i18n.t("logout")}</span> : null}
@@ -150,7 +159,6 @@ const MainMenu = styled.div`
 `;
 
 const MenuItemWrapper = memo(styled.div`
-  color: ${Colors.white};
   font-size: ${Texts.size.large};
   flex: 1;
   display: flex;
@@ -163,9 +171,9 @@ const MenuItemWrapper = memo(styled.div`
   };
   ${(props: any) =>
     props.active
-      ? css`background-color: ${Colors.white};`
+      ? css`background-color: ${Colors.white};color: ${Colors.black};`
       :
-      css`background-color: none;`
+      css`background-color: none;color: ${Colors.white};`
   }; 
   &:hover {
     background-color: ${Colors.white};

@@ -2,57 +2,62 @@ import React, { memo, useState } from "react";
 import styled, { css } from "styled-components/macro";
 import Colors from "../../../constants/Colors";
 import Texts from "../../../constants/Texts";
-import moment from "moment";
+import BuyPop from './buyPopup'
 import i18n from "i18n-js";
 interface BuyPackagesProps {
-    name: string;
-    dfcbanana: number;
-    sold: number
-    available: number
-    bonus: number;
-    action: () => void;
+  name: string;
+  dfcbanana: number;
+  sold: number
+  available: number
+  bonus: number;
+  action: () => void;
 }
 export default ({ name, dfcbanana, sold, available, bonus, action }: BuyPackagesProps) => {
-    return (
-        <BuyPakagesBlock>
-            <div id="buy_pakage_info">
-                <div id="bpi_title">
-                    <span id="bpit_name">
-                        {i18n.t(name)}
-                    </span>
-                </div>
-                <div id="bpi_main">
-                    <div id="bpim_first">
-                        <span className="bpim_title">
-                            {i18n.t("DFCbanana")}
-                        </span>
-                        <span className="bpim_value">{dfcbanana} </span>
-                    </div>
-                    <div id="bpim_second">
-                        <span className="bpim_title">
-                            {i18n.t("DFCsold")}
-                        </span>
-                        <span className="bpim_value">{sold}</span>
-                    </div>
-                    <div id="bpim_third">
-                        <span className="bpim_title">
-                            {i18n.t("DFCavailable")}
-                        </span>
-                        <span className="bpim_value">{available}</span>
-                    </div>
-                    <div id="bpim_fourth">
-                        <span className="bpim_title">
-                            {i18n.t("DFCbonus")}
-                        </span>
-                        <span className="bpim_value">{bonus}</span>
-                    </div>
-                    <button id="bpim_button" onClick={() => { }}>
-                        {i18n.t("buy")}
-                    </button>
-                </div>
-            </div>
-        </BuyPakagesBlock>
-    );
+  const [showPop, setShowPop] = useState(false)
+  return (
+    <BuyPakagesBlock>
+      <div id="buy_pakage_info">
+        <div id="bpi_title">
+          <span id="bpit_name">
+            {i18n.t(name)}
+          </span>
+        </div>
+        <div id="bpi_main">
+          <div id="bpim_first">
+            <span className="bpim_title">
+              {i18n.t("DFCbanana")}
+            </span>
+            <span className="bpim_value">{dfcbanana} </span>
+          </div>
+          <div id="bpim_second">
+            <span className="bpim_title">
+              {i18n.t("DFCsold")}
+            </span>
+            <span className="bpim_value">{sold}</span>
+          </div>
+          <div id="bpim_third">
+            <span className="bpim_title">
+              {i18n.t("DFCavailable")}
+            </span>
+            <span className="bpim_value">{available}</span>
+          </div>
+          <div id="bpim_fourth">
+            <span className="bpim_title">
+              {i18n.t("DFCbonus")}
+            </span>
+            <span className="bpim_value">{bonus}</span>
+          </div>
+          <button id="bpim_button" onClick={() => setShowPop(true)}>
+            {i18n.t("buy")}
+          </button>
+        </div>
+      </div>
+      {showPop ?
+        <BuyPop showPop={showPop} setShowPop={setShowPop} />
+        :
+        null}
+    </BuyPakagesBlock>
+  );
 };
 
 const BuyPakagesBlock = memo(styled.div`
