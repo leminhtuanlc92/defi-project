@@ -1,135 +1,205 @@
-import React, { memo } from "react";
+import React, { memo, useState, useEffect, useContext } from "react";
 import styled, { css } from "styled-components/macro";
 import Colors from "../../../constants/Colors";
 import Texts from "../../../constants/Texts";
 import i18n from "i18n-js";
-import BuyPackages from './buyPackages'
-import BenTableItem from './benTableItem'
-import USDTBonusTableItem from './usdtBonusTableItem'
+import BuyPackages from "./buyPackages";
+import BenTableItem from "./benTableItem";
+import USDTBonusTableItem from "./usdtBonusTableItem";
+import { TronContract } from "../../../contexts/tronWeb";
 export default () => {
-    const packages = [
-        { name: 'cofounder', dfcbanana: 100000, sold: 1000, available: 99000, bonus: 123 },
-        { name: 'angle', dfcbanana: 100000, sold: 1000, available: 99000, bonus: 123 },
-        { name: 'seriaa', dfcbanana: 100000, sold: 1000, available: 99000, bonus: 123 },
-        { name: 'seriab', dfcbanana: 100000, sold: 1000, available: 99000, bonus: 123 },
-        { name: 'seriac', dfcbanana: 100000, sold: 1000, available: 99000, bonus: 123 },
-        { name: 'seriad', dfcbanana: 100000, sold: 1000, available: 99000, bonus: 123 },
-        { name: 'prelisting', dfcbanana: 100000, sold: 1000, available: 99000, bonus: 123 },
-        { name: 'listing', dfcbanana: 100000, sold: 1000, available: 99000, bonus: 123 },
-    ];
-    const benData = [
-        { id: 1, name: 'Cou-founder', volume: 100000, bonus: 0.5, txs: 12000 },
-        { id: 2, name: 'Cou-founder', volume: 100000, bonus: 0.5, txs: 12000 },
-        { id: 3, name: 'Cou-founder', volume: 100000, bonus: 0.5, txs: 12000 },
-        { id: 4, name: 'Cou-founder', volume: 100000, bonus: 0.5, txs: 12000 },
-        { id: 5, name: 'Cou-founder', volume: 100000, bonus: 0.5, txs: 12000 },
-        { id: 6, name: 'Cou-founder', volume: 100000, bonus: 0.5, txs: 12000 },
-        { id: 7, name: 'Cou-founder', volume: 100000, bonus: 0.5, txs: 12000 },
-        { id: 8, name: 'Cou-founder', volume: 100000, bonus: 0.5, txs: 12000 },
-    ]
-    const bonusData = [
-        { id: 1, level: 1, percent: 10 },
-        { id: 2, level: 1, percent: 10 },
-        { id: 3, level: 1, percent: 10 },
-        { id: 4, level: 1, percent: 10 },
-        { id: 5, level: 1, percent: 10 },
-        { id: 6, level: 1, percent: 10 },
-        { id: 7, level: 1, percent: 10 },
-        { id: 8, level: 1, percent: 10 },
-    ]
-    const handleBuy = () => {
-
-    }
-    return (
-        <BuyDFCWrap>
-            <div id="buydfc_mainbody">
-                <div id="bdfcm_round">
-                    <span className="bdfcmr_block_title">{i18n.t('buyRound')}</span>
-                    <div id="bdfcmr_content">
-                        {packages.map((item, index) => {
-                            return <BuyPackages
-                                key={index}
-                                name={item.name}
-                                dfcbanana={item.dfcbanana}
-                                sold={item.sold}
-                                available={item.available}
-                                bonus={item.bonus}
-                                action={handleBuy}
-                            />
-                        })}
-                    </div>
+  const { shareHolder } = useContext(TronContract);
+  const [currentStage, setCurrentStage] = useState({
+    stage: 0,
+    sold: 10,
+  });
+  useEffect(() => {
+    // shareHolder
+    //   .currentStage()
+    //   .call()
+    //   .then((stage: any) => {
+    //     shareHolder
+    //       .stages(Number(stage))
+    //       .call()
+    //       .then((info: any) => {
+    //         setCurrentStage({
+    //           stage: Number(stage),
+    //           sold: Number(info.sold),
+    //         });
+    //         console.log(info);
+    //       });
+    //   });
+    setCurrentStage({
+      stage: 3,
+      sold: 999,
+    });
+  }, [shareHolder]);
+  const packages = [
+    {
+      name: "cofounder",
+      dfc: 100000,
+      bonus: 128,
+    },
+    {
+      name: "angle",
+      dfc: 200000,
+      bonus: 64,
+    },
+    {
+      name: "seriaa",
+      dfc: 400000,
+      bonus: 32,
+    },
+    {
+      name: "seriab",
+      dfc: 800000,
+      bonus: 16,
+    },
+    {
+      name: "seriac",
+      dfc: 1600000,
+      bonus: 8,
+    },
+    {
+      name: "seriad",
+      dfc: 3200000,
+      bonus: 4,
+    },
+    {
+      name: "prelisting",
+      dfc: 6400000,
+      bonus: 2,
+    },
+    {
+      name: "listing",
+      dfc: 12800000,
+      bonus: 1,
+    },
+  ];
+  const benData = [
+    { id: 1, name: "cofounder", volume: 100000, bonus: 128, txs: 0 },
+    { id: 2, name: "angle", volume: 200000, bonus: 64, txs: 0 },
+    { id: 3, name: "seriaa", volume: 400000, bonus: 32, txs: 0 },
+    { id: 4, name: "seriab", volume: 800000, bonus: 16, txs: 0 },
+    { id: 5, name: "seriac", volume: 1600000, bonus: 8, txs: 0 },
+    { id: 6, name: "seriad", volume: 3200000, bonus: 4, txs: 0 },
+    { id: 7, name: "prelisting", volume: 6400000, bonus: 2, txs: 0 },
+    { id: 8, name: "listing", volume: 12800000, bonus: 1, txs: 0 },
+  ];
+  const bonusData = [
+    { id: 1, level: 1, percent: 10 },
+    { id: 2, level: 1, percent: 8 },
+    { id: 3, level: 1, percent: 6 },
+    { id: 4, level: 1, percent: 4 },
+    { id: 5, level: 1, percent: 2 },
+    { id: 6, level: 1, percent: 1 },
+    { id: 7, level: 1, percent: 1 },
+    { id: 8, level: 1, percent: 1 },
+  ];
+  const handleBuy = () => {};
+  return (
+    <BuyDFCWrap>
+      <div id="buydfc_mainbody">
+        <div id="bdfcm_round">
+          <span className="bdfcmr_block_title">{i18n.t("buyRound")}</span>
+          <div id="bdfcmr_content">
+            {packages.map((item, index) => {
+              return (
+                <BuyPackages
+                  key={index}
+                  name={item.name}
+                  dfc={item.dfc}
+                  stage={index}
+                  currentStage={currentStage}
+                  bonus={item.bonus}
+                  action={handleBuy}
+                />
+              );
+            })}
+          </div>
+        </div>
+        <div id="bdfcm_mid_content">
+          <div id="bdfcmmc_left">
+            <span className="bdfcmr_block_title">{i18n.t("benTable")}</span>
+            <div id="bdfcmmc_table_wrap">
+              <div className="bdfcmmct_header">
+                <div className="bdfcmmct_id">
+                  <span>{i18n.t("noNumber")}</span>
                 </div>
-                <div id="bdfcm_mid_content">
-                    <div id="bdfcmmc_left">
-                        <span className="bdfcmr_block_title">{i18n.t('benTable')}</span>
-                        <div id="bdfcmmc_table_wrap">
-                            <div className="bdfcmmct_header">
-                                <div className="bdfcmmct_id">
-                                    <span>{i18n.t('noNumber')}</span>
-                                </div>
-                                <div className="bdfcmmct_name">
-                                    <span>{i18n.t('name')}</span>
-                                </div>
-                                <div className="bdfcmmct_volume">
-                                    <span>{i18n.t('volume')}</span>
-                                </div>
-                                <div className="bdfcmmct_bonus">
-                                    <span>{i18n.t('bonus')}</span>
-                                </div>
-                                <div className="bdfcmmct_tx">
-                                    <span>{i18n.t('tx')}</span>
-                                </div>
-                            </div>
-                            <div className="bdfcmmct_body">
-                                {benData.map((item, index) => {
-                                    return <BenTableItem
-                                        key={index}
-                                        id={item.id}
-                                        name={item.name}
-                                        volume={item.volume}
-                                        bonus={item.bonus}
-                                        txs={item.txs}
-                                        lastItem={index === benData.length - 1}
-                                    />
-                                })}
-                            </div>
-                        </div>
-                    </div>
-                    <div id="bdfcmmc_right">
-                        <span className="bdfcmr_block_title">{i18n.t('usdtBonus')}</span>
-                        <div id="bdfcmmc_table_wrap">
-                            <div className="bdfcmmct_header">
-                                <div className="bdfcmmct_id">
-                                    <span>{i18n.t('noNumber')}</span>
-                                </div>
-                                <div className="bdfcmmct_level">
-                                    <span>{i18n.t('level')}</span>
-                                </div>
-                                <div className="bdfcmmct_percent">
-                                    <span>%</span>
-                                </div>
-                            </div>
-                            <div className="bdfcmmct_body">
-                                {bonusData.map((item, index) => {
-                                    return <USDTBonusTableItem
-                                        key={index}
-                                        id={item.id}
-                                        level={item.level}
-                                        percent={item.percent}
-                                        lastItem={index === bonusData.length - 1}
-                                    />
-                                })}
-                            </div>
-                        </div>
-                    </div>
+                <div className="bdfcmmct_name">
+                  <span>{i18n.t("name")}</span>
                 </div>
-                <div id="bdfcm_sumup">
-                    <span>{`=>`} {i18n.t('totalDFCusing')}: <span className="bdfcms_value">12,800,000 * 7</span>{i18n.t('token')}</span>
-                    <span>{`=>`} {i18n.t('totalAvailableDFC')}: <span className="bdfcms_value">12,800,000</span> {i18n.t('token')}</span>
+                <div className="bdfcmmct_volume">
+                  <span>{i18n.t("volume")}</span>
                 </div>
+                <div className="bdfcmmct_bonus">
+                  <span>{i18n.t("bonus")}</span>
+                </div>
+                <div className="bdfcmmct_tx">
+                  <span>{i18n.t("tx")}</span>
+                </div>
+              </div>
+              <div className="bdfcmmct_body">
+                {benData.map((item, index) => {
+                  return (
+                    <BenTableItem
+                      key={index}
+                      id={item.id}
+                      name={item.name}
+                      volume={item.volume}
+                      bonus={item.bonus}
+                      txs={item.txs}
+                      lastItem={index === benData.length - 1}
+                    />
+                  );
+                })}
+              </div>
             </div>
-        </BuyDFCWrap>
-    );
+          </div>
+          <div id="bdfcmmc_right">
+            <span className="bdfcmr_block_title">{i18n.t("usdtBonus")}</span>
+            <div id="bdfcmmc_table_wrap">
+              <div className="bdfcmmct_header">
+                <div className="bdfcmmct_id">
+                  <span>{i18n.t("noNumber")}</span>
+                </div>
+                <div className="bdfcmmct_level">
+                  <span>{i18n.t("level")}</span>
+                </div>
+                <div className="bdfcmmct_percent">
+                  <span>%</span>
+                </div>
+              </div>
+              <div className="bdfcmmct_body">
+                {bonusData.map((item, index) => {
+                  return (
+                    <USDTBonusTableItem
+                      key={index}
+                      id={item.id}
+                      level={item.level}
+                      percent={item.percent}
+                      lastItem={index === bonusData.length - 1}
+                    />
+                  );
+                })}
+              </div>
+            </div>
+          </div>
+        </div>
+        {/* <div id="bdfcm_sumup">
+          <span>
+            {`=>`} {i18n.t("totalDFCusing")}:{" "}
+            <span className="bdfcms_value">12,800,000 * 7</span>
+            {i18n.t("token")}
+          </span>
+          <span>
+            {`=>`} {i18n.t("totalAvailableDFC")}:{" "}
+            <span className="bdfcms_value">12,800,000</span> {i18n.t("token")}
+          </span>
+        </div> */}
+      </div>
+    </BuyDFCWrap>
+  );
 };
 
 const BuyDFCWrap = memo(styled.div`

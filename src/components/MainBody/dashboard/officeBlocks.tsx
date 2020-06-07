@@ -1,9 +1,10 @@
-import React, { memo, useState } from "react";
+import React, { memo, useState, useContext } from "react";
 import styled, { css } from "styled-components/macro";
 import Colors from "../../../constants/Colors";
 import Texts from "../../../constants/Texts";
 import moment from "moment";
 import i18n from "i18n-js";
+import { TronContract } from "../../../contexts/tronWeb";
 interface OfficeBlockProps {
   item: Item;
 }
@@ -13,6 +14,14 @@ interface Item {
   user: number;
 }
 export default ({ item }: OfficeBlockProps) => {
+  const { matrixMarketing } = useContext(TronContract);
+  const reinvest = async () => {
+    await matrixMarketing.refeshPackage(item.level).send({
+      callValue: 0,
+      feeLimit: 1e7,
+      shouldPollResponse: true,
+    });
+  };
   return (
     <OfficeBlock>
       <div id="office-content-info">
@@ -38,7 +47,13 @@ export default ({ item }: OfficeBlockProps) => {
               {item.user}/{3 ** item.level}
             </span>
           </div>
-          <button id="office-blocks-btn" onClick={() => {}}>
+          <button
+            id="office-blocks-btn"
+            disabled={item.time == 0}
+            onClick={() => {
+              reinvest();
+            }}
+          >
             {i18n.t("reinvest")}
           </button>
         </div>

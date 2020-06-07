@@ -5,10 +5,10 @@ import Texts from "../../constants/Texts";
 import i18n from "i18n-js";
 import { TronContract } from "../../contexts/tronWeb";
 const confirmImg = require("../../assets/images/confirm-ref.svg");
-const confirmImg1 = require("../../assets/images/confirm.svg");
-const closeImg = require("../../assets/images/close.png");
-export default () => {
-  const [showPop, setShowPop] = useState(false);
+interface ConfirmProps {
+  confirm: any;
+}
+export default ({ confirm }: ConfirmProps) => {
   const { ref, member } = useContext(TronContract);
   const [username, setUsername] = useState("Not set");
   useEffect(() => {
@@ -83,34 +83,13 @@ export default () => {
                     {ref}
                   </span>
                 </div>
-                <button onClick={() => setShowPop(true)}>
+                <button onClick={() => confirm(true)}>
                   {i18n.t("confirm")}
                 </button>
               </div>
             </div>
           </div>
         </div>
-        {showPop ? (
-          <div id="confirm-pop">
-            <div id="pop-content">
-              <img src={confirmImg1} alt="" />
-              <span id="pop-content-confirm-usdt-quote">
-                {i18n.t("popConfirmUsdtquote")}
-              </span>
-              <div id="pop-confirm-usdt-buttons">
-                <button id="refuse-button" onClick={() => {}}>
-                  {i18n.t("no")}
-                </button>
-                <button id="confirm-button" onClick={() => {}}>
-                  {i18n.t("yes")}
-                </button>
-              </div>
-              <div id="close-button" onClick={() => setShowPop(!showPop)}>
-                <img src={closeImg} alt="" />
-              </div>
-            </div>
-          </div>
-        ) : null}
       </Fragment>
     </ConfirmRefWrap>
   );

@@ -2,60 +2,76 @@ import React, { memo, useState } from "react";
 import styled, { css } from "styled-components/macro";
 import Colors from "../../../constants/Colors";
 import Texts from "../../../constants/Texts";
-import BuyPop from './buyPopup'
+import BuyPop from "./buyPopup";
 import i18n from "i18n-js";
 interface BuyPackagesProps {
   name: string;
-  dfcbanana: number;
-  sold: number
-  available: number
+  dfc: number;
+  stage: number;
   bonus: number;
   action: () => void;
+  currentStage: any;
 }
-export default ({ name, dfcbanana, sold, available, bonus, action }: BuyPackagesProps) => {
-  const [showPop, setShowPop] = useState(false)
+export default ({
+  name,
+  dfc,
+  stage,
+  bonus,
+  currentStage,
+  action,
+}: BuyPackagesProps) => {
+  const [showPop, setShowPop] = useState(false);
   return (
     <BuyPakagesBlock>
       <div id="buy_pakage_info">
         <div id="bpi_title">
-          <span id="bpit_name">
-            {i18n.t(name)}
-          </span>
+          <span id="bpit_name">{i18n.t(name)}</span>
         </div>
         <div id="bpi_main">
           <div id="bpim_first">
-            <span className="bpim_title">
-              {i18n.t("DFCbanana")}
-            </span>
-            <span className="bpim_value">{dfcbanana} </span>
+            <span className="bpim_title">{i18n.t("DFC")}</span>
+            <span className="bpim_value">{dfc} </span>
           </div>
           <div id="bpim_second">
-            <span className="bpim_title">
-              {i18n.t("DFCsold")}
+            <span className="bpim_title">{i18n.t("DFCsold")}</span>
+            <span className="bpim_value">
+              {stage < currentStage.stage
+                ? dfc
+                : stage === currentStage.stage
+                ? dfc - currentStage.sold
+                : 0}
             </span>
-            <span className="bpim_value">{sold}</span>
           </div>
           <div id="bpim_third">
-            <span className="bpim_title">
-              {i18n.t("DFCavailable")}
+            <span className="bpim_title">{i18n.t("DFCavailable")}</span>
+            <span className="bpim_value">
+              {stage < currentStage.stage
+                ? dfc
+                : stage === currentStage.stage
+                ? dfc - currentStage.sold
+                : dfc}
             </span>
-            <span className="bpim_value">{available}</span>
           </div>
           <div id="bpim_fourth">
-            <span className="bpim_title">
-              {i18n.t("DFCbonus")}
-            </span>
+            <span className="bpim_title">{i18n.t("DFCbonus")}</span>
             <span className="bpim_value">{bonus}</span>
           </div>
-          <button id="bpim_button" onClick={() => setShowPop(true)}>
+          <button
+            id="bpim_button"
+            disabled={currentStage.stage !== stage}
+            onClick={() => setShowPop(true)}
+          >
             {i18n.t("buy")}
           </button>
         </div>
       </div>
-      {showPop ?
-        <BuyPop showPop={showPop} setShowPop={setShowPop} />
-        :
-        null}
+      {showPop ? (
+        <BuyPop
+          showPop={showPop}
+          setShowPop={setShowPop}
+          available={dfc - currentStage.sold}
+        />
+      ) : null}
     </BuyPakagesBlock>
   );
 };
@@ -82,14 +98,19 @@ const BuyPakagesBlock = memo(styled.div`
   }
   #bpi_main {
     flex-direction: column;
-    #bpim_first, #bpim_second, #bpim_third, #bpim_fourth {
+    #bpim_first,
+    #bpim_second,
+    #bpim_third,
+    #bpim_fourth {
       align-items: center;
       justify-content: space-between;
       padding: 10px 0;
-      margin:0 10px;
+      margin: 0 10px;
       flex-wrap: wrap;
     }
-    #bpim_first, #bpim_second, #bpim_third {
+    #bpim_first,
+    #bpim_second,
+    #bpim_third {
       border-bottom: solid 1px ${Colors.black2};
     }
     .bpim_title {
@@ -112,7 +133,7 @@ const BuyPakagesBlock = memo(styled.div`
       text-transform: uppercase;
       border: none;
       padding: 18px 0;
-      margin-top:10px;
+      margin-top: 10px;
       &:hover {
         background-color: ${Colors.green5};
         box-shadow: 0 3px 6px 1px rgba(100, 161, 94, 0.2);
@@ -128,13 +149,13 @@ const BuyPakagesBlock = memo(styled.div`
   &:hover {
     box-shadow: 0 0 15px 1px rgba(100, 161, 94, 0.4);
     .bpim_value {
-        font-weight: 500;
+      font-weight: 500;
     }
-    #buy_pakage_info{
-        #bpi_title{
-            color: ${Colors.green1};
-            border-bottom: solid 1px ${Colors.green1};
-        }
+    #buy_pakage_info {
+      #bpi_title {
+        color: ${Colors.green1};
+        border-bottom: solid 1px ${Colors.green1};
+      }
     }
   }
 `);

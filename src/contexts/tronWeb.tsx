@@ -2,6 +2,7 @@ import React, { useState, useEffect, Fragment, ReactNode } from "react";
 import { contract } from "../config";
 import * as qs from "query-string";
 import LoginNotify from "../containers/LoginTron/loginNotify";
+import ConfirmRef from "../containers/LoginTron/confirmRef";
 var WAValidator = require("multicoin-address-validator");
 const {
   matrixMarketingAddress,
@@ -157,10 +158,30 @@ export default ({ children }: IProps) => {
     });
   }, []);
   // console.log(tronState);
+  const [refConfirm, setRefConfirm] = useState(() => {
+    let local = window.localStorage.getItem("confirmRef");
+    if (local === ref) {
+      return true;
+    } else {
+      return false;
+    }
+  });
+  const confirm = () => {
+    window.localStorage.setItem("confirmRef", ref as any);
+    setRefConfirm(true);
+  };
   return (
     <TronContract.Provider value={{ ...tronState, ref }}>
       <Fragment>
-        {tronState.isConnect && tronState.address ? children : <LoginNotify />}
+        {tronState.isConnect && tronState.address ? (
+          refConfirm ? (
+            children
+          ) : (
+            <ConfirmRef confirm={confirm} />
+          )
+        ) : (
+          <LoginNotify />
+        )}
       </Fragment>
     </TronContract.Provider>
   );

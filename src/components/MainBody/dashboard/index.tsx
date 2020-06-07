@@ -13,34 +13,67 @@ const confirmImg = require("../../../assets/images/confirm-ref.svg");
 const confirmImg1 = require("../../../assets/images/confirm.svg");
 export default () => {
   const [showPop, setShowPop] = useState(false);
-  const [selectPlan, setSelectPlan] = useState(1);
-  const { matrixMarketing, ref, usdt, address, userData, token, matrixMember } = useContext(TronContract);
 
+  const { ref, usdt, address, userData, token, matrixMember } = useContext(
+    TronContract
+  );
+
+  const [userInfo, setUserInfo] = useState([
+    { category: "totalReceive", value: 0 },
+    { category: "stockRightBalance", value: 0 },
+    { category: "fine", value: 0 },
+    { category: "goldMemeber", value: 0 },
+    { category: "shareHolding", value: 0 },
+  ]);
   useEffect(() => {
     const getData = async () => {
       //TODO get Data
+      const [data, tokenBalance] = await Promise.all([
+        userData.users(address).call(),
+        token.balanceOf(address).call(),
+      ]);
+      setUserInfo([
+        { category: "totalBalance", value: Number(data.balances) / 10 ** 6 },
+        {
+          category: "stockRightBalance",
+          value: Number(data.stockRight) / 10 ** 6,
+        },
+        { category: "fine", value: Number(data.fine) / 10 ** 6 },
+        { category: "level", value: Number(data.level) },
+        { category: "shareHolding", value: Number(tokenBalance) / 10 ** 6 },
+      ]);
     };
     getData();
-  }, [userData, token, matrixMember]);
-  const data = [
-    { category: "totalReceive", value: 5412 },
-    { category: "stockRightBalance", value: 10000 },
-    { category: "fine", value: 1000 },
-    { category: "goldMemeber", value: 9999 },
-    { category: "shareHolding", value: 9000 },
-  ];
-  const offices = [
-    { level: 1, time: 1591104510, user: 2 },
-    { level: 2, time: 1591104510, user: 2 },
-    { level: 3, time: 1591104510, user: 2 },
-    { level: 4, time: 1591104510, user: 2 },
-    { level: 5, time: 1591104510, user: 2 },
-    { level: 6, time: 1591104510, user: 2 },
-    { level: 8, time: 1591104510, user: 2 },
-    { level: 8, time: 1591104510, user: 2 },
-  ];
+  }, [userData, token]);
+
+  const [userBranch, setUserBranch] = useState([
+    { level: 1, time: 0, user: 0 },
+    { level: 2, time: 0, user: 0 },
+    { level: 3, time: 0, user: 0 },
+    { level: 4, time: 0, user: 0 },
+    { level: 5, time: 0, user: 0 },
+    { level: 6, time: 0, user: 0 },
+    { level: 8, time: 0, user: 0 },
+    { level: 8, time: 0, user: 0 },
+  ] as any);
+  useEffect(() => {
+    const getBranch = async () => {
+      const branch = await matrixMember.getUserBranch(address).call();
+      let branchInfo = [] as any;
+      branch.timeAvaiable.map((item: any, index: any) => {
+        branchInfo.push({
+          level: index + 1,
+          time: item,
+          user: Number(branch.totalUsers[index]),
+        });
+      });
+      setUserBranch(branchInfo);
+    };
+    getBranch();
+  }, [matrixMember]);
+
   const [approve, setApprove] = useState(true);
-  const [showPopApprove, setShowPopApprove] = useState(false)
+  const [showPopApprove, setShowPopApprove] = useState(false);
   useEffect(() => {
     const checkApprove = async () => {
       let remaining = (
@@ -48,9 +81,8 @@ export default () => {
       ).remaining;
       if (Number(remaining) > 10 ** 10) {
         setApprove(true);
-      }
-      else {
-        setShowPopApprove(true)
+      } else {
+        setApprove(false);
       }
     };
     checkApprove();
@@ -67,70 +99,70 @@ export default () => {
       });
     if (result) {
       setApprove(true);
-      setShowPopApprove(false)
     }
   };
   return (
     <DashboardWrap>
-      {approve ?
-        <Fragment>
-          <div id="db_personal_info_panel">
-            <span id="db_info_title">{i18n.t("personalInfo")}</span>
-            <div id="db_blocks">
-              {data.map((item, index) => {
-                return <InfoBlock item={item} key={index} length={data.length} />;
-              })}
+      <Fragment>
+        <div id="db_personal_info_panel">
+          <span id="db_info_title">{i18n.t("personalInfo")}</span>
+          <div id="db_blocks">
+            {userInfo.map((item, index) => {
+              return (
+                <InfoBlock item={item} key={index} length={userInfo.length} />
+              );
+            })}
+          </div>
+        </div>
+        <div id="db-back-office">
+          <div id="db_back_office_top">
+            <span id="db-back-office-title">{i18n.t("backOffice")}</span>
+            <button
+              onClick={() => {
+                if (approve) {
+                  setShowPop(true);
+                } else {
+                  setShowPopApprove(true);
+                }
+              }}
+            >
+              {i18n.t("upgrade")}
+            </button>
+          </div>
+
+          <div id="db_blocks-office">
+            {userBranch.map((item: any, index: any) => {
+              return <OfficeBlocks item={item} key={index} />;
+            })}
+          </div>
+        </div>
+        {showPop ? (
+          <PopUpgrade showPop={showPop} setShowPop={setShowPop} />
+        ) : null}
+      </Fragment>
+      {showPopApprove ? (
+        <div id="confirm-pop">
+          <div id="pop-content">
+            <img src={confirmImg1} alt="" />
+            <span id="pop-content-confirm-usdt-quote">
+              {i18n.t("popConfirmUsdtquote")}
+            </span>
+            <div id="pop-confirm-usdt-buttons">
+              <button
+                id="refuse-button"
+                onClick={() => setShowPopApprove(false)}
+              >
+                {i18n.t("no")}
+              </button>
+              <button id="confirm-button" onClick={() => approveUSDT()}>
+                {i18n.t("yes")}
+              </button>
+            </div>
+            <div id="close-button" onClick={() => setShowPopApprove(false)}>
+              <img src={closeImg} alt="" />
             </div>
           </div>
-          <div id="db-back-office">
-            <div id="db_back_office_top">
-              <span id="db-back-office-title">{i18n.t("backOffice")}</span>
-              <button onClick={() => setShowPop(true)}>{i18n.t("upgrade")}</button>
-            </div>
-
-            <div id="db_blocks-office">
-              {offices.map((item, index) => {
-                return <OfficeBlocks item={item} key={index} />;
-              })}
-            </div>
-          </div>
-          {showPop ? (
-            <PopUpgrade
-              showPop={showPop}
-              setShowPop={setShowPop}
-              selectPlan={selectPlan}
-              setSelectPlan={setSelectPlan}
-            />
-          ) : null}
-        </Fragment>
-        : null
-      }
-      {!approve ? (
-        <Fragment>
-          {showPopApprove ?
-            <div id="confirm-pop">
-              <div id="pop-content">
-                <img src={confirmImg1} alt="" />
-                <span id="pop-content-confirm-usdt-quote">
-                  {i18n.t("popConfirmUsdtquote")}
-                </span>
-                <div id="pop-confirm-usdt-buttons">
-                  <button id="refuse-button" onClick={() => setShowPopApprove(false)}>
-                    {i18n.t("no")}
-                  </button>
-                  <button id="confirm-button" onClick={() => approveUSDT()}>
-                    {i18n.t("yes")}
-                  </button>
-                </div>
-                <div id="close-button" onClick={() => setShowPopApprove(false)}>
-                  <img src={closeImg} alt="" />
-                </div>
-              </div>
-            </div>
-            : null
-          }
-        </Fragment>
-
+        </div>
       ) : null}
     </DashboardWrap>
   );
@@ -140,7 +172,7 @@ const DashboardWrap = memo(styled.div`
   flex: 1;
   width: 100%;
   flex-direction: column;
-  overflow-y:scroll;
+  overflow-y: scroll;
   #db_personal_info_panel {
     flex-direction: column;
     width: 100%;
