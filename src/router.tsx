@@ -43,6 +43,18 @@ export default () => {
         setUsername(info.username);
       });
   }, []);
+  const register = async (_username) => {
+    let result = await member.setUsername(_username).send({
+      callValue: 0,
+      feeLimit: 1e7,
+      shouldPollResponse: true,
+    });
+    console.log(result);
+  };
+  const validRef = async (_username) => {
+    let result = await member.validUsername(_username).call();
+    return result;
+  };
   return (
     <Router history={history}>
       <Suspense fallback={<Loading />}>
