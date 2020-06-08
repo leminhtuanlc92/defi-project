@@ -59,6 +59,10 @@ export default () => {
       value: listUser[i].address,
     });
   }
+  useEffect(()=>{
+    getListPending()
+  },[])
+  // console.log('listUser', listUser)
   const [emptyNode, setEmptyNode] = useState("");
   return (
     <MatchPendingUserWrap>

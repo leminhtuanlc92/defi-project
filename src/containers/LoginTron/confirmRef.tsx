@@ -11,6 +11,7 @@ interface ConfirmProps {
 export default ({ confirm }: ConfirmProps) => {
   const { ref, member } = useContext(TronContract);
   const [username, setUsername] = useState("Not set");
+  // console.log('ref', ref)
   useEffect(() => {
     if (ref && member) {
       member
@@ -21,6 +22,7 @@ export default ({ confirm }: ConfirmProps) => {
         });
     }
   }, [ref, member]);
+  
   return (
     <ConfirmRefWrap>
       <Fragment>
@@ -145,9 +147,9 @@ const ConfirmRefWrap = memo(styled.div`
           }
         }
         button {
-          width: 80%;
+          /* width: 80%; */
           margin-top: 10px;
-          padding: 20px 0;
+          padding:10px 40px;
           border-radius: 5px;
           background-color: ${Colors.orange};
           box-shadow: none;

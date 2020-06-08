@@ -11,7 +11,7 @@ export default () => {
         <LoginNotifyWrapper>
             <div id="inner-content">
                 <div>
-                    <img src={errorImg} style={{ maxWidth: '400px', objectFit: "contain" }} />
+                    <img src={errorImg} style={{ maxWidth: '400px', objectFit: "contain" }} alt=""/>
                 </div>
                 <div id="content">
                     <h3 style={{ color: Colors.orange, fontSize: '45px', fontWeight: 'bold', lineHeight: "45px", marginBottom: '30px' }}>Oops</h3>
@@ -23,7 +23,7 @@ export default () => {
                             <span style={{ fontSize: Texts.size.larger, color: Colors.green1 }}>TRX</span>
                             <span style={{ color: Colors.black, fontSize: Texts.size.large }}>{i18n.t('installTronLink')}</span>
                         </div>
-                        <img src={tronImg} style={{ objectFit: "contain" }} />
+                        <img src={tronImg} style={{ objectFit: "contain" }} alt=""/>
                     </div>
                 </div>
             </div>

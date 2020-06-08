@@ -4,33 +4,47 @@ import Colors from "../../../constants/Colors";
 import Texts from "../../../constants/Texts";
 import SunUserItem from "./sunUserItem";
 import i18n from 'i18n-js'
+import { TronContract } from "../../../contexts/tronWeb";
 const arrowImg = require('../../../assets/images/ic-have-child.svg')
 const avtImg = require('../../../assets/images/avt.png');
+const endNodeImg = require('../../../assets/images/ic-k-nhanh.svg')
 interface SunUserItemChildProps {
     data: any;
 }
 export default ({ data }: SunUserItemChildProps) => {
     const [showChild, setShowChild] = useState(false)
+    const { member, userData } = useContext(TronContract);
+    const [nodeData, setNodeData] = useState({ user: null, level: 0 } as any)
+    const getUser = async (_userAddress) => {
+        let user = await member.getUser(_userAddress).call();
+        let level = await userData.getLevel(_userAddress).call();
+        setNodeData({ user, level })
+    };
+    useEffect(() => {
+        getUser(data.user.parent)
+    }, [])
     return (
         <SunUserItemChildWrap showChild={showChild}>
-            <SunUserItemChildNodeMain showChild={showChild} onClick={() => { data.nodes && setShowChild(!showChild) }}>
-                <SunChildNodeImage src={arrowImg} alt="" />
+            <SunUserItemChildNodeMain showChild={showChild} onClick={() => { nodeData.user.refs.length > 0 && setShowChild(!showChild) }}>
+                <SunChildNodeImage src={nodeData.user.refs.length === 0 ? endNodeImg : arrowImg} alt="" showChild={showChild} />
                 <div className="sunm_info">
                     <div className="sunmi_avt">
                         <img src={avtImg} alt="" />
                         <span>{i18n.t('level')}: {data.level}</span>
                     </div>
                     <div className="sunmi_bio">
-                        <span className="sunuser_nodename">{data.name}</span>
-                        <span className="sunuser_address">{data.address}</span>
+                        <span className="sunuser_nodename">{data.user.userId !== '' ? data.user.userId : i18n.t('unSet')}</span>
+                        <span className="sunuser_address">{data.user.parent}</span>
                     </div>
 
                 </div>
             </SunUserItemChildNodeMain>
-            {data.nodes && showChild ?
-                data.nodes.map((item: any, index: number) => {
-                    return <SunUserItem item={item} key={index} />
-                })
+            {nodeData.user !== null && nodeData.user.refs.length > 0 && showChild ?
+                <div className="su_childnodes">
+                    {nodeData.user.refs.map((item: any, index: number) => {
+                        return <SunUserItem item={item} key={index} />
+                    })}
+                </div>
                 :
                 null
             }

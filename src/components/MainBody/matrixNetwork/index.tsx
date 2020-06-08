@@ -40,11 +40,13 @@ const MatrixNetworkWrap = memo(styled.div`
         flex:1;
         #mtnmb_left{
             flex-direction:column;
-            flex:0.65;
+            /* flex:0.65; */
+            width:65%;
         }
         #mtnmb_right{
-            flex:0.35;
-            margin-left:30px;
+            /* flex:0.35;
+            margin-left:30px; */
+            width:calc(35% - 30px);
         }
     }
 `)

@@ -11,6 +11,9 @@ import { history } from "../src/App";
 import Loading from "../src/components/common/loading";
 import { TronContract } from "../src/contexts/tronWeb";
 import { contract } from "../src/config";
+import Signup from './components/MainBody/dashboard/signUp'
+import { toast } from 'react-toastify'
+import i18n from 'i18n-js'
 const DashBoard = lazy(() => import("../src/containers/dashboard"));
 const SunNetwork = lazy(() => import("../src/containers/sunNetwork"));
 const MatrixNetwork = lazy(() => import("../src/containers/matrixNetwork"));
@@ -40,7 +43,11 @@ export default () => {
       .users(address)
       .call()
       .then((info: any) => {
+        console.log('info', info)
         setUsername(info.username);
+        if (info.username !== "") {
+          setShowPop(false)
+        }
       });
   }, []);
   const register = async (_username) => {
@@ -49,12 +56,20 @@ export default () => {
       feeLimit: 1e7,
       shouldPollResponse: true,
     });
-    console.log(result);
+    console.log('result', result)
+    if (result) {
+      toast.success(i18n.t('signupUsernameSuccessful'), { position: "top-center" })
+      setShowPop(false)
+    }
+    else {
+      toast.error(i18n.t('signupUsernameFail'), { position: "top-center" })
+    }
   };
   const validRef = async (_username) => {
     let result = await member.validUsername(_username).call();
     return result;
   };
+  const [showPop, setShowPop] = useState(username === '')
   return (
     <Router history={history}>
       <Suspense fallback={<Loading />}>
@@ -69,12 +84,11 @@ export default () => {
             <Route path="/buy-dfc" component={BuyDFC} />
             <Route path="/instructions" component={Instruction} />
           </Fragment>
-          {/* :
-                        null
-                    } */}
         </Switch>
       </Suspense>
-      {username === "" ? <div>Signup</div> : null}
+      {showPop ?
+        <Signup showPop={showPop} setShowPop={setShowPop} register={register} username={username} setUsername={setUsername} />
+        : null}
     </Router>
   );
 };

@@ -106,5 +106,11 @@
   "withPrice": "với giá",
   "backToHomePageContinue": "Về trang chủ để tiếp tục mua token",
   "backToDashboard": "Về trang chủ",
-  "loading": "Đang tải"
+  "loading": "Đang tải",
+  "noData": "Không có dữ liệu",
+  "unSet": "Chưa đặt",
+  "signUp": "Đăng ký",
+  "signUpQuote": "Hãy tạo username để sử dụng hệ thống thuận lợi hơn",
+  "signupUsernameSuccessful": "Đăng ký tên tài khoản thành công!",
+  "signupUsernameFail": "Đăng ký tên tài khoản thất bại!"
 }

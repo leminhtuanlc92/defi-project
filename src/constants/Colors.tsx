@@ -11,6 +11,7 @@ export default {
     'green4': '#8DBC88',
     'green5': '#62B45A',
     'green6': '#F5FDF4',
+    'green7': '#B5CE9F',
     'orange': '#EF8940',
     'orange1': '#FF8B38',
     'orange2': '#F5AB76',
