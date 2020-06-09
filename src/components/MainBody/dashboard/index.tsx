@@ -22,7 +22,6 @@ export default () => {
     { category: "totalReceive", value: 0 },
     { category: "stockRightBalance", value: 0 },
     { category: "fine", value: 0 },
-    { category: "goldMemeber", value: 0 },
     { category: "shareHolding", value: 0 },
   ]);
   useEffect(() => {

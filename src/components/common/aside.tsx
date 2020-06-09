@@ -14,43 +14,43 @@ export default () => {
       name: "dashboard",
       url: "/",
       img: require("../../assets/images/ic-dashboard.svg"),
-      imgActive: require('../../assets/images/ic-dashboard-active.svg')
+      imgActive: require("../../assets/images/ic-dashboard-active.svg"),
     },
     {
       name: "sunNetwork",
       url: "/sun-network",
       img: require("../../assets/images/ic-network.svg"),
-      imgActive: require('../../assets/images/ic-network-active.svg')
+      imgActive: require("../../assets/images/ic-network-active.svg"),
     },
     {
       name: "matrixNetwork",
       url: "/matrix-network",
       img: require("../../assets/images/ic-network.svg"),
-      imgActive: require('../../assets/images/ic-network-active.svg')
+      imgActive: require("../../assets/images/ic-network-active.svg"),
     },
     {
       name: "partners",
       url: "/partners",
       img: require("../../assets/images/ic-partner.svg"),
-      imgActive: require("../../assets/images/ic-partner-active.svg")
+      imgActive: require("../../assets/images/ic-partner-active.svg"),
     },
     {
       name: "transactionHistory",
       url: "/transaction-history",
       img: require("../../assets/images/ic-ds-giaodich.svg"),
-      imgActive: require("../../assets/images/ic-ds-giaodich-active.svg")
+      imgActive: require("../../assets/images/ic-ds-giaodich-active.svg"),
     },
     {
       name: "buyDfc",
       url: "/buy-dfc",
       img: require("../../assets/images/ic-mua-dfc.svg"),
-      imgActive: require("../../assets/images/ic-mua-dfc-active.svg")
+      imgActive: require("../../assets/images/ic-mua-dfc-active.svg"),
     },
     {
       name: "usageInstruction",
       url: "/instructions",
       img: require("../../assets/images/ic-logout.svg"),
-      imgActive: require("../../assets/images/ic-logout-active.svg")
+      imgActive: require("../../assets/images/ic-logout-active.svg"),
     },
   ];
   return (
@@ -69,15 +69,26 @@ export default () => {
                   data-delay-show={500}
                   style={{ width: "100%" }}
                 >
-                  <MenuItemWrapper aside={siteState.aside} active={
-                    item.url === currentPath.pathname || (currentPath.pathname.includes(item.url) && item.url !== '/')
-                  }>
+                  <MenuItemWrapper
+                    aside={siteState.aside}
+                    active={
+                      item.url === currentPath.pathname ||
+                      (currentPath.pathname.includes(item.url) &&
+                        item.url !== "/")
+                    }
+                  >
                     <img
-                      src={item.url === currentPath.pathname || (currentPath.pathname.includes(item.url) && item.url !== '/') ? item.imgActive : item.img}
+                      src={
+                        item.url === currentPath.pathname ||
+                        (currentPath.pathname.includes(item.url) &&
+                          item.url !== "/")
+                          ? item.imgActive
+                          : item.img
+                      }
                       style={{
                         marginRight: siteState.aside ? "20px" : 0,
                         objectFit: "contain",
-                        width:'20px'
+                        width: "20px",
                       }}
                       alt=""
                     />
@@ -89,7 +100,7 @@ export default () => {
           })}
         </div>
       </MainMenu>
-      <Logout>
+      {/* <Logout>
         <div
           onClick={() => { }}
           style={{ width: "100%" }}
@@ -117,7 +128,7 @@ export default () => {
             {siteState.aside ? <span>{i18n.t("logout")}</span> : null}
           </InnerLogout>
         </div>
-      </Logout>
+      </Logout> */}
     </AsideWrap>
   );
 };
@@ -165,16 +176,22 @@ const MenuItemWrapper = memo(styled.div`
   padding: 20px;
   ${(props: any) =>
     props.aside
-      ? css`justify-content: flex-start;`
-      :
-      css`justify-content: center;`
-  };
+      ? css`
+          justify-content: flex-start;
+        `
+      : css`
+          justify-content: center;
+        `};
   ${(props: any) =>
     props.active
-      ? css`background-color: ${Colors.white};color: ${Colors.black};`
-      :
-      css`background-color: none;color: ${Colors.white};`
-  }; 
+      ? css`
+          background-color: ${Colors.white};
+          color: ${Colors.black};
+        `
+      : css`
+          background-color: none;
+          color: ${Colors.white};
+        `};
   &:hover {
     background-color: ${Colors.white};
     span {
