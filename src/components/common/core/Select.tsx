@@ -3,7 +3,6 @@ import styled, { css } from "styled-components";
 import Colors from "../../../constants/Colors";
 import Texts from "../../../constants/Texts";
 import i18n from "i18n-js";
-import ClickOutside from "../../../utils/clickOutSide";
 const arrowImg = require("../../../assets/images/down-arrow.png");
 interface SelectProps {
   listSelect: Array<SelectItem>;

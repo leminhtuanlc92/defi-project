@@ -54,6 +54,8 @@
   "searchResult": "Kết quả tìm kiếm",
   "emptyLevel": "Empty level",
   "emptyNode": "Empty node",
+  "activeNode": "Active node",
+  "disableNode": "Disable node",
   "done": "Hoàn tất",
   "levelEmptyNode": "Level empty node",
   "listPendingUsers": "List pending user",
@@ -112,5 +114,7 @@
   "signUp": "Đăng ký",
   "signUpQuote": "Hãy tạo username để sử dụng hệ thống thuận lợi hơn",
   "signupUsernameSuccessful": "Đăng ký tên tài khoản thành công!",
-  "signupUsernameFail": "Đăng ký tên tài khoản thất bại!"
+  "signupUsernameFail": "Đăng ký tên tài khoản thất bại!",
+  "mergeSuccess": "Bạn đã nối thành công user pending vào node…",
+  "mergeFail": "Kết nối không thành công, có thể do node đó đã được điền.\n  Hãy thử với node trống khác."
 }

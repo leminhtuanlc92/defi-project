@@ -43,7 +43,7 @@ export default () => {
       .users(address)
       .call()
       .then((info: any) => {
-        console.log('info', info)
+        // console.log('info', info)
         setUsername(info.username);
         if (info.username !== "") {
           setShowPop(false)
@@ -56,7 +56,7 @@ export default () => {
       feeLimit: 1e7,
       shouldPollResponse: true,
     });
-    console.log('result', result)
+    // console.log('result', result)
     if (result) {
       toast.success(i18n.t('signupUsernameSuccessful'), { position: "top-center" })
       setShowPop(false)

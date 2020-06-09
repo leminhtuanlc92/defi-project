@@ -11,12 +11,18 @@ export default () => {
   const getUser = async (_userAddress) => {
     let user = await member.getUser(_userAddress).call();
     let level = await userData.getLevel(_userAddress).call();
-    setNodeData({ user, level })
+    setNodeData({
+      user: {
+        parent: address,
+        refs: user.refs,
+        userId: user.userId
+      }, level
+    })
   };
   useEffect(() => {
     getUser(address)
   }, [])
-  console.log('nodeData', nodeData)
+  // console.log('nodeData', nodeData)
   return (
     <SunNetworkWrap>
       <span id="sunnetwork_main_title">{i18n.t("sunNetwork")}</span>

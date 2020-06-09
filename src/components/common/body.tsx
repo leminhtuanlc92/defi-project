@@ -69,7 +69,7 @@ const ToggleButton = memo(styled.div`
   align-items: center;
   justify-content: center;
   position: absolute;
-  top: 10%;
+  top: 5%;
   left: -20px;
   z-index: 2;
   width: 40px;

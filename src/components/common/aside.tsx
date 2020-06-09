@@ -64,7 +64,7 @@ export default () => {
                 <Link
                   to={item.url}
                   key={index}
-                  data-tip-disable={siteState.aside}
+                  // data-tip-disable={siteState.aside}
                   data-tip={`${i18n.t(`${item.name}`)}`}
                   data-delay-show={500}
                   style={{ width: "100%" }}
@@ -93,7 +93,7 @@ export default () => {
         <div
           onClick={() => { }}
           style={{ width: "100%" }}
-          data-tip-disable={siteState.aside}
+          // data-tip-disable={siteState.aside}
           data-tip={`${i18n.t("logout")}`}
           data-delay-show={500}
         >
@@ -110,9 +110,9 @@ export default () => {
               src={logoutImg}
               style={{
                 marginRight: siteState.aside ? "20px" : 0,
-                aspectRatio: "1/1",
                 width:'20px'
               }}
+              alt=""
             />
             {siteState.aside ? <span>{i18n.t("logout")}</span> : null}
           </InnerLogout>

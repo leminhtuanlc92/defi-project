@@ -4,29 +4,76 @@ import Colors from "../../../../constants/Colors";
 import Texts from "../../../../constants/Texts";
 import i18n from 'i18n-js'
 import Select from '../../../../components/common/core/Select'
+import { TronContract } from "../../../../contexts/tronWeb";
+import MergePop from "../mergePop";
 const closeImg = require('../../../../assets/images/close.png')
 const checkImg = require('../../../../assets/images/ic-green-check.png')
 const upgradeSuccess = require('../../../../assets/images/upgrade-successful.svg')
 const backImg = require('../../../../assets/images/white-back.png')
 export default () => {
-    const [username, setUsername] = useState('')
-    const [step, setStep] = useState(3)
-    const listUser = [
-        { title: 'User 1   - 0x5ac6hd3krd…rd10ce5ac6hd', value: 1 },
-        { title: 'User 2   - 0x5ac6hd3krd…rd10ce5ac6hd', value: 1 },
-        { title: 'User 3   - 0x5ac6hd3krd…rd10ce5ac6hd', value: 1 },
-        { title: 'User 4   - 0x5ac6hd3krd…rd10ce5ac6hd', value: 1 },
-        { title: 'User 5   - 0x5ac6hd3krd…rd10ce5ac6hd', value: 1 }
-    ]
+    const [step, setStep] = useState(0)
+    const { matrixMember, address, member, userData } = useContext(TronContract);
+    const [listUser, setUserList] = useState([] as any);
+    const [selectPending, setSelectPending] = useState({ title: '', value: '' })
+    const [userInput, setUserInput] = useState('')
+    const [userEmptyNode, setUserEmptyNode] = useState({ username: '', address: '', level: '' })
+    const [showPop, setShowPop] = useState(false)
+    const getNode = async (_startUser) => {
+        let result = await matrixMember.getNode(_startUser).call();
+        console.log(result);
+    };
+
+    const getNodeInfo = async (_address) => {
+        const [username, level] = await Promise.all([
+            member.getUsername(_address).call(),
+            userData.getLevel(_address).call(),
+        ]);
+        return {
+            username,
+            level,
+            address: _address,
+        };
+    };
+    const gatherInfo = () => {
+        let data = getNodeInfo(userInput)
+        console.log('data', data)
+        setStep(1)
+    }
+    const getListPending = async () => {
+        let result = await matrixMember.getPendingList(address).call();
+        let users = [] as any;
+        for (let i = 0; i < result.length; i++) {
+            let username = await member.getUsername(result[i]);
+            users.push({
+                title: username,
+                value: result[i],
+            });
+        }
+        setUserList(users);
+    };
+    const mergeNode = async (empty: any, pendingUser: any) => {
+        const result = await matrixMember.mergeBranch(pendingUser, empty).send({
+            callValue: 0,
+            feeLimit: 1e7,
+            shouldPollResponse: true,
+        });
+    };
     return (
         <SearchNodesWrap>
             <span id="search_node_title">{i18n.t('searchEmptyNode')}</span>
             <span id="search_node_quote">{i18n.t('searchEmptyNodeQuote')}</span>
             <div id="sn_input">
                 <div id="sni_textbox">
-                    <input onChange={(e) => setUsername(e.target.value)} />
+                    <input onChange={(e) => setUserInput(e.target.value)} />
                 </div>
-                <button onClick={() => { }}>{i18n.t('confirm')}</button>
+                <button disabled={!(userInput !== '')}
+                    onClick={() => {
+                        if (userInput !== '') {
+                            gatherInfo()
+                        }
+                    }}>
+                    {i18n.t('confirm')}
+                </button>
             </div>
             <div id="sni_result">
                 <span id="snir_title">{i18n.t('searchResult')}</span>
@@ -35,7 +82,11 @@ export default () => {
                         <div id="snircs_step">
                             <Snircs1 step={step}>
                                 <div className="snircs_icon">
-                                    <img src={checkImg} alt="" />
+                                    {step > 0 ?
+                                        <img src={checkImg} alt="" />
+                                        :
+                                        <span className="pum-">1</span>
+                                    }
                                 </div>
                                 <span className="snircs_title">{i18n.t('emptyLevel')}</span>
                             </Snircs1>
@@ -64,11 +115,15 @@ export default () => {
                         </div>
                     </div>
                     <div id="snirc_result">
-                        <div id="snircr_step1">
-                            <span className="label">{i18n.t('emptyLevel')}:</span>
-                            <span className="content">3</span>
-                        </div>
-                        {step > 2 ?
+                        {step > 0 ?
+                            <div id="snircr_step1">
+                                <span className="label">{i18n.t('emptyLevel')}:</span>
+                                <span className="content">3</span>
+                            </div>
+                            :
+                            null
+                        }
+                        {step > 1 ?
                             <div id="snircr_step2">
                                 <span className="label">{i18n.t('emptyNode')}:</span>
                                 <div className="nircrs2_username">
@@ -95,7 +150,10 @@ export default () => {
                                     action={() => { }}
                                     defaultSelect={i18n.t('selectUserToMatch')}
                                 />
-                                <button onClick={() => { }}>{i18n.t('submit')}</button>
+                                <button disabled={!(userEmptyNode.address !== '' && selectPending.value !== '')}
+                                    onClick={() => mergeNode(userEmptyNode, selectPending.value)}>
+                                    {i18n.t("match")}
+                                </button>
                             </div>
                             :
                             null
@@ -103,6 +161,10 @@ export default () => {
                     </div>
                 </div>
             </div>
+            {showPop ?
+                <MergePop showPop={showPop} setShowPop={setShowPop} type="success" />
+                : null
+            }
         </SearchNodesWrap>
     )
 }
@@ -114,6 +176,7 @@ const SearchNodesWrap = memo(styled.div`
     flex:1;
     padding:15px;
     border-radius:10px;
+    max-width:calc(100% - 30px);
     #search_node_title{
         font-size: ${Texts.size.huge};
         line-height: ${Texts.size.huge};
@@ -143,7 +206,8 @@ const SearchNodesWrap = memo(styled.div`
             }
         }
         button{
-            border-radius: 5px;
+            border-top-right-radius: 5px;
+            border-bottom-right-radius: 5px;
             background-color: ${Colors.orange};
             box-shadow: none;
             color: ${Colors.white};
@@ -183,6 +247,7 @@ const SearchNodesWrap = memo(styled.div`
             flex-direction:column;
             #snirc_steps{
                 margin-bottom:10px;
+                max-width:100%;
                 #snircs_step{
                     align-items:center;
                     margin-bottom:30px;
@@ -288,17 +353,28 @@ const SearchNodesWrap = memo(styled.div`
 const Snircs1 = memo(styled.div`
     .snircs_icon{
         border-radius:50%;
-        background-color: ${Colors.orange};
-        span{
-            color: ${Colors.orange}
-        }
+        ${(props: any) => props.step > 0 ? css`
+            background-color: ${Colors.orange};
+            span{
+                color: ${Colors.orange};
+            }
+        `: css`
+            background-color: ${Colors.green};
+            span{
+                color: ${Colors.green3};
+            }
+        `}
     }
     .snircs_title{
         font-size:${Texts.size.normal};
-        line-height: ${Texts.size.large};
-        color: ${Colors.orange};
+        line-height: ${Texts.size.larger};
         text-transform:uppercase;
         text-align:center;
+        ${(props: any) => props.step > 0 ?
+            css`color: ${Colors.orange};` 
+            :
+            css`color: ${Colors.green3};`
+        }
     }
 `)
 const Snircs2 = memo(styled.div`
@@ -314,21 +390,21 @@ const Snircs2 = memo(styled.div`
             span{
                 color: ${Colors.green3}
             }
-        `}
+        `};
     }
     .snircs_title{
         font-size:${Texts.size.normal};
-        line-height: ${Texts.size.large};
+        line-height: ${Texts.size.larger};
         text-transform:uppercase;
         text-align:center;
         ${(props: any) => props.step > 1 ?
         css`
-            color: ${Colors.orange};
-        `:
+                color: ${Colors.orange};
+            `:
         css`
-            color: ${Colors.green3};
-        `
-    }
+                color: ${Colors.green3};
+            `
+    };
     }
 `)
 const Snircs3 = memo(styled.div`
@@ -348,7 +424,7 @@ const Snircs3 = memo(styled.div`
     }
     .snircs_title{
         font-size:${Texts.size.normal};
-        line-height: ${Texts.size.large};
+        line-height: ${Texts.size.larger};
         text-transform:uppercase;
         text-align:center;
         ${(props: any) => props.step === 3 ?
@@ -362,24 +438,24 @@ const Snircs3 = memo(styled.div`
     }
 `)
 const SnircsDivider1 = memo(styled.div`
-    width: 50px;
+    width: 30px;
     height: 5px;
     ${(props: any) => props.step > 1 ?
         css`background-color: ${Colors.orange};`
         :
         css`background-color: ${Colors.green3};`
     };
-    margin: 0 20px 10px 20px;
+    margin: 0 2% 10px 2%;
 `)
 const SnircsDivider2 = memo(styled.div`
-    width: 50px;
+    width: 30px;
     height: 5px;
     ${(props: any) => props.step === 3 ?
         css`background-color: ${Colors.orange};`
         :
         css`background-color: ${Colors.green3};`
     };
-    margin: 0 20px 10px 20px;
+    margin: 0 2% 10px 2%;
 `)
 
 

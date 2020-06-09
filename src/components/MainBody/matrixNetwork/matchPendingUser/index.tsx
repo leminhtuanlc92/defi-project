@@ -5,11 +5,14 @@ import Texts from "../../../../constants/Texts";
 import Select from "../../../../components/common/core/Select";
 import i18n from "i18n-js";
 import { TronContract } from "../../../../contexts/tronWeb";
+import MergePop from '../mergePop'
 export default () => {
   const { matrixMember, address, member, userData } = useContext(TronContract);
-  const [listUser, setUserList] = useState([
-    { username: "fff", address: "sdfjhsk" },
-  ] as any);
+  const [listUser, setUserList] = useState([] as any);
+  const [selectPending, setSelectPending] = useState({ title: '', value: '' })
+  const [userInput, setUserInput] = useState('')
+  const [userEmptyNode, setUserEmptyNode] = useState({ username: '', address: '', level: '' })
+  const [showPop, setShowPop] = useState(false)
   const getNode = async (_startUser) => {
     let result = await matrixMember.getNode(_startUser).call();
     console.log(result);
@@ -18,7 +21,7 @@ export default () => {
   const getNodeInfo = async (_address) => {
     const [username, level] = await Promise.all([
       member.getUsername(_address).call(),
-      userData.getLevel(_address),
+      userData.getLevel(_address).call()
     ]);
     return {
       username,
@@ -26,14 +29,18 @@ export default () => {
       address: _address,
     };
   };
+  const gatherInfo = () => {
+    let data = getNodeInfo(userInput)
+    console.log('data', data)
+  }
   const getListPending = async () => {
     let result = await matrixMember.getPendingList(address).call();
     let users = [] as any;
     for (let i = 0; i < result.length; i++) {
       let username = await member.getUsername(result[i]);
       users.push({
-        username,
-        address: result[i],
+        title: username,
+        value: result[i],
       });
     }
     setUserList(users);
@@ -59,11 +66,9 @@ export default () => {
       value: listUser[i].address,
     });
   }
-  useEffect(()=>{
+  useEffect(() => {
     getListPending()
-  },[])
-  // console.log('listUser', listUser)
-  const [emptyNode, setEmptyNode] = useState("");
+  }, [])
   return (
     <MatchPendingUserWrap>
       <div id="match_pending_inner">
@@ -71,8 +76,8 @@ export default () => {
         <div id="mpi_list_user">
           <span id="mpilu_title">{i18n.t("pendingUserList")}</span>
           <Select
-            listSelect={dataSelect}
-            action={() => {}}
+            listSelect={listUser}
+            action={setSelectPending}
             defaultSelect={i18n.t("selectUserPending")}
           />
         </div>
@@ -80,13 +85,40 @@ export default () => {
           <span id="mpilen_title">{i18n.t("userEmptyNode")}</span>
           <div id="mpilen_input">
             <div id="mpileni_textbox">
-              <input onChange={(e) => setEmptyNode(e.target.value)} />
+              <input onChange={(e) => setUserInput(e.target.value)} />
             </div>
-            <button onClick={() => {}}>{i18n.t("confirm")}</button>
+            <button disabled={!(userInput !== '')}
+              onClick={() => userInput !== '' && gatherInfo()}>
+              {i18n.t("confirm")}
+            </button>
           </div>
+          {userEmptyNode.address !== '' ?
+            <div id="mpilen_gathered_data">
+              <div className="mpilengd_item">
+                <span>{i18n.t('username')}:</span>
+                <span>10</span>
+              </div>
+              <div className="mpilengd_item">
+                <span>{i18n.t('address')}:</span>
+                <span>10</span>
+              </div>
+              <div className="mpilengd_item">
+                <span>{i18n.t('level')}:</span>
+                <span>10</span>
+              </div>
+            </div>
+            : null}
+
         </div>
-        <button onClick={() => {}}>{i18n.t("match")}</button>
+        <button disabled={!(userEmptyNode.address !== '' && selectPending.value !== '')}
+          onClick={() => mergeNode(userEmptyNode, selectPending.value)}>
+          {i18n.t("match")}
+        </button>
       </div>
+      {showPop ?
+        <MergePop showPop={showPop} setShowPop={setShowPop} type="success" />
+        : null
+      }
     </MatchPendingUserWrap>
   );
 };
@@ -146,6 +178,28 @@ const MatchPendingUserWrap = memo(styled.div`
           padding: 10px 20px;
           border-top-left-radius: 0px;
           border-bottom-left-radius: 0px;
+        }
+      }
+      #mpilen_gathered_data{
+        flex:1;
+        margin-top:10px;
+        flex-direction:column;
+        .mpilengd_item{
+          span{
+            font-size: ${Texts.size.normal};
+            line-height: ${Texts.size.normal};
+            color: ${Colors.black1};
+            font-style:italic;
+            margin-bottom:5px;
+            &:first-child{
+              flex:0.2;
+              flex-wrap:wrap;
+            }
+            &:nth-child(2){
+              flex:0.8;
+              flex-wrap:wrap;
+            }
+          }
         }
       }
     }
