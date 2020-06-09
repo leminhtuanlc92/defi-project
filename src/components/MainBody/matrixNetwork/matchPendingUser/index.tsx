@@ -6,6 +6,7 @@ import Select from "../../../../components/common/core/Select";
 import i18n from "i18n-js";
 import { TronContract } from "../../../../contexts/tronWeb";
 import MergePop from '../mergePop'
+import WAValidator from 'multicoin-address-validator'
 export default () => {
   const { matrixMember, address, member, userData } = useContext(TronContract);
   const [listUser, setUserList] = useState([] as any);
@@ -13,6 +14,12 @@ export default () => {
   const [userInput, setUserInput] = useState('')
   const [userEmptyNode, setUserEmptyNode] = useState({ username: '', address: '', level: '' })
   const [showPop, setShowPop] = useState(false)
+  const [validAddress, setValidAddress] = useState(false)
+  const validate = () => {
+    let valid = WAValidator.validate(userInput, "trx")
+    setValidAddress(valid)
+  }
+
   const getNode = async (_startUser) => {
     let result = await matrixMember.getNode(_startUser).call();
     console.log(result);
@@ -69,8 +76,9 @@ export default () => {
   useEffect(() => {
     getListPending()
   }, [])
+  console.log('validAddress', validAddress)
   return (
-    <MatchPendingUserWrap>
+    <MatchPendingUserWrap validAddress={validAddress} userInput={userInput}>
       <div id="match_pending_inner">
         <span id="mpi_title">{i18n.t("matchPendingToEmptyNode")}</span>
         <div id="mpi_list_user">
@@ -85,7 +93,7 @@ export default () => {
           <span id="mpilen_title">{i18n.t("userEmptyNode")}</span>
           <div id="mpilen_input">
             <div id="mpileni_textbox">
-              <input onChange={(e) => setUserInput(e.target.value)} />
+              <input onChange={(e) => setUserInput(e.target.value)} onBlur={() => validate()} />
             </div>
             <button disabled={!(userInput !== '')}
               onClick={() => userInput !== '' && gatherInfo()}>
@@ -110,7 +118,7 @@ export default () => {
             : null}
 
         </div>
-        <button disabled={!(userEmptyNode.address !== '' && selectPending.value !== '')}
+        <button disabled={!(userEmptyNode.address !== '' && selectPending.value !== '' && validAddress)}
           onClick={() => mergeNode(userEmptyNode, selectPending.value)}>
           {i18n.t("match")}
         </button>
@@ -168,7 +176,14 @@ const MatchPendingUserWrap = memo(styled.div`
           input {
             flex: 1;
             padding: 0 10px;
-            border: solid 1px ${Colors.black};
+            ${(props: any) => props.userInput === '' ?
+              css`border: solid 1px ${Colors.black};`
+              :
+              props.validAddress?
+                css`border: solid 1px ${Colors.black};`
+              :
+                css`border: solid 1px ${Colors.red};`
+            };
             border-top-left-radius: 5px;
             border-bottom-left-radius: 5px;
             border-right: none;

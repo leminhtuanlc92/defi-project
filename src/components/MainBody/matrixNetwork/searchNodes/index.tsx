@@ -6,6 +6,7 @@ import i18n from 'i18n-js'
 import Select from '../../../../components/common/core/Select'
 import { TronContract } from "../../../../contexts/tronWeb";
 import MergePop from "../mergePop";
+import WAValidator from 'multicoin-address-validator'
 const closeImg = require('../../../../assets/images/close.png')
 const checkImg = require('../../../../assets/images/ic-green-check.png')
 const upgradeSuccess = require('../../../../assets/images/upgrade-successful.svg')
@@ -18,6 +19,11 @@ export default () => {
     const [userInput, setUserInput] = useState('')
     const [userEmptyNode, setUserEmptyNode] = useState({ username: '', address: '', level: '' })
     const [showPop, setShowPop] = useState(false)
+    const [validAddress, setValidAddress] = useState(false)
+    const validate = () => {
+        let valid = WAValidator.validate(userInput, "trx")
+        setValidAddress(valid)
+    }
     const getNode = async (_startUser) => {
         let result = await matrixMember.getNode(_startUser).call();
         console.log(result);
@@ -36,7 +42,7 @@ export default () => {
     };
     const gatherInfo = () => {
         let data = getNodeInfo(userInput)
-        console.log('data', data)
+        // console.log('data', data)
         setStep(1)
     }
     const getListPending = async () => {
@@ -59,14 +65,14 @@ export default () => {
         });
     };
     return (
-        <SearchNodesWrap>
+        <SearchNodesWrap validAddress={validAddress} userInput={userInput}>
             <span id="search_node_title">{i18n.t('searchEmptyNode')}</span>
             <span id="search_node_quote">{i18n.t('searchEmptyNodeQuote')}</span>
             <div id="sn_input">
                 <div id="sni_textbox">
-                    <input onChange={(e) => setUserInput(e.target.value)} />
+                    <input onChange={(e) => setUserInput(e.target.value)} onBlur={() => validate()} />
                 </div>
-                <button disabled={!(userInput !== '')}
+                <button disabled={!(userInput !== '' && validAddress)}
                     onClick={() => {
                         if (userInput !== '') {
                             gatherInfo()
@@ -199,7 +205,12 @@ const SearchNodesWrap = memo(styled.div`
             input{
                 flex:1;
                 padding:0 10px;
-                border:solid 1px ${Colors.black};
+                ${(props: any) => props.userInput === '' ?
+                    css`border: solid 1px ${Colors.black};`:
+                    props.validAddress ?
+                        css`border: solid 1px ${Colors.black};`:
+                        css`border: solid 1px ${Colors.red};`
+                };
                 border-top-left-radius: 5px;
                 border-bottom-left-radius: 5px;
                 border-right:none;
@@ -371,10 +382,10 @@ const Snircs1 = memo(styled.div`
         text-transform:uppercase;
         text-align:center;
         ${(props: any) => props.step > 0 ?
-            css`color: ${Colors.orange};` 
-            :
-            css`color: ${Colors.green3};`
-        }
+        css`color: ${Colors.orange};`
+        :
+        css`color: ${Colors.green3};`
+    }
     }
 `)
 const Snircs2 = memo(styled.div`

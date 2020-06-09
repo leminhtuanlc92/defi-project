@@ -9,11 +9,9 @@ import Pagination from "../../../components/common/core/Pagination";
 import Loading from "../../../components/common/loading";
 import SearchResult from "./searchResult";
 interface PartnerSearchListProps {
-  startUser: string;
-  level: number;
-  searchUser: string;
+  data:any
 }
-export default ({ startUser, level, searchUser }: PartnerSearchListProps) => {
+export default ({ data }: PartnerSearchListProps) => {
   return (
     <PartnerSearchListWrap>
       <div id="partner_search_list_header">
@@ -45,9 +43,7 @@ export default ({ startUser, level, searchUser }: PartnerSearchListProps) => {
               render={(props) => (
                 <SearchResult
                   {...props}
-                  startUser={startUser}
-                  level={level}
-                  searchUser={searchUser}
+                  data={data}
                 />
               )}
             />

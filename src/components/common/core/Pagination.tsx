@@ -8,14 +8,15 @@ interface PaginationProps {
     currentPage: number;
     url: string;
     totalPage: number;
-    size: number
+    size: number;
+    setPage: any
 }
 
-const Pagination = ({ currentPage, url, totalPage, size }: PaginationProps) => {
+const Pagination = ({ currentPage, url, totalPage, size, setPage }: PaginationProps) => {
     return (
         <PaginationWrap size={size}>
             {currentPage > 1 ?
-                <Link className="button" to={`${url}/${currentPage - 1}`}>
+                <Link className="button" to={`${url}/${currentPage - 1}`} onClick={() => setPage(currentPage - 1)}>
                     <span className="prev"><img src={arrowImg} alt="" /></span>
                 </Link>
                 :
@@ -23,7 +24,7 @@ const Pagination = ({ currentPage, url, totalPage, size }: PaginationProps) => {
             }
             {currentPage > 3 ?
                 <Fragment>
-                    <Link className="item" to={`${url}`}>
+                    <Link className="item" to={`${url}`} onClick={() => setPage(1)}>
                         <span>1</span>
                     </Link>
                     {
@@ -38,7 +39,7 @@ const Pagination = ({ currentPage, url, totalPage, size }: PaginationProps) => {
             }
             {
                 currentPage - 3 > -1 ?
-                    <Link className="item" to={`${url}/${currentPage - 2}`}>
+                    <Link className="item" to={`${url}/${currentPage - 2}`} onClick={() => setPage(currentPage - 2)}>
                         <span>{currentPage - 2}</span>
                     </Link>
                     :
@@ -46,7 +47,7 @@ const Pagination = ({ currentPage, url, totalPage, size }: PaginationProps) => {
             }
             {
                 currentPage - 2 > -1 ?
-                    <Link className="item" to={`${url}/${currentPage - 1}`}>
+                    <Link className="item" to={`${url}/${currentPage - 1}`} onClick={() => setPage(currentPage - 1)}>
                         <span>{currentPage - 1}</span>
                     </Link>
                     :
@@ -58,14 +59,14 @@ const Pagination = ({ currentPage, url, totalPage, size }: PaginationProps) => {
             </div>
 
             {totalPage - currentPage > 0 ?
-                <Link className="item" to={`${url}/${currentPage + 1}`}>
+                <Link className="item" to={`${url}/${currentPage + 1}`} onClick={() => setPage(currentPage + 1)}>
                     <span>{currentPage + 1}</span>
                 </Link>
                 :
                 ''
             }
             {totalPage - currentPage > 1 ?
-                <Link className="item" to={`${url}/${currentPage + 2}`}>
+                <Link className="item" to={`${url}/${currentPage + 2}`} onClick={() => setPage(currentPage + 2)}>
                     <span>{currentPage + 2}</span>
                 </Link>
                 :
@@ -77,7 +78,7 @@ const Pagination = ({ currentPage, url, totalPage, size }: PaginationProps) => {
                         <span className="item">...</span>
                         :
                         ''}
-                    <Link className="item" to={`${url}/${totalPage}`}>
+                    <Link className="item" to={`${url}/${totalPage}`} onClick={() => setPage(totalPage)}>
                         <span>{totalPage}</span>
                     </Link>
                 </Fragment>
@@ -85,7 +86,7 @@ const Pagination = ({ currentPage, url, totalPage, size }: PaginationProps) => {
                 ''
             }
             {totalPage - currentPage > 0 ?
-                <Link className="button" to={`${url}/${currentPage + 1}`}>
+                <Link className="button" to={`${url}/${currentPage + 1}`} onClick={() => setPage(currentPage + 1)}>
                     <span className="next"><img src={arrowImg} alt="" /></span>
                 </Link>
                 :

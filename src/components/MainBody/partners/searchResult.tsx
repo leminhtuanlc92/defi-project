@@ -4,39 +4,12 @@ import Colors from "../../../constants/Colors";
 import Texts from "../../../constants/Texts";
 import i18n from "i18n-js";
 import ResultItem from "./resultItem";
-import { TronContract } from "../../../contexts/tronWeb";
+
 interface SearchResultProps {
-  startUser: string;
-  level: number;
-  searchUser: string;
+  data:any
 }
-export default ({ startUser, level, searchUser }: SearchResultProps) => {
-  const { matrixMember, member, userData } = useContext(TronContract);
-  const getPartners = async (_startUser, _level, _size, _page) => {
-    let result = await matrixMember
-      .getBranch(_startUser, _level, _size, _page * _size)
-      .call();
-    let partnersList = [] as any;
-    for (let i = 0; i < result.list.length; i++) {
-      const [partner, username, level] = await Promise.all([
-        matrixMember.getNode(result.list[i]).call(),
-        member.getUsername(result.list[i]).call(),
-        userData.getLevel(result.list[i]).call(),
-      ]);
-      partnersList.push({
-        username,
-        level,
-        address: result.list[i],
-        sponsor: partner.sponsor,
-        parent: partner.parent,
-        numberF1: partner.F1.filter((item) => item !== "").length,
-      });
-    }
-    return {
-      partnersList,
-      total: result.total,
-    };
-  };
+export default ({ data }: SearchResultProps) => {
+  
   const searchData = [
     {
       id: 1,
@@ -83,26 +56,26 @@ export default ({ startUser, level, searchUser }: SearchResultProps) => {
     <SearchResultWrap>
       {searchData.length > 0 ? (
         <Fragment>
-          {searchData.map((item, index) => {
+          {data.partnersList.map((item, index) => {
             return (
               <ResultItem
                 key={index}
-                id={item.id}
+                id={index}
                 username={item.username}
                 address={item.address}
                 level={item.level}
                 sponsor={item.sponsor}
-                partners={item.partners}
+                partners={item.numberF1}
                 lastItem={index === searchData.length - 1}
               />
             );
           })}
         </Fragment>
       ) : (
-        <div id="sr_empty_list">
-          <span>{i18n.t("noResult")}</span>
-        </div>
-      )}
+          <div id="sr_empty_list">
+            <span>{i18n.t("noResult")}</span>
+          </div>
+        )}
     </SearchResultWrap>
   );
 };

@@ -6,11 +6,52 @@ import i18n from "i18n-js";
 import Pagination from "../../../components/common/core/Pagination";
 import PartnerSearchList from "./partnerSearchList";
 import { TronContract } from "../../../contexts/tronWeb";
+import WAValidator from 'multicoin-address-validator'
 export default () => {
   const { address } = useContext(TronContract);
   const [startUser, setStartUser] = useState(address);
-  const [level, setLevel] = useState(0);
-  const [searchUser, setSearchUser] = useState(address);
+  const [level, setLevel] = useState('');
+  const [page, setPage] = useState(1)
+  const { matrixMember, member, userData } = useContext(TronContract);
+  const [validAddress, setValidAddress] = useState(false)
+  const [data, setData] = useState({
+    total: 0,
+    partnersList: []
+  })
+  const validate = () => {
+    let valid = WAValidator.validate(startUser, "trx")
+    setValidAddress(valid)
+  }
+  const getPartners = async (_startUser, _level, _size, _page) => {
+    let result = await matrixMember
+      .getBranch(_startUser, _level, _size, _page * _size)
+      .call();
+    let partnersList = [] as any;
+    for (let i = 0; i < result.list.length; i++) {
+      const [partner, username, level] = await Promise.all([
+        matrixMember.getNode(result.list[i]).call(),
+        member.getUsername(result.list[i]).call(),
+        userData.getLevel(result.list[i]).call(),
+      ]);
+      partnersList.push({
+        username,
+        level,
+        address: result.list[i],
+        sponsor: partner.sponsor,
+        parent: partner.parent,
+        numberF1: partner.F1.filter((item) => item !== "").length,
+      });
+    }
+    setData({
+      total: result.total,
+      partnersList
+    })
+    return {
+      partnersList,
+      total: result.total,
+    };
+  };
+  // console.log('data',data)
   return (
     <PartnerskWrap>
       <span id="partner_main_title">{i18n.t("partners")}</span>
@@ -24,24 +65,25 @@ export default () => {
                 <input
                   defaultValue={startUser}
                   onChange={(e) => setStartUser(e.target.value)}
+                  onBlur={() => validate()}
                   placeholder={i18n.t("username")}
                 />
               </div>
               <div className="pmf1l_block">
                 <span className="pmf_label">{i18n.t("inputSearchLevel")}:</span>
                 <input
-                  onChange={(e) => setLevel(Number(e.target.value))}
+                  onChange={(e) => setLevel(e.target.value)}
                   placeholder={i18n.t("level")}
                 />
               </div>
             </div>
             <div id="pmf1_right">
               <div className="pmfr_action">
-                <button>{i18n.t("filterV")}</button>
+                <button disabled={!(level !== '' && ((startUser !== address && validAddress) || startUser === address))} onClick={() => getPartners(startUser, +level, 8, +page)}>{i18n.t("filterV")}</button>
               </div>
             </div>
           </div>
-          <div id="pmf_2">
+          {/* <div id="pmf_2">
             <div id="pmf2_left">
               <div id="pmf2l_block">
                 <span className="pmf_label">
@@ -58,22 +100,24 @@ export default () => {
                 <button>{i18n.t("filterV")}</button>
               </div>
             </div>
-          </div>
+          </div> */}
         </div>
         <div id="pm_filter_result">
           <PartnerSearchList
-            startUser={startUser}
-            level={level}
-            searchUser={searchUser}
+            data={data}
           />
-          <div id="pmfr_pagination_wrap">
-            <Pagination
-              currentPage={2}
-              totalPage={12}
-              size={5}
-              url="/partners"
-            />
-          </div>
+          {data.partnersList.length > 0 ?
+            <div id="pmfr_pagination_wrap">
+              <Pagination
+                currentPage={page}
+                totalPage={1}
+                size={8}
+                url="/partners"
+                setPage={setPage}
+              />
+            </div>
+            : null
+          }
         </div>
       </div>
     </PartnerskWrap>
@@ -99,7 +143,7 @@ const PartnerskWrap = memo(styled.div`
     border-radius: 10px;
     #pm_filter_result {
       flex: 1;
-      flex-grow: 2;
+      flex-grow: 4;
       flex-direction: column;
       #pmfr_pagination_wrap {
         /* width:300px;
@@ -120,7 +164,6 @@ const PartnerskWrap = memo(styled.div`
       #pmf_1 {
         align-items: flex-end;
         justify-content: space-between;
-        margin-bottom: 30px;
         #pmf1_left {
           flex: 0.6;
           justify-content: space-between;

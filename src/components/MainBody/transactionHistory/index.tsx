@@ -12,6 +12,7 @@ import { TronContract } from "../../../contexts/tronWeb";
 import axios from "axios";
 export default () => {
   const { address } = useContext(TronContract);
+  const [page, setPage] = useState(1)
   const getTransaction = async () => {
     let result = await axios.get(
       `https://api.trongrid.io/v1/accounts/${address}/transactions?only_from=true&limit=100`
@@ -90,7 +91,7 @@ export default () => {
             </Switch>
           </Router>
         </div>
-        <Pagination currentPage={1} totalPage={5} size={5} url="/history" />
+        <Pagination currentPage={page} totalPage={5} size={5} url="/history" setPage={setPage}/>
       </div>
     </TransactionHistoryWrap>
   );
