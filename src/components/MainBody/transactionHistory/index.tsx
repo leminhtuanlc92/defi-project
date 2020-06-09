@@ -1,4 +1,4 @@
-import React, { memo, Suspense, useContext, useEffect } from "react";
+import React, { memo, Suspense, useContext, useEffect, useState } from "react";
 import styled, { css } from "styled-components/macro";
 import Colors from "../../../constants/Colors";
 import Texts from "../../../constants/Texts";
@@ -21,40 +21,41 @@ export default () => {
   useEffect(() => {
     getTransaction();
   }, [address]);
-  const data = [
-    {
-      time: 1591351464,
-      username: "Dung do te",
-      address: "0x5ac6hd3kuf9uo10ce9vkndln3rd10ce5ac6hd3kuf9uo10ce9",
-      amount: 0.5,
-      currency: "eth",
-      tx: "0x887682f1cd8baff433ddc4fd009491228",
-    },
-    {
-      time: 1591351464,
-      username: "Dung do te",
-      address: "0x5ac6hd3kuf9uo10ce9vkndln3rd10ce5ac6hd3kuf9uo10ce9",
-      amount: 0.5,
-      currency: "eth",
-      tx: "0x887682f1cd8baff433ddc4fd009491228",
-    },
-    {
-      time: 1591351464,
-      username: "Dung do te",
-      address: "0x5ac6hd3kuf9uo10ce9vkndln3rd10ce5ac6hd3kuf9uo10ce9",
-      amount: 0.5,
-      currency: "eth",
-      tx: "0x887682f1cd8baff433ddc4fd009491228",
-    },
-    {
-      time: 1591351464,
-      username: "Dung do te",
-      address: "0x5ac6hd3kuf9uo10ce9vkndln3rd10ce5ac6hd3kuf9uo10ce9",
-      amount: 0.5,
-      currency: "eth",
-      tx: "0x887682f1cd8baff433ddc4fd009491228",
-    },
-  ];
+  // const data = [
+  //   {
+  //     time: 1591351464,
+  //     username: "Dung do te",
+  //     address: "0x5ac6hd3kuf9uo10ce9vkndln3rd10ce5ac6hd3kuf9uo10ce9",
+  //     amount: 0.5,
+  //     currency: "eth",
+  //     tx: "0x887682f1cd8baff433ddc4fd009491228",
+  //   },
+  //   {
+  //     time: 1591351464,
+  //     username: "Dung do te",
+  //     address: "0x5ac6hd3kuf9uo10ce9vkndln3rd10ce5ac6hd3kuf9uo10ce9",
+  //     amount: 0.5,
+  //     currency: "eth",
+  //     tx: "0x887682f1cd8baff433ddc4fd009491228",
+  //   },
+  //   {
+  //     time: 1591351464,
+  //     username: "Dung do te",
+  //     address: "0x5ac6hd3kuf9uo10ce9vkndln3rd10ce5ac6hd3kuf9uo10ce9",
+  //     amount: 0.5,
+  //     currency: "eth",
+  //     tx: "0x887682f1cd8baff433ddc4fd009491228",
+  //   },
+  //   {
+  //     time: 1591351464,
+  //     username: "Dung do te",
+  //     address: "0x5ac6hd3kuf9uo10ce9vkndln3rd10ce5ac6hd3kuf9uo10ce9",
+  //     amount: 0.5,
+  //     currency: "eth",
+  //     tx: "0x887682f1cd8baff433ddc4fd009491228",
+  //   },
+  // ];
+  const [historyTxs, setHistoryTxs] = useState([]);
   return (
     <TransactionHistoryWrap>
       <span id="transaction_main_title">{i18n.t("transactionHistory")}</span>
@@ -82,7 +83,9 @@ export default () => {
             <Switch>
               <Route
                 path="/transaction-history"
-                render={(props) => <TransactionTable {...props} data={data} />}
+                render={(props) => (
+                  <TransactionTable {...props} data={historyTxs} />
+                )}
               />
             </Switch>
           </Router>
