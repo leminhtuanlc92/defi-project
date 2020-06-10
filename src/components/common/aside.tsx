@@ -10,6 +10,7 @@ const logoImg = require('../../assets/images/logo-defi-white.svg')
 const iconLogo = require('../../assets/images/icon-defi-white.svg')
 const toggleMenuImg = require('../../assets/images/open-menu.svg')
 export default () => {
+  let mount = true
   let currentPath = useLocation();
   const { siteState, toggleAside } = useContext(SiteContext);
   const [showDropMenu, setShowDropMenu] = useState(false)
@@ -57,12 +58,11 @@ export default () => {
       imgActive: require("../../assets/images/ic-logout-active.svg"),
     },
   ];
+  let check = (window as any).innerHeight
   useEffect(() => {
-    let check = (window as any).innerHeight
-    if (check < 992) {
-      toggleAside(true)
-    }
+    
   }, [])
+  console.log('siteState.aside', check)
   return (
     <AsideWrap aside={siteState.aside}>
       <Logo aside={siteState.aside}>
@@ -107,7 +107,7 @@ export default () => {
                       }}
                       alt=""
                     />
-                    {siteState.aside || (window as any).innerHeight < 992 ? <span>{i18n.t(item.name)}</span> : null}
+                    {siteState.aside ? <span>{i18n.t(item.name)}</span> : null}
                   </MenuItemWrapper>
                 </Link>
               </div>

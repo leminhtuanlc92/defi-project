@@ -79,10 +79,10 @@ export default ({ children }: any) => {
   const toggleAside = (aside: boolean) => {
     localStorage.setItem(
       "siteState",
-      JSON.stringify({ ...siteState, aside: !aside })
+      JSON.stringify({ ...siteState, aside })
     );
     dispatchSite({
-      aside: !aside,
+      aside: aside,
       type: "toggleAside",
     });
   };

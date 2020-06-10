@@ -21,7 +21,7 @@ export default () => {
           <MainContentWrap aside={aside}>
             <ToggleButton onClick={() => {
               console.log('here')
-              toggleAside(aside)
+              toggleAside(!aside)
             }}>
               <div>
                 {aside ? (
