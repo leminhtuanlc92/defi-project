@@ -38,7 +38,7 @@ export default () => {
     };
     checkApprove();
   }, []);
-  
+
   useEffect(() => {
     member
       .users(address)
@@ -55,19 +55,24 @@ export default () => {
     const regex = /^[a-z0-9]{2,}$/g;
     const found = _username.match(regex);
     if (found) {
-      let result = await member.setUsername(_username).send({
-        callValue: 0,
-        feeLimit: 1e7,
-        shouldPollResponse: true,
-      });
-      // console.log('result', result)
-      if (result) {
-        toast.success(i18n.t("signupUsernameSuccessful"), {
-          position: "top-center",
+      let valid = await validRef(_username);
+      if (valid) {
+        let result = await member.setUsername(_username).send({
+          callValue: 0,
+          feeLimit: 1e7,
+          shouldPollResponse: true,
         });
-        setShowPop(false);
+        // console.log('result', result)
+        if (result) {
+          toast.success(i18n.t("signupUsernameSuccessful"), {
+            position: "top-center",
+          });
+          setShowPop(false);
+        } else {
+          toast.error(i18n.t("signupUsernameFail"), { position: "top-center" });
+        }
       } else {
-        toast.error(i18n.t("signupUsernameFail"), { position: "top-center" });
+        toast.error(i18n.t("usernameexist"), { position: "top-center" });
       }
     } else {
       toast.error(i18n.t("usernameNotValid"), { position: "top-center" });
@@ -83,15 +88,12 @@ export default () => {
       <Suspense fallback={<Loading />}>
         <Switch>
           <Route exact path="/" component={DashBoard} />
-          {/* {approve ? */}
-          <Fragment>
-            <Route path="/sun-network" component={SunNetwork} />
-            <Route path="/matrix-network" component={MatrixNetwork} />
-            <Route path="/partners" component={Partners} />
-            <Route path="/transaction-history" component={Transactions} />
-            <Route path="/buy-dfc" component={BuyDFC} />
-            <Route path="/instructions" component={Instruction} />
-          </Fragment>
+          <Route path="/sun-network" component={SunNetwork} />
+          <Route path="/matrix-network" component={MatrixNetwork} />
+          <Route path="/partners" component={Partners} />
+          <Route path="/transaction-history" component={Transactions} />
+          <Route path="/buy-dfc" component={BuyDFC} />
+          {/* <Route path="/instructions" component={Instruction} /> */}
         </Switch>
       </Suspense>
       {showPop ? (

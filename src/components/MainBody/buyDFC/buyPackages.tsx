@@ -21,9 +21,8 @@ export default ({
   action,
 }: BuyPackagesProps) => {
   const [showPop, setShowPop] = useState(false);
-  console.log('currentStage', currentStage, stage)
   return (
-    <BuyPakagesBlock onSale={currentStage.stage === stage}>
+    <BuyPakagesBlock sale={currentStage.stage === stage}>
       <div id="buy_pakage_info">
         <div id="bpi_title">
           <span id="bpit_name">{i18n.t(name)}</span>
@@ -39,8 +38,8 @@ export default ({
               {stage < currentStage.stage
                 ? dfc
                 : stage === currentStage.stage
-                  ? dfc - currentStage.sold
-                  : 0}
+                ? currentStage.sold
+                : 0}
             </span>
           </div>
           <div id="bpim_third">
@@ -49,8 +48,8 @@ export default ({
               {stage < currentStage.stage
                 ? dfc
                 : stage === currentStage.stage
-                  ? dfc - currentStage.sold
-                  : dfc}
+                ? dfc - currentStage.sold
+                : dfc}
             </span>
           </div>
           <div id="bpim_fourth">
@@ -62,13 +61,11 @@ export default ({
             disabled={currentStage.stage !== stage}
             onClick={() => setShowPop(true)}
           >
-            {currentStage.stage === stage ?
-              i18n.t("buy") :
-              currentStage.stage > stage ?
-                i18n.t("soldOut")
-                :
-                i18n.t("saleAwait")
-            }
+            {currentStage.stage === stage
+              ? i18n.t("buy")
+              : currentStage.stage > stage
+              ? i18n.t("soldOut")
+              : i18n.t("saleAwait")}
           </button>
         </div>
       </div>
@@ -133,11 +130,14 @@ const BuyPakagesBlock = memo(styled.div`
     #bpim_button {
       width: 100%;
       border-radius: 5px;
-      ${(props: any) => props.onSale ?
-        css`background-color: ${Colors.green5};`
-        :
-        css`background-color: ${Colors.green4};`
-      }
+      ${(props: any) =>
+        props.sale
+          ? css`
+              background-color: ${Colors.green5};
+            `
+          : css`
+              background-color: ${Colors.green4};
+            `}
       box-shadow: none;
       color: ${Colors.white};
       font-size: ${Texts.size.large};

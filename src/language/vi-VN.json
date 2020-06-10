@@ -29,9 +29,9 @@
   "shareHolding": "Share nắm giữ",
   "personalInfo": "Thông tin cá nhân",
   "backOffice": "Back office",
-  "timeAvailable": "Time available",
-  "totalUser": "Total user",
-  "totalSlot": "Total slot",
+  "timeAvailable": "Hoạt động",
+  "totalUser": "Số thành viên",
+  "totalSlot": "Số chỗ",
   "reinvest": "Reinvest",
   "upgrade": "Nâng cấp",
   "upgradeAccount": "Nâng cấp tài khoản",
@@ -120,5 +120,7 @@
   "usernameNotValid": "Username không hợp lệ. Chỉ chấp nhận các ký tư a-z và 0-9.",
   "soldOut": "Bán hết",
   "saleAwait": "Đợi bán",
-  "selectLevel": "Lựa chọn cấp độ"
+  "selectLevel": "Lựa chọn cấp độ",
+  "usernameexist": "Username đã tồn tại, vui lòng chọn username khác.",
+  "notactive": "Chưa kích hoạt"
 }

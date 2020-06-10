@@ -7,38 +7,49 @@ import SunUserItem from "./sunUserItem";
 import { TronContract } from "../../../contexts/tronWeb";
 export default () => {
   const { member, userData, address } = useContext(TronContract);
+  const [isMember, setIsMember] = useState(false);
+  useEffect(() => {
+    member
+      .isMember(address)
+      .call()
+      .then((is) => {
+        setIsMember(is);
+      });
+  }, []);
   const [nodeData, setNodeData] = useState({
     user: {
-      parent: '',
+      parent: "",
       refs: [],
-      userId: ''
+      userId: "",
     },
-    level: 0
-  } as any)
+    level: 0,
+  } as any);
   const getUser = async (_userAddress) => {
-    let user = await member.getUser(_userAddress).call();
-    let level = await userData.getLevel(_userAddress).call();
+    const [user, level] = await Promise.all([
+      member.getUser(_userAddress).call(),
+      userData.getLevel(_userAddress).call(),
+    ]);
     setNodeData({
       user: {
         parent: address,
         refs: user.refs,
-        userId: user.userId
+        userId: user.userId,
       },
-      level
-    })
+      level,
+    });
   };
   useEffect(() => {
-    getUser(address)
-  }, [])
+    getUser(address);
+  }, []);
   return (
     <SunNetworkWrap>
       <span id="sunnetwork_main_title">{i18n.t("sunNetwork")}</span>
       <div id="sunnetwork_mainbody">
-        {nodeData.user.parent !== '' ?
-          <SunUserItem item={nodeData} topNode={true}/>
-          :
-          <span>{i18n.t('noData')}</span>
-        }
+        {isMember && nodeData.user.parent !== "" ? (
+          <SunUserItem item={nodeData} topNode={true} />
+        ) : (
+          <span>{i18n.t("noData")}</span>
+        )}
       </div>
     </SunNetworkWrap>
   );

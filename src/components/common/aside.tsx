@@ -6,14 +6,14 @@ import Texts from "../../constants/Texts";
 import { Link, useLocation } from "react-router-dom";
 import i18n from "i18n-js";
 const logoutImg = require("../../assets/images/ic-logout.svg");
-const logoImg = require('../../assets/images/logo-defi-white.svg')
-const iconLogo = require('../../assets/images/icon-defi-white.svg')
-const toggleMenuImg = require('../../assets/images/open-menu.svg')
+const logoImg = require("../../assets/images/logo-defi-white.svg");
+const iconLogo = require("../../assets/images/icon-defi-white.svg");
+const toggleMenuImg = require("../../assets/images/open-menu.svg");
 export default () => {
   let mount = true
   let currentPath = useLocation();
   const { siteState, toggleAside } = useContext(SiteContext);
-  const [showDropMenu, setShowDropMenu] = useState(false)
+  const [showDropMenu, setShowDropMenu] = useState(false);
   const listmenu = [
     {
       name: "dashboard",
@@ -51,22 +51,21 @@ export default () => {
       img: require("../../assets/images/ic-mua-dfc.svg"),
       imgActive: require("../../assets/images/ic-mua-dfc-active.svg"),
     },
-    {
-      name: "usageInstruction",
-      url: "/instructions",
-      img: require("../../assets/images/ic-logout.svg"),
-      imgActive: require("../../assets/images/ic-logout-active.svg"),
-    },
+    // {
+    //   name: "usageInstruction",
+    //   url: "/instructions",
+    //   img: require("../../assets/images/ic-logout.svg"),
+    //   imgActive: require("../../assets/images/ic-logout-active.svg"),
+    // },
   ];
-  let check = (window as any).innerHeight
-  useEffect(() => {
-    
-  }, [])
-  console.log('siteState.aside', check)
   return (
     <AsideWrap aside={siteState.aside}>
       <Logo aside={siteState.aside}>
-        {siteState.aside ? <img src={logoImg} alt="" /> : <img src={iconLogo} alt="" />}
+        {siteState.aside ? (
+          <img src={logoImg} alt="" />
+        ) : (
+          <img src={iconLogo} alt="" />
+        )}
       </Logo>
       <ToggleMenu onClick={() => setShowDropMenu(!showDropMenu)}>
         <img src={toggleMenuImg} alt="" />
@@ -93,13 +92,14 @@ export default () => {
                         item.url !== "/")
                     }
                   >
-                    <img src={
-                      item.url === currentPath.pathname ||
+                    <img
+                      src={
+                        item.url === currentPath.pathname ||
                         (currentPath.pathname.includes(item.url) &&
                           item.url !== "/")
-                        ? item.imgActive
-                        : item.img
-                    }
+                          ? item.imgActive
+                          : item.img
+                      }
                       style={{
                         marginRight: siteState.aside ? "20px" : 0,
                         objectFit: "contain",
@@ -148,44 +148,54 @@ export default () => {
   );
 };
 const AsideWrap = memo(styled.div`
-    flex: 1;
-    flex-direction: column;
-    justify-content: space-between;
-    background-color: ${Colors.green1};
-    padding: 20px 0;
-    height: calc(100% - 40px);
-    ${(props: any) => props.aside ? css`width: 20%;` : css`width: 70px;`}
-    @media (max-width:991px){
-      flex-direction:row;
-      height:40px;
-      width:100%;
-      padding:0;
-      position:relative;
-    }
+  flex: 1;
+  flex-direction: column;
+  justify-content: space-between;
+  background-color: ${Colors.green1};
+  padding: 20px 0;
+  height: calc(100% - 40px);
+  ${(props: any) =>
+    props.aside
+      ? css`
+          width: 20%;
+        `
+      : css`
+          width: 70px;
+        `}
+  @media (max-width:991px) {
+    flex-direction: row;
+    height: 40px;
+    width: 100%;
+    padding: 0;
+    position: relative;
+  }
 `);
 const ToggleMenu = memo(styled.div`
-  padding:10px;
-  align-items:center;
-  justify-content:center;
-  img{
-    max-width:30px;
+  padding: 10px;
+  align-items: center;
+  justify-content: center;
+  img {
+    max-width: 30px;
   }
-  @media (min-width:992px){
-    display:none;
+  @media (min-width: 992px) {
+    display: none;
   }
-`)
+`);
 const Logo = memo(styled.div`
   display: flex;
   justify-content: center;
-  img{
-    ${(props: any) => props.aside ?
-    css`max-width:120px;`
-    :
-    css`max-width:35px;`
+  img {
+    ${(props: any) =>
+      props.aside
+        ? css`
+            max-width: 120px;
+          `
+        : css`
+            max-width: 35px;
+          `}
   }
-  }
-  @media (max-width:991px){
-    flex:1;
+  @media (max-width: 991px) {
+    flex: 1;
   }
 `);
 
@@ -198,19 +208,22 @@ const MainMenu = memo(styled.div`
   #mainmenu-wrapper {
     flex-direction: column;
   }
-  @media (max-width:991px){
-    position:absolute;
-    top:100%;
-    left:0;
-    right:0;
-    width:100%;
-    margin:0;
-    z-index:2;
-    ${(props: any) => props.showDropMenu ?
-    css`display:flex`
-    :
-    css`display:none`
-  }
+  @media (max-width: 991px) {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    width: 100%;
+    margin: 0;
+    z-index: 2;
+    ${(props: any) =>
+      props.showDropMenu
+        ? css`
+            display: flex;
+          `
+        : css`
+            display: none;
+          `}
   }
 `);
 
@@ -219,7 +232,7 @@ const MenuItemWrapper = memo(styled.div`
   flex: 1;
   display: flex;
   padding: 20px;
-  align-items:center;
+  align-items: center;
   ${(props: any) =>
     props.aside
       ? css`
@@ -244,11 +257,11 @@ const MenuItemWrapper = memo(styled.div`
       color: ${Colors.black};
     }
   }
-  @media (max-width:991px){
-    background-color:${Colors.white};
+  @media (max-width: 991px) {
+    background-color: ${Colors.white};
     color: ${Colors.black};
-    img{
-      display:none;
+    img {
+      display: none;
     }
   }
 `);

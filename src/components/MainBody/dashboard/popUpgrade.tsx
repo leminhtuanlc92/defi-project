@@ -77,7 +77,6 @@ export default ({ showPop, setShowPop }: PopUpgradeProps) => {
       feeLimit: 1e7,
       shouldPollResponse: true,
     });
-    console.log(result);
   };
 
   const handleConfirm = () => {

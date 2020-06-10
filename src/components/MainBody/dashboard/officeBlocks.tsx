@@ -36,7 +36,9 @@ export default ({ item }: OfficeBlockProps) => {
               {i18n.t("timeAvailable")}
             </span>
             <span className="office-content-value">
-              {moment(item.time).format("DD/MM/YYYY")}
+              {item.time === 0
+                ? i18n.t("notactive")
+                : moment(item.time).format("DD/MM/YYYY")}
             </span>
           </div>
           <div id="office-second-main">

@@ -6,26 +6,29 @@ import i18n from "i18n-js";
 import Pagination from "../../../components/common/core/Pagination";
 import PartnerSearchList from "./partnerSearchList";
 import { TronContract } from "../../../contexts/tronWeb";
-import WAValidator from 'multicoin-address-validator'
-import Select from '../../common/core/Select'
+import WAValidator from "multicoin-address-validator";
+import Select from "../../common/core/Select";
 export default () => {
   const { address } = useContext(TronContract);
   const [startUser, setStartUser] = useState(address);
-  const [level, setLevel] = useState({ title: `${i18n.t('level')} 1`, value:'1' });
-  const [page, setPage] = useState(1)
+  const [level, setLevel] = useState({
+    title: `${i18n.t("level")} 1`,
+    value: "1",
+  });
+  const [page, setPage] = useState(1);
   const { matrixMember, member, userData } = useContext(TronContract);
-  const [validAddress, setValidAddress] = useState(false)
+  const [validAddress, setValidAddress] = useState(false);
   const [data, setData] = useState({
     total: 0,
-    partnersList: []
-  })
+    partnersList: [],
+  });
   const validate = () => {
-    let valid = WAValidator.validate(startUser, "trx")
-    setValidAddress(valid)
-  }
+    let valid = WAValidator.validate(startUser, "trx");
+    setValidAddress(valid);
+  };
   const getPartners = async (_startUser, _level, _size, _page) => {
     let result = await matrixMember
-      .getBranch(_startUser, _level, _size, _page * _size)
+      .getBranch(_startUser, _level, _size, (_page - 1) * _size)
       .call();
     let partnersList = [] as any;
     for (let i = 0; i < result.list.length; i++) {
@@ -45,8 +48,8 @@ export default () => {
     }
     setData({
       total: result.total,
-      partnersList
-    })
+      partnersList,
+    });
     return {
       partnersList,
       total: result.total,
@@ -54,7 +57,11 @@ export default () => {
   };
   // console.log('data',data)
   return (
-    <PartnerskWrap validAddress={validAddress} startUser={startUser} address={address}>
+    <PartnerskWrap
+      validAddress={validAddress}
+      startUser={startUser}
+      address={address}
+    >
       <span id="partner_main_title">{i18n.t("partners")}</span>
       <div id="partner_mainbody">
         <div id="pm_filter">
@@ -74,14 +81,14 @@ export default () => {
                 <span className="pmf_label">{i18n.t("inputSearchLevel")}:</span>
                 <Select
                   listSelect={[
-                    { title: `${i18n.t('level')} 1`, value:'1' },
-                    { title: `${i18n.t('level')} 2`, value:'2' },
-                    { title: `${i18n.t('level')} 3`, value:'3' },
-                    { title: `${i18n.t('level')} 4`, value:'4' },
-                    { title: `${i18n.t('level')} 5`, value:'5' },
-                    { title: `${i18n.t('level')} 6`, value:'6' },
-                    { title: `${i18n.t('level')} 7`, value:'7' },
-                    { title: `${i18n.t('level')} 8`, value:'8' }
+                    { title: `${i18n.t("level")} 1`, value: "1" },
+                    { title: `${i18n.t("level")} 2`, value: "2" },
+                    { title: `${i18n.t("level")} 3`, value: "3" },
+                    { title: `${i18n.t("level")} 4`, value: "4" },
+                    { title: `${i18n.t("level")} 5`, value: "5" },
+                    { title: `${i18n.t("level")} 6`, value: "6" },
+                    { title: `${i18n.t("level")} 7`, value: "7" },
+                    { title: `${i18n.t("level")} 8`, value: "8" },
                   ]}
                   currentSelect={level}
                   action={setLevel}
@@ -91,7 +98,19 @@ export default () => {
             </div>
             <div id="pmf1_right">
               <div className="pmfr_action">
-                <button disabled={!((startUser !== address && validAddress) || startUser === address)} onClick={() => getPartners(startUser, +level, 8, +page)}>{i18n.t("filterV")}</button>
+                <button
+                  disabled={
+                    !(
+                      (startUser !== address && validAddress) ||
+                      startUser === address
+                    )
+                  }
+                  onClick={() =>
+                    getPartners(startUser, +level.value, 10, +page)
+                  }
+                >
+                  {i18n.t("filterV")}
+                </button>
               </div>
             </div>
           </div>
@@ -115,10 +134,8 @@ export default () => {
           </div> */}
         </div>
         <div id="pm_filter_result">
-          <PartnerSearchList
-            data={data}
-          />
-          {data.partnersList.length > 0 ?
+          <PartnerSearchList data={data} />
+          {data.partnersList.length > 0 ? (
             <div id="pmfr_pagination_wrap">
               <Pagination
                 currentPage={page}
@@ -128,8 +145,7 @@ export default () => {
                 setPage={setPage}
               />
             </div>
-            : null
-          }
+          ) : null}
         </div>
       </div>
     </PartnerskWrap>
@@ -184,12 +200,16 @@ const PartnerskWrap = memo(styled.div`
             flex: 1;
             &:first-child {
               margin-right: 30px;
-              input{
-                ${(props:any)=>((props.startUser !== props.address && props.validAddress) || props.startUser === props.address)?
-                  css`border-color:${Colors.black}`
-                :
-                  css`border-color:${Colors.red}`
-                }
+              input {
+                ${(props: any) =>
+                  (props.startUser !== props.address && props.validAddress) ||
+                  props.startUser === props.address
+                    ? css`
+                        border-color: ${Colors.black};
+                      `
+                    : css`
+                        border-color: ${Colors.red};
+                      `}
               }
             }
           }
