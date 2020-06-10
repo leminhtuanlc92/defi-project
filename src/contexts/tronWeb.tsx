@@ -140,9 +140,18 @@ export default ({ children }: IProps) => {
           let addressRef = await (tronState as any).member
             .username(parsed.username)
             .call();
+          if (
+            window.localStorage &&
+            addressRef !== "410000000000000000000000000000000000000000"
+          ) {
+            window.localStorage.setItem(
+              "ref",
+              (window as any).tronWeb.address.fromHex(addressRef)
+            );
+          }
           setRef(
             addressRef !== "410000000000000000000000000000000000000000"
-              ? addressRef
+              ? (window as any).tronWeb.address.fromHex(addressRef)
               : null
           );
         }

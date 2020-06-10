@@ -78,6 +78,11 @@ export default () => {
       let remaining = (
         await usdt.allowance(address, contract.matrixMarketingAddress).call()
       ).remaining;
+      console.log(
+        "remaining",
+        Number(remaining),
+        contract.matrixMarketingAddress
+      );
       if (Number(remaining) > 10 ** 10) {
         setApprove(true);
       } else {
