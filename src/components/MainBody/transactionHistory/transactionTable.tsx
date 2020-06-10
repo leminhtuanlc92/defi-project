@@ -51,6 +51,7 @@ const TransactionTableWrap = memo(styled.div`
         flex:1;
         align-items:center;
         justify-content:center;
+        margin-top:10px;
         span{
             font-size: ${Texts.size.large};
             line-height: ${Texts.size.large};

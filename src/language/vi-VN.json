@@ -122,5 +122,8 @@
   "saleAwait": "Đợi bán",
   "selectLevel": "Lựa chọn cấp độ",
   "usernameexist": "Username đã tồn tại, vui lòng chọn username khác.",
-  "notactive": "Chưa kích hoạt"
+  "notactive": "Chưa kích hoạt",
+  "matrixNotLogQuote1": "Dường như người giới thiệu chưa kích hoạt Matrix network của bạn.",
+  "matrixNotLogQuote2": "Hãy liên hệ với người giới thiệu để active tài khoản và sử dụng hệ thống nhé!",
+  "refferalInfo": "Thông tin người giới thiệu"
 }

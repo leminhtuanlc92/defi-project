@@ -37,6 +37,7 @@ export default ({ confirm }: ConfirmProps) => {
                 color: Colors.green1,
                 textTransform: "uppercase",
                 marginBottom: "40px",
+                textAlign:'center',
               }}
             >
               {i18n.t("confirmrefInfo")}
@@ -254,5 +255,13 @@ const ConfirmRefWrap = memo(styled.div`
   @media (max-width:991px){
     width:100vw;
     height:100vh;
+  }
+  @media (max-width:767px){
+    #left-part{
+      display:none;
+    }
+    #right-part{
+      flex:1;
+    }
   }
 `);

@@ -64,8 +64,8 @@ export default () => {
         {siteState.aside ? (
           <img src={logoImg} alt="" />
         ) : (
-          <img src={iconLogo} alt="" />
-        )}
+            <img src={iconLogo} alt="" />
+          )}
       </Logo>
       <ToggleMenu onClick={() => setShowDropMenu(!showDropMenu)}>
         <img src={toggleMenuImg} alt="" />
@@ -78,6 +78,7 @@ export default () => {
                 <Link
                   to={item.url}
                   key={index}
+                  onClick={() => setShowDropMenu(false)}
                   // data-tip-disable={siteState.aside}
                   data-tip={`${i18n.t(`${item.name}`)}`}
                   data-delay-show={500}
@@ -95,8 +96,8 @@ export default () => {
                     <img
                       src={
                         item.url === currentPath.pathname ||
-                        (currentPath.pathname.includes(item.url) &&
-                          item.url !== "/")
+                          (currentPath.pathname.includes(item.url) &&
+                            item.url !== "/")
                           ? item.imgActive
                           : item.img
                       }
@@ -186,11 +187,11 @@ const Logo = memo(styled.div`
   justify-content: center;
   img {
     ${(props: any) =>
-      props.aside
-        ? css`
+    props.aside
+      ? css`
             max-width: 120px;
           `
-        : css`
+      : css`
             max-width: 35px;
           `}
   }
@@ -216,12 +217,13 @@ const MainMenu = memo(styled.div`
     width: 100%;
     margin: 0;
     z-index: 2;
+    box-shadow: 0 4px 6px 1px rgba(78, 78, 78, .16);
     ${(props: any) =>
-      props.showDropMenu
-        ? css`
+    props.showDropMenu
+      ? css`
             display: flex;
           `
-        : css`
+      : css`
             display: none;
           `}
   }

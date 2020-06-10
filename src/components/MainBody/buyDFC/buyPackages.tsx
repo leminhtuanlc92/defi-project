@@ -38,8 +38,8 @@ export default ({
               {stage < currentStage.stage
                 ? dfc
                 : stage === currentStage.stage
-                ? currentStage.sold
-                : 0}
+                  ? currentStage.sold
+                  : 0}
             </span>
           </div>
           <div id="bpim_third">
@@ -48,8 +48,8 @@ export default ({
               {stage < currentStage.stage
                 ? dfc
                 : stage === currentStage.stage
-                ? dfc - currentStage.sold
-                : dfc}
+                  ? dfc - currentStage.sold
+                  : dfc}
             </span>
           </div>
           <div id="bpim_fourth">
@@ -64,8 +64,8 @@ export default ({
             {currentStage.stage === stage
               ? i18n.t("buy")
               : currentStage.stage > stage
-              ? i18n.t("soldOut")
-              : i18n.t("saleAwait")}
+                ? i18n.t("soldOut")
+                : i18n.t("saleAwait")}
           </button>
         </div>
       </div>
@@ -131,11 +131,11 @@ const BuyPakagesBlock = memo(styled.div`
       width: 100%;
       border-radius: 5px;
       ${(props: any) =>
-        props.sale
-          ? css`
+    props.sale
+      ? css`
               background-color: ${Colors.green5};
             `
-          : css`
+      : css`
               background-color: ${Colors.green4};
             `}
       box-shadow: none;
@@ -168,5 +168,11 @@ const BuyPakagesBlock = memo(styled.div`
         border-bottom: solid 1px ${Colors.green1};
       }
     }
+  }
+  @media (max-width:1024px){
+    width:48%;
+  }
+  @media (max-width:499px){
+    width:100%;
   }
 `);

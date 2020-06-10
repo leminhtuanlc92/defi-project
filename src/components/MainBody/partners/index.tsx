@@ -200,22 +200,32 @@ const PartnerskWrap = memo(styled.div`
             flex: 1;
             &:first-child {
               margin-right: 30px;
+              @media (max-width:480px){
+                margin-bottom:15px;
+              }
               input {
                 ${(props: any) =>
-                  (props.startUser !== props.address && props.validAddress) ||
-                  props.startUser === props.address
-                    ? css`
-                        border-color: ${Colors.black};
-                      `
-                    : css`
-                        border-color: ${Colors.red};
-                      `}
+                  (props.startUser !== props.address && props.validAddress) || props.startUser === props.address ? 
+                  css`border-color: ${Colors.black};`
+                  : 
+                  css` border-color: ${Colors.red};`
+                }
               }
             }
+          }
+          @media (max-width:767px){
+            flex:1;
+            width:100%;
+          }
+          @media (max-width:480px){
+            flex-direction:column;
           }
         }
         #pmf1_right {
           flex: 0.3;
+        }
+        @media (max-width:767px){
+          flex-direction:column;
         }
       }
       #pmf_2 {

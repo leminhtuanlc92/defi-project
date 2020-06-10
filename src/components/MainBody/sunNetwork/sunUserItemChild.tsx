@@ -81,6 +81,9 @@ const SunChildNodeImage = memo(styled.img`
         :
         css`transform: rotate(0deg);`
     };
+    @media (max-width:480px){
+        margin:0;
+    }
 `)
 
 const SunUserItemChildNodeMain = memo(styled.div`
@@ -100,6 +103,10 @@ const SunUserItemChildNodeMain = memo(styled.div`
             flex-direction:column;
             justify-content:center;
             align-items:center;
+            min-width:16%;
+            @media (max-width:480px){
+                min-width:30%;
+            }
             img{
                 object-fit:contain;
                 width:30px;
@@ -111,18 +118,35 @@ const SunUserItemChildNodeMain = memo(styled.div`
                 color: ${Colors.black};
             }
         }
+        @media (max-width:480px){
+            margin-left:5px;
+            width:87%;
+        }
     }
     .sunmi_bio{
         margin-left:10px;
         flex-direction:column;
-        justify-content:space-between;
+        justify-content:center;
         span{
             font-size: ${Texts.size.large};
             line-height: ${Texts.size.large};
             color: ${Colors.black};
+            line-break: anywhere;
         }
         .sunuser_nodename{
             margin-bottom:10px;
         }
+        @media (max-width:480px){
+            width:65%;
+            .sunuser_address{
+                overflow: hidden;
+                text-overflow: ellipsis;
+                white-space: nowrap;
+                width: 100%;
+            }
+        }
+    }
+    @media (max-width:480px){
+        width:calc(100% - 20px);
     }
 `)

@@ -61,16 +61,17 @@ export default () => {
           </CopyButton>
         </div>
       </div>
-      <div id="top-account-info">
-        <div id="avt-lvl">
+      <div id="top_account_info">
+        <div id="avt_lvl">
           <img src={avatImg} alt="" />
           <span>
             {i18n.t("level")}: {userInfo.level}
           </span>
         </div>
-        <div id="username-address">
+        <div id="username_address">
           <span>{userInfo.username}</span>
           <span>{`${address.slice(0, 5)}...${address.slice(-6)}`}</span>
+          <span>{address}</span>
         </div>
       </div>
     </HeadContentWrap>
@@ -91,34 +92,33 @@ const HeadContentWrap = memo(styled.div`
             color: ${Colors.black1};
             margin-right:10px;
         }
-       #aff-link-box{
-           height:40px;
-           align-items:center;
-           #aff_link_text{
-            overflow: hidden;
-            max-width: 300px;
-            height:40px;
-            align-items:center;
-            justify-content:center;
-            box-shadow: 0 3px 4px 1px rgba(0, 0, 0, .1);
-            background-color:${Colors.white};
-            padding:0 20px;
-            border-top-left-radius:3px;
-            border-bottom-left-radius:3px;
-            span{
-                font-size:${Texts.size.large};
-                line-height: ${Texts.size.large};
-                color: ${Colors.black};
-                overflow: hidden;
-                text-overflow: ellipsis;
-                white-space: nowrap;
-
-            }
-           }
-       }
+        #aff-link-box{
+          height:40px;
+          align-items:center;
+          #aff_link_text{
+          overflow: hidden;
+          max-width: 300px;
+          height:40px;
+          align-items:center;
+          justify-content:center;
+          box-shadow: 0 3px 4px 1px rgba(0, 0, 0, .1);
+          background-color:${Colors.white};
+          padding:0 20px;
+          border-top-left-radius:3px;
+          border-bottom-left-radius:3px;
+          span{
+              font-size:${Texts.size.large};
+              line-height: ${Texts.size.large};
+              color: ${Colors.black};
+              overflow: hidden;
+              text-overflow: ellipsis;
+              white-space: nowrap;
+          }
+        }
+      }
     }
-    #top-account-info{
-        #avt-lvl{
+    #top_account_info{
+        #avt_lvl{
             flex-direction:column;
             align-items:center;
             margin-right:10px;
@@ -133,19 +133,66 @@ const HeadContentWrap = memo(styled.div`
                 color: ${Colors.black}; 
             }
         }
-        #username-address{
+        #username_address{
             flex-direction:column;
             justify-content:space-between;
             span{
                 font-size:${Texts.size.large};
                 line-height: ${Texts.size.large};
                 color: ${Colors.black};
+                &:nth-child(3){
+                  display:none;
+                }
+                @media (max-width:767px){
+                  &:nth-child(2){
+                    display:none;
+                  }
+                  &:nth-child(3){
+                    display:flex;
+                  }
+                }
             }
         }
     }
     @media (max-width:991px){
       height:auto;
       margin-bottom:10px;
+    }
+    @media (max-width:767px){
+      flex-direction:column;
+      align-items: flex-start;
+      #affiliate-link{
+        margin-bottom:10px;
+      }
+    }
+    @media (max-width:480px){
+      #affiliate-link{
+        flex-direction:column;
+        align-items:center;
+        justify-content:center;
+        >span{
+          margin-bottom:5px;
+          margin-right:0;
+        }
+        #aff-link-box{
+          width:100%;
+          #aff_link_text{
+            max-width:200px;
+          }
+        }
+      }
+      #top_account_info{
+        width:100%;
+        #username_address{
+          width:70%;
+          span{
+            &:nth-child(3){
+              overflow-x: scroll;
+              margin-top: 10px;
+            }
+          }
+        }
+      }
     }
 `);
 

@@ -85,42 +85,51 @@ const PopUpgradeWrap = memo(styled.div`
               max-width:100%;
               object-fit:contain
           }
+          @media (max-width:767px){
+              display:none;
+          }
       }
-      #psci_right{
-          flex:.6;
-          height:100%;
-          flex-direction:column;
-          justify-content:center;
-          align-items:center;
-          padding:30px;
-          #pscir_head{
-              flex-direction:column;
-              align-items:center;
-              max-width:70%;
-              margin-bottom:30px;
-            #pscirh_title{
-                font-size: ${Texts.size.extra};
-                color: ${Colors.green1};
-                text-transform: uppercase;
-                margin-bottom: 15px;
+        #psci_right{
+            flex:.6;
+            height:100%;
+            flex-direction:column;
+            justify-content:center;
+            align-items:center;
+            padding:30px;
+            @media (max-width:767px){
+              flex:1;
             }
-            #pscirh_quote{
-                font-size: ${Texts.size.large};
-                color: ${Colors.black};
+            #pscir_head{
+                flex-direction:column;
+                align-items:center;
+                max-width:70%;
+                margin-bottom:30px;
+                #pscirh_title{
+                    font-size: ${Texts.size.extra};
+                    color: ${Colors.green1};
+                    text-transform: uppercase;
+                    margin-bottom: 15px;
+                }
+                #pscirh_quote{
+                    font-size: ${Texts.size.large};
+                    color: ${Colors.black};
+                    @media (max-width:767px){
+                        text-align:center;
+                    }
+                }
             }
-          }
-          #pscir_input{
-              align-items:center;
-              width:80%;
-              margin-bottom:30px;
-              input{
-                flex:1;
-                padding:10px;
-                border:solid 1px ${Colors.black};
-                border-radius: 5px;
-              }
-          }
-          button{
+            #pscir_input{
+                align-items:center;
+                width:80%;
+                margin-bottom:30px;
+                input{
+                    flex:1;
+                    padding:10px;
+                    border:solid 1px ${Colors.black};
+                    border-radius: 5px;
+                }
+            }
+            button{
             border-radius: 5px;
             background-color: ${Colors.orange};
             box-shadow: none;
@@ -138,7 +147,7 @@ const PopUpgradeWrap = memo(styled.div`
                 box-shadow: none;
                 cursor: not-allowed;
             }
-          }
+        }
       }
       #pop-upgrade-title {
         font-size: ${Texts.size.extra};

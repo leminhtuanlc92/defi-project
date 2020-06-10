@@ -91,7 +91,7 @@ export default () => {
             </Switch>
           </Router>
         </div>
-        <Pagination currentPage={page} totalPage={5} size={5} url="/history" setPage={setPage}/>
+        {/* <Pagination currentPage={page} totalPage={1} size={5} url="/history" setPage={setPage}/> */}
       </div>
     </TransactionHistoryWrap>
   );

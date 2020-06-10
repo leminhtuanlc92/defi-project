@@ -193,6 +193,7 @@ const DashboardWrap = memo(styled.div`
       width: 100%;
       align-items: center;
       justify-content: space-between;
+      flex-wrap:wrap;
     }
   }
   #db-back-office {

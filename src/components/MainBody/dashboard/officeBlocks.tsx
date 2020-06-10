@@ -133,4 +133,10 @@ const OfficeBlock = memo(styled.div`
       }
     }
   }
+  @media (max-width:991px){
+    width:48%;
+  }
+  @media (max-width:767px){
+    width:100%;
+  }
 `);

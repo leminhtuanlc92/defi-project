@@ -223,80 +223,94 @@ const BuyDFCWrap = memo(styled.div`
             }
         }
         #bdfcm_mid_content{
-            justify-content:space-between;
-            min-height: 300px;
-            max-height: 450px;
-            overflow: hidden;
-            #bdfcmmc_left{
-                flex-direction:column;
-                flex:0.7;
-            }
-            #bdfcmmc_right{
-                flex:0.3;
-                margin-left:30px;
-                flex-direction:column;
-            }
-            #bdfcmmc_table_wrap{
-                background-color:${Colors.white};
-                flex-direction:column;
+          justify-content:space-between;
+          min-height: 300px;
+          max-height: 450px;
+          overflow: hidden;
+          #bdfcmmc_left{
+              flex-direction:column;
+              flex:0.7;
+              @media (max-width:767px){
                 flex:1;
-                border-radius:10px;
-                padding:10px;
-                .bdfcmmct_body{
-                    flex-direction:column;
-                }
-            }
-            .bdfcmmct_id{
-                flex:.1;
-                flex-wrap:wrap;
-                align-items:center;
-                padding:0 5px 0 0;
-            }
-            .bdfcmmct_name{
-                flex:.2;
-                flex-wrap:wrap;
-                justify-content:center;
-                align-items:center;
-                padding:0 5px;
-            }
-            .bdfcmmct_volume{
-                flex:.2;
-                flex-wrap:wrap;
-                justify-content:center;
-                align-items:center;
-                padding:0 5px;
-            }
-            .bdfcmmct_bonus{
-                flex:.2;
-                flex-wrap:wrap;
-                justify-content:center;
-                align-items:center;
-                padding:0 5px;
-            }
-            .bdfcmmct_tx{
-                flex:.25;
-                flex-wrap:wrap;
-                justify-content:flex-end;
-                align-items:center;
-                padding:0 0 0 5px;
-                span{
-                    text-align:right;
-                }
-            }
-            .bdfcmmct_header{
-                margin:0 20px;
-                padding:15px 0;
+                margin-bottom:20px;
+              }
+          }
+          #bdfcmmc_right{
+              flex:0.3;
+              margin-left:30px;
+              flex-direction:column;
+              @media (max-width:767px){
                 flex:1;
-                justify-content:space-between;
-                align-items:center;
-                border-bottom: solid 1px ${Colors.black};
-                span{
-                    font-size: ${Texts.size.large};
-                    line-height: ${Texts.size.large};
-                    color: ${Colors.black};
-                    font-weight: 500;
-                }
-            }
+                margin-left:0;
+              }
+          }
+          #bdfcmmc_table_wrap{
+              background-color:${Colors.white};
+              flex-direction:column;
+              flex:1;
+              border-radius:10px;
+              padding:10px;
+              .bdfcmmct_body{
+                  flex-direction:column;
+              }
+          }
+          .bdfcmmct_id{
+              flex:.1;
+              flex-wrap:wrap;
+              align-items:center;
+              padding:0 5px 0 0;
+          }
+          .bdfcmmct_name{
+              flex:.2;
+              flex-wrap:wrap;
+              justify-content:center;
+              align-items:center;
+              padding:0 5px;
+          }
+          .bdfcmmct_volume{
+              flex:.2;
+              flex-wrap:wrap;
+              justify-content:center;
+              align-items:center;
+              padding:0 5px;
+          }
+          .bdfcmmct_bonus{
+              flex:.2;
+              flex-wrap:wrap;
+              justify-content:center;
+              align-items:center;
+              padding:0 5px;
+          }
+          .bdfcmmct_tx{
+              flex:.25;
+              flex-wrap:wrap;
+              justify-content:flex-end;
+              align-items:center;
+              padding:0 0 0 5px;
+              span{
+                  text-align:right;
+              }
+          }
+          .bdfcmmct_header{
+              margin:0 20px;
+              padding:15px 0;
+              flex:1;
+              justify-content:space-between;
+              align-items:center;
+              border-bottom: solid 1px ${Colors.black};
+              span{
+                  font-size: ${Texts.size.large};
+                  line-height: ${Texts.size.large};
+                  color: ${Colors.black};
+                  font-weight: 500;
+              }
+          }
+          @media (max-width:767px){
+            flex-direction:column;
+            height:auto;
+            min-height:initial;
+            max-height:initial;
+          }
         }
         #bdfcm_sumup{
             flex-direction:column;

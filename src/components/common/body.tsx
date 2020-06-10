@@ -65,7 +65,7 @@ const WrapBody = memo(styled.div`
   flex-wrap: wrap;
   @media (max-width: 991px) {
     flex-direction: column;
-    height: auto;
+    flex-wrap:nowrap;
   }
 `);
 const ToggleButton = memo(styled.div`
@@ -153,7 +153,7 @@ const MainContentWrap = memo(styled.div`
   @media (max-width: 991px) {
     flex-direction: column;
     width: 100%;
-    flex: 1;
+    height: calc(100% - 40px);
   }
 `);
 

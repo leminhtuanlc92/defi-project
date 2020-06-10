@@ -47,12 +47,27 @@ const LoginNotifyWrapper = memo(styled.div`
         >div{
             flex:0.5;
             padding:0 30px;
+            @media (max-width:767px){
+                &:first-child{
+                    display:none;
+                }
+            }
         }
         #content{
             flex-direction:column;
             align-items:flex-start;
             span{
                 margin-bottom:10px;
+                @media (max-width:480px){
+                    &:first-child{
+                        text-align:center;
+                    }
+                }
+            }
+            @media (max-width:767px){
+                flex:1;
+                align-items:center;
+                justify-content:center;
             }
         }
         #setup-button{
@@ -62,6 +77,9 @@ const LoginNotifyWrapper = memo(styled.div`
             border: solid 1px ${Colors.green1};
             border-radius:5px;
             box-shadow:0px 3px 6px 0px rgba(0,0,0,0.16);
+        }
+        @media (max-width:767px){
+            padding:0;
         }
     }
     @media (max-width:991px){

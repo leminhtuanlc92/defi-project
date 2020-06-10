@@ -87,6 +87,9 @@ const SelectInput = memo(styled.div`
       color: ${Colors.black3};
       font-style: italic;
     }
+    @media (max-width:480px){
+      padding:10px;
+    }
   }
 `);
 const DropList = memo(styled.div`
