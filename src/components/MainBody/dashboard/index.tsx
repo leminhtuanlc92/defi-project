@@ -58,11 +58,12 @@ export default () => {
   useEffect(() => {
     const getBranch = async () => {
       const branch = await matrixMember.getUserBranch(address).call();
+      console.log("branch", branch);
       let branchInfo = [] as any;
       branch.timeAvaiable.map((item: any, index: any) => {
         branchInfo.push({
           level: index + 1,
-          time: item,
+          time: item * 1000,
           user: Number(branch.totalUsers[index]),
         });
       });
