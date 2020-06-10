@@ -7,6 +7,15 @@ import SunUserItem from "./sunUserItem";
 import { TronContract } from "../../../contexts/tronWeb";
 export default () => {
   const { member, userData, address } = useContext(TronContract);
+  const [isMember, setIsMember] = useState(false);
+  useEffect(() => {
+    member
+      .isMember(address)
+      .call()
+      .then((is) => {
+        setIsMember(is);
+      });
+  }, []);
   const [nodeData, setNodeData] = useState({
     user: {
       parent: "",
@@ -36,7 +45,7 @@ export default () => {
     <SunNetworkWrap>
       <span id="sunnetwork_main_title">{i18n.t("sunNetwork")}</span>
       <div id="sunnetwork_mainbody">
-        {nodeData.user.parent !== "" ? (
+        {isMember && nodeData.user.parent !== "" ? (
           <SunUserItem item={nodeData} topNode={true} />
         ) : (
           <span>{i18n.t("noData")}</span>
