@@ -251,4 +251,8 @@ const ConfirmRefWrap = memo(styled.div`
       }
     }
   }
+  @media (max-width:991px){
+    width:100vw;
+    height:100vh;
+  }
 `);

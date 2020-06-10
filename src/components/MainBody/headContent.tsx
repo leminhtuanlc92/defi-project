@@ -144,6 +144,10 @@ const HeadContentWrap = memo(styled.div`
             }
         }
     }
+    @media (max-width:991px){
+      height:auto;
+      margin-bottom:10px;
+    }
 `);
 
 const CopyButton = memo(styled.div`

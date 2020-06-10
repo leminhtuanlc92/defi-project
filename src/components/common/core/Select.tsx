@@ -10,6 +10,7 @@ interface SelectProps {
   disabled?: boolean;
   defaultSelect?: string;
   currentSelect?: SelectItem;
+  itemPattern?: string
 }
 interface SelectItem {
   title: string;
@@ -21,6 +22,7 @@ export default ({
   disabled = false,
   defaultSelect = `-- ${i18n.t("select")} --`,
   currentSelect,
+  itemPattern
 }: SelectProps) => {
   const [show, setShow] = useState(false);
   return (
@@ -28,7 +30,11 @@ export default ({
       <div id="sli_current_select" onClick={() => setShow(!show)}>
         <span id="slics_name">
           {currentSelect && currentSelect.title !== ""
-            ? currentSelect.title
+            ?
+            itemPattern === 'title - value' ?
+              `${currentSelect.title} - ${currentSelect.value}`
+              :
+              currentSelect.title
             : defaultSelect}
         </span>
         <img src={arrowImg} alt="" />
@@ -45,7 +51,7 @@ export default ({
                     setShow(false);
                   }}
                 >
-                  <span id="slidli_item_name">{item.title}</span>
+                  <span id="slidli_item_name">{itemPattern === "title - value" ? `${item.title} - ${item.value}` : item.title}</span>
                 </DropListItem>
               );
             })}

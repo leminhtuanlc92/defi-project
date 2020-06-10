@@ -64,4 +64,8 @@ const LoginNotifyWrapper = memo(styled.div`
             box-shadow:0px 3px 6px 0px rgba(0,0,0,0.16);
         }
     }
+    @media (max-width:991px){
+        width:100vw;
+        height:100vh;
+    }
 `)

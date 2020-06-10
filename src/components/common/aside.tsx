@@ -1,4 +1,4 @@
-import React, { memo, useContext, useState } from "react";
+import React, { memo, useContext, useState, useEffect } from "react";
 import styled, { css } from "styled-components";
 import { SiteContext } from "../../contexts/siteContext";
 import Colors from "../../constants/Colors";
@@ -11,8 +11,8 @@ const iconLogo = require('../../assets/images/icon-defi-white.svg')
 const toggleMenuImg = require('../../assets/images/open-menu.svg')
 export default () => {
   let currentPath = useLocation();
-  const { siteState } = useContext(SiteContext);
-  const [showMMenu, setShowMMenu] = useState(false)
+  const { siteState, toggleAside } = useContext(SiteContext);
+  const [showDropMenu, setShowDropMenu] = useState(false)
   const listmenu = [
     {
       name: "dashboard",
@@ -57,15 +57,21 @@ export default () => {
       imgActive: require("../../assets/images/ic-logout-active.svg"),
     },
   ];
+  useEffect(() => {
+    let check = (window as any).innerHeight
+    if (check < 992) {
+      toggleAside(true)
+    }
+  }, [])
   return (
     <AsideWrap aside={siteState.aside}>
       <Logo aside={siteState.aside}>
         {siteState.aside ? <img src={logoImg} alt="" /> : <img src={iconLogo} alt="" />}
       </Logo>
-      <ToggleMenu onClick={() => setShowMMenu(!showMMenu)}>
+      <ToggleMenu onClick={() => setShowDropMenu(!showDropMenu)}>
         <img src={toggleMenuImg} alt="" />
       </ToggleMenu>
-      <MainMenu>
+      <MainMenu showDropMenu={showDropMenu}>
         <div id="mainmenu-wrapper">
           {listmenu.map((item, index) => {
             return (
@@ -80,20 +86,20 @@ export default () => {
                 >
                   <MenuItemWrapper
                     aside={siteState.aside}
+                    mobile={(window as any).innerHeight < 992}
                     active={
                       item.url === currentPath.pathname ||
                       (currentPath.pathname.includes(item.url) &&
                         item.url !== "/")
                     }
                   >
-                    <img
-                      src={
-                        item.url === currentPath.pathname ||
-                          (currentPath.pathname.includes(item.url) &&
-                            item.url !== "/")
-                          ? item.imgActive
-                          : item.img
-                      }
+                    <img src={
+                      item.url === currentPath.pathname ||
+                        (currentPath.pathname.includes(item.url) &&
+                          item.url !== "/")
+                        ? item.imgActive
+                        : item.img
+                    }
                       style={{
                         marginRight: siteState.aside ? "20px" : 0,
                         objectFit: "contain",
@@ -101,7 +107,7 @@ export default () => {
                       }}
                       alt=""
                     />
-                    {siteState.aside ? <span>{i18n.t(item.name)}</span> : null}
+                    {siteState.aside || (window as any).innerHeight < 992 ? <span>{i18n.t(item.name)}</span> : null}
                   </MenuItemWrapper>
                 </Link>
               </div>
@@ -153,6 +159,7 @@ const AsideWrap = memo(styled.div`
       flex-direction:row;
       height:40px;
       width:100%;
+      padding:0;
       position:relative;
     }
 `);
@@ -177,9 +184,12 @@ const Logo = memo(styled.div`
     css`max-width:35px;`
   }
   }
+  @media (max-width:991px){
+    flex:1;
+  }
 `);
 
-const MainMenu = styled.div`
+const MainMenu = memo(styled.div`
   display: flex;
   flex-direction: column;
   overflow-y: scroll;
@@ -195,19 +205,21 @@ const MainMenu = styled.div`
     right:0;
     width:100%;
     margin:0;
-    ${(props: any) => props.showMMenu ?
-      css`display:flex`
-      :
-      css`display:none`
-    }
+    z-index:2;
+    ${(props: any) => props.showDropMenu ?
+    css`display:flex`
+    :
+    css`display:none`
   }
-`;
+  }
+`);
 
 const MenuItemWrapper = memo(styled.div`
   font-size: ${Texts.size.large};
   flex: 1;
   display: flex;
   padding: 20px;
+  align-items:center;
   ${(props: any) =>
     props.aside
       ? css`
@@ -230,6 +242,13 @@ const MenuItemWrapper = memo(styled.div`
     background-color: ${Colors.white};
     span {
       color: ${Colors.black};
+    }
+  }
+  @media (max-width:991px){
+    background-color:${Colors.white};
+    color: ${Colors.black};
+    img{
+      display:none;
     }
   }
 `);

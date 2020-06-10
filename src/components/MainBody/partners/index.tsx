@@ -7,10 +7,11 @@ import Pagination from "../../../components/common/core/Pagination";
 import PartnerSearchList from "./partnerSearchList";
 import { TronContract } from "../../../contexts/tronWeb";
 import WAValidator from 'multicoin-address-validator'
+import Select from '../../common/core/Select'
 export default () => {
   const { address } = useContext(TronContract);
   const [startUser, setStartUser] = useState(address);
-  const [level, setLevel] = useState('');
+  const [level, setLevel] = useState({ title: `${i18n.t('level')} 1`, value:'1' });
   const [page, setPage] = useState(1)
   const { matrixMember, member, userData } = useContext(TronContract);
   const [validAddress, setValidAddress] = useState(false)
@@ -53,7 +54,7 @@ export default () => {
   };
   // console.log('data',data)
   return (
-    <PartnerskWrap>
+    <PartnerskWrap validAddress={validAddress} startUser={startUser} address={address}>
       <span id="partner_main_title">{i18n.t("partners")}</span>
       <div id="partner_mainbody">
         <div id="pm_filter">
@@ -71,15 +72,26 @@ export default () => {
               </div>
               <div className="pmf1l_block">
                 <span className="pmf_label">{i18n.t("inputSearchLevel")}:</span>
-                <input
-                  onChange={(e) => setLevel(e.target.value)}
-                  placeholder={i18n.t("level")}
+                <Select
+                  listSelect={[
+                    { title: `${i18n.t('level')} 1`, value:'1' },
+                    { title: `${i18n.t('level')} 2`, value:'2' },
+                    { title: `${i18n.t('level')} 3`, value:'3' },
+                    { title: `${i18n.t('level')} 4`, value:'4' },
+                    { title: `${i18n.t('level')} 5`, value:'5' },
+                    { title: `${i18n.t('level')} 6`, value:'6' },
+                    { title: `${i18n.t('level')} 7`, value:'7' },
+                    { title: `${i18n.t('level')} 8`, value:'8' }
+                  ]}
+                  currentSelect={level}
+                  action={setLevel}
+                  defaultSelect={i18n.t("selectLevel")}
                 />
               </div>
             </div>
             <div id="pmf1_right">
               <div className="pmfr_action">
-                <button disabled={!(level !== '' && ((startUser !== address && validAddress) || startUser === address))} onClick={() => getPartners(startUser, +level, 8, +page)}>{i18n.t("filterV")}</button>
+                <button disabled={!((startUser !== address && validAddress) || startUser === address)} onClick={() => getPartners(startUser, +level, 8, +page)}>{i18n.t("filterV")}</button>
               </div>
             </div>
           </div>
@@ -172,6 +184,13 @@ const PartnerskWrap = memo(styled.div`
             flex: 1;
             &:first-child {
               margin-right: 30px;
+              input{
+                ${(props:any)=>((props.startUser !== props.address && props.validAddress) || props.startUser === props.address)?
+                  css`border-color:${Colors.black}`
+                :
+                  css`border-color:${Colors.red}`
+                }
+              }
             }
           }
         }

@@ -12,17 +12,17 @@ const closeImg = require("../../assets/images/white-back.png");
 const openImg = require("../../assets/images/white-next.png");
 export default () => {
   const {
-    siteState: { aside },
-    changeLocale,
-    toggleAside,
-  } = useContext(SiteContext);
+    siteState: { aside }, toggleAside } = useContext(SiteContext);
   return (
     <WrapBody>
       <TronWrap>
         <Fragment>
           <Aside />
           <MainContentWrap aside={aside}>
-            <ToggleButton onClick={() => toggleAside(aside)}>
+            <ToggleButton onClick={() => {
+              console.log('here')
+              toggleAside(aside)
+            }}>
               <div>
                 {aside ? (
                   <img src={closeImg} style={{ objectFit: "contain" }} alt="" />
@@ -63,6 +63,7 @@ const WrapBody = memo(styled.div`
   flex-wrap: wrap;
   @media (max-width:991px){
     flex-direction: column;
+    height:auto;
   }
 `);
 const ToggleButton = memo(styled.div`
@@ -106,8 +107,7 @@ const MainContentWrap = memo(styled.div`
           width: calc(100% - 70px);
         `};
   height: 100%;
-  transition: all 0.3s cubic-bezier(0.215, 0.61, 0.355, 1);
-
+  transition: all 0.3s cubic-bezier(0.215, 0.61, 0.355, 1); 
   .hash {
     position: fixed;
     top: 1em;
@@ -148,6 +148,11 @@ const MainContentWrap = memo(styled.div`
       }
     }
   }
+  @media (max-width:991px){
+    flex-direction: column;
+    width:100%;
+    flex:1;
+  }
 `);
 
 const MainBody = memo(styled.div`
@@ -187,6 +192,9 @@ const MainBody = memo(styled.div`
         overflow:hidden;
         flex:1;
     }
-    /* @media (min-width:992px) and (max-width:992px){
-    } */
+    @media (max-width:991px){
+      width:100%;
+      height:100%;
+      border-radius:0;
+    }
 `);

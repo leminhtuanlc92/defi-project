@@ -25,6 +25,7 @@ const Instruction = lazy(() => import("../src/containers/dashboard"));
 export default () => {
   const { usdt, address, member } = useContext(TronContract);
   const [approve, setApprove] = useState(false);
+  const [username, setUsername] = useState("");
   //Checking USDT Approve
   useEffect(() => {
     const checkApprove = async () => {
@@ -37,7 +38,7 @@ export default () => {
     };
     checkApprove();
   }, []);
-  const [username, setUsername] = useState("");
+  
   useEffect(() => {
     member
       .users(address)

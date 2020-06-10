@@ -44,7 +44,7 @@ export default () => {
     let result = await matrixMember.getPendingList(address).call();
     let users = [] as any;
     for (let i = 0; i < result.length; i++) {
-      let username = await member.getUsername(result[i]);
+      let username = await member.getUsername(result[i]).call();
       users.push({
         title: username,
         value: result[i],
@@ -76,7 +76,6 @@ export default () => {
   useEffect(() => {
     getListPending()
   }, [])
-  console.log('validAddress', validAddress)
   return (
     <MatchPendingUserWrap validAddress={validAddress} userInput={userInput}>
       <div id="match_pending_inner">
@@ -85,6 +84,8 @@ export default () => {
           <span id="mpilu_title">{i18n.t("pendingUserList")}</span>
           <Select
             listSelect={listUser}
+            itemPattern="title - value"
+            currentSelect={selectPending}
             action={setSelectPending}
             defaultSelect={i18n.t("selectUserPending")}
           />

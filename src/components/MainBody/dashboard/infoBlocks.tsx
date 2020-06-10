@@ -44,13 +44,17 @@ const InfoBlock = memo(styled.div`
                 line-height: ${Texts.size.large};
                 color: ${Colors.black1};
                 text-align:left;
+                max-width:100%;
+                overflow-x:scroll;
             }
             #info-content-value{
-                font-size:${Texts.size.extra};
-                line-height: ${Texts.size.extra};
+                font-size:${Texts.size.gigantic};
+                line-height: ${Texts.size.gigantic};
                 color: #ED8C47;
                 text-align:center;
                 font-weight: 700;
+                max-width:100%;
+                overflow-x:scroll;
             }
         }
        

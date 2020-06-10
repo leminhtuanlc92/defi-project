@@ -119,5 +119,6 @@
   "mergeFail": "Kết nối không thành công, có thể do node đó đã được điền.\n  Hãy thử với node trống khác.",
   "usernameNotValid": "Username không hợp lệ. Chỉ chấp nhận các ký tư a-z và 0-9.",
   "soldOut": "Bán hết",
-  "saleAwait": "Đợi bán"
+  "saleAwait": "Đợi bán",
+  "selectLevel": "Lựa chọn cấp độ"
 }

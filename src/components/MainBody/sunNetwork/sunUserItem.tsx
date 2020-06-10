@@ -5,52 +5,67 @@ import Texts from "../../../constants/Texts";
 import SunUserItemChild from "./sunUserItemChild";
 import i18n from 'i18n-js'
 import { TronContract } from "../../../contexts/tronWeb";
+import Loading from '../../common/loading'
 const arrowImg = require('../../../assets/images/ic-have-child.svg')
 const avtImg = require('../../../assets/images/avt.png');
 const endNodeImg = require('../../../assets/images/ic-k-nhanh.svg')
 interface SunUserItemProps {
     item: any;
+    topNode?: boolean
 }
-export default ({ item }: SunUserItemProps) => {
+export default ({ item, topNode }: SunUserItemProps) => {
     const [showChild, setShowChild] = useState(false)
     const { member, userData } = useContext(TronContract);
-    const [nodeData, setNodeData] = useState({ user: null, level: 0 } as any)
+    const [nodeData, setNodeData] = useState({
+        user: {
+            parent: '',
+            refs: [],
+            userId: ''
+        },
+        level: 0
+    } as any)
     const getUser = async (_userAddress) => {
         let user = await member.getUser(_userAddress).call();
         let level = await userData.getLevel(_userAddress).call();
         setNodeData({ user, level })
     };
     useEffect(() => {
-        getUser(item.user.parent)
+        if (topNode) {
+            getUser(item.user.parent)
+        }
+        else {
+            getUser(item)
+        }
     }, [])
     return (
         <SunUserItemWrap showChild={showChild}>
-            <SunUserItemNodeMain showChild={showChild} onClick={() => { nodeData.user.refs.length > 0 && setShowChild(!showChild) }}>
-                {nodeData.user !== null?
-                    <SunChildNodeImage src={nodeData.user.refs.length === 0 ? endNodeImg : arrowImg} alt="" showChild={showChild} />
-                    :
-                    null
-                }
-                <div className="sunm_info">
-                    <div className="sunmi_avt">
-                        <img src={avtImg} alt="" />
-                        <span>{i18n.t('level')}: {item.level}</span>
-                    </div>
-                    <div className="sunmi_bio">
-                        <span className="sunuser_nodename">{item.user.userId !== '' ? item.user.userId : i18n.t('unSet')}</span>
-                        <span className="sunuser_address">{item.user.parent}</span>
-                    </div>
-
-                </div>
-            </SunUserItemNodeMain>
-            {nodeData.user !== null && nodeData.user.refs.length > 0 && showChild ?
-                <div className="su_childnodes">
-                    {nodeData.user.refs.map((data: any, index: number) => {
-                        return <SunUserItemChild data={data} key={index} />
-                    })}
-                </div>
+            {nodeData.user.parent !== '' && nodeData.user.userId !== '' ?
+                <Fragment>
+                    <SunUserItemNodeMain showChild={showChild} onClick={() => { nodeData.user.refs.length > 0 && setShowChild(!showChild) }}>
+                        <SunChildNodeImage src={nodeData.user.refs.length === 0 ? endNodeImg : arrowImg} alt="" showChild={showChild} />
+                        <div className="sunm_info">
+                            <div className="sunmi_avt">
+                                <img src={avtImg} alt="" />
+                                <span>{i18n.t('level')}: {topNode ? item.level : nodeData.level}</span>
+                            </div>
+                            <div className="sunmi_bio">
+                                <span className="sunuser_nodename">{topNode ? item.user.userId : nodeData.user.userId}</span>
+                                <span className="sunuser_address">{topNode ? item.user.parent : nodeData.user.parent}</span>
+                            </div>
+                        </div>
+                    </SunUserItemNodeMain>
+                    {nodeData.user.refs.length > 0 && showChild ?
+                        <div className="su_childnodes">
+                            {nodeData.user.refs.map((data: any, index: number) => {
+                                return <SunUserItemChild data={data} key={index} />
+                            })}
+                        </div>
+                        :
+                        null
+                    }
+                </Fragment>
                 :
-                null
+                <Loading />
             }
         </SunUserItemWrap>
     )

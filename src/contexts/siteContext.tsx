@@ -5,15 +5,15 @@ i18n.fallbacks = false;
 i18n.translations = SiteLocale;
 i18n.missingTranslationPrefix = "miss: ";
 const initState = {
+  aside: true,
+  baseCurrency: "usd",
   isLoading: true,
   locale: "vi",
-  baseCurrency: "usd",
-  aside: true,
 };
 const initSiteContext = {
   siteState: initState,
-  changeLocale: (locale: string) => {},
-  toggleAside: (aside: boolean) => {},
+  changeLocale: (locale: string) => { },
+  toggleAside: (aside: boolean) => { },
 };
 const SiteContext = React.createContext(initSiteContext);
 export default ({ children }: any) => {
@@ -46,7 +46,6 @@ export default ({ children }: any) => {
       preState = JSON.parse(lastState);
     }
     if (!!preState) {
-      // console.log('here', preState.locale)
       i18n.locale = preState.locale;
       localStorage.setItem(
         "siteState",
@@ -90,6 +89,7 @@ export default ({ children }: any) => {
   useEffect(() => {
     initConfig();
   }, []);
+  // console.log('Check', siteState)
   return (
     <SiteContext.Provider
       value={{
