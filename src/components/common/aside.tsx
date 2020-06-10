@@ -1,4 +1,4 @@
-import React, { memo, useContext } from "react";
+import React, { memo, useContext, useState } from "react";
 import styled, { css } from "styled-components";
 import { SiteContext } from "../../contexts/siteContext";
 import Colors from "../../constants/Colors";
@@ -8,9 +8,11 @@ import i18n from "i18n-js";
 const logoutImg = require("../../assets/images/ic-logout.svg");
 const logoImg = require('../../assets/images/logo-defi-white.svg')
 const iconLogo = require('../../assets/images/icon-defi-white.svg')
+const toggleMenuImg = require('../../assets/images/open-menu.svg')
 export default () => {
   let currentPath = useLocation();
   const { siteState } = useContext(SiteContext);
+  const [showMMenu, setShowMMenu] = useState(false)
   const listmenu = [
     {
       name: "dashboard",
@@ -60,6 +62,9 @@ export default () => {
       <Logo aside={siteState.aside}>
         {siteState.aside ? <img src={logoImg} alt="" /> : <img src={iconLogo} alt="" />}
       </Logo>
+      <ToggleMenu onClick={() => setShowMMenu(!showMMenu)}>
+        <img src={toggleMenuImg} alt="" />
+      </ToggleMenu>
       <MainMenu>
         <div id="mainmenu-wrapper">
           {listmenu.map((item, index) => {
@@ -137,30 +142,40 @@ export default () => {
   );
 };
 const AsideWrap = memo(styled.div`
-  flex: 1;
-  flex-direction: column;
-  justify-content: space-between;
-  background-color: ${Colors.green1};
-  padding: 20px 0;
-  height: calc(100% - 40px);
-  ${(props: any) =>
-    props.aside
-      ? css`
-          width: 20%;
-        `
-      : css`
-          width: 70px;
-        `};
+    flex: 1;
+    flex-direction: column;
+    justify-content: space-between;
+    background-color: ${Colors.green1};
+    padding: 20px 0;
+    height: calc(100% - 40px);
+    ${(props: any) => props.aside ? css`width: 20%;` : css`width: 70px;`}
+    @media (max-width:991px){
+      flex-direction:row;
+      height:40px;
+      width:100%;
+      position:relative;
+    }
 `);
+const ToggleMenu = memo(styled.div`
+  padding:10px;
+  align-items:center;
+  justify-content:center;
+  img{
+    max-width:30px;
+  }
+  @media (min-width:992px){
+    display:none;
+  }
+`)
 const Logo = memo(styled.div`
   display: flex;
   justify-content: center;
   img{
     ${(props: any) => props.aside ?
-      css`max-width:120px;`
-      :
-      css`max-width:35px;`
-    }
+    css`max-width:120px;`
+    :
+    css`max-width:35px;`
+  }
   }
 `);
 
@@ -172,6 +187,19 @@ const MainMenu = styled.div`
   margin-top: 40px;
   #mainmenu-wrapper {
     flex-direction: column;
+  }
+  @media (max-width:991px){
+    position:absolute;
+    top:100%;
+    left:0;
+    right:0;
+    width:100%;
+    margin:0;
+    ${(props: any) => props.showMMenu ?
+      css`display:flex`
+      :
+      css`display:none`
+    }
   }
 `;
 

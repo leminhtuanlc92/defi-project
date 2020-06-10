@@ -27,8 +27,8 @@ export default () => {
                 {aside ? (
                   <img src={closeImg} style={{ objectFit: "contain" }} alt="" />
                 ) : (
-                  <img src={openImg} style={{ objectFit: "contain" }} alt="" />
-                )}
+                    <img src={openImg} style={{ objectFit: "contain" }} alt="" />
+                  )}
               </div>
             </ToggleButton>
             <MainBody aside={aside}>
@@ -61,6 +61,9 @@ const WrapBody = memo(styled.div`
   align-items: center;
   justify-content: center;
   flex-wrap: wrap;
+  @media (max-width:991px){
+    flex-direction: column;
+  }
 `);
 const ToggleButton = memo(styled.div`
   border-radius: 50%;
@@ -83,6 +86,9 @@ const ToggleButton = memo(styled.div`
     display: flex;
     align-items: center;
     justify-content: center;
+  }
+  @media (max-width:991px){
+    display:none;
   }
 `);
 const MainContentWrap = memo(styled.div`
@@ -156,11 +162,11 @@ const MainBody = memo(styled.div`
     align-items:center;
     justify-content:center;
     /* ${(props: any) =>
-      props.aside !== 3
-        ? css`
+    props.aside !== 3
+      ? css`
             padding: 0 16% 0 12%;
           `
-        : css`
+      : css`
             padding: 0 16% 0 0;
           `} */
     #wrap-main{
@@ -181,6 +187,6 @@ const MainBody = memo(styled.div`
         overflow:hidden;
         flex:1;
     }
-    @media (min-width:992px) and (max-width:1199px){
-    }
+    /* @media (min-width:992px) and (max-width:992px){
+    } */
 `);
