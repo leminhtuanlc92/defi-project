@@ -40,7 +40,7 @@ export default () => {
     ]);
     return {
       username,
-      level,
+      level: Number(level),
       address: _address,
     };
   };
@@ -56,7 +56,7 @@ export default () => {
       let username = await member.getUsername(result[i]);
       users.push({
         title: username,
-        value: result[i],
+        value: (window as any).tronWeb.address.fromHex(result[i]),
       });
     }
     setUserList(users);

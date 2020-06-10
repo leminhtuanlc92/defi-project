@@ -5,20 +5,24 @@ import Texts from "../../../../constants/Texts";
 import Select from "../../../../components/common/core/Select";
 import i18n from "i18n-js";
 import { TronContract } from "../../../../contexts/tronWeb";
-import MergePop from '../mergePop'
-import WAValidator from 'multicoin-address-validator'
+import MergePop from "../mergePop";
+import WAValidator from "multicoin-address-validator";
 export default () => {
   const { matrixMember, address, member, userData } = useContext(TronContract);
   const [listUser, setUserList] = useState([] as any);
-  const [selectPending, setSelectPending] = useState({ title: '', value: '' })
-  const [userInput, setUserInput] = useState('')
-  const [userEmptyNode, setUserEmptyNode] = useState({ username: '', address: '', level: '' })
-  const [showPop, setShowPop] = useState(false)
-  const [validAddress, setValidAddress] = useState(false)
+  const [selectPending, setSelectPending] = useState({ title: "", value: "" });
+  const [userInput, setUserInput] = useState("");
+  const [userEmptyNode, setUserEmptyNode] = useState({
+    username: "",
+    address: "",
+    level: "",
+  });
+  const [showPop, setShowPop] = useState(false);
+  const [validAddress, setValidAddress] = useState(false);
   const validate = () => {
-    let valid = WAValidator.validate(userInput, "trx")
-    setValidAddress(valid)
-  }
+    let valid = WAValidator.validate(userInput, "trx");
+    setValidAddress(valid);
+  };
 
   const getNode = async (_startUser) => {
     let result = await matrixMember.getNode(_startUser).call();
@@ -28,18 +32,18 @@ export default () => {
   const getNodeInfo = async (_address) => {
     const [username, level] = await Promise.all([
       member.getUsername(_address).call(),
-      userData.getLevel(_address).call()
+      userData.getLevel(_address).call(),
     ]);
     return {
       username,
-      level,
+      level: Number(level),
       address: _address,
     };
   };
   const gatherInfo = () => {
-    let data = getNodeInfo(userInput)
-    console.log('data', data)
-  }
+    let data = getNodeInfo(userInput);
+    console.log("data", data);
+  };
   const getListPending = async () => {
     let result = await matrixMember.getPendingList(address).call();
     let users = [] as any;
@@ -47,7 +51,7 @@ export default () => {
       let username = await member.getUsername(result[i]).call();
       users.push({
         title: username,
-        value: result[i],
+        value: (window as any).tronWeb.address.fromHex(result[i]),
       });
     }
     setUserList(users);
@@ -65,6 +69,17 @@ export default () => {
   };
   const findFreeNode = async (_startNode, _level) => {
     //TODO
+    let result = undefined;
+    let start = 0;
+    while (result === undefined) {
+      let free = await matrixMember.findFreeNode(_startNode, _level, start, 50);
+      if (free !== "410000000000000000000000000000000000000000") {
+        result = free;
+      } else {
+        start += 50;
+      }
+    }
+    return result;
   };
   let dataSelect = [] as any;
   for (let i = 0; i <= listUser.length - 1; i++) {
@@ -74,8 +89,8 @@ export default () => {
     });
   }
   useEffect(() => {
-    getListPending()
-  }, [])
+    getListPending();
+  }, []);
   return (
     <MatchPendingUserWrap validAddress={validAddress} userInput={userInput}>
       <div id="match_pending_inner">
@@ -94,40 +109,45 @@ export default () => {
           <span id="mpilen_title">{i18n.t("userEmptyNode")}</span>
           <div id="mpilen_input">
             <div id="mpileni_textbox">
-              <input onChange={(e) => setUserInput(e.target.value)} onBlur={() => validate()} />
+              <input
+                onChange={(e) => setUserInput(e.target.value)}
+                onBlur={() => validate()}
+              />
             </div>
-            <button disabled={!(userInput !== '')}
-              onClick={() => userInput !== '' && gatherInfo()}>
+            <button
+              disabled={!(userInput !== "")}
+              onClick={() => userInput !== "" && gatherInfo()}
+            >
               {i18n.t("confirm")}
             </button>
           </div>
-          {userEmptyNode.address !== '' ?
+          {userEmptyNode.address !== "" ? (
             <div id="mpilen_gathered_data">
               <div className="mpilengd_item">
-                <span>{i18n.t('username')}:</span>
+                <span>{i18n.t("username")}:</span>
                 <span>10</span>
               </div>
               <div className="mpilengd_item">
-                <span>{i18n.t('address')}:</span>
+                <span>{i18n.t("address")}:</span>
                 <span>10</span>
               </div>
               <div className="mpilengd_item">
-                <span>{i18n.t('level')}:</span>
+                <span>{i18n.t("level")}:</span>
                 <span>10</span>
               </div>
             </div>
-            : null}
-
+          ) : null}
         </div>
-        <button disabled={!(userEmptyNode.address !== '' && selectPending.value !== '' && validAddress)}
-          onClick={() => mergeNode(userEmptyNode, selectPending.value)}>
+        <button
+          disabled={!(selectPending.value !== "" && validAddress)}
+          onClick={() => mergeNode(userInput, selectPending.value)}
+        >
           {i18n.t("match")}
         </button>
       </div>
-      {showPop ?
+      {showPop ? (
         <MergePop showPop={showPop} setShowPop={setShowPop} type="success" />
-        : null
-      }
+      ) : null}
     </MatchPendingUserWrap>
   );
 };
@@ -177,14 +197,18 @@ const MatchPendingUserWrap = memo(styled.div`
           input {
             flex: 1;
             padding: 0 10px;
-            ${(props: any) => props.userInput === '' ?
-              css`border: solid 1px ${Colors.black};`
-              :
-              props.validAddress?
-                css`border: solid 1px ${Colors.black};`
-              :
-                css`border: solid 1px ${Colors.red};`
-            };
+            ${(props: any) =>
+              props.userInput === ""
+                ? css`
+                    border: solid 1px ${Colors.black};
+                  `
+                : props.validAddress
+                ? css`
+                    border: solid 1px ${Colors.black};
+                  `
+                : css`
+                    border: solid 1px ${Colors.red};
+                  `};
             border-top-left-radius: 5px;
             border-bottom-left-radius: 5px;
             border-right: none;
@@ -196,24 +220,24 @@ const MatchPendingUserWrap = memo(styled.div`
           border-bottom-left-radius: 0px;
         }
       }
-      #mpilen_gathered_data{
-        flex:1;
-        margin-top:10px;
-        flex-direction:column;
-        .mpilengd_item{
-          span{
+      #mpilen_gathered_data {
+        flex: 1;
+        margin-top: 10px;
+        flex-direction: column;
+        .mpilengd_item {
+          span {
             font-size: ${Texts.size.normal};
             line-height: ${Texts.size.normal};
             color: ${Colors.black1};
-            font-style:italic;
-            margin-bottom:5px;
-            &:first-child{
-              flex:0.2;
-              flex-wrap:wrap;
+            font-style: italic;
+            margin-bottom: 5px;
+            &:first-child {
+              flex: 0.2;
+              flex-wrap: wrap;
             }
-            &:nth-child(2){
-              flex:0.8;
-              flex-wrap:wrap;
+            &:nth-child(2) {
+              flex: 0.8;
+              flex-wrap: wrap;
             }
           }
         }

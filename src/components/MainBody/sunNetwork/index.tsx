@@ -32,10 +32,12 @@ export default () => {
     setNodeData({
       user: {
         parent: address,
-        refs: user.refs,
+        refs: user.refs.map((item) =>
+          (window as any).tronWeb.address.fromHex(item)
+        ),
         userId: user.userId,
       },
-      level,
+      level: Number(level),
     });
   };
   useEffect(() => {

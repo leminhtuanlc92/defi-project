@@ -19,10 +19,10 @@ const contract = {
   adminAddress: "TTnk8vg7EvKyoic5GcTdpca6rqYwo3GmpW",
   tokenAddress: "TMw6rLM7Ptwti61LkEPimgaDRibefCiwMX",
   usdtAddress: "THriZvGCcQ1sGesZ8EATwGihJk9zqZDi3u",
-  userDataAddress: "TRckxVHgikLCe5hYik8rKTQns1gGgv8jvD",
-  memberAddress: "TAooPi35ZbxkmnJXUkAnrkqmHkBWGJVKTE",
-  shareHolderAddress: "TYYg4jJrb9xGQQbpPZbZBdDAwaycYS6vqD",
-  matrixMemberAddress: "TMbk3EVENLtWiJNdF5j77tUTEjkfe4u9Ei",
-  matrixMarketingAddress: "TEART9cwy6h2bA8qD2tE3SWdfCuneBDo3y",
+  userDataAddress: "TYPV1XXULCmDu3CjRdbQc1gFoope6i9fWh",
+  memberAddress: "TEaKxLZqneX4Q54fsZNoCwSRP3kU3zYpbY",
+  shareHolderAddress: "TDfrTQYfkdvio2swib3dQkcfWaMrip6Sg3",
+  matrixMemberAddress: "TXee5jVnnpqQN3h7i8dzCgyBURVvu7CUTW",
+  matrixMarketingAddress: "TC8jztVWsKiEWcqeLw8E7BxcM7NKDvU537",
 };
 export { config, contract };

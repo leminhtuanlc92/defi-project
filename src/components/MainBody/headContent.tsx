@@ -37,7 +37,7 @@ export default () => {
       ]);
       setUserInfo({
         username: user.userId === "" ? "Not set" : user.userId,
-        level,
+        level: Number(level),
       });
     };
     if (member && userData) {

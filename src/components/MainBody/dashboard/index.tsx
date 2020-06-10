@@ -22,8 +22,20 @@ export default () => {
     { category: "totalReceive", value: 0 },
     { category: "stockRightBalance", value: 0 },
     { category: "fine", value: 0 },
+    { category: "level", value: "" },
     { category: "shareHolding", value: 0 },
   ]);
+  const LevelLabel = [
+    "Not Active",
+    "Immigrant",
+    "Visa Holder",
+    "Permanent Resident",
+    "Citizen",
+    "Ambassador",
+    "Senator",
+    "Vice President",
+    "President",
+  ];
   useEffect(() => {
     const getData = async () => {
       //TODO get Data
@@ -38,7 +50,7 @@ export default () => {
           value: Number(data.stockRight) / 10 ** 6,
         },
         { category: "fine", value: Number(data.fine) / 10 ** 6 },
-        { category: "level", value: Number(data.level) },
+        { category: "level", value: LevelLabel[Number(data.level)] },
         { category: "shareHolding", value: Number(tokenBalance) / 10 ** 6 },
       ]);
     };
@@ -58,7 +70,6 @@ export default () => {
   useEffect(() => {
     const getBranch = async () => {
       const branch = await matrixMember.getUserBranch(address).call();
-      console.log("branch", branch);
       let branchInfo = [] as any;
       branch.timeAvaiable.map((item: any, index: any) => {
         branchInfo.push({
@@ -79,11 +90,6 @@ export default () => {
       let remaining = (
         await usdt.allowance(address, contract.matrixMarketingAddress).call()
       ).remaining;
-      console.log(
-        "remaining",
-        Number(remaining),
-        contract.matrixMarketingAddress
-      );
       if (Number(remaining) > 10 ** 10) {
         setApprove(true);
       } else {
@@ -193,7 +199,7 @@ const DashboardWrap = memo(styled.div`
       width: 100%;
       align-items: center;
       justify-content: space-between;
-      flex-wrap:wrap;
+      flex-wrap: wrap;
     }
   }
   #db-back-office {
