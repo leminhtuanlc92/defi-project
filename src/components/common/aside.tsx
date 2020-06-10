@@ -6,6 +6,8 @@ import Texts from "../../constants/Texts";
 import { Link, useLocation } from "react-router-dom";
 import i18n from "i18n-js";
 const logoutImg = require("../../assets/images/ic-logout.svg");
+const logoImg = require('../../assets/images/logo-defi-white.svg')
+const iconLogo = require('../../assets/images/icon-defi-white.svg')
 export default () => {
   let currentPath = useLocation();
   const { siteState } = useContext(SiteContext);
@@ -55,7 +57,9 @@ export default () => {
   ];
   return (
     <AsideWrap aside={siteState.aside}>
-      <Logo>{siteState.aside ? <span>defi</span> : <span>T</span>}</Logo>
+      <Logo aside={siteState.aside}>
+        {siteState.aside ? <img src={logoImg} alt="" /> : <img src={iconLogo} alt="" />}
+      </Logo>
       <MainMenu>
         <div id="mainmenu-wrapper">
           {listmenu.map((item, index) => {
@@ -80,8 +84,8 @@ export default () => {
                     <img
                       src={
                         item.url === currentPath.pathname ||
-                        (currentPath.pathname.includes(item.url) &&
-                          item.url !== "/")
+                          (currentPath.pathname.includes(item.url) &&
+                            item.url !== "/")
                           ? item.imgActive
                           : item.img
                       }
@@ -151,10 +155,12 @@ const AsideWrap = memo(styled.div`
 const Logo = memo(styled.div`
   display: flex;
   justify-content: center;
-  span {
-    color: ${Colors.white};
-    text-transform: uppercase;
-    font-size: ${Texts.size.extra};
+  img{
+    ${(props: any) => props.aside ?
+      css`max-width:120px;`
+      :
+      css`max-width:35px;`
+    }
   }
 `);
 
