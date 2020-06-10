@@ -12,23 +12,26 @@ const closeImg = require("../../assets/images/white-back.png");
 const openImg = require("../../assets/images/white-next.png");
 export default () => {
   const {
-    siteState: { aside }, toggleAside } = useContext(SiteContext);
+    siteState: { aside },
+    toggleAside,
+  } = useContext(SiteContext);
   return (
     <WrapBody>
       <TronWrap>
         <Fragment>
           <Aside />
           <MainContentWrap aside={aside}>
-            <ToggleButton onClick={() => {
-              console.log('here')
-              toggleAside(aside)
-            }}>
+            <ToggleButton
+              onClick={() => {
+                toggleAside(aside);
+              }}
+            >
               <div>
                 {aside ? (
                   <img src={closeImg} style={{ objectFit: "contain" }} alt="" />
                 ) : (
-                    <img src={openImg} style={{ objectFit: "contain" }} alt="" />
-                  )}
+                  <img src={openImg} style={{ objectFit: "contain" }} alt="" />
+                )}
               </div>
             </ToggleButton>
             <MainBody aside={aside}>
@@ -61,9 +64,9 @@ const WrapBody = memo(styled.div`
   align-items: center;
   justify-content: center;
   flex-wrap: wrap;
-  @media (max-width:991px){
+  @media (max-width: 991px) {
     flex-direction: column;
-    height:auto;
+    height: auto;
   }
 `);
 const ToggleButton = memo(styled.div`
@@ -88,8 +91,8 @@ const ToggleButton = memo(styled.div`
     align-items: center;
     justify-content: center;
   }
-  @media (max-width:991px){
-    display:none;
+  @media (max-width: 991px) {
+    display: none;
   }
 `);
 const MainContentWrap = memo(styled.div`
@@ -107,7 +110,7 @@ const MainContentWrap = memo(styled.div`
           width: calc(100% - 70px);
         `};
   height: 100%;
-  transition: all 0.3s cubic-bezier(0.215, 0.61, 0.355, 1); 
+  transition: all 0.3s cubic-bezier(0.215, 0.61, 0.355, 1);
   .hash {
     position: fixed;
     top: 1em;
@@ -148,10 +151,10 @@ const MainContentWrap = memo(styled.div`
       }
     }
   }
-  @media (max-width:991px){
+  @media (max-width: 991px) {
     flex-direction: column;
-    width:100%;
-    flex:1;
+    width: 100%;
+    flex: 1;
   }
 `);
 
@@ -167,11 +170,11 @@ const MainBody = memo(styled.div`
     align-items:center;
     justify-content:center;
     /* ${(props: any) =>
-    props.aside !== 3
-      ? css`
+      props.aside !== 3
+        ? css`
             padding: 0 16% 0 12%;
           `
-      : css`
+        : css`
             padding: 0 16% 0 0;
           `} */
     #wrap-main{

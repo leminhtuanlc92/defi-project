@@ -120,5 +120,6 @@
   "usernameNotValid": "Username không hợp lệ. Chỉ chấp nhận các ký tư a-z và 0-9.",
   "soldOut": "Bán hết",
   "saleAwait": "Đợi bán",
-  "selectLevel": "Lựa chọn cấp độ"
+  "selectLevel": "Lựa chọn cấp độ",
+  "usernameexist": "Username đã tồn tại, vui lòng chọn username khác."
 }

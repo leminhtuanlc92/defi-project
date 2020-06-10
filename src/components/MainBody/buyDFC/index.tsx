@@ -11,28 +11,23 @@ export default () => {
   const { shareHolder } = useContext(TronContract);
   const [currentStage, setCurrentStage] = useState({
     stage: 0,
-    sold: 10,
+    sold: 0,
   });
   useEffect(() => {
-    // shareHolder
-    //   .currentStage()
-    //   .call()
-    //   .then((stage: any) => {
-    //     shareHolder
-    //       .stages(Number(stage))
-    //       .call()
-    //       .then((info: any) => {
-    //         setCurrentStage({
-    //           stage: Number(stage),
-    //           sold: Number(info.sold),
-    //         });
-    //         console.log(info);
-    //       });
-    //   });
-    setCurrentStage({
-      stage: 3,
-      sold: 999,
-    });
+    shareHolder
+      .currentStage()
+      .call()
+      .then((stage: any) => {
+        shareHolder
+          .stages(Number(stage))
+          .call()
+          .then((info: any) => {
+            setCurrentStage({
+              stage: Number(stage),
+              sold: Number(info.sold),
+            });
+          });
+      });
   }, [shareHolder]);
   const packages = [
     {
