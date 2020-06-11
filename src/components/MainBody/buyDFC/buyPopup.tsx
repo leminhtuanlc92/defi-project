@@ -1,4 +1,4 @@
-import React, { memo, useState, Fragment, useContext } from "react";
+import React, { memo, useState, Fragment, useContext, useEffect } from "react";
 import styled, { css } from "styled-components/macro";
 import Colors from "../../../constants/Colors";
 import Texts from "../../../constants/Texts";
@@ -8,6 +8,7 @@ import Select from "../../common/core/Select";
 import ClickOutside from "../../../utils/clickOutSide";
 import { history } from "../../../App";
 import { TronContract } from "../../../contexts/tronWeb";
+import { contract } from "../../../config";
 const closeImg = require("../../../assets/images/close.png");
 const buyImg = require("../../../assets/images/buy-successful.svg");
 interface PopUpgradeProps {
@@ -22,8 +23,19 @@ export default ({ showPop, setShowPop, available }: PopUpgradeProps) => {
   const [success, setSuccess] = useState(false);
   let price = 0.1;
   const [loading, setLoading] = useState(false);
-  const { shareHolder } = useContext(TronContract);
-
+  const { shareHolder, usdt, address } = useContext(TronContract);
+  const [approve, setApprove] = useState(false);
+  useEffect(() => {
+    const checkApprove = async () => {
+      let remaining = (
+        await usdt.allowance(address, contract.shareHolderAddress).call()
+      ).remaining;
+      if (Number(remaining) > 10 ** 10) {
+        setApprove(true);
+      }
+    };
+    checkApprove();
+  }, []);
   const buyToken = async () => {
     setLoading(true);
     await shareHolder.buyStock(Math.round(usdtTobuy * 10 ** 6)).send({
