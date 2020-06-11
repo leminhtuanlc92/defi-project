@@ -211,10 +211,10 @@ const SearchNodesWrap = memo(styled.div`
     margin-bottom: 30px;
     width: 100%;
     #sni_textbox {
-      flex: 1;
+      width:70%;
       input {
         flex: 1;
-        padding: 0 10px;
+        padding: 10px;
         ${(props: any) =>
           props.userInput === ""
             ? css`
@@ -240,7 +240,7 @@ const SearchNodesWrap = memo(styled.div`
       color: ${Colors.white};
       font-size: ${Texts.size.large};
       border: none;
-      padding: 10px 20px;
+      width:30%;
       &:hover {
         background-color: ${Colors.orange1};
         box-shadow: 0 3px 6px 1px rgba(255, 159, 91, 0.2);

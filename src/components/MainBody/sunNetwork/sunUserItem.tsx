@@ -27,15 +27,19 @@ export default ({ item, topNode }: SunUserItemProps) => {
   const getUser = async (_userAddress) => {
     let user = await member.getUser(_userAddress).call();
     let level = await userData.getLevel(_userAddress).call();
+    console.log('FFFF', { user, level: Number(level) })
     setNodeData({ user, level: Number(level) });
   };
   useEffect(() => {
     if (topNode) {
       getUser(item.user.parent);
     } else {
+      console.log('here')
       getUser(item);
     }
   }, []);
+  !topNode && console.log('item', (window as any).tronWeb.address.fromHex(item))
+  
   return (
     <SunUserItemWrap showChild={showChild}>
       {nodeData.user.parent !== "" && nodeData.user.userId !== "" ? (
@@ -63,7 +67,7 @@ export default ({ item, topNode }: SunUserItemProps) => {
                   {topNode ? item.user.userId : nodeData.user.userId}
                 </span>
                 <span className="sunuser_address">
-                  {topNode ? item.user.parent : nodeData.user.parent}
+                  {topNode ? item.user.parent : (window as any).tronWeb.address.fromHex(item)}
                 </span>
               </div>
             </div>
@@ -132,6 +136,7 @@ const SunUserItemNodeMain = memo(styled.div`
         `};
   .sunm_info {
     margin-left: 10px;
+    flex:1;
     .sunmi_avt {
       flex-direction: column;
       justify-content: center;

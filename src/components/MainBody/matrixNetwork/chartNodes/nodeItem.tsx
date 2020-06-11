@@ -10,20 +10,24 @@ interface NodeItemProps {
   data: string;
   level?: number;
   name?: string;
+  getNode: (address) => void;
 }
-export default ({ node, status, data, level, name }: NodeItemProps) => {
-  const { member, userData } = useContext(TronContract);
-  const [nodeData, setNodeData] = useState({
+export default ({ node, status, data, level, name, getNode }: NodeItemProps) => {
+  const { member, userData, matrixMember } = useContext(TronContract);
+  const [curretnNodeData, setCurretnNodeData] = useState({
+    address: "",
     level: 0,
     name: "",
   });
-  const getNode = async (_startUser) => {
+  const getCurrentNode = async (_startUser) => {
     if (status !== "empty") {
-      let [level, name] = await Promise.all([
+      let [result, level, name] = await Promise.all([
+        matrixMember.getNode(_startUser).call(),
         userData.getLevel(_startUser).call(),
         member.users(_startUser).call(),
       ]);
-      setNodeData({
+      setCurretnNodeData({
+        address: (window as any).tronWeb.address.fromHex(result.parent),
         level: Number(level),
         name: name.username,
       });
@@ -31,31 +35,33 @@ export default ({ node, status, data, level, name }: NodeItemProps) => {
   };
   useEffect(() => {
     if (data !== "") {
-      getNode(data);
+      getCurrentNode(data);
     }
   }, [data]);
   return (
-    <NodeItemWrap node={node} status={status}>
+    <NodeItemWrap node={node} status={status} onClick={() => {
+      if (data !== '' && status !== 'empty') { getNode(data) }
+    }}>
       <div className="niw_inner">
         {node === "f1" && status === "empty" ? (
           <div className="niwi_spec">
             <img src={avtImg} alt="" />
           </div>
         ) : (
-          <Fragment>
-            <div className="niw_left">
-              <img src={avtImg} alt="" />
-            </div>
-            <div className="niw_right">
-              <span className="niwr_name">
-                {node === "user" ? name : nodeData.name}
-              </span>
-              <span className="niwr_lv">
-                Lv. {node === "user" ? level : nodeData.level}
-              </span>
-            </div>
-          </Fragment>
-        )}
+            <Fragment>
+              <div className="niw_left">
+                <img src={avtImg} alt="" />
+              </div>
+              <div className="niw_right">
+                <span className="niwr_name">
+                  {node === "user" ? name : curretnNodeData.name}
+                </span>
+                <span className="niwr_lv">
+                  Lv. {node === "user" ? level : curretnNodeData.level}
+                </span>
+              </div>
+            </Fragment>
+          )}
       </div>
     </NodeItemWrap>
   );
@@ -72,24 +78,30 @@ const NodeItemWrap = memo(styled.div`
           background-color: ${Colors.green1};
         `
       : props.node === "user"
-      ? css`
+        ? css`
           height: 56%;
           background-color: ${Colors.green1};
         `
-      : props.status === "disable"
-      ? css`
+        : props.status === "disable"
+          ? css`
           height: 43.55%;
           background-color: ${Colors.red};
         `
-      : props.status === "active"
-      ? css`
+          : props.status === "active"
+            ? css`
           height: 43.55%;
           background-color: ${Colors.blue};
         `
-      : css`
+            : css`
           height: 43.55%;
           background-color: none;
-        `};
+        `
+  };
+  ${(props: any) =>
+    props.status !== "empty"?
+    css`cursor: pointer;`:
+    css`cursor: not-allowed;`
+  }
   width: 25%;
   position: relative;
   margin: 0 2%;
@@ -97,11 +109,11 @@ const NodeItemWrap = memo(styled.div`
     width: 90%;
     height: 90%;
     ${(props: any) =>
-      props.node === "f1" && props.status === "empty"
-        ? css`
+    props.node === "f1" && props.status === "empty"
+      ? css`
             padding: 0 5%;
           `
-        : css`
+      : css`
             padding: 5%;
           `};
     align-items: center;

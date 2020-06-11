@@ -13,6 +13,7 @@ export default () => {
     siteState: { aside },
   } = useContext(SiteContext);
   const [nodeData, setNodeData] = useState({
+    address: "",
     sponsor: "",
     parent: "",
     F1: ["", "", ""],
@@ -23,9 +24,10 @@ export default () => {
     let [result, level, name] = await Promise.all([
       matrixMember.getNode(_startUser).call(),
       userData.getLevel(_startUser).call(),
-      member.users(address).call(),
+      member.users(_startUser).call(),
     ]);
     setNodeData({
+      address:_startUser,
       sponsor: (window as any).tronWeb.address.fromHex(result.sponsor),
       parent: (window as any).tronWeb.address.fromHex(result.parent),
       F1: result.F1.map((item) =>
@@ -45,14 +47,19 @@ export default () => {
       ) : (
         <div id="cni">
           <div id="cni_sponsor">
-            <NodeItemWrap node="sponsor" data={nodeData.sponsor} />
+            <NodeItemWrap node="sponsor" data={nodeData.parent} getNode={getNode} status={
+                nodeData.parent === "T9yD14Nj9j7xAB4dbGeiX9h8unkKHxuWwb"
+                  ? "empty"
+                  : "active"
+              }/>
           </div>
           <div id="cni_user">
             <NodeItemWrap
               node="user"
-              data={nodeData.parent}
+              data={nodeData.address}
               level={nodeData.level}
               name={nodeData.name !== "" ? nodeData.name : nodeData.parent}
+              getNode={getNode}
             />
           </div>
           <div id="cni_F1">
@@ -64,6 +71,7 @@ export default () => {
                   : "active"
               }
               data={nodeData.F1[0]}
+              getNode={getNode}
             />
             <NodeItemWrap
               node="f1"
@@ -73,6 +81,7 @@ export default () => {
                   : "active"
               }
               data={nodeData.F1[1]}
+              getNode={getNode}
             />
             <NodeItemWrap
               node="f1"
@@ -82,6 +91,7 @@ export default () => {
                   : "active"
               }
               data={nodeData.F1[2]}
+              getNode={getNode}
             />
           </div>
           <div id="cni_note">
@@ -252,6 +262,9 @@ const ChartNodesWrap = memo(styled.div`
           text-transform: uppercase;
         }
       }
+    }
+    @media (max-width:1199px){
+      height:40vh;
     }
   }
 `);

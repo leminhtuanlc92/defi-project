@@ -71,9 +71,15 @@ const MatrixNetworkWrap = memo(styled.div`
     #mtnmb_left {
       flex-direction: column;
       width: 65%;
+      @media (max-width:1199px){
+        width:100%;
+      }
     }
     #mtnmb_right {
       width: calc(35% - 30px);
+      @media (max-width:1199px){
+        width:100%;
+      }
     }
     #matrixnetwork_mainbody_nolog {
       background-color: ${Colors.white};
@@ -163,6 +169,9 @@ const MatrixNetworkWrap = memo(styled.div`
           flex: 1;
         }
       }
+    }
+    @media (max-width:1199px){
+      flex-direction:column;
     }
   }
 `);
