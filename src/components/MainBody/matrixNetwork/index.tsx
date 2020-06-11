@@ -73,6 +73,7 @@ const MatrixNetworkWrap = memo(styled.div`
       width: 65%;
       @media (max-width:1199px){
         width:100%;
+        margin-bottom:30px;
       }
     }
     #mtnmb_right {

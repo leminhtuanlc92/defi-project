@@ -140,6 +140,22 @@ const NodeItemWrap = memo(styled.div`
         overflow: hidden;
         text-overflow: ellipsis;
         white-space: nowrap;
+        @media (max-width:991px){
+          font-size: 1.3vw;
+          line-height: 1.3vw;
+        }
+        @media (max-width:767px){
+          font-size: 1.5vw;
+          line-height: 1.5vw;
+        }
+        @media (max-width:599px){
+          font-size: 1.8vw;
+          line-height: 1.8vw;
+        }
+        @media (max-width:399px){
+          font-size: 2.8vw;
+          line-height: 2.8vw;
+        }
       }
     }
     .niwi_spec {
@@ -154,7 +170,7 @@ const NodeItemWrap = memo(styled.div`
         width: 100%;
         height: 100%;
         top: -2px;
-        left: -2px;
+        left: 0;
         z-index: 2;
         border-radius: 50%;
         background-color: ${Colors.white};

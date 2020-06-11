@@ -124,6 +124,13 @@ const ChartNodesWrap = memo(styled.div`
   border-radius: 10px;
   margin-bottom: 30px;
   flex-grow: 2;
+  @media (max-width:1199px){
+    height:40vh;
+  }
+  @media (max-width:399px){
+    height:50vh;
+    padding:10px;
+  }
   #cni {
     width: 100%;
     height: calc(100% * 0.9);
@@ -139,12 +146,21 @@ const ChartNodesWrap = memo(styled.div`
       align-items: flex-end;
       &:first-child {
         height: 18%;
+        @media (max-width:399px){
+          height:12%;
+        }
       }
       &:nth-child(2) {
         height: 28%;
+        @media (max-width:399px){
+          height:18.7%;
+        }
       }
       &:nth-child(3) {
         height: 36%;
+        @media (max-width:399px){
+          height:24%;
+        }
       }
     }
     #cni_user {
@@ -234,6 +250,10 @@ const ChartNodesWrap = memo(styled.div`
         margin: 0 2%;
         align-items: center;
         justify-content: center;
+        @media (max-width:399px){
+          width:80%;
+          height:25%;
+        }
         .cninb_mascot {
           width: 15px;
           height: 15px;
@@ -262,9 +282,15 @@ const ChartNodesWrap = memo(styled.div`
           text-transform: uppercase;
         }
       }
+      @media (max-width:399px){
+        height:45.3%;
+        flex-direction:column;
+        align-items:center;
+      }
     }
-    @media (max-width:1199px){
-      height:40vh;
+    @media (max-width:399px){
+      height:100%;
+      justify-content:flex-start;
     }
   }
 `);

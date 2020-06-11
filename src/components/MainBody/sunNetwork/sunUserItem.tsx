@@ -27,18 +27,15 @@ export default ({ item, topNode }: SunUserItemProps) => {
   const getUser = async (_userAddress) => {
     let user = await member.getUser(_userAddress).call();
     let level = await userData.getLevel(_userAddress).call();
-    console.log('FFFF', { user, level: Number(level) })
     setNodeData({ user, level: Number(level) });
   };
   useEffect(() => {
     if (topNode) {
       getUser(item.user.parent);
     } else {
-      console.log('here')
       getUser(item);
     }
   }, []);
-  !topNode && console.log('item', (window as any).tronWeb.address.fromHex(item))
   
   return (
     <SunUserItemWrap showChild={showChild}>
