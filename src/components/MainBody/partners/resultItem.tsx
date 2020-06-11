@@ -22,13 +22,13 @@ export default ({ id, username, address, level, sponsor, partners, lastItem }: P
                 <span>{username}</span>
             </div>
             <div className="psl_address">
-                <span>{address}</span>
+                <span>{(window as any).tronWeb.address.fromHex(address)}</span>
             </div>
             <div className="psl_level">
                 <span>{level}</span>
             </div>
             <div className="psl_sponsor">
-                <span>{sponsor}</span>
+                <span>{(window as any).tronWeb.address.fromHex(sponsor)}</span>
             </div>
             <div className="psl_partners">
                 <span>{partners}</span>

@@ -73,6 +73,7 @@ export default ({
         <BuyPop
           showPop={showPop}
           setShowPop={setShowPop}
+          bonus={bonus}
           available={dfc - currentStage.sold}
         />
       ) : null}

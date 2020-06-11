@@ -137,16 +137,15 @@ const GlobalStyle = createGlobalStyle`
         }
     }
     .Toastify__toast-container {
-    z-index: 99999999;
-    position: fixed;
-    padding: 4px;
-    width: 320px;
-    box-sizing: border-box;
-    color: #fff;
-    text-align: center;
-    font-size: 0.9em;
+        z-index: 99999999;
+        position: fixed;
+        padding: 4px;
+        width: 320px;
+        box-sizing: border-box;
+        color: #fff;
+        text-align: center;
+        font-size: 0.9em;
     }
-
     .Toastify__toast-container--top-left {
         top: 1em;
         left: 1em;
@@ -155,7 +154,7 @@ const GlobalStyle = createGlobalStyle`
     .Toastify__toast-container--top-center {
         top: 1em;
         left: 50%;
-        transform: translate(-50%, 0);
+        /* transform: translate(-50%, 0); */
     }
 
     .Toastify__toast-container--top-right {
@@ -215,7 +214,7 @@ const GlobalStyle = createGlobalStyle`
         justify-content: space-between;
         max-height: 800px;
         overflow: hidden;
-        font-family: 'Roboto', sans-serif
+        font-family: 'Roboto', sans-serif;
         cursor: pointer;
         direction: ltr;
     }

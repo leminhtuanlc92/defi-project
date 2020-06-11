@@ -5,6 +5,7 @@ import Colors from "../../constants/Colors";
 import Texts from "../../constants/Texts";
 import { Link, useLocation } from "react-router-dom";
 import i18n from "i18n-js";
+import Language from '../common/core/Language'
 const logoutImg = require("../../assets/images/ic-logout.svg");
 const logoImg = require("../../assets/images/logo-defi-white.svg");
 const iconLogo = require("../../assets/images/icon-defi-white.svg");
@@ -60,6 +61,9 @@ export default () => {
   ];
   return (
     <AsideWrap aside={siteState.aside}>
+      <div id="a_lang">
+          <Language colorInner={Colors.white}/>
+        </div>
       <Logo aside={siteState.aside}>
         {siteState.aside ? (
           <img src={logoImg} alt="" />
@@ -155,6 +159,7 @@ const AsideWrap = memo(styled.div`
   background-color: ${Colors.green1};
   padding: 20px 0;
   height: calc(100% - 40px);
+  position:relative;
   ${(props: any) =>
     props.aside
       ? css`
@@ -169,6 +174,14 @@ const AsideWrap = memo(styled.div`
     width: 100%;
     padding: 0;
     position: relative;
+  }
+  #a_lang{
+    display:none;
+    align-items:center;
+    padding-left:10px;
+    @media (max-width:499px){
+      display:flex;
+    }
   }
 `);
 const ToggleMenu = memo(styled.div`
@@ -196,7 +209,11 @@ const Logo = memo(styled.div`
           `}
   }
   @media (max-width: 991px) {
-    flex: 1;
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translate(-50%,0);
+    height: 40px;
   }
 `);
 

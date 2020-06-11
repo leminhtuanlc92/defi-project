@@ -9,9 +9,7 @@ import i18n from "i18n-js";
 import Loading from "../../../common/loading";
 export default () => {
   const { matrixMember, address, member, userData } = useContext(TronContract);
-  const {
-    siteState: { aside },
-  } = useContext(SiteContext);
+  const { siteState: { aside } } = useContext(SiteContext);
   const [nodeData, setNodeData] = useState({
     address: "",
     sponsor: "",
@@ -27,7 +25,7 @@ export default () => {
       member.users(_startUser).call(),
     ]);
     setNodeData({
-      address:_startUser,
+      address: _startUser,
       sponsor: (window as any).tronWeb.address.fromHex(result.sponsor),
       parent: (window as any).tronWeb.address.fromHex(result.parent),
       F1: result.F1.map((item) =>
@@ -45,71 +43,71 @@ export default () => {
       {nodeData === null ? (
         <Loading />
       ) : (
-        <div id="cni">
-          <div id="cni_sponsor">
-            <NodeItemWrap node="sponsor" data={nodeData.parent} getNode={getNode} status={
+          <div id="cni">
+            <div id="cni_sponsor">
+              <NodeItemWrap node="sponsor" data={nodeData.parent} getNode={getNode} status={
                 nodeData.parent === "T9yD14Nj9j7xAB4dbGeiX9h8unkKHxuWwb"
                   ? "empty"
                   : "active"
-              }/>
-          </div>
-          <div id="cni_user">
-            <NodeItemWrap
-              node="user"
-              data={nodeData.address}
-              level={nodeData.level}
-              name={nodeData.name !== "" ? nodeData.name : nodeData.parent}
-              getNode={getNode}
-            />
-          </div>
-          <div id="cni_F1">
-            <NodeItemWrap
-              node="f1"
-              status={
-                nodeData.F1[0] === "T9yD14Nj9j7xAB4dbGeiX9h8unkKHxuWwb"
-                  ? "empty"
-                  : "active"
-              }
-              data={nodeData.F1[0]}
-              getNode={getNode}
-            />
-            <NodeItemWrap
-              node="f1"
-              status={
-                nodeData.F1[1] === "T9yD14Nj9j7xAB4dbGeiX9h8unkKHxuWwb"
-                  ? "empty"
-                  : "active"
-              }
-              data={nodeData.F1[1]}
-              getNode={getNode}
-            />
-            <NodeItemWrap
-              node="f1"
-              status={
-                nodeData.F1[2] === "T9yD14Nj9j7xAB4dbGeiX9h8unkKHxuWwb"
-                  ? "empty"
-                  : "active"
-              }
-              data={nodeData.F1[2]}
-              getNode={getNode}
-            />
-          </div>
-          <div id="cni_note">
-            <div className="cnin_block">
-              <div className="cninb_mascot"></div>
-              <span className="cninb_text">{i18n.t("emptyNode")}</span>
+              } />
             </div>
-            <div className="cnin_block">
-              <div className="cninb_mascot"></div>
-              <span className="cninb_text">{i18n.t("activeNode")}</span>
+            <div id="cni_user">
+              <NodeItemWrap
+                node="user"
+                data={nodeData.address}
+                level={nodeData.level}
+                name={nodeData.name !== "" ? nodeData.name : nodeData.parent}
+                getNode={getNode}
+              />
             </div>
-            <div className="cnin_block">
-              <div className="cninb_mascot"></div>
-              <span className="cninb_text">{i18n.t("disableNode")}</span>
+            <div id="cni_F1">
+              <NodeItemWrap
+                node="f1"
+                status={
+                  nodeData.F1[0] === "T9yD14Nj9j7xAB4dbGeiX9h8unkKHxuWwb"
+                    ? "empty"
+                    : "active"
+                }
+                data={nodeData.F1[0]}
+                getNode={getNode}
+              />
+              <NodeItemWrap
+                node="f1"
+                status={
+                  nodeData.F1[1] === "T9yD14Nj9j7xAB4dbGeiX9h8unkKHxuWwb"
+                    ? "empty"
+                    : "active"
+                }
+                data={nodeData.F1[1]}
+                getNode={getNode}
+              />
+              <NodeItemWrap
+                node="f1"
+                status={
+                  nodeData.F1[2] === "T9yD14Nj9j7xAB4dbGeiX9h8unkKHxuWwb"
+                    ? "empty"
+                    : "active"
+                }
+                data={nodeData.F1[2]}
+                getNode={getNode}
+              />
+            </div>
+            <div id="cni_note">
+              <div className="cnin_block">
+                <div className="cninb_mascot"></div>
+                <span className="cninb_text">{i18n.t("emptyNode")}</span>
+              </div>
+              <div className="cnin_block">
+                <div className="cninb_mascot"></div>
+                <span className="cninb_text">{i18n.t("activeNode")}</span>
+              </div>
+              <div className="cnin_block">
+                <div className="cninb_mascot"></div>
+                <span className="cninb_text">{i18n.t("disableNode")}</span>
+              </div>
             </div>
           </div>
-        </div>
-      )}
+        )}
     </ChartNodesWrap>
   );
 };

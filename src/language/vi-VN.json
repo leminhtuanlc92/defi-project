@@ -125,5 +125,7 @@
   "notactive": "Chưa kích hoạt",
   "matrixNotLogQuote1": "Dường như người giới thiệu chưa kích hoạt Matrix network của bạn.",
   "matrixNotLogQuote2": "Hãy liên hệ với người giới thiệu để active tài khoản và sử dụng hệ thống nhé!",
-  "refferalInfo": "Thông tin người giới thiệu"
+  "refferalInfo": "Thông tin người giới thiệu",
+  "notSet": "Chưa đặt",
+  "REVERT opcode executed": "REVERT opcode executed"
 }

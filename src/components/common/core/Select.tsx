@@ -27,7 +27,7 @@ export default ({
   const [show, setShow] = useState(false);
   return (
     <SelectInput disabled={disabled}>
-      <div id="sli_current_select" onClick={() => setShow(!show)}>
+      <div id="sli_current_select" onClick={() => { !disabled && setShow(!show) }}>
         <span id="slics_name">
           {currentSelect && currentSelect.title !== ""
             ?

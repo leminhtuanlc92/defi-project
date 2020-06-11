@@ -5,6 +5,7 @@ import Texts from "../../constants/Texts";
 import i18n from "i18n-js";
 import Copy from "copy-to-clipboard";
 import { TronContract } from "../../contexts/tronWeb";
+import Language from '../common/core/Language'
 const avatImg = require("../../assets/images/avt.png");
 const copyImg = require("../../assets/images/copy.png");
 export default () => {
@@ -62,17 +63,23 @@ export default () => {
         </div>
       </div>
       <div id="top_account_info">
-        <div id="avt_lvl">
-          <img src={avatImg} alt="" />
-          <span>
-            {i18n.t("level")}: {userInfo.level}
-          </span>
+        <div id="tai_lang">
+          <Language />
         </div>
-        <div id="username_address">
-          <span>{userInfo.username}</span>
-          <span>{`${address.slice(0, 5)}...${address.slice(-6)}`}</span>
-          <span>{address}</span>
+        <div id="tai_user">
+          <div id="avt_lvl">
+            <img src={avatImg} alt="" />
+            <span>
+              {i18n.t("level")}: {userInfo.level}
+            </span>
+          </div>
+          <div id="username_address">
+            <span>{userInfo.username}</span>
+            <span>{`${address.slice(0, 5)}...${address.slice(-6)}`}</span>
+            <span>{address}</span>
+          </div>
         </div>
+
       </div>
     </HeadContentWrap>
   );
@@ -118,6 +125,13 @@ const HeadContentWrap = memo(styled.div`
       }
     }
     #top_account_info{
+      #tai_lang{
+        @media (max-width:499px){
+          display:none;
+        }
+      }
+      #tai_user{
+        margin-left:15px;
         #avt_lvl{
             flex-direction:column;
             align-items:center;
@@ -153,6 +167,7 @@ const HeadContentWrap = memo(styled.div`
                 }
             }
         }
+      }
     }
     @media (max-width:991px){
       height:auto;
@@ -166,6 +181,7 @@ const HeadContentWrap = memo(styled.div`
       }
     }
     @media (max-width:480px){
+      align-items: center;
       #affiliate-link{
         flex-direction:column;
         align-items:center;

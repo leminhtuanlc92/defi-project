@@ -4,6 +4,7 @@ import Colors from "../../../constants/Colors";
 import Texts from "../../../constants/Texts";
 import i18n from "i18n-js";
 import SunUserItem from "./sunUserItem";
+import Loading from '../../common/loading'
 import { TronContract } from "../../../contexts/tronWeb";
 export default () => {
   const { member, userData, address } = useContext(TronContract);
@@ -50,7 +51,7 @@ export default () => {
         {isMember && nodeData.user.parent !== "" ? (
           <SunUserItem item={nodeData} topNode={true} />
         ) : (
-          <span>{i18n.t("noData")}</span>
+          <span id="snmb_nodata">{i18n.t("noData")}</span>
         )}
       </div>
     </SunNetworkWrap>
@@ -74,5 +75,13 @@ const SunNetworkWrap = memo(styled.div`
     flex: 1;
     padding: 15px;
     border-radius: 10px;
+    #snmb_nodata{
+      font-size: ${Texts.size.large};
+      line-height: ${Texts.size.large};
+      color: ${Colors.black};
+      margin-top:10px;
+      width:100%;
+      text-align:center;
+    }
   }
 `);

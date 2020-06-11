@@ -7,11 +7,14 @@ import i18n from "i18n-js";
 import { TronContract } from "../../../../contexts/tronWeb";
 import MergePop from "../mergePop";
 import WAValidator from "multicoin-address-validator";
+import { toast } from 'react-toastify'
+import Loading from '../../../common/loading'
 export default () => {
   const { matrixMember, address, member, userData } = useContext(TronContract);
   const [listUser, setUserList] = useState([] as any);
   const [selectPending, setSelectPending] = useState({ title: "", value: "" });
   const [userInput, setUserInput] = useState("");
+  const [loading, setLoading] = useState(false)
   const [userEmptyNode, setUserEmptyNode] = useState({
     username: "",
     address: "",
@@ -19,14 +22,9 @@ export default () => {
   });
   const [showPop, setShowPop] = useState(false);
   const [validAddress, setValidAddress] = useState(false);
-  const validate = () => {
-    let valid = WAValidator.validate(userInput, "trx");
+  const validate = (value) => {
+    let valid = WAValidator.validate(value, "trx");
     setValidAddress(valid);
-  };
-
-  const getNode = async (_startUser) => {
-    let result = await matrixMember.getNode(_startUser).call();
-    console.log(result);
   };
 
   const getNodeInfo = async (_address) => {
@@ -34,16 +32,18 @@ export default () => {
       member.getUsername(_address).call(),
       userData.getLevel(_address).call(),
     ]);
-    return {
-      username,
-      level: Number(level),
+    setUserEmptyNode({
       address: _address,
+      level: Number(level) + '',
+      username,
+    })
+    return {
+      address: _address,
+      level: Number(level),
+      username,
     };
   };
-  const gatherInfo = () => {
-    let data = getNodeInfo(userInput);
-    console.log("data", data);
-  };
+
   const getListPending = async () => {
     let result = await matrixMember.getPendingList(address).call();
     let users = [] as any;
@@ -57,37 +57,24 @@ export default () => {
     setUserList(users);
   };
   const mergeNode = async (empty: any, pendingUser: any) => {
-    const result = await matrixMember.mergeBranch(pendingUser, empty).send({
-      callValue: 0,
-      feeLimit: 1e7,
-      shouldPollResponse: true,
-    });
-  };
-  const freeNodeLevel = async (_startNode) => {
-    let result = await matrixMember.findFreeLevel(_startNode).call();
-    return result;
-  };
-  const findFreeNode = async (_startNode, _level) => {
-    //TODO
-    let result = undefined;
-    let start = 0;
-    while (result === undefined) {
-      let free = await matrixMember.findFreeNode(_startNode, _level, start, 50);
-      if (free !== "410000000000000000000000000000000000000000") {
-        result = free;
-      } else {
-        start += 50;
-      }
+    setLoading(true)
+    try {
+      const result = await matrixMember.mergeBranch(pendingUser, empty).send({
+        callValue: 0,
+        feeLimit: 1e7,
+        shouldPollResponse: true,
+      });
+      if (result) {
+        setLoading(false)
+        toast.success(i18n.t("mergeSuccess"), { position: "top-center" })
+      };
+    } catch (error) {
+      console.log(error)
+      toast.error(i18n.t(error.error), { position: "top-center" });
+      setLoading(false)
     }
-    return result;
+
   };
-  let dataSelect = [] as any;
-  for (let i = 0; i <= listUser.length - 1; i++) {
-    dataSelect.push({
-      title: listUser[i].username,
-      value: listUser[i].address,
-    });
-  }
   useEffect(() => {
     getListPending();
   }, []);
@@ -110,14 +97,20 @@ export default () => {
           <div id="mpilen_input">
             <div id="mpileni_textbox">
               <input
-                onChange={(e) => setUserInput(e.target.value)}
-                onBlur={() => validate()}
+                onChange={(e) => {
+                  setUserInput(e.target.value)
+                  validate(e.target.value)
+                }
+                }
               />
             </div>
-            <button
-              disabled={!(userInput !== "")}
-              onClick={() => userInput !== "" && gatherInfo()}
-            >
+            <button disabled={!(userInput !== "")}
+              onClick={() => {
+                if (userInput !== "" && validAddress) {
+                  getNodeInfo(userInput)
+                }
+              }
+              }>
               {i18n.t("confirm")}
             </button>
           </div>
@@ -125,24 +118,24 @@ export default () => {
             <div id="mpilen_gathered_data">
               <div className="mpilengd_item">
                 <span>{i18n.t("username")}:</span>
-                <span>10</span>
+                <span>{userEmptyNode.username !== '' ? userEmptyNode.username : i18n.t('notSet')}</span>
               </div>
               <div className="mpilengd_item">
                 <span>{i18n.t("address")}:</span>
-                <span>10</span>
+                <span>{userEmptyNode.address}</span>
               </div>
               <div className="mpilengd_item">
                 <span>{i18n.t("level")}:</span>
-                <span>10</span>
+                <span>{userEmptyNode.level}</span>
               </div>
             </div>
           ) : null}
         </div>
-        <button
-          disabled={!(selectPending.value !== "" && validAddress)}
-          onClick={() => mergeNode(userInput, selectPending.value)}
+        <button id="mpi_action"
+          disabled={!(selectPending.value !== "" && userEmptyNode.address !== '' && validAddress)}
+          onClick={() => !loading && mergeNode(userInput, selectPending.value)}
         >
-          {i18n.t("match")}
+          {loading ? <Loading color={Colors.white} size={15} /> : i18n.t("match")}
         </button>
       </div>
       {showPop ? (
@@ -197,18 +190,12 @@ const MatchPendingUserWrap = memo(styled.div`
           input {
             flex: 1;
             padding: 0 10px;
-            ${(props: any) =>
-              props.userInput === ""
-                ? css`
-                    border: solid 1px ${Colors.black};
-                  `
-                : props.validAddress
-                ? css`
-                    border: solid 1px ${Colors.black};
-                  `
-                : css`
-                    border: solid 1px ${Colors.red};
-                  `};
+            ${(props: any) => props.userInput === "" ?
+    css`border: solid 1px ${Colors.black};` :
+    props.validAddress ?
+      css`border: solid 1px ${Colors.black};` :
+      css`border: solid 1px ${Colors.red};`
+  };
             border-top-left-radius: 5px;
             border-bottom-left-radius: 5px;
             border-right: none;
@@ -261,6 +248,10 @@ const MatchPendingUserWrap = memo(styled.div`
         box-shadow: none;
         cursor: not-allowed;
       }
+    }
+    #mpi_action{
+      flex:1;
+      justify-content:center;
     }
   }
 `);

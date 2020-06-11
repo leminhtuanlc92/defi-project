@@ -70,6 +70,7 @@ const OfficeBlock = memo(styled.div`
   border-radius: 10px;
   flex-direction: column;
   margin-bottom: 30px;
+  background-color:${Colors.white};
   &:hover {
     box-shadow: 0 0 15px 1px rgba(100, 161, 94, 0.4);
   }

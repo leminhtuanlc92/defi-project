@@ -6,7 +6,9 @@ import i18n from "i18n-js";
 import Select from "../../../../components/common/core/Select";
 import { TronContract } from "../../../../contexts/tronWeb";
 import MergePop from "../mergePop";
+import { toast } from "react-toastify";
 import WAValidator from "multicoin-address-validator";
+import Loading from '../../../common/loading'
 const closeImg = require("../../../../assets/images/close.png");
 const checkImg = require("../../../../assets/images/ic-green-check.png");
 const upgradeSuccess = require("../../../../assets/images/upgrade-successful.svg");
@@ -17,20 +19,45 @@ export default () => {
   const [listUser, setUserList] = useState([] as any);
   const [selectPending, setSelectPending] = useState({ title: "", value: "" });
   const [userInput, setUserInput] = useState("");
+  const [loading, setLoading] = useState(false)
   const [userEmptyNode, setUserEmptyNode] = useState({
-    username: "",
     address: "",
     level: "",
+    username: "",
   });
   const [showPop, setShowPop] = useState(false);
   const [validAddress, setValidAddress] = useState(false);
-  const validate = () => {
-    let valid = WAValidator.validate(userInput, "trx");
+  const validate = (data) => {
+    let valid = WAValidator.validate(data, "trx");
     setValidAddress(valid);
   };
-  const getNode = async (_startUser) => {
-    let result = await matrixMember.getNode(_startUser).call();
-    console.log(result);
+  const freeNodeLevel = async (_startNode) => {
+    let result = await matrixMember.findFreeLevel(_startNode).call();
+    setUserEmptyNode({
+      ...userEmptyNode,
+      level: Number(result).toString()
+    })
+    setStep(1)
+    findFreeNode(_startNode, Number(result))
+    return Number(result);
+  };
+
+  const findFreeNode = async (_startNode, _level) => {
+    //TODO
+    let result = undefined;
+    let start = 0;
+    while (result === undefined) {
+      let free = await matrixMember.findFreeNode(_startNode, _level, start, 50).call();
+      if (free !== "410000000000000000000000000000000000000000") {
+        result = free;
+      } else {
+        start += 50;
+      }
+    }
+    // console.log('result2', result)
+    let add = (window as any).tronWeb.address.fromHex(result)
+    getNodeInfo(add)
+    return result;
   };
 
   const getNodeInfo = async (_address) => {
@@ -38,35 +65,45 @@ export default () => {
       member.getUsername(_address).call(),
       userData.getLevel(_address).call(),
     ]);
+    setUserEmptyNode({ address: _address, level: Number(level) + '', username: username === '' ? 'notSet' : username })
+    setStep(2)
+    getListPending()
     return {
       username,
-      level: Number(level),
-      address: _address,
+      level: Number(level)
     };
   };
-  const gatherInfo = () => {
-    let data = getNodeInfo(userInput);
-    // console.log('data', data)
-    setStep(1);
-  };
+
   const getListPending = async () => {
     let result = await matrixMember.getPendingList(address).call();
     let users = [] as any;
     for (let i = 0; i < result.length; i++) {
-      let username = await member.getUsername(result[i]);
+      let username = await member.getUsername(result[i]).call();
       users.push({
-        title: username,
+        title: `${username} - ${(window as any).tronWeb.address.fromHex(result[i]).slice(0, 5)}...${(window as any).tronWeb.address.fromHex(result[i]).slice(-6)}`,
         value: (window as any).tronWeb.address.fromHex(result[i]),
       });
     }
     setUserList(users);
+    setStep(3)
   };
+
   const mergeNode = async (empty: any, pendingUser: any) => {
-    const result = await matrixMember.mergeBranch(pendingUser, empty).send({
-      callValue: 0,
-      feeLimit: 1e7,
-      shouldPollResponse: true,
-    });
+    setLoading(true)
+    try {
+      const result = await matrixMember.mergeBranch(pendingUser, empty).send({
+        callValue: 0,
+        feeLimit: 1e7,
+        shouldPollResponse: true,
+      });
+      if (result) {
+        setLoading(false)
+        toast.success(i18n.t("mergeSuccess"), { position: "top-center" })
+      };
+    } catch (error) {
+      toast.error(error.error, { position: "top-center" });
+      setLoading(false)
+    }
   };
   return (
     <SearchNodesWrap validAddress={validAddress} userInput={userInput}>
@@ -74,16 +111,15 @@ export default () => {
       <span id="search_node_quote">{i18n.t("searchEmptyNodeQuote")}</span>
       <div id="sn_input">
         <div id="sni_textbox">
-          <input
-            onChange={(e) => setUserInput(e.target.value)}
-            onBlur={() => validate()}
-          />
+          <input onChange={(e) => {
+            validate(e.target.value)
+            setUserInput(e.target.value)
+          }} />
         </div>
-        <button
-          disabled={!(userInput !== "" && validAddress)}
+        <button disabled={!(userInput !== "" && validAddress)}
           onClick={() => {
             if (userInput !== "") {
-              gatherInfo();
+              freeNodeLevel(userInput);
             }
           }}
         >
@@ -134,22 +170,22 @@ export default () => {
             </div>
           </div>
           <div id="snirc_result">
-            {step > 0 ? (
-              <div id="snircr_step1">
-                <span className="label">{i18n.t("emptyLevel")}:</span>
-                <span className="content">3</span>
-              </div>
-            ) : null}
+            <div id="snircr_step1">
+              <span className="label">{i18n.t("emptyLevel")}:</span>
+              <span className="content">{step > 0 ? userEmptyNode.level : ''}</span>
+            </div>
             {step > 1 ? (
               <div id="snircr_step2">
                 <span className="label">{i18n.t("emptyNode")}:</span>
                 <div className="nircrs2_username">
                   <span className="child_label">{i18n.t("username")}:</span>
-                  <span className="child_value">Dunglovely</span>
+                  <span className="child_value">
+                    {userEmptyNode.username === 'notSet' ? i18n.t('notSet') : userEmptyNode.username}
+                  </span>
                 </div>
                 <div className="nircrs2_address">
                   <span className="child_label">{i18n.t("address")}:</span>
-                  <span className="child_value">0x5ac6hd3krd…10ce5ac6hd</span>
+                  <span className="child_value">{`${userEmptyNode.address.slice(0, 5)}...${userEmptyNode.address.slice(-6)}`}</span>
                 </div>
                 <div className="nircrs2_level_empty">
                   <span className="child_label">
@@ -164,8 +200,10 @@ export default () => {
                 <span className="label">{i18n.t("listPendingUsers")}:</span>
                 <Select
                   listSelect={listUser}
-                  action={() => { }}
+                  action={setSelectPending}
                   defaultSelect={i18n.t("selectUserToMatch")}
+                  disabled={listUser.length === 0}
+                  currentSelect={selectPending}
                 />
                 <button
                   disabled={
@@ -173,9 +211,9 @@ export default () => {
                       userEmptyNode.address !== "" && selectPending.value !== ""
                     )
                   }
-                  onClick={() => mergeNode(userEmptyNode, selectPending.value)}
+                  onClick={() => !loading && mergeNode(userEmptyNode.address, selectPending.value)}
                 >
-                  {i18n.t("match")}
+                  {loading ? <Loading color={Colors.white} size={20}/> : i18n.t("match")}
                 </button>
               </div>
             ) : null}
@@ -348,6 +386,8 @@ const SearchNodesWrap = memo(styled.div`
             font-size: ${Texts.size.large};
             border: solid 1px ${Colors.orange};
             padding: 10px 40px;
+            justify-content: center;
+            display: flex;
             &:hover {
               background-color: ${Colors.orange1};
               box-shadow: 0 3px 6px 1px rgba(255, 159, 91, 0.2);
@@ -374,7 +414,7 @@ const SearchNodesWrap = memo(styled.div`
         }
         .child_label {
           font-size: ${Texts.size.normal};
-          line-height: ${Texts.size.normal};
+          line-height: ${Texts.size.large};
           color: ${Colors.black1};
           flex: 0.35;
           text-align: right;
@@ -497,10 +537,10 @@ const SnircsDivider1 = memo(styled.div`
   div{
     width: 30px;
     height: 5px;
-    ${(props: any) => props.step > 1?
-      css`background-color: ${Colors.orange};`:
-      css`background-color: ${Colors.green3};`
-    };
+    ${(props: any) => props.step > 1 ?
+    css`background-color: ${Colors.orange};` :
+    css`background-color: ${Colors.green3};`
+  };
     margin: 0 2%;
   }
 `);
@@ -509,10 +549,10 @@ const SnircsDivider2 = memo(styled.div`
   div{
     width: 30px;
     height: 5px;
-    ${(props: any) => props.step === 3 ? 
-      css`background-color: ${Colors.orange};`:
-      css`background-color: ${Colors.green3};`  
-    };
+    ${(props: any) => props.step === 3 ?
+    css`background-color: ${Colors.orange};` :
+    css`background-color: ${Colors.green3};`
+  };
     margin: 0 2%;
   }
 `);
