@@ -28,7 +28,7 @@ export default () => {
   };
   const getPartners = async (_startUser, _level, _size, _page) => {
     let result = await matrixMember
-      .getBranch(_startUser, _level, _size, (_page - 1) * _size)
+      .getBranch(_startUser, _level - 1, _size, (_page - 1) * _size)
       .call();
     let partnersList = [] as any;
     for (let i = 0; i < result.list.length; i++) {

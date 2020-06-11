@@ -55,7 +55,9 @@ export default ({ data }: SunUserItemChildProps) => {
               </div>
               <div className="sunmi_bio">
                 <span className="sunuser_nodename">{nodeData.user.userId}</span>
-                <span className="sunuser_address">{nodeData.user.parent}</span>
+                <span className="sunuser_address">
+                  {(window as any).tronWeb.address.fromHex(data)}
+                </span>
               </div>
             </div>
           </SunUserItemChildNodeMain>
