@@ -83,7 +83,7 @@ export default ({ showPop, setShowPop }: PopUpgradeProps) => {
           shouldPollResponse: false,
         });
       setLoading(false);
-      setShowPop(false);
+      setStep(2)
     } catch (error) {
       console.log("Upgrade Error", error);
       toast.error(i18n.t(error), { position: "top-center" });

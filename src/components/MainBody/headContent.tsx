@@ -8,16 +8,15 @@ import { TronContract } from "../../contexts/tronWeb";
 import Language from '../common/core/Language'
 const avatImg = require("../../assets/images/avt.png");
 const copyImg = require("../../assets/images/copy.png");
-export default () => {
+interface HeadContentProps {
+  username: string;
+  level: number
+}
+export default ({ username, level }: HeadContentProps) => {
   const { address, member, userData } = useContext(TronContract);
-
-  const [userInfo, setUserInfo] = useState({
-    username: "Not set",
-    level: 0,
-  });
   const affiliate =
-    userInfo.username !== "Not set"
-      ? (window as any).location.origin + "/?username=" + userInfo.username
+    username !== "Not set"
+      ? (window as any).location.origin + "/?username=" + username
       : (window as any).location.origin + "/?ref=" + address;
   const [copied, setCopied] = useState(false);
   const writeToClipboard = async () => {
@@ -29,23 +28,7 @@ export default () => {
     };
   };
 
-  useEffect(() => {
-    //TODO get user info
-    const getUserData = async () => {
-      const [user, level] = await Promise.all([
-        member.getUser(address).call(),
-        userData.getLevel(address).call(),
-      ]);
-      setUserInfo({
-        username: user.userId === "" ? "Not set" : user.userId,
-        level: Number(level),
-      });
-    };
-    if (member && userData) {
-      //TODO get UserData
-      getUserData();
-    }
-  }, [userData, member]);
+
   return (
     <HeadContentWrap>
       <div id="affiliate-link">
@@ -70,11 +53,11 @@ export default () => {
           <div id="avt_lvl">
             <img src={avatImg} alt="" />
             <span>
-              {i18n.t("level")}: {userInfo.level}
+              {i18n.t("level")}: {level}
             </span>
           </div>
           <div id="username_address">
-            <span>{userInfo.username}</span>
+            <span>{username}</span>
             <span>{`${address.slice(0, 5)}...${address.slice(-6)}`}</span>
             <span>{address}</span>
           </div>

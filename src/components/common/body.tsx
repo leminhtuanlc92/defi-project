@@ -1,4 +1,4 @@
-import React, { memo, Fragment, useContext, useState } from "react";
+import React, { memo, Fragment, useContext, useState, useEffect } from "react";
 import styled, { css } from "styled-components/macro";
 import { ToastContainer } from "react-toastify";
 import { SiteContext } from "../../contexts/siteContext";
@@ -8,13 +8,37 @@ import Colors from "../../constants/Colors";
 import ReactTooltip from "react-tooltip";
 import HeadContent from "../MainBody/headContent";
 import TronWrap from "../../contexts/tronWeb";
+import { TronContract } from "../../contexts/tronWeb";
 const closeImg = require("../../assets/images/white-back.png");
 const openImg = require("../../assets/images/white-next.png");
 export default () => {
+  const { address, member, userData } = useContext(TronContract);
+
+  const [userInfo, setUserInfo] = useState({
+    username: "Not set",
+    level: 0,
+  });
   const {
     siteState: { aside },
     toggleAside,
   } = useContext(SiteContext);
+
+  const getUserData = async () => {
+    const [user, level] = await Promise.all([
+      member.getUser(address).call(),
+      userData.getLevel(address).call(),
+    ]);
+    setUserInfo({
+      username: user.userId === "" ? "Not set" : user.userId,
+      level: Number(level),
+    });
+  };
+  useEffect(() => {
+    if (member && userData) {
+      //TODO get UserData
+      getUserData();
+    }
+  }, [address, userData, member]);
   return (
     <WrapBody>
       <TronWrap>
@@ -36,9 +60,9 @@ export default () => {
             <MainBody aside={aside}>
               <div id="wrap-main">
                 <div id="scroll_section">
-                  <HeadContent />
+                  <HeadContent username={userInfo.username} level={userInfo.level}/>
                   <div id="wrap_main_content">
-                    <MainRoutes />
+                    <MainRoutes getUserData={getUserData}/>
                   </div>
                 </div>
               </div>

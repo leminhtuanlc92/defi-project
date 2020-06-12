@@ -22,7 +22,7 @@ const Transactions = lazy(() => import("../src/containers/transactionHistory"));
 const BuyDFC = lazy(() => import("../src/containers/buyDFC"));
 const Instruction = lazy(() => import("../src/containers/dashboard"));
 
-export default () => {
+export default ({getUserData}) => {
   const { usdt, address, member } = useContext(TronContract);
   const [approve, setApprove] = useState(false);
   const [username, setUsername] = useState("");
@@ -67,6 +67,7 @@ export default () => {
         toast.success(i18n.t("signupUsernameSuccessful"), {
           position: "top-center",
         });
+        getUserData()
         setLoading(false)
         setShowPop(false);
       } else {

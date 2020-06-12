@@ -15,6 +15,7 @@ export default () => {
   const [selectPending, setSelectPending] = useState({ title: "", value: "" });
   const [userInput, setUserInput] = useState("");
   const [loading, setLoading] = useState(false);
+  const [type, setType] = useState('fail')
   const [userEmptyNode, setUserEmptyNode] = useState({
     username: "",
     address: "",
@@ -65,10 +66,13 @@ export default () => {
         shouldPollResponse: false,
       });
       setLoading(false);
+      setShowPop(true)
+      setType('success')
       toast.success(i18n.t("mergeSuccess"), { position: "top-center" });
     } catch (error) {
       console.log(error);
-      toast.error(i18n.t(error.error), { position: "top-center" });
+      setShowPop(true)
+      setType('fail')
       setLoading(false);
     }
   };
