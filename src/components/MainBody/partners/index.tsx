@@ -8,9 +8,12 @@ import PartnerSearchList from "./partnerSearchList";
 import { TronContract } from "../../../contexts/tronWeb";
 import WAValidator from "multicoin-address-validator";
 import Select from "../../common/core/Select";
+import Loading from '../../common/loading'
+import { toast } from "react-toastify";
 export default () => {
   const { address } = useContext(TronContract);
   const [startUser, setStartUser] = useState(address);
+  const [loading, setLoading] = useState(false)
   const [level, setLevel] = useState({
     title: `${i18n.t("level")} 1`,
     value: "1",
@@ -27,33 +30,41 @@ export default () => {
     setValidAddress(valid);
   };
   const getPartners = async (_startUser, _level, _size, _page) => {
-    let result = await matrixMember
-      .getBranch(_startUser, _level - 1, _size, (_page - 1) * _size)
-      .call();
-    let partnersList = [] as any;
-    for (let i = 0; i < result.list.length; i++) {
-      const [partner, username, level] = await Promise.all([
-        matrixMember.getNode(result.list[i]).call(),
-        member.getUsername(result.list[i]).call(),
-        userData.getLevel(result.list[i]).call(),
-      ]);
-      partnersList.push({
-        username,
-        level: Number(level),
-        address: result.list[i],
-        sponsor: partner.sponsor,
-        parent: partner.parent,
-        numberF1: partner.F1.filter((item) => item !== "").length,
+    setLoading(true)
+    try {
+      let result = await matrixMember
+        .getBranch(_startUser, _level - 1, _size, (_page - 1) * _size)
+        .call();
+      let partnersList = [] as any;
+      for (let i = 0; i < result.list.length; i++) {
+        const [partner, username, level] = await Promise.all([
+          matrixMember.getNode(result.list[i]).call(),
+          member.getUsername(result.list[i]).call(),
+          userData.getLevel(result.list[i]).call(),
+        ]);
+        partnersList.push({
+          username,
+          level: Number(level),
+          address: result.list[i],
+          sponsor: partner.sponsor,
+          parent: partner.parent,
+          numberF1: partner.F1.filter((item) => item !== "").length,
+        });
+      }
+      setData({
+        total: result.total,
+        partnersList,
       });
+      setLoading(false)
+      return {
+        partnersList,
+        total: result.total,
+      };
+    } catch (error) {
+      console.log('get partner data fail', error)
+      toast.error(i18n.t(error), { position: "top-center" })
+      setLoading(false)
     }
-    setData({
-      total: result.total,
-      partnersList,
-    });
-    return {
-      partnersList,
-      total: result.total,
-    };
   };
   // console.log('data',data)
   return (
@@ -98,18 +109,10 @@ export default () => {
             </div>
             <div id="pmf1_right">
               <div className="pmfr_action">
-                <button
-                  disabled={
-                    !(
-                      (startUser !== address && validAddress) ||
-                      startUser === address
-                    )
-                  }
-                  onClick={() =>
-                    getPartners(startUser, +level.value, 10, +page)
-                  }
+                <button disabled={!((startUser !== address && validAddress) || startUser === address)}
+                  onClick={() => !loading && getPartners(startUser, +level.value, 10, +page)}
                 >
-                  {i18n.t("filterV")}
+                  {loading ? <Loading color={Colors.white} size={18} /> : i18n.t("filterV")}
                 </button>
               </div>
             </div>
@@ -134,7 +137,7 @@ export default () => {
           </div> */}
         </div>
         <div id="pm_filter_result">
-          <PartnerSearchList data={data} />
+          <PartnerSearchList data={data} loading={loading}/>
           {data.partnersList.length > 0 ? (
             <div id="pmfr_pagination_wrap">
               <Pagination
@@ -205,12 +208,12 @@ const PartnerskWrap = memo(styled.div`
               }
               input {
                 ${(props: any) =>
-                  (props.startUser !== props.address && props.validAddress) ||
-                  props.startUser === props.address
-                    ? css`
+    (props.startUser !== props.address && props.validAddress) ||
+      props.startUser === props.address
+      ? css`
                         border-color: ${Colors.black};
                       `
-                    : css`
+      : css`
                         border-color: ${Colors.red};
                       `}
               }
@@ -256,6 +259,8 @@ const PartnerskWrap = memo(styled.div`
           font-size: ${Texts.size.large};
           border: solid 1px ${Colors.orange};
           padding: 10px 40px;
+          display:flex;
+          justify-content:center;
           &:hover {
             background-color: ${Colors.orange1};
             box-shadow: 0 3px 6px 1px rgba(255, 159, 91, 0.2);

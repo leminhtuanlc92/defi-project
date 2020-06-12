@@ -81,7 +81,9 @@ const MultiLanguageWrap = memo(styled.div`
         position:absolute;
         top:100%;
         width:100%;
+        min-width:100px;
         right:0;
+        left:0;
         z-index:2;
         background-color:${Colors.white};
         flex-direction:column;

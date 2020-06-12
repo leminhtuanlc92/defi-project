@@ -37,6 +37,7 @@
   "upgradeAccount": "Nâng cấp tài khoản",
   "upgradeAccountquote": "Hãy upgrade tài khoản để nhận được nhiều ưu đãi của hệ thống hơn",
   "approveUsdt": "Approve usdt",
+  "approveUsdtSuccess": "Approve usdt success",
   "currentLevel": "Cấp độ hiện tại",
   "levelUpgrade": "Cấp độ muốn nâng cấp",
   "select": "Lựa chọn",
@@ -127,5 +128,8 @@
   "matrixNotLogQuote2": "Hãy liên hệ với người giới thiệu để active tài khoản và sử dụng hệ thống nhé!",
   "refferalInfo": "Thông tin người giới thiệu",
   "notSet": "Chưa đặt",
-  "REVERT opcode executed": "REVERT opcode executed"
+
+  "REVERT opcode executed": "REVERT opcode executed",
+  "Confirmation declined by user":"Confirmation declined by user"
+
 }

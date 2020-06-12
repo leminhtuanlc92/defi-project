@@ -4,35 +4,43 @@ import Colors from "../../../constants/Colors";
 import Texts from "../../../constants/Texts";
 import i18n from "i18n-js";
 import ResultItem from "./resultItem";
-
+import Loading from '../../common/loading'
 interface SearchResultProps {
-  data: any
+  data: any;
+  loading: boolean
 }
-export default ({ data }: SearchResultProps) => {
+export default ({ data, loading }: SearchResultProps) => {
   return (
     <SearchResultWrap>
-      {data.partnersList.length > 0 ? (
+      {loading ?
+        <Loading />
+        :
         <Fragment>
-          {data.partnersList.map((item, index) => {
-            return (
-              <ResultItem
-                key={index}
-                id={index}
-                username={item.username}
-                address={item.address}
-                level={item.level}
-                sponsor={item.sponsor}
-                partners={item.numberF1}
-                lastItem={index === data.partnersList.length - 1}
-              />
-            );
-          })}
+          {data.partnersList.length > 0 ? (
+            <Fragment>
+              {data.partnersList.map((item, index) => {
+                return (
+                  <ResultItem
+                    key={index}
+                    id={index}
+                    username={item.username}
+                    address={item.address}
+                    level={item.level}
+                    sponsor={item.sponsor}
+                    partners={item.numberF1}
+                    lastItem={index === data.partnersList.length - 1}
+                  />
+                );
+              })}
+            </Fragment>
+          ) : (
+              <div id="sr_empty_list">
+                <span>{i18n.t("noResult")}</span>
+              </div>
+            )
+          }
         </Fragment>
-      ) : (
-          <div id="sr_empty_list">
-            <span>{i18n.t("noResult")}</span>
-          </div>
-        )}
+      }
     </SearchResultWrap>
   );
 };

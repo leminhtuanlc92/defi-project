@@ -4,7 +4,9 @@ import Colors from "../../constants/Colors";
 import Texts from "../../constants/Texts";
 import i18n from "i18n-js";
 import { TronContract } from "../../contexts/tronWeb";
+import Language from '../../components/common/core/Language'
 const confirmImg = require("../../assets/images/confirm-ref.svg");
+const defiImg = require('../../assets/images/icon-defi.png')
 interface ConfirmProps {
   confirm: any;
 }
@@ -14,30 +16,32 @@ export default ({ confirm }: ConfirmProps) => {
   // console.log('ref', ref)
   useEffect(() => {
     if (ref && member) {
-      member
-        .getUser(ref)
-        .call()
-        .then((user: any) => {
-          setUsername(user?.userId === "" ? "Not set" : user?.userId);
-        });
+      member.getUser(ref).call().then((user: any) => {
+        setUsername(user?.userId === "" ? "Not set" : user?.userId);
+      });
     }
   }, [ref, member]);
-  
+
   return (
     <ConfirmRefWrap>
       <Fragment>
-        <div id="left-part">
-          <img src={confirmImg} style={{ objectFit: "contain" }} alt="" />
+        <div id="left_part">
+          <img src={defiImg} alt="" />
+          <img src={confirmImg} alt="" />
         </div>
         <div id="right-part">
+          <div id="crwrp_lang">
+            <Language />
+          </div>
           <div id="inner-right">
             <h4
               style={{
                 fontSize: Texts.size.extra,
+                lineHeight: Texts.size.extra,
                 color: Colors.green1,
                 textTransform: "uppercase",
                 marginBottom: "40px",
-                textAlign:'center',
+                textAlign: 'center',
               }}
             >
               {i18n.t("confirmrefInfo")}
@@ -45,14 +49,7 @@ export default ({ confirm }: ConfirmProps) => {
             <div id="form-confirm">
               <div id="inner-form">
                 <div id="user-wrap">
-                  <span
-                    style={{
-                      color: Colors.black1,
-                      fontSize: Texts.size.large,
-                      lineHeight: Texts.size.large,
-                      marginBottom: "10px",
-                    }}
-                  >
+                  <span style={{ color: Colors.black1, fontSize: Texts.size.large, lineHeight: Texts.size.large, marginBottom: "10px" }}>
                     {i18n.t("username")}:
                   </span>
                   <span
@@ -103,18 +100,39 @@ const ConfirmRefWrap = memo(styled.div`
   height: 100%;
   flex: 1;
   align-items: center;
-  #left-part {
+  #left_part {
     flex: 0.4;
     height: 100%;
     background-color: #b5ce9f;
     align-items: center;
     justify-content: center;
+    position:relative;
+    img{
+      &:nth-child(1){
+          width:10%;
+          object-fit:contain;
+          position:absolute;
+          top:30px;
+          left:30px;
+      }
+      &:nth-child(2){
+          object-fit:contain;
+      }
+    }
   }
   #right-part {
     flex: 0.6;
     height: 100%;
     align-items: center;
     justify-content: center;
+    position: relative;
+    #crwrp_lang{
+      position:absolute;
+      top:30px;
+      right:30px;
+      width:100px;
+      justify-content:flex-end;
+    }
     #inner-right {
       max-width: 680px;
       min-width: 300px;
@@ -134,7 +152,7 @@ const ConfirmRefWrap = memo(styled.div`
           padding: 30px;
           flex-direction: column;
           align-items: center;
-          > div {
+          >div {
             width: 100%;
             margin-bottom: 20px;
             flex-direction: column;
@@ -142,13 +160,10 @@ const ConfirmRefWrap = memo(styled.div`
               line-height: ${Texts.size.large};
             }
           }
-          #user-wrap {
-          }
-          #addres-wrap {
-          }
+          #user-wrap {}
+          #addres-wrap {}
         }
         button {
-          /* width: 80%; */
           margin-top: 10px;
           padding:10px 40px;
           border-radius: 5px;
@@ -257,7 +272,7 @@ const ConfirmRefWrap = memo(styled.div`
     height:100vh;
   }
   @media (max-width:767px){
-    #left-part{
+    #left_part{
       display:none;
     }
     #right-part{

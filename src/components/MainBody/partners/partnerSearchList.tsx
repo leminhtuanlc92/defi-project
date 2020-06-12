@@ -10,8 +10,9 @@ import Loading from "../../../components/common/loading";
 import SearchResult from "./searchResult";
 interface PartnerSearchListProps {
   data:any
+  loading:boolean
 }
-export default ({ data }: PartnerSearchListProps) => {
+export default ({ data, loading }: PartnerSearchListProps) => {
   return (
     <PartnerSearchListWrap>
       <div id="partner_search_list_header">
@@ -44,6 +45,7 @@ export default ({ data }: PartnerSearchListProps) => {
                 <SearchResult
                   {...props}
                   data={data}
+                  loading={loading}
                 />
               )}
             />

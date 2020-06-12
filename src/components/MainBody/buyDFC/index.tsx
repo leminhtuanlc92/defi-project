@@ -14,20 +14,13 @@ export default () => {
     sold: 0,
   });
   useEffect(() => {
-    shareHolder
-      .currentStage()
-      .call()
-      .then((stage: any) => {
-        shareHolder
-          .stages(Number(stage))
-          .call()
-          .then((info: any) => {
-            setCurrentStage({
-              stage: Number(stage),
-              sold: Number(info.sold),
-            });
-          });
+    shareHolder.currentStage().call().then((stage: any) => {
+      shareHolder.stages(Number(stage)).call().then((info: any) => {
+        setCurrentStage({
+          stage: Number(stage), sold: Number(info.sold),
+        });
       });
+    });
   }, [shareHolder]);
   const packages = [
     {
@@ -91,7 +84,7 @@ export default () => {
     { id: 7, level: 1, percent: 1 },
     { id: 8, level: 1, percent: 1 },
   ];
-  const handleBuy = () => {};
+  const handleBuy = () => { };
   return (
     <BuyDFCWrap>
       <div id="buydfc_mainbody">

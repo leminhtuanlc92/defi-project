@@ -8,12 +8,14 @@ import OfficeBlocks from "./officeBlocks";
 import PopUpgrade from "./popUpgrade";
 import { TronContract } from "../../../contexts/tronWeb";
 import { contract } from "../../../config";
+import Loading from '../../common/loading'
+import { toast } from 'react-toastify'
 const closeImg = require("../../../assets/images/close.png");
 const confirmImg = require("../../../assets/images/confirm-ref.svg");
 const confirmImg1 = require("../../../assets/images/confirm.svg");
 export default () => {
   const [showPop, setShowPop] = useState(false);
-
+  const [loading, setLoading] = useState(false)
   const { ref, usdt, address, userData, token, matrixMember } = useContext(
     TronContract
   );
@@ -101,16 +103,35 @@ export default () => {
 
   //Neu approve bang false thi hien thi cap quyen Approve nut dong y se la goi funtion duoi
   const approveUSDT = async () => {
-    let result = await usdt
-      .approve(contract.matrixMarketingAddress, 10 ** 15)
-      .send({
-        callValue: 0,
-        feeLimit: 1e7,
-        shouldPollResponse: true,
-      });
-    if (result) {
-      setApprove(true);
+    // let result = await usdt
+    //   .approve(contract.matrixMarketingAddress, 10 ** 15)
+    //   .send({
+    //     callValue: 0,
+    //     feeLimit: 1e7,
+    //     shouldPollResponse: true,
+    //   });
+    // console.log('result', result)
+    setLoading(true)
+    try {
+      let result = await usdt
+        .approve(contract.matrixMarketingAddress, 10 ** 15)
+        .send({
+          callValue: 0,
+          feeLimit: 1e7,
+          shouldPollResponse: true,
+        });
+      if (result) {
+        setLoading(false)
+        toast.success(i18n.t('approveUsdtSuccess'), { position: "top-center" })
+        setApprove(true);
+        setShowPopApprove(false)
+      }
+    } catch (error) {
+      console.log('Approve USDT fail', error)
+      setLoading(false)
+      toast.error(i18n.t(error), { position: "top-center" })
     }
+
   };
   return (
     <DashboardWrap>
@@ -165,8 +186,8 @@ export default () => {
               >
                 {i18n.t("no")}
               </button>
-              <button id="confirm-button" onClick={() => approveUSDT()}>
-                {i18n.t("yes")}
+              <button id="confirm-button" onClick={() => !loading && approveUSDT()}>
+                {loading ? <Loading color={Colors.white} size={20} /> : i18n.t("yes")}
               </button>
             </div>
             <div id="close-button" onClick={() => setShowPopApprove(false)}>
@@ -294,6 +315,8 @@ const DashboardWrap = memo(styled.div`
           border: none;
           &#confirm-button {
             background-color: ${Colors.orange};
+            display:flex;
+            justify-content:center;
             &:hover {
               background-color: ${Colors.orange1};
               box-shadow: 0 3px 6px 1px rgba(255, 159, 91, 0.2);

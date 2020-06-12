@@ -20,6 +20,7 @@ export default () => {
   const [selectPending, setSelectPending] = useState({ title: "", value: "" });
   const [userInput, setUserInput] = useState("");
   const [loading, setLoading] = useState(false)
+  const [searchLoading, setSearchLoading] = useState(false)
   const [userEmptyNode, setUserEmptyNode] = useState({
     address: "",
     level: "",
@@ -32,6 +33,7 @@ export default () => {
     setValidAddress(valid);
   };
   const freeNodeLevel = async (_startNode) => {
+    setSearchLoading(true);
     let result = await matrixMember.findFreeLevel(_startNode).call();
     setUserEmptyNode({
       ...userEmptyNode,
@@ -86,6 +88,7 @@ export default () => {
     }
     setUserList(users);
     setStep(3)
+    setSearchLoading(false)
   };
 
   const mergeNode = async (empty: any, pendingUser: any) => {
@@ -118,12 +121,12 @@ export default () => {
         </div>
         <button disabled={!(userInput !== "" && validAddress)}
           onClick={() => {
-            if (userInput !== "") {
+            if (userInput !== "" && !searchLoading) {
               freeNodeLevel(userInput);
             }
           }}
         >
-          {i18n.t("confirm")}
+          {searchLoading ? <Loading color={Colors.white} size={12} /> : i18n.t("confirm")}
         </button>
       </div>
       <div id="sni_result">
@@ -178,7 +181,7 @@ export default () => {
               <div id="snircr_step2">
                 <span className="label">{i18n.t("emptyNode")}:</span>
                 <div className="nircrs2_username">
-                  <span className="child_label">{i18n.t("username")}:</span>
+                  <span className="child_label">{i18n.t("name")}:</span>
                   <span className="child_value">
                     {userEmptyNode.username === 'notSet' ? i18n.t('notSet') : userEmptyNode.username}
                   </span>
@@ -189,7 +192,7 @@ export default () => {
                 </div>
                 <div className="nircrs2_level_empty">
                   <span className="child_label">
-                    {i18n.t("levelEmptyNode")}:
+                    {i18n.t("level")}:
                   </span>
                   <span className="child_value">3</span>
                 </div>
@@ -213,7 +216,7 @@ export default () => {
                   }
                   onClick={() => !loading && mergeNode(userEmptyNode.address, selectPending.value)}
                 >
-                  {loading ? <Loading color={Colors.white} size={20}/> : i18n.t("match")}
+                  {loading ? <Loading color={Colors.white} size={20} /> : i18n.t("match")}
                 </button>
               </div>
             ) : null}
@@ -283,6 +286,9 @@ const SearchNodesWrap = memo(styled.div`
       font-size: ${Texts.size.large};
       border: none;
       width:30%;
+      display:flex;
+      justify-content:center;
+      align-items:center;
       &:hover {
         background-color: ${Colors.orange1};
         box-shadow: 0 3px 6px 1px rgba(255, 159, 91, 0.2);
@@ -401,27 +407,27 @@ const SearchNodesWrap = memo(styled.div`
           }
         }
         .label {
-          font-size: ${Texts.size.large};
-          line-height: ${Texts.size.large};
+          font-size: ${Texts.size.normal};
+          line-height: ${Texts.size.normal};
           color: ${Colors.black};
-          flex: 0.4;
+          flex: 0.5;
         }
         .content {
-          font-size: ${Texts.size.large};
-          line-height: ${Texts.size.large};
+          font-size: ${Texts.size.normal};
+          line-height: ${Texts.size.normal};
           color: ${Colors.black};
-          flex: 0.6;
+          flex: 0.45;
         }
         .child_label {
           font-size: ${Texts.size.normal};
-          line-height: ${Texts.size.large};
+          line-height: ${Texts.size.normal};
           color: ${Colors.black1};
           flex: 0.35;
           text-align: right;
         }
         .child_value {
-          font-size: ${Texts.size.large};
-          line-height: ${Texts.size.large};
+          font-size: ${Texts.size.normal};
+          line-height: ${Texts.size.normal};
           color: ${Colors.black};
           flex: 0.6;
         }
