@@ -59,10 +59,10 @@ export default () => {
     if (found) {
       let valid = await validRef(_username);
       if (valid) {
-        let result = await member.setUsername(_username).send({
+        await member.setUsername(_username).send({
           callValue: 0,
           feeLimit: 1e7,
-          shouldPollResponse: true,
+          shouldPollResponse: false,
         });
         // console.log('result', result)
         if (result) {

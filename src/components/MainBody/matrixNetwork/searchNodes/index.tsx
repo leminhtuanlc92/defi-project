@@ -8,7 +8,7 @@ import { TronContract } from "../../../../contexts/tronWeb";
 import MergePop from "../mergePop";
 import { toast } from "react-toastify";
 import WAValidator from "multicoin-address-validator";
-import Loading from '../../../common/loading'
+import Loading from "../../../common/loading";
 const closeImg = require("../../../../assets/images/close.png");
 const checkImg = require("../../../../assets/images/ic-green-check.png");
 const upgradeSuccess = require("../../../../assets/images/upgrade-successful.svg");
@@ -19,8 +19,8 @@ export default () => {
   const [listUser, setUserList] = useState([] as any);
   const [selectPending, setSelectPending] = useState({ title: "", value: "" });
   const [userInput, setUserInput] = useState("");
-  const [loading, setLoading] = useState(false)
-  const [searchLoading, setSearchLoading] = useState(false)
+  const [loading, setLoading] = useState(false);
+  const [searchLoading, setSearchLoading] = useState(false);
   const [userEmptyNode, setUserEmptyNode] = useState({
     address: "",
     level: "",
@@ -37,10 +37,10 @@ export default () => {
     let result = await matrixMember.findFreeLevel(_startNode).call();
     setUserEmptyNode({
       ...userEmptyNode,
-      level: Number(result).toString()
-    })
-    setStep(1)
-    findFreeNode(_startNode, Number(result))
+      level: Number(result).toString(),
+    });
+    setStep(1);
+    findFreeNode(_startNode, Number(result));
     return Number(result);
   };
 
@@ -49,7 +49,9 @@ export default () => {
     let result = undefined;
     let start = 0;
     while (result === undefined) {
-      let free = await matrixMember.findFreeNode(_startNode, _level, start, 50).call();
+      let free = await matrixMember
+        .findFreeNode(_startNode, _level, start, 50)
+        .call();
       if (free !== "410000000000000000000000000000000000000000") {
         result = free;
       } else {
@@ -57,8 +59,8 @@ export default () => {
       }
     }
     // console.log('result2', result)
-    let add = (window as any).tronWeb.address.fromHex(result)
-    getNodeInfo(add)
+    let add = (window as any).tronWeb.address.fromHex(result);
+    getNodeInfo(add);
     return result;
   };
 
@@ -67,12 +69,16 @@ export default () => {
       member.getUsername(_address).call(),
       userData.getLevel(_address).call(),
     ]);
-    setUserEmptyNode({ address: _address, level: Number(level) + '', username: username === '' ? 'notSet' : username })
-    setStep(2)
-    getListPending()
+    setUserEmptyNode({
+      address: _address,
+      level: Number(level) + "",
+      username: username === "" ? "notSet" : username,
+    });
+    setStep(2);
+    getListPending();
     return {
       username,
-      level: Number(level)
+      level: Number(level),
     };
   };
 
@@ -82,30 +88,32 @@ export default () => {
     for (let i = 0; i < result.length; i++) {
       let username = await member.getUsername(result[i]).call();
       users.push({
-        title: `${username} - ${(window as any).tronWeb.address.fromHex(result[i]).slice(0, 5)}...${(window as any).tronWeb.address.fromHex(result[i]).slice(-6)}`,
+        title: `${username} - ${(window as any).tronWeb.address
+          .fromHex(result[i])
+          .slice(0, 5)}...${(window as any).tronWeb.address
+          .fromHex(result[i])
+          .slice(-6)}`,
         value: (window as any).tronWeb.address.fromHex(result[i]),
       });
     }
     setUserList(users);
-    setStep(3)
-    setSearchLoading(false)
+    setStep(3);
+    setSearchLoading(false);
   };
 
   const mergeNode = async (empty: any, pendingUser: any) => {
-    setLoading(true)
+    setLoading(true);
     try {
       const result = await matrixMember.mergeBranch(pendingUser, empty).send({
         callValue: 0,
         feeLimit: 1e7,
-        shouldPollResponse: true,
+        shouldPollResponse: false,
       });
-      if (result) {
-        setLoading(false)
-        toast.success(i18n.t("mergeSuccess"), { position: "top-center" })
-      };
+      setLoading(false);
+      toast.success(i18n.t("mergeSuccess"), { position: "top-center" });
     } catch (error) {
       toast.error(error.error, { position: "top-center" });
-      setLoading(false)
+      setLoading(false);
     }
   };
   return (
@@ -114,19 +122,26 @@ export default () => {
       <span id="search_node_quote">{i18n.t("searchEmptyNodeQuote")}</span>
       <div id="sn_input">
         <div id="sni_textbox">
-          <input onChange={(e) => {
-            validate(e.target.value)
-            setUserInput(e.target.value)
-          }} />
+          <input
+            onChange={(e) => {
+              validate(e.target.value);
+              setUserInput(e.target.value);
+            }}
+          />
         </div>
-        <button disabled={!(userInput !== "" && validAddress)}
+        <button
+          disabled={!(userInput !== "" && validAddress)}
           onClick={() => {
             if (userInput !== "" && !searchLoading) {
               freeNodeLevel(userInput);
             }
           }}
         >
-          {searchLoading ? <Loading color={Colors.white} size={12} /> : i18n.t("confirm")}
+          {searchLoading ? (
+            <Loading color={Colors.white} size={12} />
+          ) : (
+            i18n.t("confirm")
+          )}
         </button>
       </div>
       <div id="sni_result">
@@ -139,8 +154,8 @@ export default () => {
                   {step > 0 ? (
                     <img src={checkImg} alt="" />
                   ) : (
-                      <span className="pum-">1</span>
-                    )}
+                    <span className="pum-">1</span>
+                  )}
                 </div>
                 <span className="snircs_title">{i18n.t("emptyLevel")}</span>
               </Snircs1>
@@ -152,8 +167,8 @@ export default () => {
                   {step > 1 ? (
                     <img src={checkImg} alt="" />
                   ) : (
-                      <span className="pum-">2</span>
-                    )}
+                    <span className="pum-">2</span>
+                  )}
                 </div>
                 <span className="snircs_title">{i18n.t("emptyNode")}</span>
               </Snircs2>
@@ -165,8 +180,8 @@ export default () => {
                   {step === 3 ? (
                     <img src={checkImg} alt="" />
                   ) : (
-                      <span className="pum-">3</span>
-                    )}
+                    <span className="pum-">3</span>
+                  )}
                 </div>
                 <span className="snircs_title">{i18n.t("done")}</span>
               </Snircs3>
@@ -175,7 +190,9 @@ export default () => {
           <div id="snirc_result">
             <div id="snircr_step1">
               <span className="label">{i18n.t("emptyLevel")}:</span>
-              <span className="content">{step > 0 ? userEmptyNode.level : ''}</span>
+              <span className="content">
+                {step > 0 ? userEmptyNode.level : ""}
+              </span>
             </div>
             {step > 1 ? (
               <div id="snircr_step2">
@@ -183,17 +200,20 @@ export default () => {
                 <div className="nircrs2_username">
                   <span className="child_label">{i18n.t("name")}:</span>
                   <span className="child_value">
-                    {userEmptyNode.username === 'notSet' ? i18n.t('notSet') : userEmptyNode.username}
+                    {userEmptyNode.username === "notSet"
+                      ? i18n.t("notSet")
+                      : userEmptyNode.username}
                   </span>
                 </div>
                 <div className="nircrs2_address">
                   <span className="child_label">{i18n.t("address")}:</span>
-                  <span className="child_value">{`${userEmptyNode.address.slice(0, 5)}...${userEmptyNode.address.slice(-6)}`}</span>
+                  <span className="child_value">{`${userEmptyNode.address.slice(
+                    0,
+                    5
+                  )}...${userEmptyNode.address.slice(-6)}`}</span>
                 </div>
                 <div className="nircrs2_level_empty">
-                  <span className="child_label">
-                    {i18n.t("level")}:
-                  </span>
+                  <span className="child_label">{i18n.t("level")}:</span>
                   <span className="child_value">3</span>
                 </div>
               </div>
@@ -214,9 +234,16 @@ export default () => {
                       userEmptyNode.address !== "" && selectPending.value !== ""
                     )
                   }
-                  onClick={() => !loading && mergeNode(userEmptyNode.address, selectPending.value)}
+                  onClick={() =>
+                    !loading &&
+                    mergeNode(userEmptyNode.address, selectPending.value)
+                  }
                 >
-                  {loading ? <Loading color={Colors.white} size={20} /> : i18n.t("match")}
+                  {loading ? (
+                    <Loading color={Colors.white} size={20} />
+                  ) : (
+                    i18n.t("match")
+                  )}
                 </button>
               </div>
             ) : null}
@@ -256,20 +283,20 @@ const SearchNodesWrap = memo(styled.div`
     margin-bottom: 30px;
     width: 100%;
     #sni_textbox {
-      width:70%;
+      width: 70%;
       input {
         flex: 1;
         padding: 10px;
         ${(props: any) =>
-    props.userInput === ""
-      ? css`
+          props.userInput === ""
+            ? css`
                 border: solid 1px ${Colors.black};
               `
-      : props.validAddress
-        ? css`
+            : props.validAddress
+            ? css`
                 border: solid 1px ${Colors.black};
               `
-        : css`
+            : css`
                 border: solid 1px ${Colors.red};
               `};
         border-top-left-radius: 5px;
@@ -285,10 +312,10 @@ const SearchNodesWrap = memo(styled.div`
       color: ${Colors.white};
       font-size: ${Texts.size.large};
       border: none;
-      width:30%;
-      display:flex;
-      justify-content:center;
-      align-items:center;
+      width: 30%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
       &:hover {
         background-color: ${Colors.orange1};
         box-shadow: 0 3px 6px 1px rgba(255, 159, 91, 0.2);
@@ -340,12 +367,12 @@ const SearchNodesWrap = memo(styled.div`
             width: 40px;
             height: 40px;
           }
-          @media (max-width:1199px){
+          @media (max-width: 1199px) {
             width: 100%;
             justify-content: space-around;
           }
         }
-        @media (max-width:1199px){
+        @media (max-width: 1199px) {
           width: 100%;
           align-items: center;
           justify-content: center;
@@ -443,14 +470,14 @@ const Snircs1 = memo(styled.div`
   .snircs_icon {
     border-radius: 50%;
     ${(props: any) =>
-    props.step > 0
-      ? css`
+      props.step > 0
+        ? css`
             background-color: ${Colors.orange};
             span {
               color: ${Colors.orange};
             }
           `
-      : css`
+        : css`
             background-color: ${Colors.green};
             span {
               color: ${Colors.green3};
@@ -463,11 +490,11 @@ const Snircs1 = memo(styled.div`
     text-transform: uppercase;
     text-align: center;
     ${(props: any) =>
-    props.step > 0
-      ? css`
+      props.step > 0
+        ? css`
             color: ${Colors.orange};
           `
-      : css`
+        : css`
             color: ${Colors.green3};
           `}
   }
@@ -476,14 +503,14 @@ const Snircs2 = memo(styled.div`
   .snircs_icon {
     border-radius: 50%;
     ${(props: any) =>
-    props.step > 1
-      ? css`
+      props.step > 1
+        ? css`
             background-color: ${Colors.orange};
             span {
               color: ${Colors.orange};
             }
           `
-      : css`
+        : css`
             background-color: ${Colors.green};
             span {
               color: ${Colors.green3};
@@ -496,11 +523,11 @@ const Snircs2 = memo(styled.div`
     text-transform: uppercase;
     text-align: center;
     ${(props: any) =>
-    props.step > 1
-      ? css`
+      props.step > 1
+        ? css`
             color: ${Colors.orange};
           `
-      : css`
+        : css`
             color: ${Colors.green3};
           `};
   }
@@ -509,14 +536,14 @@ const Snircs3 = memo(styled.div`
   .snircs_icon {
     border-radius: 50%;
     ${(props: any) =>
-    props.step === 3
-      ? css`
+      props.step === 3
+        ? css`
             background-color: ${Colors.orange};
             span {
               color: ${Colors.orange};
             }
           `
-      : css`
+        : css`
             background-color: ${Colors.green};
             span {
               color: ${Colors.green3};
@@ -529,36 +556,44 @@ const Snircs3 = memo(styled.div`
     text-transform: uppercase;
     text-align: center;
     ${(props: any) =>
-    props.step === 3
-      ? css`
+      props.step === 3
+        ? css`
             color: ${Colors.orange};
           `
-      : css`
+        : css`
             color: ${Colors.green3};
           `}
   }
 `);
 const SnircsDivider1 = memo(styled.div`
-  height:40px;
-  div{
+  height: 40px;
+  div {
     width: 30px;
     height: 5px;
-    ${(props: any) => props.step > 1 ?
-    css`background-color: ${Colors.orange};` :
-    css`background-color: ${Colors.green3};`
-  };
+    ${(props: any) =>
+      props.step > 1
+        ? css`
+            background-color: ${Colors.orange};
+          `
+        : css`
+            background-color: ${Colors.green3};
+          `};
     margin: 0 2%;
   }
 `);
 const SnircsDivider2 = memo(styled.div`
-  height:40px;
-  div{
+  height: 40px;
+  div {
     width: 30px;
     height: 5px;
-    ${(props: any) => props.step === 3 ?
-    css`background-color: ${Colors.orange};` :
-    css`background-color: ${Colors.green3};`
-  };
+    ${(props: any) =>
+      props.step === 3
+        ? css`
+            background-color: ${Colors.orange};
+          `
+        : css`
+            background-color: ${Colors.green3};
+          `};
     margin: 0 2%;
   }
 `);
