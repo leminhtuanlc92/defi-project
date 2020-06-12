@@ -1,5 +1,1 @@
-export default [
-    'vi',
-    'en',
-    'zh'
-]
+export default ["en", "vi"];

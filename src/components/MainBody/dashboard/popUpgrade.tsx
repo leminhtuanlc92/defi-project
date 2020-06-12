@@ -127,7 +127,9 @@ export default ({ showPop, setShowPop }: PopUpgradeProps) => {
                         <span className="pum-">2</span>
                       )}
                     </div>
-                    <span className="pum-title">{i18n.t("approveUsdt")}</span>
+                    <span className="pum-title">
+                      {i18n.t("upgradePackage")}
+                    </span>
                   </PumStep2>
                 </div>
                 <div id="pum_current_lv">
