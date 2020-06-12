@@ -64,17 +64,11 @@ export default () => {
           feeLimit: 1e7,
           shouldPollResponse: false,
         });
-        // console.log('result', result)
-        if (result) {
-          toast.success(i18n.t("signupUsernameSuccessful"), {
-            position: "top-center",
-          });
-          setLoading(false)
-          setShowPop(false);
-        } else {
-          toast.error(i18n.t("signupUsernameFail"), { position: "top-center" });
-          setLoading(false)
-        }
+        toast.success(i18n.t("signupUsernameSuccessful"), {
+          position: "top-center",
+        });
+        setLoading(false)
+        setShowPop(false);
       } else {
         toast.error(i18n.t("usernameexist"), { position: "top-center" });
         setLoading(false)
