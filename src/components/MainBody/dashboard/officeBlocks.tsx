@@ -19,7 +19,7 @@ export default ({ item }: OfficeBlockProps) => {
     await matrixMarketing.refeshPackage(item.level).send({
       callValue: 0,
       feeLimit: 1e7,
-      shouldPollResponse: false,
+      shouldPollResponse: true,
     });
   };
   return (

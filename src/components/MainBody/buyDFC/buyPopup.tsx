@@ -42,7 +42,7 @@ export default ({ showPop, setShowPop, available, bonus }: PopUpgradeProps) => {
     await shareHolder.buyStock(Math.round(usdtTobuy * 10 ** 6)).send({
       callValue: 0,
       feeLimit: 1e7,
-      shouldPollResponse: false,
+      shouldPollResponse: true,
     });
     setLoading(false);
     setSuccess(true);

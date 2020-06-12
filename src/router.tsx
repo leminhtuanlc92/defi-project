@@ -22,7 +22,7 @@ const Transactions = lazy(() => import("../src/containers/transactionHistory"));
 const BuyDFC = lazy(() => import("../src/containers/buyDFC"));
 const Instruction = lazy(() => import("../src/containers/dashboard"));
 
-export default ({getUserData}) => {
+export default ({ getUserData }) => {
   const { usdt, address, member } = useContext(TronContract);
   const [approve, setApprove] = useState(false);
   const [username, setUsername] = useState("");
@@ -51,9 +51,9 @@ export default ({getUserData}) => {
         }
       });
   }, []);
-  const [loading, setLoading] = useState(false)
+  const [loading, setLoading] = useState(false);
   const register = async (_username) => {
-    setLoading(true)
+    setLoading(true);
     const regex = /^[a-z0-9]{2,}$/g;
     const found = _username.match(regex);
     if (found) {
@@ -62,21 +62,21 @@ export default ({getUserData}) => {
         await member.setUsername(_username).send({
           callValue: 0,
           feeLimit: 1e7,
-          shouldPollResponse: false,
+          shouldPollResponse: true,
         });
         toast.success(i18n.t("signupUsernameSuccessful"), {
           position: "top-center",
         });
-        getUserData()
-        setLoading(false)
+        getUserData();
+        setLoading(false);
         setShowPop(false);
       } else {
         toast.error(i18n.t("usernameexist"), { position: "top-center" });
-        setLoading(false)
+        setLoading(false);
       }
     } else {
       toast.error(i18n.t("usernameNotValid"), { position: "top-center" });
-      setLoading(false)
+      setLoading(false);
     }
   };
   const validRef = async (_username) => {

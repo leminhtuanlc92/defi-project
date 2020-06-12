@@ -80,10 +80,10 @@ export default ({ showPop, setShowPop }: PopUpgradeProps) => {
         .send({
           callValue: 0,
           feeLimit: 1e7,
-          shouldPollResponse: false,
+          shouldPollResponse: true,
         });
       setLoading(false);
-      setStep(2)
+      setStep(2);
     } catch (error) {
       console.log("Upgrade Error", error);
       toast.error(i18n.t(error), { position: "top-center" });

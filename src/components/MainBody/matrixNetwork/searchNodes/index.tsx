@@ -107,7 +107,7 @@ export default () => {
       const result = await matrixMember.mergeBranch(pendingUser, empty).send({
         callValue: 0,
         feeLimit: 1e7,
-        shouldPollResponse: false,
+        shouldPollResponse: true,
       });
       setLoading(false);
       toast.success(i18n.t("mergeSuccess"), { position: "top-center" });
