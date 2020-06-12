@@ -57,20 +57,15 @@ export default () => {
     if (found) {
       let valid = await validRef(_username);
       if (valid) {
-        let result = await member.setUsername(_username).send({
+        await member.setUsername(_username).send({
           callValue: 0,
           feeLimit: 1e7,
-          shouldPollResponse: true,
+          shouldPollResponse: false,
         });
-        // console.log('result', result)
-        if (result) {
-          toast.success(i18n.t("signupUsernameSuccessful"), {
-            position: "top-center",
-          });
-          setShowPop(false);
-        } else {
-          toast.error(i18n.t("signupUsernameFail"), { position: "top-center" });
-        }
+        toast.success(i18n.t("signupUsernameSuccessful"), {
+          position: "top-center",
+        });
+        setShowPop(false);
       } else {
         toast.error(i18n.t("usernameexist"), { position: "top-center" });
       }

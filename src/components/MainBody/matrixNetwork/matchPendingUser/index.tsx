@@ -7,14 +7,14 @@ import i18n from "i18n-js";
 import { TronContract } from "../../../../contexts/tronWeb";
 import MergePop from "../mergePop";
 import WAValidator from "multicoin-address-validator";
-import { toast } from 'react-toastify'
-import Loading from '../../../common/loading'
+import { toast } from "react-toastify";
+import Loading from "../../../common/loading";
 export default () => {
   const { matrixMember, address, member, userData } = useContext(TronContract);
   const [listUser, setUserList] = useState([] as any);
   const [selectPending, setSelectPending] = useState({ title: "", value: "" });
   const [userInput, setUserInput] = useState("");
-  const [loading, setLoading] = useState(false)
+  const [loading, setLoading] = useState(false);
   const [userEmptyNode, setUserEmptyNode] = useState({
     username: "",
     address: "",
@@ -34,9 +34,9 @@ export default () => {
     ]);
     setUserEmptyNode({
       address: _address,
-      level: Number(level) + '',
+      level: Number(level) + "",
       username,
-    })
+    });
     return {
       address: _address,
       level: Number(level),
@@ -57,23 +57,20 @@ export default () => {
     setUserList(users);
   };
   const mergeNode = async (empty: any, pendingUser: any) => {
-    setLoading(true)
+    setLoading(true);
     try {
       const result = await matrixMember.mergeBranch(pendingUser, empty).send({
         callValue: 0,
         feeLimit: 1e7,
-        shouldPollResponse: true,
+        shouldPollResponse: false,
       });
-      if (result) {
-        setLoading(false)
-        toast.success(i18n.t("mergeSuccess"), { position: "top-center" })
-      };
+      setLoading(false);
+      toast.success(i18n.t("mergeSuccess"), { position: "top-center" });
     } catch (error) {
-      console.log(error)
+      console.log(error);
       toast.error(i18n.t(error.error), { position: "top-center" });
-      setLoading(false)
+      setLoading(false);
     }
-
   };
   useEffect(() => {
     getListPending();
@@ -98,19 +95,19 @@ export default () => {
             <div id="mpileni_textbox">
               <input
                 onChange={(e) => {
-                  setUserInput(e.target.value)
-                  validate(e.target.value)
-                }
-                }
+                  setUserInput(e.target.value);
+                  validate(e.target.value);
+                }}
               />
             </div>
-            <button disabled={!(userInput !== "")}
+            <button
+              disabled={!(userInput !== "")}
               onClick={() => {
                 if (userInput !== "" && validAddress) {
-                  getNodeInfo(userInput)
+                  getNodeInfo(userInput);
                 }
-              }
-              }>
+              }}
+            >
               {i18n.t("confirm")}
             </button>
           </div>
@@ -118,7 +115,11 @@ export default () => {
             <div id="mpilen_gathered_data">
               <div className="mpilengd_item">
                 <span>{i18n.t("username")}:</span>
-                <span>{userEmptyNode.username !== '' ? userEmptyNode.username : i18n.t('notSet')}</span>
+                <span>
+                  {userEmptyNode.username !== ""
+                    ? userEmptyNode.username
+                    : i18n.t("notSet")}
+                </span>
               </div>
               <div className="mpilengd_item">
                 <span>{i18n.t("address")}:</span>
@@ -131,11 +132,22 @@ export default () => {
             </div>
           ) : null}
         </div>
-        <button id="mpi_action"
-          disabled={!(selectPending.value !== "" && userEmptyNode.address !== '' && validAddress)}
+        <button
+          id="mpi_action"
+          disabled={
+            !(
+              selectPending.value !== "" &&
+              userEmptyNode.address !== "" &&
+              validAddress
+            )
+          }
           onClick={() => !loading && mergeNode(userInput, selectPending.value)}
         >
-          {loading ? <Loading color={Colors.white} size={15} /> : i18n.t("match")}
+          {loading ? (
+            <Loading color={Colors.white} size={15} />
+          ) : (
+            i18n.t("match")
+          )}
         </button>
       </div>
       {showPop ? (
@@ -190,12 +202,18 @@ const MatchPendingUserWrap = memo(styled.div`
           input {
             flex: 1;
             padding: 0 10px;
-            ${(props: any) => props.userInput === "" ?
-    css`border: solid 1px ${Colors.black};` :
-    props.validAddress ?
-      css`border: solid 1px ${Colors.black};` :
-      css`border: solid 1px ${Colors.red};`
-  };
+            ${(props: any) =>
+              props.userInput === ""
+                ? css`
+                    border: solid 1px ${Colors.black};
+                  `
+                : props.validAddress
+                ? css`
+                    border: solid 1px ${Colors.black};
+                  `
+                : css`
+                    border: solid 1px ${Colors.red};
+                  `};
             border-top-left-radius: 5px;
             border-bottom-left-radius: 5px;
             border-right: none;
@@ -249,9 +267,9 @@ const MatchPendingUserWrap = memo(styled.div`
         cursor: not-allowed;
       }
     }
-    #mpi_action{
-      flex:1;
-      justify-content:center;
+    #mpi_action {
+      flex: 1;
+      justify-content: center;
     }
   }
 `);

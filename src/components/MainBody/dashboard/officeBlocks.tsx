@@ -19,7 +19,7 @@ export default ({ item }: OfficeBlockProps) => {
     await matrixMarketing.refeshPackage(item.level).send({
       callValue: 0,
       feeLimit: 1e7,
-      shouldPollResponse: true,
+      shouldPollResponse: false,
     });
   };
   return (
@@ -70,7 +70,7 @@ const OfficeBlock = memo(styled.div`
   border-radius: 10px;
   flex-direction: column;
   margin-bottom: 30px;
-  background-color:${Colors.white};
+  background-color: ${Colors.white};
   &:hover {
     box-shadow: 0 0 15px 1px rgba(100, 161, 94, 0.4);
   }
@@ -134,10 +134,10 @@ const OfficeBlock = memo(styled.div`
       }
     }
   }
-  @media (max-width:991px){
-    width:48%;
+  @media (max-width: 991px) {
+    width: 48%;
   }
-  @media (max-width:767px){
-    width:100%;
+  @media (max-width: 767px) {
+    width: 100%;
   }
 `);

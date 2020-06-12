@@ -15,7 +15,7 @@ interface PopUpgradeProps {
   showPop: boolean;
   setShowPop: any;
   available: number;
-  bonus: number
+  bonus: number;
 }
 
 export default ({ showPop, setShowPop, available, bonus }: PopUpgradeProps) => {
@@ -42,7 +42,7 @@ export default ({ showPop, setShowPop, available, bonus }: PopUpgradeProps) => {
     await shareHolder.buyStock(Math.round(usdtTobuy * 10 ** 6)).send({
       callValue: 0,
       feeLimit: 1e7,
-      shouldPollResponse: true,
+      shouldPollResponse: false,
     });
     setLoading(false);
     setSuccess(true);
@@ -80,57 +80,57 @@ export default ({ showPop, setShowPop, available, bonus }: PopUpgradeProps) => {
               </div>
             </div>
           ) : (
-              <div id="bpc_inner">
-                <span id="bpc_title">{i18n.t("upgradeAccount")}</span>
-                <div id="bpc_main">
-                  <div id="bpcm_quantity">
-                    <span className="bpcm_label">
-                      {i18n.t("quantityAvailable")}:
+            <div id="bpc_inner">
+              <span id="bpc_title">{i18n.t("upgradeAccount")}</span>
+              <div id="bpc_main">
+                <div id="bpcm_quantity">
+                  <span className="bpcm_label">
+                    {i18n.t("quantityAvailable")}:
                   </span>
-                    <div className="bpcm_input">
-                      <input value={available} disabled={true} />
-                      <span>{i18n.t("token")}</span>
-                    </div>
-                  </div>
-                  <div id="bpcm_amount">
-                    <span className="bpcm_label">
-                      {i18n.t("usdtDesiteToBuy")}:
-                  </span>
-                    <div className="bpcm_spec_wrap">
-                      <div className="bpcm_input">
-                        <input
-                          onChange={(e) => {
-                            setUsdtTobuy(+e.target.value);
-                            setEstimate(+e.target.value / price);
-                          }}
-                        />
-                        <span>{i18n.t("usdt")}</span>
-                      </div>
-                      <span className="bpcmsw_convert">
-                        {i18n.t("with")} 1$ = 0.1 {i18n.t("token")}
-                      </span>
-                    </div>
-                  </div>
-                  <div id="bpcm_token_receive">
-                    <span className="bpcm_label">
-                      {i18n.t("quantityAvailable")}:
-                  </span>
-                    <div className="bpcm_input">
-                      <input value={estimate * bonus} disabled={true} />
-                      <span>{i18n.t("token")}</span>
-                    </div>
-                  </div>
-                  <div id="bpcm_action">
-                    <button id="bpcma_cancel" onClick={() => setShowPop(false)}>
-                      {i18n.t("cancel")}
-                    </button>
-                    <button id="bpcma_buy" onClick={buyToken} disabled={loading}>
-                      {loading ? i18n.t("loading") : i18n.t("buy")}
-                    </button>
+                  <div className="bpcm_input">
+                    <input value={available} disabled={true} />
+                    <span>{i18n.t("token")}</span>
                   </div>
                 </div>
+                <div id="bpcm_amount">
+                  <span className="bpcm_label">
+                    {i18n.t("usdtDesiteToBuy")}:
+                  </span>
+                  <div className="bpcm_spec_wrap">
+                    <div className="bpcm_input">
+                      <input
+                        onChange={(e) => {
+                          setUsdtTobuy(+e.target.value);
+                          setEstimate(+e.target.value / price);
+                        }}
+                      />
+                      <span>{i18n.t("usdt")}</span>
+                    </div>
+                    <span className="bpcmsw_convert">
+                      {i18n.t("with")} 1$ = 0.1 {i18n.t("token")}
+                    </span>
+                  </div>
+                </div>
+                <div id="bpcm_token_receive">
+                  <span className="bpcm_label">
+                    {i18n.t("quantityAvailable")}:
+                  </span>
+                  <div className="bpcm_input">
+                    <input value={estimate * bonus} disabled={true} />
+                    <span>{i18n.t("token")}</span>
+                  </div>
+                </div>
+                <div id="bpcm_action">
+                  <button id="bpcma_cancel" onClick={() => setShowPop(false)}>
+                    {i18n.t("cancel")}
+                  </button>
+                  <button id="bpcma_buy" onClick={buyToken} disabled={loading}>
+                    {loading ? i18n.t("loading") : i18n.t("buy")}
+                  </button>
+                </div>
               </div>
-            )}
+            </div>
+          )}
           <div
             id="bpc_close_button"
             onClick={() => {
@@ -164,7 +164,7 @@ const BuyPopWrap = memo(styled.div`
     align-items: center;
     justify-content: center;
     position: relative;
-    @media (max-width:399px){
+    @media (max-width: 399px) {
       padding: 0;
       width: 100%;
       height: 100%;
@@ -178,10 +178,10 @@ const BuyPopWrap = memo(styled.div`
         font-size: ${Texts.size.extra};
         line-height: ${Texts.size.extra};
         color: ${Colors.green};
-        @media (max-width:399px){
+        @media (max-width: 399px) {
           font-size: ${Texts.size.larger};
           line-height: ${Texts.size.larger};
-          margin-top:30px;
+          margin-top: 30px;
         }
       }
       #bpc_main {
@@ -193,10 +193,10 @@ const BuyPopWrap = memo(styled.div`
         padding: 20px;
         flex-direction: column;
         align-items: center;
-        @media (max-width:399px){
-          width:calc(100% - 20px);
-          margin-top:10px;
-          padding:10px;
+        @media (max-width: 399px) {
+          width: calc(100% - 20px);
+          margin-top: 10px;
+          padding: 10px;
         }
         .bpcm_label {
           font-size: ${Texts.size.large};
@@ -212,22 +212,22 @@ const BuyPopWrap = memo(styled.div`
           background-color: ${Colors.white};
           justify-content: space-between;
           align-items: center;
-          @media (max-width:399px){
+          @media (max-width: 399px) {
             width: calc(95% - 10px);
-            padding:10px;
+            padding: 10px;
           }
           input {
-            width:80%;
+            width: 80%;
             border: none;
-            background-color:${Colors.white};
+            background-color: ${Colors.white};
           }
           span {
             font-size: ${Texts.size.large};
             line-height: ${Texts.size.large};
             color: ${Colors.black2};
-            width:15%;
-            text-align:right;
-            @media (max-width:399px){
+            width: 15%;
+            text-align: right;
+            @media (max-width: 399px) {
               font-size: ${Texts.size.small};
               line-height: ${Texts.size.small};
             }
@@ -239,8 +239,8 @@ const BuyPopWrap = memo(styled.div`
           flex-direction: column;
           width: 55%;
           margin-bottom: 30px;
-          @media (max-width:991px){
-            width:90%;
+          @media (max-width: 991px) {
+            width: 90%;
           }
         }
         #bpcm_quantity {
@@ -249,22 +249,22 @@ const BuyPopWrap = memo(styled.div`
           .bpcm_input {
             flex-grow: 2;
             margin-right: 20px;
-            @media (max-width:1199px){
-              margin-right:0;
-              margin-bottom:10px;
-              width:calc(100% - 40px);
-              padding:10px 20px;
+            @media (max-width: 1199px) {
+              margin-right: 0;
+              margin-bottom: 10px;
+              width: calc(100% - 40px);
+              padding: 10px 20px;
             }
-            @media (max-width:399px){
-              width:calc(100% - 20px);
-              padding:10px;
+            @media (max-width: 399px) {
+              width: calc(100% - 20px);
+              padding: 10px;
             }
           }
           .bpcm_spec_wrap {
             align-items: center;
             justify-content: space-between;
-            @media (max-width:1199px){
-              flex-direction:column;
+            @media (max-width: 1199px) {
+              flex-direction: column;
             }
             .bpcmsw_convert {
               font-size: ${Texts.size.large};
@@ -288,9 +288,9 @@ const BuyPopWrap = memo(styled.div`
             font-size: ${Texts.size.large};
             text-transform: uppercase;
             border: none;
-            @media (max-width:767px){
-              width:70px;
-              padding:10px;
+            @media (max-width: 767px) {
+              width: 70px;
+              padding: 10px;
             }
             &#bpcma_buy {
               color: ${Colors.white};
