@@ -8,7 +8,7 @@ import Select from "../../common/core/Select";
 import ClickOutside from "../../../utils/clickOutSide";
 import { TronContract } from "../../../contexts/tronWeb";
 import { contract } from "../../../config";
-
+import Loading from '../../common/loading'
 const closeImg = require("../../../assets/images/close.png");
 const signUpImg = require('../../../assets/images/sign-up.svg')
 interface PopUpgradeProps {
@@ -16,10 +16,11 @@ interface PopUpgradeProps {
     setShowPop: any;
     register: (user) => void;
     username: string;
-    setUsername: any
+    setUsername: any;
+    loading: boolean
 }
 
-export default ({ showPop, setShowPop, register, username, setUsername }: PopUpgradeProps) => {
+export default ({ showPop, setShowPop, register, username, setUsername, loading }: PopUpgradeProps) => {
     return (
         <PopUpgradeWrap>
             <ClickOutside
@@ -41,7 +42,11 @@ export default ({ showPop, setShowPop, register, username, setUsername }: PopUpg
                             <div id="pscir_input">
                                 <input placeholder={`${i18n.t('username')}`} onChange={e => setUsername(e.target.value)} />
                             </div>
-                            <button onClick={() => { register(username)}}>{i18n.t('signUp')}</button>
+                            <button onClick={() => {
+                                !loading && register(username)
+                            }}>
+                                {loading ? <Loading color={Colors.white} size={20} /> : i18n.t('signUp')}
+                            </button>
                         </div>
                     </div>
                     <div id="pop_signup_close_button"

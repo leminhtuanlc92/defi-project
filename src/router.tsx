@@ -51,7 +51,9 @@ export default () => {
         }
       });
   }, []);
+  const [loading, setLoading] = useState(false)
   const register = async (_username) => {
+    setLoading(true)
     const regex = /^[a-z0-9]{2,}$/g;
     const found = _username.match(regex);
     if (found) {
@@ -67,15 +69,19 @@ export default () => {
           toast.success(i18n.t("signupUsernameSuccessful"), {
             position: "top-center",
           });
+          setLoading(false)
           setShowPop(false);
         } else {
           toast.error(i18n.t("signupUsernameFail"), { position: "top-center" });
+          setLoading(false)
         }
       } else {
         toast.error(i18n.t("usernameexist"), { position: "top-center" });
+        setLoading(false)
       }
     } else {
       toast.error(i18n.t("usernameNotValid"), { position: "top-center" });
+      setLoading(false)
     }
   };
   const validRef = async (_username) => {
@@ -103,6 +109,7 @@ export default () => {
           register={register}
           username={username}
           setUsername={setUsername}
+          loading={loading}
         />
       ) : null}
     </Router>
