@@ -7,7 +7,6 @@ import MainRoutes from "../../router";
 import Colors from "../../constants/Colors";
 import ReactTooltip from "react-tooltip";
 import HeadContent from "../MainBody/headContent";
-import TronWrap from "../../contexts/tronWeb";
 import { TronContract } from "../../contexts/tronWeb";
 const closeImg = require("../../assets/images/white-back.png");
 const openImg = require("../../assets/images/white-next.png");
@@ -41,35 +40,38 @@ export default () => {
   }, [address, userData, member]);
   return (
     <WrapBody>
-      <TronWrap>
-        <Fragment>
-          <Aside />
-          <MainContentWrap aside={aside}>
-            <ToggleButton onClick={() => {
-              console.log('here')
-              toggleAside(!aside)
-            }}>
-              <div>
-                {aside ? (
-                  <img src={closeImg} style={{ objectFit: "contain" }} alt="" />
-                ) : (
-                  <img src={openImg} style={{ objectFit: "contain" }} alt="" />
-                )}
-              </div>
-            </ToggleButton>
-            <MainBody aside={aside}>
-              <div id="wrap-main">
-                <div id="scroll_section">
-                  <HeadContent username={userInfo.username} level={userInfo.level}/>
-                  <div id="wrap_main_content">
-                    <MainRoutes getUserData={getUserData}/>
-                  </div>
+      <Fragment>
+        <Aside />
+        <MainContentWrap aside={aside}>
+          <ToggleButton
+            onClick={() => {
+              console.log("here");
+              toggleAside(!aside);
+            }}
+          >
+            <div>
+              {aside ? (
+                <img src={closeImg} style={{ objectFit: "contain" }} alt="" />
+              ) : (
+                <img src={openImg} style={{ objectFit: "contain" }} alt="" />
+              )}
+            </div>
+          </ToggleButton>
+          <MainBody aside={aside}>
+            <div id="wrap-main">
+              <div id="scroll_section">
+                <HeadContent
+                  username={userInfo.username}
+                  level={userInfo.level}
+                />
+                <div id="wrap_main_content">
+                  <MainRoutes getUserData={getUserData} />
                 </div>
               </div>
-            </MainBody>
-          </MainContentWrap>
-        </Fragment>
-      </TronWrap>
+            </div>
+          </MainBody>
+        </MainContentWrap>
+      </Fragment>
       <ToastContainer />
       <ReactTooltip />
     </WrapBody>
@@ -89,7 +91,7 @@ const WrapBody = memo(styled.div`
   flex-wrap: wrap;
   @media (max-width: 991px) {
     flex-direction: column;
-    flex-wrap:nowrap;
+    flex-wrap: nowrap;
   }
 `);
 const ToggleButton = memo(styled.div`

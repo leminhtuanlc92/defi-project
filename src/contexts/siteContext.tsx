@@ -8,12 +8,12 @@ const initState = {
   aside: true,
   baseCurrency: "usd",
   isLoading: true,
-  locale: "vi",
+  locale: "en",
 };
 const initSiteContext = {
   siteState: initState,
-  changeLocale: (locale: string) => { },
-  toggleAside: (aside: boolean) => { },
+  changeLocale: (locale: string) => {},
+  toggleAside: (aside: boolean) => {},
 };
 const SiteContext = React.createContext(initSiteContext);
 export default ({ children }: any) => {
@@ -77,10 +77,7 @@ export default ({ children }: any) => {
     });
   };
   const toggleAside = (aside: boolean) => {
-    localStorage.setItem(
-      "siteState",
-      JSON.stringify({ ...siteState, aside })
-    );
+    localStorage.setItem("siteState", JSON.stringify({ ...siteState, aside }));
     dispatchSite({
       aside: aside,
       type: "toggleAside",
