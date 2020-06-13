@@ -129,6 +129,9 @@
   "refferalInfo": "Thông tin người giới thiệu",
   "notSet": "Chưa đặt",
   "upgradePackage": "Nâng cấp",
+  "refError": "Mã giới thiệu không hợp lệ.",
+  "noPermission": "Hành động không đuợc cho phép",
+  "refErrorMessage": "Đuờng dẫn giới thiệu của bạn không hợp lệ.Vui lòng liên hệ nguời giới thiệu để biết thêm chi tiết.",
   "REVERT opcode executed": "REVERT opcode executed",
   "Confirmation declined by user": "Confirmation declined by user"
 }

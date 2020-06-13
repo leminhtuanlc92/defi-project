@@ -8,12 +8,12 @@ import PartnerSearchList from "./partnerSearchList";
 import { TronContract } from "../../../contexts/tronWeb";
 import WAValidator from "multicoin-address-validator";
 import Select from "../../common/core/Select";
-import Loading from '../../common/loading'
+import Loading from "../../common/loading";
 import { toast } from "react-toastify";
 export default () => {
   const { address } = useContext(TronContract);
   const [startUser, setStartUser] = useState(address);
-  const [loading, setLoading] = useState(false)
+  const [loading, setLoading] = useState(false);
   const [level, setLevel] = useState({
     title: `${i18n.t("level")} 1`,
     value: "1",
@@ -30,7 +30,12 @@ export default () => {
     setValidAddress(valid);
   };
   const getPartners = async (_startUser, _level, _size, _page) => {
-    setLoading(true)
+    setLoading(true);
+    let isParent = await matrixMember.isParent(address, _startUser).call();
+    if (!isParent) {
+      toast.error(i18n.t("noPermission"), { position: "top-center" });
+      return { partnersList: [], total: 0 };
+    }
     try {
       let result = await matrixMember
         .getBranch(_startUser, _level - 1, _size, (_page - 1) * _size)
@@ -55,15 +60,15 @@ export default () => {
         total: result.total,
         partnersList,
       });
-      setLoading(false)
+      setLoading(false);
       return {
         partnersList,
         total: result.total,
       };
     } catch (error) {
-      console.log('get partner data fail', error)
-      toast.error(i18n.t(error), { position: "top-center" })
-      setLoading(false)
+      console.log("get partner data fail", error);
+      toast.error(i18n.t(error), { position: "top-center" });
+      setLoading(false);
     }
   };
   // console.log('data',data)
@@ -109,10 +114,22 @@ export default () => {
             </div>
             <div id="pmf1_right">
               <div className="pmfr_action">
-                <button disabled={!((startUser !== address && validAddress) || startUser === address)}
-                  onClick={() => !loading && getPartners(startUser, +level.value, 10, +page)}
+                <button
+                  disabled={
+                    !(
+                      (startUser !== address && validAddress) ||
+                      startUser === address
+                    )
+                  }
+                  onClick={() =>
+                    !loading && getPartners(startUser, +level.value, 10, +page)
+                  }
                 >
-                  {loading ? <Loading color={Colors.white} size={18} /> : i18n.t("filterV")}
+                  {loading ? (
+                    <Loading color={Colors.white} size={18} />
+                  ) : (
+                    i18n.t("filterV")
+                  )}
                 </button>
               </div>
             </div>
@@ -137,7 +154,7 @@ export default () => {
           </div> */}
         </div>
         <div id="pm_filter_result">
-          <PartnerSearchList data={data} loading={loading}/>
+          <PartnerSearchList data={data} loading={loading} />
           {data.partnersList.length > 0 ? (
             <div id="pmfr_pagination_wrap">
               <Pagination
@@ -208,12 +225,12 @@ const PartnerskWrap = memo(styled.div`
               }
               input {
                 ${(props: any) =>
-    (props.startUser !== props.address && props.validAddress) ||
-      props.startUser === props.address
-      ? css`
+                  (props.startUser !== props.address && props.validAddress) ||
+                  props.startUser === props.address
+                    ? css`
                         border-color: ${Colors.black};
                       `
-      : css`
+                    : css`
                         border-color: ${Colors.red};
                       `}
               }
@@ -259,8 +276,8 @@ const PartnerskWrap = memo(styled.div`
           font-size: ${Texts.size.large};
           border: solid 1px ${Colors.orange};
           padding: 10px 40px;
-          display:flex;
-          justify-content:center;
+          display: flex;
+          justify-content: center;
           &:hover {
             background-color: ${Colors.orange1};
             box-shadow: 0 3px 6px 1px rgba(255, 159, 91, 0.2);

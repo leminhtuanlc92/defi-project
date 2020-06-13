@@ -7,71 +7,49 @@ import MainRoutes from "../../router";
 import Colors from "../../constants/Colors";
 import ReactTooltip from "react-tooltip";
 import HeadContent from "../MainBody/headContent";
-import { TronContract } from "../../contexts/tronWeb";
+import TronWrap from "../../contexts/tronWeb";
 const closeImg = require("../../assets/images/white-back.png");
 const openImg = require("../../assets/images/white-next.png");
 export default () => {
-  const { address, member, userData } = useContext(TronContract);
-
-  const [userInfo, setUserInfo] = useState({
-    username: "Not set",
-    level: 0,
-  });
   const {
     siteState: { aside },
     toggleAside,
   } = useContext(SiteContext);
+  const [update, setUpdate] = useState(0);
 
-  const getUserData = async () => {
-    const [user, level] = await Promise.all([
-      member.getUser(address).call(),
-      userData.getLevel(address).call(),
-    ]);
-    setUserInfo({
-      username: user.userId === "" ? "Not set" : user.userId,
-      level: Number(level),
-    });
-  };
-  useEffect(() => {
-    if (member && userData) {
-      //TODO get UserData
-      getUserData();
-    }
-  }, [address, userData, member]);
   return (
     <WrapBody>
-      <Fragment>
-        <Aside />
-        <MainContentWrap aside={aside}>
-          <ToggleButton
-            onClick={() => {
-              console.log("here");
-              toggleAside(!aside);
-            }}
-          >
-            <div>
-              {aside ? (
-                <img src={closeImg} style={{ objectFit: "contain" }} alt="" />
-              ) : (
-                <img src={openImg} style={{ objectFit: "contain" }} alt="" />
-              )}
-            </div>
-          </ToggleButton>
-          <MainBody aside={aside}>
-            <div id="wrap-main">
-              <div id="scroll_section">
-                <HeadContent
-                  username={userInfo.username}
-                  level={userInfo.level}
-                />
-                <div id="wrap_main_content">
-                  <MainRoutes getUserData={getUserData} />
+      <TronWrap>
+        <Fragment>
+          <Aside />
+          <MainContentWrap aside={aside}>
+            <ToggleButton
+              onClick={() => {
+                console.log("here");
+                toggleAside(!aside);
+              }}
+            >
+              <div>
+                {aside ? (
+                  <img src={closeImg} style={{ objectFit: "contain" }} alt="" />
+                ) : (
+                  <img src={openImg} style={{ objectFit: "contain" }} alt="" />
+                )}
+              </div>
+            </ToggleButton>
+            <MainBody aside={aside}>
+              <div id="wrap-main">
+                <div id="scroll_section">
+                  <HeadContent update={update} />
+                  <div id="wrap_main_content">
+                    <MainRoutes setUpdate={setUpdate} />
+                  </div>
                 </div>
               </div>
-            </div>
-          </MainBody>
-        </MainContentWrap>
-      </Fragment>
+            </MainBody>
+          </MainContentWrap>
+        </Fragment>
+      </TronWrap>
       <ToastContainer />
       <ReactTooltip />
     </WrapBody>

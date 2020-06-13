@@ -51,7 +51,7 @@ export default ({ item }: OfficeBlockProps) => {
           </div>
           <button
             id="office-blocks-btn"
-            disabled={item.time == 0}
+            disabled={item.time < Date.now() / 1000 + 31104000}
             onClick={() => {
               reinvest();
             }}

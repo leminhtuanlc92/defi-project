@@ -129,7 +129,9 @@
   "refferalInfo": "Referral Info",
   "notSet": "Not set",
   "upgradePackage": "Upgrade",
-
+  "refError": "Reference is not valid",
+  "refErrorMessage": "Your referrer path is not valid. Please contact the referrer for more details.",
+  "noPermission": "No Permission",
   "REVERT opcode executed": "REVERT opcode executed",
   "Confirmation declined by user": "Confirmation declined by user"
 }

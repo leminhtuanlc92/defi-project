@@ -5,18 +5,15 @@ import { createBrowserHistory } from "history";
 import SiteContextWrapper from "./contexts/siteContext";
 import Body from "../src/components/common/body";
 import GlobalStyle from "../src/components/common/globalStyle";
-import TronContract from "./contexts/tronWeb";
 const history = createBrowserHistory();
 
 export default () => {
   return (
     <SiteContextWrapper>
-      <TronContract>
-        <Router history={history}>
-          <GlobalStyle />
-          <Body />
-        </Router>
-      </TronContract>
+      <Router history={history}>
+        <GlobalStyle />
+        <Body />
+      </Router>
     </SiteContextWrapper>
   );
 };

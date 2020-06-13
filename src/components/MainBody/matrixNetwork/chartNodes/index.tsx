@@ -7,9 +7,12 @@ import { TronContract } from "../../../../contexts/tronWeb";
 import NodeItemWrap from "./nodeItem";
 import i18n from "i18n-js";
 import Loading from "../../../common/loading";
+import { toast } from "react-toastify";
 export default () => {
   const { matrixMember, address, member, userData } = useContext(TronContract);
-  const { siteState: { aside } } = useContext(SiteContext);
+  const {
+    siteState: { aside },
+  } = useContext(SiteContext);
   const [nodeData, setNodeData] = useState({
     address: "",
     sponsor: "",
@@ -19,6 +22,11 @@ export default () => {
     name: "",
   });
   const getNode = async (_startUser) => {
+    let isParent = await matrixMember.isParent(address, _startUser).call();
+    if (!isParent) {
+      toast.error(i18n.t("noPermission"), { position: "top-center" });
+      return;
+    }
     let [result, level, name] = await Promise.all([
       matrixMember.getNode(_startUser).call(),
       userData.getLevel(_startUser).call(),
@@ -43,71 +51,76 @@ export default () => {
       {nodeData === null ? (
         <Loading />
       ) : (
-          <div id="cni">
-            <div id="cni_sponsor">
-              <NodeItemWrap node="sponsor" data={nodeData.parent} getNode={getNode} status={
+        <div id="cni">
+          <div id="cni_sponsor">
+            <NodeItemWrap
+              node="sponsor"
+              data={nodeData.parent}
+              getNode={getNode}
+              status={
                 nodeData.parent === "T9yD14Nj9j7xAB4dbGeiX9h8unkKHxuWwb"
                   ? "empty"
                   : "active"
-              } />
+              }
+            />
+          </div>
+          <div id="cni_user">
+            <NodeItemWrap
+              node="user"
+              data={nodeData.address}
+              level={nodeData.level}
+              name={nodeData.name !== "" ? nodeData.name : nodeData.parent}
+              getNode={getNode}
+            />
+          </div>
+          <div id="cni_F1">
+            <NodeItemWrap
+              node="f1"
+              status={
+                nodeData.F1[0] === "T9yD14Nj9j7xAB4dbGeiX9h8unkKHxuWwb"
+                  ? "empty"
+                  : "active"
+              }
+              data={nodeData.F1[0]}
+              getNode={getNode}
+            />
+            <NodeItemWrap
+              node="f1"
+              status={
+                nodeData.F1[1] === "T9yD14Nj9j7xAB4dbGeiX9h8unkKHxuWwb"
+                  ? "empty"
+                  : "active"
+              }
+              data={nodeData.F1[1]}
+              getNode={getNode}
+            />
+            <NodeItemWrap
+              node="f1"
+              status={
+                nodeData.F1[2] === "T9yD14Nj9j7xAB4dbGeiX9h8unkKHxuWwb"
+                  ? "empty"
+                  : "active"
+              }
+              data={nodeData.F1[2]}
+              getNode={getNode}
+            />
+          </div>
+          <div id="cni_note">
+            <div className="cnin_block">
+              <div className="cninb_mascot"></div>
+              <span className="cninb_text">{i18n.t("emptyNode")}</span>
             </div>
-            <div id="cni_user">
-              <NodeItemWrap
-                node="user"
-                data={nodeData.address}
-                level={nodeData.level}
-                name={nodeData.name !== "" ? nodeData.name : nodeData.parent}
-                getNode={getNode}
-              />
+            <div className="cnin_block">
+              <div className="cninb_mascot"></div>
+              <span className="cninb_text">{i18n.t("activeNode")}</span>
             </div>
-            <div id="cni_F1">
-              <NodeItemWrap
-                node="f1"
-                status={
-                  nodeData.F1[0] === "T9yD14Nj9j7xAB4dbGeiX9h8unkKHxuWwb"
-                    ? "empty"
-                    : "active"
-                }
-                data={nodeData.F1[0]}
-                getNode={getNode}
-              />
-              <NodeItemWrap
-                node="f1"
-                status={
-                  nodeData.F1[1] === "T9yD14Nj9j7xAB4dbGeiX9h8unkKHxuWwb"
-                    ? "empty"
-                    : "active"
-                }
-                data={nodeData.F1[1]}
-                getNode={getNode}
-              />
-              <NodeItemWrap
-                node="f1"
-                status={
-                  nodeData.F1[2] === "T9yD14Nj9j7xAB4dbGeiX9h8unkKHxuWwb"
-                    ? "empty"
-                    : "active"
-                }
-                data={nodeData.F1[2]}
-                getNode={getNode}
-              />
-            </div>
-            <div id="cni_note">
-              <div className="cnin_block">
-                <div className="cninb_mascot"></div>
-                <span className="cninb_text">{i18n.t("emptyNode")}</span>
-              </div>
-              <div className="cnin_block">
-                <div className="cninb_mascot"></div>
-                <span className="cninb_text">{i18n.t("activeNode")}</span>
-              </div>
-              <div className="cnin_block">
-                <div className="cninb_mascot"></div>
-                <span className="cninb_text">{i18n.t("disableNode")}</span>
-              </div>
+            <div className="cnin_block">
+              <div className="cninb_mascot"></div>
+              <span className="cninb_text">{i18n.t("disableNode")}</span>
             </div>
           </div>
-        )}
+        </div>
+      )}
     </ChartNodesWrap>
   );
 };
@@ -122,12 +135,12 @@ const ChartNodesWrap = memo(styled.div`
   border-radius: 10px;
   margin-bottom: 30px;
   flex-grow: 2;
-  @media (max-width:1199px){
-    height:40vh;
+  @media (max-width: 1199px) {
+    height: 40vh;
   }
-  @media (max-width:399px){
-    height:50vh;
-    padding:10px;
+  @media (max-width: 399px) {
+    height: 50vh;
+    padding: 10px;
   }
   #cni {
     width: 100%;
@@ -144,20 +157,20 @@ const ChartNodesWrap = memo(styled.div`
       align-items: flex-end;
       &:first-child {
         height: 18%;
-        @media (max-width:399px){
-          height:12%;
+        @media (max-width: 399px) {
+          height: 12%;
         }
       }
       &:nth-child(2) {
         height: 28%;
-        @media (max-width:399px){
-          height:18.7%;
+        @media (max-width: 399px) {
+          height: 18.7%;
         }
       }
       &:nth-child(3) {
         height: 36%;
-        @media (max-width:399px){
-          height:24%;
+        @media (max-width: 399px) {
+          height: 24%;
         }
       }
     }
@@ -248,9 +261,9 @@ const ChartNodesWrap = memo(styled.div`
         margin: 0 2%;
         align-items: center;
         justify-content: center;
-        @media (max-width:399px){
-          width:80%;
-          height:25%;
+        @media (max-width: 399px) {
+          width: 80%;
+          height: 25%;
         }
         .cninb_mascot {
           width: 15px;
@@ -280,15 +293,15 @@ const ChartNodesWrap = memo(styled.div`
           text-transform: uppercase;
         }
       }
-      @media (max-width:399px){
-        height:45.3%;
-        flex-direction:column;
-        align-items:center;
+      @media (max-width: 399px) {
+        height: 45.3%;
+        flex-direction: column;
+        align-items: center;
       }
     }
-    @media (max-width:399px){
-      height:100%;
-      justify-content:flex-start;
+    @media (max-width: 399px) {
+      height: 100%;
+      justify-content: flex-start;
     }
   }
 `);

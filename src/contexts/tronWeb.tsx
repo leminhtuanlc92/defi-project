@@ -175,6 +175,18 @@ export default ({ children }: IProps) => {
       return false;
     }
   });
+  useEffect(() => {
+    if (tronState.member) {
+      (tronState.member as any)
+        .isMember(tronState.address)
+        .call()
+        .then((is) => {
+          if (is) {
+            setRefConfirm(true);
+          }
+        });
+    }
+  }, [tronState.member]);
   const confirm = () => {
     window.localStorage.setItem("confirmRef", ref as any);
     setRefConfirm(true);
