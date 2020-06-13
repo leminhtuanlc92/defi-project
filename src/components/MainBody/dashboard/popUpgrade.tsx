@@ -37,9 +37,14 @@ export default ({ showPop, setShowPop }: PopUpgradeProps) => {
   const [loading, setLoading] = useState(false);
   let dataSelect = [] as Array<any>;
 
-  const { matrixMarketing, ref, usdt, address, userData } = useContext(
-    TronContract
-  );
+  const {
+    matrixMarketing,
+    ref,
+    usdt,
+    address,
+    userData,
+    refConfirm,
+  } = useContext(TronContract);
   const pricePackage = [0, 15, 45, 90, 180, 240, 420, 600, 900];
   const getAmountUpgrade = (currentLevel: any, upgradeLevel: any) => {
     let total = 0;
@@ -87,8 +92,12 @@ export default ({ showPop, setShowPop }: PopUpgradeProps) => {
   //Upgrade funtion
   const upgrade = async (upgradeLevel: number) => {
     try {
+      let trueRef = ref;
+      if (ref === null && refConfirm === true) {
+        trueRef = address;
+      }
       let result = await matrixMarketing
-        .upgradePackage(upgradeLevel, ref)
+        .upgradePackage(upgradeLevel, trueRef)
         .send({
           callValue: 0,
           feeLimit: 1e7,
@@ -98,7 +107,7 @@ export default ({ showPop, setShowPop }: PopUpgradeProps) => {
       setStep(2);
     } catch (error) {
       console.log("Upgrade Error", error);
-      toast.error(i18n.t(error), { position: "top-center" });
+      toast.error(i18n.t(error.message), { position: "top-center" });
       setLoading(false);
     }
   };

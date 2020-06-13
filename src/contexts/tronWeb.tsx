@@ -25,6 +25,7 @@ const TronContract = React.createContext({
   matrixMarketing: undefined as any,
   isConnect: false as any,
   address: undefined as any,
+  refConfirm: false,
 });
 
 const waitTron = () => {
@@ -192,7 +193,7 @@ export default ({ children }: IProps) => {
     setRefConfirm(true);
   };
   return (
-    <TronContract.Provider value={{ ...tronState, ref }}>
+    <TronContract.Provider value={{ ...tronState, ref, refConfirm }}>
       <Fragment>
         {tronState.isConnect && tronState.address ? (
           refConfirm ? (

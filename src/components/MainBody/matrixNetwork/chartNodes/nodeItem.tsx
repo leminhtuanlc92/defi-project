@@ -27,7 +27,7 @@ export default ({
     address: "",
     level: 0,
     name: "",
-    direct: false,
+    direct: true,
   });
   const getCurrentNode = async (_startUser) => {
     if (status !== "empty") {

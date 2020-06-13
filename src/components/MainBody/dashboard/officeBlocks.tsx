@@ -34,6 +34,7 @@ export default ({ item }: OfficeBlockProps) => {
       shouldPollResponse: true,
     });
   };
+  console.log("time", item.time, Date.now());
   return (
     <OfficeBlock>
       <div id="office-content-info">
@@ -61,7 +62,7 @@ export default ({ item }: OfficeBlockProps) => {
           </div>
           <button
             id="office-blocks-btn"
-            disabled={item.time < Date.now() / 1000 + 31104000}
+            disabled={item.time === 0 || Date.now() + 31104000000 < item.time}
             onClick={() => {
               reinvest();
             }}
