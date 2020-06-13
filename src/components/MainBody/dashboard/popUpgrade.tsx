@@ -19,6 +19,18 @@ interface PopUpgradeProps {
   setShowPop: any;
 }
 
+const LevelLabel = [
+  "Not Active",
+  "Immigrant",
+  "Visa Holder",
+  "Permanent Resident",
+  "Citizen",
+  "Ambassador",
+  "Senator",
+  "Vice President",
+  "President",
+];
+
 export default ({ showPop, setShowPop }: PopUpgradeProps) => {
   const [step, setStep] = useState(1);
   const [currentSelect, setCurrentSelect] = useState({ title: "", value: 0 });
@@ -165,7 +177,8 @@ export default ({ showPop, setShowPop }: PopUpgradeProps) => {
                                 key={`detail-level-${index}`}
                               >
                                 <span>
-                                  {i18n.t("level")} {item.level}
+                                  {i18n.t("level")} {item.level} -{" "}
+                                  {LevelLabel[item.level]}
                                 </span>
                                 <span>{item.price} USDT</span>
                               </div>

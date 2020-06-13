@@ -63,7 +63,7 @@ export default ({ showPop, setShowPop, available, bonus }: PopUpgradeProps) => {
                 <img className="bpcms_img" src={buyImg} alt="" />
                 <div className="bpcms_quotes">
                   <span>
-                    {i18n.t("buySuccessQuote")} X token {i18n.t("inRound")}{" "}
+                    {i18n.t("buySuccessQuote")} X Credits {i18n.t("inRound")}{" "}
                     Co-founder {i18n.t("withPrice")}
                   </span>
                   <span>{i18n.t("backToHomePageContinue")}</span>
@@ -107,7 +107,7 @@ export default ({ showPop, setShowPop, available, bonus }: PopUpgradeProps) => {
                       <span>{i18n.t("usdt")}</span>
                     </div>
                     <span className="bpcmsw_convert">
-                      {i18n.t("with")} 1$ = 0.1 {i18n.t("token")}
+                      {i18n.t("with")} 1$ = 1{i18n.t("token")}
                     </span>
                   </div>
                 </div>

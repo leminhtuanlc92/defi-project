@@ -10,31 +10,46 @@ interface SelectProps {
   disabled?: boolean;
   defaultSelect?: string;
   currentSelect?: SelectItem;
-  itemPattern?: string
+  itemPattern?: string;
 }
 interface SelectItem {
   title: string;
   value: any;
 }
+
+const LevelLabel = [
+  "Not Active",
+  "Immigrant",
+  "Visa Holder",
+  "Permanent Resident",
+  "Citizen",
+  "Ambassador",
+  "Senator",
+  "Vice President",
+  "President",
+];
 export default ({
   listSelect,
   action,
   disabled = false,
   defaultSelect = `-- ${i18n.t("select")} --`,
   currentSelect,
-  itemPattern
+  itemPattern,
 }: SelectProps) => {
   const [show, setShow] = useState(false);
   return (
     <SelectInput disabled={disabled}>
-      <div id="sli_current_select" onClick={() => { !disabled && setShow(!show) }}>
+      <div
+        id="sli_current_select"
+        onClick={() => {
+          !disabled && setShow(!show);
+        }}
+      >
         <span id="slics_name">
           {currentSelect && currentSelect.title !== ""
-            ?
-            itemPattern === 'title - value' ?
-              `${currentSelect.title} - ${currentSelect.value}`
-              :
-              currentSelect.title
+            ? itemPattern === "title - value"
+              ? `${currentSelect.title} - ${currentSelect.value}`
+              : currentSelect.title
             : defaultSelect}
         </span>
         <img src={arrowImg} alt="" />
@@ -51,7 +66,13 @@ export default ({
                     setShow(false);
                   }}
                 >
-                  <span id="slidli_item_name">{itemPattern === "title - value" ? `${item.title} - ${item.value}` : item.title}</span>
+                  <span id="slidli_item_name">
+                    {itemPattern === "title - value"
+                      ? `${item.title} - ${item.value} - ${
+                          LevelLabel[item.value]
+                        }`
+                      : item.title + " - " + LevelLabel[item.value]}
+                  </span>
                 </DropListItem>
               );
             })}
@@ -87,8 +108,8 @@ const SelectInput = memo(styled.div`
       color: ${Colors.black3};
       font-style: italic;
     }
-    @media (max-width:480px){
-      padding:10px;
+    @media (max-width: 480px) {
+      padding: 10px;
     }
   }
 `);

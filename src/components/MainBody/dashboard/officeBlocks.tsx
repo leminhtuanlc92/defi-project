@@ -13,6 +13,18 @@ interface Item {
   time: number;
   user: number;
 }
+
+const LevelLabel = [
+  "Not Active",
+  "Immigrant",
+  "Visa Holder",
+  "Permanent Resident",
+  "Citizen",
+  "Ambassador",
+  "Senator",
+  "Vice President",
+  "President",
+];
 export default ({ item }: OfficeBlockProps) => {
   const { matrixMarketing } = useContext(TronContract);
   const reinvest = async () => {
@@ -26,9 +38,7 @@ export default ({ item }: OfficeBlockProps) => {
     <OfficeBlock>
       <div id="office-content-info">
         <div id="office-blocks-title">
-          <span id="office-content-lv">
-            {i18n.t("level")} {item.level}
-          </span>
+          <span id="office-content-lv">{LevelLabel[item.level]}</span>
         </div>
         <div id="office-blocks-main">
           <div id="office-first-main">

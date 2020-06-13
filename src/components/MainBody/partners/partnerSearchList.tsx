@@ -9,8 +9,8 @@ import Pagination from "../../../components/common/core/Pagination";
 import Loading from "../../../components/common/loading";
 import SearchResult from "./searchResult";
 interface PartnerSearchListProps {
-  data:any
-  loading:boolean
+  data: any;
+  loading: boolean;
 }
 export default ({ data, loading }: PartnerSearchListProps) => {
   return (
@@ -31,9 +31,9 @@ export default ({ data, loading }: PartnerSearchListProps) => {
         <div className="psl_sponsor">
           <span>{i18n.t("sponsor")}</span>
         </div>
-        <div className="psl_partners">
+        {/* <div className="psl_partners">
           <span>{i18n.t("numberOfLv1Partner")}</span>
-        </div>
+        </div> */}
       </div>
       <div id="partner_search_list_body">
         <Router history={history}>
@@ -42,11 +42,7 @@ export default ({ data, loading }: PartnerSearchListProps) => {
             <Route
               path="/partners"
               render={(props) => (
-                <SearchResult
-                  {...props}
-                  data={data}
-                  loading={loading}
-                />
+                <SearchResult {...props} data={data} loading={loading} />
               )}
             />
           </Switch>
