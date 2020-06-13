@@ -57,6 +57,8 @@
   "emptyNode": "Empty node",
   "activeNode": "Active node",
   "disableNode": "Disable node",
+  "directNode": "Direct Node",
+  "indirectNode": "Indirect Node",
   "done": "Done",
   "levelEmptyNode": "Level empty node",
   "listPendingUsers": "Pending user list",

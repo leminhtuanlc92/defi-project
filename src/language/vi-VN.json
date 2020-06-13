@@ -56,6 +56,8 @@
   "emptyLevel": "Empty level",
   "emptyNode": "Empty node",
   "activeNode": "Active node",
+  "directNode": "Trực tiếp",
+  "indirectNode": "Gián tiếp",
   "disableNode": "Disable node",
   "done": "Hoàn tất",
   "levelEmptyNode": "Level empty node",

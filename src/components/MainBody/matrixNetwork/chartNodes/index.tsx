@@ -81,6 +81,7 @@ export default () => {
                   ? "empty"
                   : "active"
               }
+              sponsor={nodeData.address}
               data={nodeData.F1[0]}
               getNode={getNode}
             />
@@ -91,6 +92,7 @@ export default () => {
                   ? "empty"
                   : "active"
               }
+              sponsor={nodeData.address}
               data={nodeData.F1[1]}
               getNode={getNode}
             />
@@ -101,6 +103,7 @@ export default () => {
                   ? "empty"
                   : "active"
               }
+              sponsor={nodeData.address}
               data={nodeData.F1[2]}
               getNode={getNode}
             />
@@ -112,11 +115,11 @@ export default () => {
             </div>
             <div className="cnin_block">
               <div className="cninb_mascot"></div>
-              <span className="cninb_text">{i18n.t("activeNode")}</span>
+              <span className="cninb_text">{i18n.t("directNode")}</span>
             </div>
             <div className="cnin_block">
               <div className="cninb_mascot"></div>
-              <span className="cninb_text">{i18n.t("disableNode")}</span>
+              <span className="cninb_text">{i18n.t("indirectNode")}</span>
             </div>
           </div>
         </div>

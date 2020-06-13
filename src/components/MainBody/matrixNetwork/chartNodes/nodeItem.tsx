@@ -11,13 +11,23 @@ interface NodeItemProps {
   level?: number;
   name?: string;
   getNode: (address) => void;
+  sponsor?: string;
 }
-export default ({ node, status, data, level, name, getNode }: NodeItemProps) => {
+export default ({
+  node,
+  status,
+  data,
+  level,
+  name,
+  sponsor,
+  getNode,
+}: NodeItemProps) => {
   const { member, userData, matrixMember } = useContext(TronContract);
   const [curretnNodeData, setCurretnNodeData] = useState({
     address: "",
     level: 0,
     name: "",
+    direct: false,
   });
   const getCurrentNode = async (_startUser) => {
     if (status !== "empty") {
@@ -26,10 +36,17 @@ export default ({ node, status, data, level, name, getNode }: NodeItemProps) => 
         userData.getLevel(_startUser).call(),
         member.users(_startUser).call(),
       ]);
+      console.log(
+        "result",
+        (window as any).tronWeb.address.fromHex(result.parent),
+        sponsor
+      );
       setCurretnNodeData({
         address: (window as any).tronWeb.address.fromHex(result.parent),
         level: Number(level),
         name: name.username,
+        direct:
+          (window as any).tronWeb.address.fromHex(result.sponsor) === sponsor,
       });
     }
   };
@@ -39,29 +56,41 @@ export default ({ node, status, data, level, name, getNode }: NodeItemProps) => 
     }
   }, [data]);
   return (
-    <NodeItemWrap node={node} status={status} onClick={() => {
-      if (data !== '' && status !== 'empty') { getNode(data) }
-    }}>
+    <NodeItemWrap
+      node={node}
+      status={
+        status === "active"
+          ? curretnNodeData.direct
+            ? "active"
+            : "disable"
+          : "empty"
+      }
+      onClick={() => {
+        if (data !== "" && status !== "empty") {
+          getNode(data);
+        }
+      }}
+    >
       <div className="niw_inner">
         {node === "f1" && status === "empty" ? (
           <div className="niwi_spec">
             <img src={avtImg} alt="" />
           </div>
         ) : (
-            <Fragment>
-              <div className="niw_left">
-                <img src={avtImg} alt="" />
-              </div>
-              <div className="niw_right">
-                <span className="niwr_name">
-                  {node === "user" ? name : curretnNodeData.name}
-                </span>
-                <span className="niwr_lv">
-                  Lv. {node === "user" ? level : curretnNodeData.level}
-                </span>
-              </div>
-            </Fragment>
-          )}
+          <Fragment>
+            <div className="niw_left">
+              <img src={avtImg} alt="" />
+            </div>
+            <div className="niw_right">
+              <span className="niwr_name">
+                {node === "user" ? name : curretnNodeData.name}
+              </span>
+              <span className="niwr_lv">
+                Lv. {node === "user" ? level : curretnNodeData.level}
+              </span>
+            </div>
+          </Fragment>
+        )}
       </div>
     </NodeItemWrap>
   );
@@ -78,30 +107,32 @@ const NodeItemWrap = memo(styled.div`
           background-color: ${Colors.green1};
         `
       : props.node === "user"
-        ? css`
+      ? css`
           height: 56%;
           background-color: ${Colors.green1};
         `
-        : props.status === "disable"
-          ? css`
+      : props.status === "disable"
+      ? css`
           height: 43.55%;
           background-color: ${Colors.red};
         `
-          : props.status === "active"
-            ? css`
+      : props.status === "active"
+      ? css`
           height: 43.55%;
           background-color: ${Colors.blue};
         `
-            : css`
+      : css`
           height: 43.55%;
           background-color: none;
-        `
-  };
+        `};
   ${(props: any) =>
-    props.status !== "empty"?
-    css`cursor: pointer;`:
-    css`cursor: not-allowed;`
-  }
+    props.status !== "empty"
+      ? css`
+          cursor: pointer;
+        `
+      : css`
+          cursor: not-allowed;
+        `}
   width: 25%;
   position: relative;
   margin: 0 2%;
@@ -109,11 +140,11 @@ const NodeItemWrap = memo(styled.div`
     width: 90%;
     height: 90%;
     ${(props: any) =>
-    props.node === "f1" && props.status === "empty"
-      ? css`
+      props.node === "f1" && props.status === "empty"
+        ? css`
             padding: 0 5%;
           `
-      : css`
+        : css`
             padding: 5%;
           `};
     align-items: center;
@@ -140,19 +171,19 @@ const NodeItemWrap = memo(styled.div`
         overflow: hidden;
         text-overflow: ellipsis;
         white-space: nowrap;
-        @media (max-width:991px){
+        @media (max-width: 991px) {
           font-size: 1.3vw;
           line-height: 1.3vw;
         }
-        @media (max-width:767px){
+        @media (max-width: 767px) {
           font-size: 1.5vw;
           line-height: 1.5vw;
         }
-        @media (max-width:599px){
+        @media (max-width: 599px) {
           font-size: 1.8vw;
           line-height: 1.8vw;
         }
-        @media (max-width:399px){
+        @media (max-width: 399px) {
           font-size: 2.8vw;
           line-height: 2.8vw;
         }
