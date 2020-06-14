@@ -14,13 +14,20 @@ export default () => {
     sold: 0,
   });
   useEffect(() => {
-    shareHolder.currentStage().call().then((stage: any) => {
-      shareHolder.stages(Number(stage)).call().then((info: any) => {
-        setCurrentStage({
-          stage: Number(stage), sold: Number(info.sold),
-        });
+    shareHolder
+      .currentStage()
+      .call()
+      .then((stage: any) => {
+        shareHolder
+          .stages(Number(stage))
+          .call()
+          .then((info: any) => {
+            setCurrentStage({
+              stage: Number(stage),
+              sold: Number(info.sold) / 1000000,
+            });
+          });
       });
-    });
   }, [shareHolder]);
   const packages = [
     {
@@ -75,16 +82,16 @@ export default () => {
     { id: 8, name: "listing", volume: 12800000, bonus: 1, txs: 0 },
   ];
   const bonusData = [
-    { id: 1, level: 1, percent: 10 },
-    { id: 2, level: 1, percent: 8 },
-    { id: 3, level: 1, percent: 6 },
-    { id: 4, level: 1, percent: 4 },
-    { id: 5, level: 1, percent: 2 },
-    { id: 6, level: 1, percent: 1 },
-    { id: 7, level: 1, percent: 1 },
-    { id: 8, level: 1, percent: 1 },
+    { level: 1, percent: 10 },
+    { level: 2, percent: 8 },
+    { level: 3, percent: 6 },
+    { level: 4, percent: 4 },
+    { level: 5, percent: 2 },
+    { level: 6, percent: 1 },
+    { level: 7, percent: 1 },
+    { level: 8, percent: 1 },
   ];
-  const handleBuy = () => { };
+  const handleBuy = () => {};
   return (
     <BuyDFCWrap>
       <div id="buydfc_mainbody">
@@ -148,9 +155,6 @@ export default () => {
             <span className="bdfcmr_block_title">{i18n.t("usdtBonus")}</span>
             <div id="bdfcmmc_table_wrap">
               <div className="bdfcmmct_header">
-                <div className="bdfcmmct_id">
-                  <span>{i18n.t("noNumber")}</span>
-                </div>
                 <div className="bdfcmmct_level">
                   <span>{i18n.t("level")}</span>
                 </div>
@@ -163,7 +167,6 @@ export default () => {
                   return (
                     <USDTBonusTableItem
                       key={index}
-                      id={item.id}
                       level={item.level}
                       percent={item.percent}
                       lastItem={index === bonusData.length - 1}

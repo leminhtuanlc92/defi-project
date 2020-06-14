@@ -11,7 +11,6 @@ interface NodeItemProps {
   level?: number;
   name?: string;
   getNode: (address) => void;
-  sponsor?: string;
 }
 export default ({
   node,
@@ -19,10 +18,9 @@ export default ({
   data,
   level,
   name,
-  sponsor,
   getNode,
 }: NodeItemProps) => {
-  const { member, userData, matrixMember } = useContext(TronContract);
+  const { member, userData, matrixMember, address } = useContext(TronContract);
   const [curretnNodeData, setCurretnNodeData] = useState({
     address: "",
     level: 0,
@@ -31,22 +29,18 @@ export default ({
   });
   const getCurrentNode = async (_startUser) => {
     if (status !== "empty") {
-      let [result, level, name] = await Promise.all([
+      let [result, level, name, isParent] = await Promise.all([
         matrixMember.getNode(_startUser).call(),
         userData.getLevel(_startUser).call(),
         member.users(_startUser).call(),
+        member.isParent(address, _startUser).call(),
       ]);
-      console.log(
-        "result",
-        (window as any).tronWeb.address.fromHex(result.parent),
-        sponsor
-      );
+      console.log("check", address, _startUser, isParent);
       setCurretnNodeData({
         address: (window as any).tronWeb.address.fromHex(result.parent),
         level: Number(level),
         name: name.username,
-        direct:
-          (window as any).tronWeb.address.fromHex(result.sponsor) === sponsor,
+        direct: isParent,
       });
     }
   };

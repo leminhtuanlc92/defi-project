@@ -31,7 +31,6 @@ export default ({ data }: SunUserItemChildProps) => {
   useEffect(() => {
     getUser(data);
   }, []);
-  console.log('data', (window as any).tronWeb.address.fromHex(data))
   return (
     <SunUserItemChildWrap showChild={showChild}>
       {nodeData.user.parent !== "" && nodeData.user.userId !== "" ? (
@@ -116,7 +115,7 @@ const SunUserItemChildNodeMain = memo(styled.div`
         `};
   .sunm_info {
     margin-left: 10px;
-    flex:1;
+    flex: 1;
     .sunmi_avt {
       flex-direction: column;
       justify-content: center;

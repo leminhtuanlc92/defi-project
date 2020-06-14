@@ -101,25 +101,14 @@ export default () => {
     checkApprove();
   }, []);
 
-  //Neu approve bang false thi hien thi cap quyen Approve nut dong y se la goi funtion duoi
   const approveUSDT = async () => {
-    // let result = await usdt
-    //   .approve(contract.matrixMarketingAddress, 10 ** 15)
-    //   .send({
-    //     callValue: 0,
-    //     feeLimit: 1e7,
-    //     shouldPollResponse: true,
-    //   });
-    // console.log('result', result)
     setLoading(true);
     try {
-      let result = await usdt
-        .approve(contract.matrixMarketingAddress, 10 ** 15)
-        .send({
-          callValue: 0,
-          feeLimit: 1e7,
-          shouldPollResponse: false,
-        });
+      await usdt.approve(contract.matrixMarketingAddress, 10 ** 15).send({
+        callValue: 0,
+        feeLimit: 1e7,
+        shouldPollResponse: false,
+      });
       setLoading(false);
       toast.success(i18n.t("approveUsdtSuccess"), { position: "top-center" });
       setApprove(true);
@@ -127,7 +116,7 @@ export default () => {
     } catch (error) {
       console.log("Approve USDT fail", error);
       setLoading(false);
-      toast.error(i18n.t(error), { position: "top-center" });
+      toast.error(i18n.t(error.message), { position: "top-center" });
     }
   };
   return (

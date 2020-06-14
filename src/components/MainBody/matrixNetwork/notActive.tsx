@@ -14,6 +14,7 @@ export default ({ sponsor }) => {
         member.users(sponsor).call(),
         userData.getLevel(sponsor).call(),
       ]);
+
       setInfo({
         username: user.username,
         level: Number(level),
@@ -22,7 +23,7 @@ export default ({ sponsor }) => {
     if (sponsor !== "") {
       getInfo();
     }
-  }, []);
+  }, [sponsor]);
   return (
     <div id="matrixnetwork_mainbody_nolog">
       <div id="mtnmb_notlog_left">

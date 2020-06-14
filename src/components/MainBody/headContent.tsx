@@ -17,8 +17,8 @@ export default ({ update }) => {
   });
   const affiliate =
     userInfo.username !== "Not set"
-      ? (window as any).location.origin + "/?username=" + userInfo.username
-      : (window as any).location.origin + "/?ref=" + address;
+      ? (window as any).location.origin + "/?u=" + userInfo.username
+      : (window as any).location.origin + "/?r=" + address;
   const [copied, setCopied] = useState(false);
   const writeToClipboard = async () => {
     setCopied(true);

@@ -86,7 +86,6 @@ export default ({ children }: any) => {
   useEffect(() => {
     initConfig();
   }, []);
-  // console.log('Check', siteState)
   return (
     <SiteContext.Provider
       value={{

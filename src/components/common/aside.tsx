@@ -40,12 +40,12 @@ export default () => {
       img: require("../../assets/images/ic-partner.svg"),
       imgActive: require("../../assets/images/ic-partner-active.svg"),
     },
-    {
-      name: "transactionHistory",
-      url: "/transaction-history",
-      img: require("../../assets/images/ic-ds-giaodich.svg"),
-      imgActive: require("../../assets/images/ic-ds-giaodich-active.svg"),
-    },
+    // {
+    //   name: "transactionHistory",
+    //   url: "/transaction-history",
+    //   img: require("../../assets/images/ic-ds-giaodich.svg"),
+    //   imgActive: require("../../assets/images/ic-ds-giaodich-active.svg"),
+    // },
     {
       name: "buyDfc",
       url: "/buy-dfc",
@@ -54,14 +54,14 @@ export default () => {
     },
     {
       name: "whitepaper",
-      url: "./eng_whitepaper.ppsx",
+      url: "./eng_whitepaper.pdf",
       raw: true,
       img: require("../../assets/images/ic-logout.svg"),
       imgActive: require("../../assets/images/ic-logout-active.svg"),
     },
     {
       name: "slide",
-      url: "./eng_slide.ppsx",
+      url: "./eng_slide.pdf",
       raw: true,
       img: require("../../assets/images/ic-logout.svg"),
       imgActive: require("../../assets/images/ic-logout-active.svg"),

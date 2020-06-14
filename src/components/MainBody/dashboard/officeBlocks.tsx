@@ -34,7 +34,6 @@ export default ({ item }: OfficeBlockProps) => {
       shouldPollResponse: true,
     });
   };
-  console.log("time", item.time, Date.now());
   return (
     <OfficeBlock>
       <div id="office-content-info">

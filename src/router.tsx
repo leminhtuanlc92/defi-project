@@ -44,7 +44,6 @@ export default ({ setUpdate }) => {
       .users(address)
       .call()
       .then((info: any) => {
-        // console.log('info', info)
         setUsername(info.username);
         if (info.username !== "") {
           setShowPop(false);

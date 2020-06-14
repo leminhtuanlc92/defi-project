@@ -56,9 +56,6 @@ export default ({ showPop, setShowPop }: PopUpgradeProps) => {
         price: pricePackage[i],
       });
     }
-    //Total là tổng số tiền
-    // Detail là danh sách các level nâng cấp
-    // console.log('BBBB', { total, detail })
     return {
       total,
       detail,

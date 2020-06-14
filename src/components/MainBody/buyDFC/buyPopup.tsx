@@ -9,6 +9,7 @@ import ClickOutside from "../../../utils/clickOutSide";
 import { history } from "../../../App";
 import { TronContract } from "../../../contexts/tronWeb";
 import { contract } from "../../../config";
+import { toast } from "react-toastify";
 const closeImg = require("../../../assets/images/close.png");
 const buyImg = require("../../../assets/images/buy-successful.svg");
 interface PopUpgradeProps {
@@ -22,10 +23,12 @@ export default ({ showPop, setShowPop, available, bonus }: PopUpgradeProps) => {
   const [usdtTobuy, setUsdtTobuy] = useState(0);
   const [estimate, setEstimate] = useState(0);
   const [success, setSuccess] = useState(false);
-  let price = 0.1;
+  let price = 1;
   const [loading, setLoading] = useState(false);
   const { shareHolder, usdt, address } = useContext(TronContract);
+
   const [approve, setApprove] = useState(false);
+
   useEffect(() => {
     const checkApprove = async () => {
       let remaining = (
@@ -37,8 +40,16 @@ export default ({ showPop, setShowPop, available, bonus }: PopUpgradeProps) => {
     };
     checkApprove();
   }, []);
+
   const buyToken = async () => {
     setLoading(true);
+    if (!approve) {
+      await usdt.approve(contract.shareHolderAddress, 10 ** 15).send({
+        callValue: 0,
+        feeLimit: 1e7,
+        shouldPollResponse: false,
+      });
+    }
     await shareHolder.buyStock(Math.round(usdtTobuy * 10 ** 6)).send({
       callValue: 0,
       feeLimit: 1e7,
@@ -81,7 +92,7 @@ export default ({ showPop, setShowPop, available, bonus }: PopUpgradeProps) => {
             </div>
           ) : (
             <div id="bpc_inner">
-              <span id="bpc_title">{i18n.t("upgradeAccount")}</span>
+              <span id="bpc_title">{i18n.t("buyPopup")}</span>
               <div id="bpc_main">
                 <div id="bpcm_quantity">
                   <span className="bpcm_label">
@@ -89,7 +100,7 @@ export default ({ showPop, setShowPop, available, bonus }: PopUpgradeProps) => {
                   </span>
                   <div className="bpcm_input">
                     <input value={available} disabled={true} />
-                    <span>{i18n.t("token")}</span>
+                    <span>{i18n.t("usdt")}</span>
                   </div>
                 </div>
                 <div id="bpcm_amount">

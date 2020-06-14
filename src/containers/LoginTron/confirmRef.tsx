@@ -13,7 +13,6 @@ interface ConfirmProps {
 export default ({ confirm }: ConfirmProps) => {
   const { ref, member } = useContext(TronContract);
   const [username, setUsername] = useState("Not set");
-  // console.log('ref', ref)
   useEffect(() => {
     if (ref && member) {
       member

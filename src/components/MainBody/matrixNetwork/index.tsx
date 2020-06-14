@@ -71,15 +71,15 @@ const MatrixNetworkWrap = memo(styled.div`
     #mtnmb_left {
       flex-direction: column;
       width: 65%;
-      @media (max-width:1199px){
-        width:100%;
-        margin-bottom:30px;
+      @media (max-width: 1199px) {
+        width: 100%;
+        margin-bottom: 30px;
       }
     }
     #mtnmb_right {
       width: calc(35% - 30px);
-      @media (max-width:1199px){
-        width:100%;
+      @media (max-width: 1199px) {
+        width: 100%;
       }
     }
     #matrixnetwork_mainbody_nolog {
@@ -171,8 +171,8 @@ const MatrixNetworkWrap = memo(styled.div`
         }
       }
     }
-    @media (max-width:1199px){
-      flex-direction:column;
+    @media (max-width: 1199px) {
+      flex-direction: column;
     }
   }
 `);

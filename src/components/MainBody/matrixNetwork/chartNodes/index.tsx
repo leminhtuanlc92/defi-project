@@ -81,7 +81,6 @@ export default () => {
                   ? "empty"
                   : "active"
               }
-              sponsor={nodeData.address}
               data={nodeData.F1[0]}
               getNode={getNode}
             />
@@ -92,7 +91,6 @@ export default () => {
                   ? "empty"
                   : "active"
               }
-              sponsor={nodeData.address}
               data={nodeData.F1[1]}
               getNode={getNode}
             />
@@ -103,7 +101,6 @@ export default () => {
                   ? "empty"
                   : "active"
               }
-              sponsor={nodeData.address}
               data={nodeData.F1[2]}
               getNode={getNode}
             />

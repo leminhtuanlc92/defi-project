@@ -67,11 +67,10 @@ export default () => {
       };
     } catch (error) {
       console.log("get partner data fail", error);
-      toast.error(i18n.t(error), { position: "top-center" });
+      toast.error(i18n.t(error.message), { position: "top-center" });
       setLoading(false);
     }
   };
-  // console.log('data',data)
   return (
     <PartnerskWrap
       validAddress={validAddress}

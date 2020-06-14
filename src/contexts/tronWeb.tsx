@@ -127,19 +127,19 @@ export default ({ children }: IProps) => {
   useEffect(() => {
     const getRef = async () => {
       const parsed = qs.parse(window.location.search);
-      if (parsed.ref) {
-        if (WAValidator.validate(parsed.ref, "trx")) {
+      if (parsed.r) {
+        if (WAValidator.validate(parsed.r, "trx")) {
           if (window.localStorage) {
-            window.localStorage.setItem("ref", (parsed as any).ref);
+            window.localStorage.setItem("ref", (parsed as any).r);
           }
-          setRef((parsed as any).ref);
+          setRef((parsed as any).r);
         } else {
           setRef(null as any);
         }
-      } else if (parsed.username) {
+      } else if (parsed.u) {
         if (tronState.member) {
           let addressRef = await (tronState as any).member
-            .username(parsed.username)
+            .username(parsed.u)
             .call();
           if (
             window.localStorage &&
@@ -167,7 +167,6 @@ export default ({ children }: IProps) => {
       setTronState(state);
     });
   }, []);
-  // console.log(tronState);
   const [refConfirm, setRefConfirm] = useState(() => {
     let local = window.localStorage.getItem("confirmRef");
     if (local === ref) {

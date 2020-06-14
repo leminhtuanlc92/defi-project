@@ -58,7 +58,6 @@ export default () => {
         start += 50;
       }
     }
-    // console.log('result2', result)
     let add = (window as any).tronWeb.address.fromHex(result);
     getNodeInfo(add);
     return result;
