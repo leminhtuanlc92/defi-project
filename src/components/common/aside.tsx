@@ -5,13 +5,13 @@ import Colors from "../../constants/Colors";
 import Texts from "../../constants/Texts";
 import { Link, useLocation } from "react-router-dom";
 import i18n from "i18n-js";
-import Language from '../common/core/Language'
+import Language from "../common/core/Language";
 const logoutImg = require("../../assets/images/ic-logout.svg");
 const logoImg = require("../../assets/images/logo-defi-white.svg");
 const iconLogo = require("../../assets/images/icon-defi-white.svg");
 const toggleMenuImg = require("../../assets/images/open-menu.svg");
 export default () => {
-  let mount = true
+  let mount = true;
   let currentPath = useLocation();
   const { siteState, toggleAside } = useContext(SiteContext);
   const [showDropMenu, setShowDropMenu] = useState(false);
@@ -52,24 +52,32 @@ export default () => {
       img: require("../../assets/images/ic-mua-dfc.svg"),
       imgActive: require("../../assets/images/ic-mua-dfc-active.svg"),
     },
-    // {
-    //   name: "usageInstruction",
-    //   url: "/instructions",
-    //   img: require("../../assets/images/ic-logout.svg"),
-    //   imgActive: require("../../assets/images/ic-logout-active.svg"),
-    // },
+    {
+      name: "whitepaper",
+      url: "./eng_whitepaper.ppsx",
+      raw: true,
+      img: require("../../assets/images/ic-logout.svg"),
+      imgActive: require("../../assets/images/ic-logout-active.svg"),
+    },
+    {
+      name: "slide",
+      url: "./eng_slide.ppsx",
+      raw: true,
+      img: require("../../assets/images/ic-logout.svg"),
+      imgActive: require("../../assets/images/ic-logout-active.svg"),
+    },
   ];
   return (
     <AsideWrap aside={siteState.aside}>
       <div id="a_lang">
-          <Language colorInner={Colors.white}/>
-        </div>
+        <Language colorInner={Colors.white} />
+      </div>
       <Logo aside={siteState.aside}>
         {siteState.aside ? (
           <img src={logoImg} alt="" />
         ) : (
-            <img src={iconLogo} alt="" />
-          )}
+          <img src={iconLogo} alt="" />
+        )}
       </Logo>
       <ToggleMenu onClick={() => setShowDropMenu(!showDropMenu)}>
         <img src={toggleMenuImg} alt="" />
@@ -79,42 +87,83 @@ export default () => {
           {listmenu.map((item, index) => {
             return (
               <div style={{ alignItems: "center", width: "100%" }} key={index}>
-                <Link
-                  to={item.url}
-                  key={index}
-                  onClick={() => setShowDropMenu(false)}
-                  // data-tip-disable={siteState.aside}
-                  data-tip={`${i18n.t(`${item.name}`)}`}
-                  data-delay-show={500}
-                  style={{ width: "100%" }}
-                >
-                  <MenuItemWrapper
-                    aside={siteState.aside}
-                    mobile={(window as any).innerHeight < 992}
-                    active={
-                      item.url === currentPath.pathname ||
-                      (currentPath.pathname.includes(item.url) &&
-                        item.url !== "/")
-                    }
+                {item.raw ? (
+                  <a
+                    key={index}
+                    href={item.url}
+                    data-tip={`${i18n.t(`${item.name}`)}`}
+                    data-delay-show={500}
+                    style={{ width: "100%" }}
                   >
-                    <img
-                      src={
+                    <MenuItemWrapper
+                      aside={siteState.aside}
+                      mobile={(window as any).innerHeight < 992}
+                      active={
                         item.url === currentPath.pathname ||
+                        (currentPath.pathname.includes(item.url) &&
+                          item.url !== "/")
+                      }
+                    >
+                      <img
+                        src={
+                          item.url === currentPath.pathname ||
                           (currentPath.pathname.includes(item.url) &&
                             item.url !== "/")
-                          ? item.imgActive
-                          : item.img
+                            ? item.imgActive
+                            : item.img
+                        }
+                        style={{
+                          marginRight: siteState.aside ? "20px" : 0,
+                          objectFit: "contain",
+                          width: "20px",
+                        }}
+                        alt=""
+                      />
+                      {siteState.aside ? (
+                        <span>{i18n.t(item.name)}</span>
+                      ) : null}
+                    </MenuItemWrapper>
+                  </a>
+                ) : (
+                  <Link
+                    to={item.url}
+                    key={index}
+                    onClick={() => setShowDropMenu(false)}
+                    // data-tip-disable={siteState.aside}
+                    data-tip={`${i18n.t(`${item.name}`)}`}
+                    data-delay-show={500}
+                    style={{ width: "100%" }}
+                  >
+                    <MenuItemWrapper
+                      aside={siteState.aside}
+                      mobile={(window as any).innerHeight < 992}
+                      active={
+                        item.url === currentPath.pathname ||
+                        (currentPath.pathname.includes(item.url) &&
+                          item.url !== "/")
                       }
-                      style={{
-                        marginRight: siteState.aside ? "20px" : 0,
-                        objectFit: "contain",
-                        width: "20px",
-                      }}
-                      alt=""
-                    />
-                    {siteState.aside ? <span>{i18n.t(item.name)}</span> : null}
-                  </MenuItemWrapper>
-                </Link>
+                    >
+                      <img
+                        src={
+                          item.url === currentPath.pathname ||
+                          (currentPath.pathname.includes(item.url) &&
+                            item.url !== "/")
+                            ? item.imgActive
+                            : item.img
+                        }
+                        style={{
+                          marginRight: siteState.aside ? "20px" : 0,
+                          objectFit: "contain",
+                          width: "20px",
+                        }}
+                        alt=""
+                      />
+                      {siteState.aside ? (
+                        <span>{i18n.t(item.name)}</span>
+                      ) : null}
+                    </MenuItemWrapper>
+                  </Link>
+                )}
               </div>
             );
           })}
@@ -159,7 +208,7 @@ const AsideWrap = memo(styled.div`
   background-color: ${Colors.green1};
   padding: 20px 0;
   height: calc(100% - 40px);
-  position:relative;
+  position: relative;
   ${(props: any) =>
     props.aside
       ? css`
@@ -175,12 +224,12 @@ const AsideWrap = memo(styled.div`
     padding: 0;
     position: relative;
   }
-  #a_lang{
-    display:none;
-    align-items:center;
-    padding-left:10px;
-    @media (max-width:499px){
-      display:flex;
+  #a_lang {
+    display: none;
+    align-items: center;
+    padding-left: 10px;
+    @media (max-width: 499px) {
+      display: flex;
     }
   }
 `);
@@ -200,11 +249,11 @@ const Logo = memo(styled.div`
   justify-content: center;
   img {
     ${(props: any) =>
-    props.aside
-      ? css`
+      props.aside
+        ? css`
             max-width: 120px;
           `
-      : css`
+        : css`
             max-width: 35px;
           `}
   }
@@ -212,7 +261,7 @@ const Logo = memo(styled.div`
     position: absolute;
     top: 0;
     left: 50%;
-    transform: translate(-50%,0);
+    transform: translate(-50%, 0);
     height: 40px;
   }
 `);
@@ -234,13 +283,13 @@ const MainMenu = memo(styled.div`
     width: 100%;
     margin: 0;
     z-index: 2;
-    box-shadow: 0 4px 6px 1px rgba(78, 78, 78, .16);
+    box-shadow: 0 4px 6px 1px rgba(78, 78, 78, 0.16);
     ${(props: any) =>
-    props.showDropMenu
-      ? css`
+      props.showDropMenu
+        ? css`
             display: flex;
           `
-      : css`
+        : css`
             display: none;
           `}
   }

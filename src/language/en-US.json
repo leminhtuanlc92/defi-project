@@ -135,5 +135,7 @@
   "refErrorMessage": "Your referrer path is not valid. Please contact the referrer for more details.",
   "noPermission": "No Permission",
   "REVERT opcode executed": "REVERT opcode executed",
-  "Confirmation declined by user": "Confirmation declined by user"
+  "Confirmation declined by user": "Confirmation declined by user",
+  "whitepaper": "Whitepaper",
+  "slide": "Document"
 }
