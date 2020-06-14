@@ -68,8 +68,11 @@ export default ({
                 >
                   <span id="slidli_item_name">
                     {itemPattern === "title - value"
-                      ? `${item.title} - ${item.value} - ${
-                          LevelLabel[item.value]
+                      ? `${item.title} - ${item.value}${
+                          typeof item.value === "number"
+                            ? ` - ${LevelLabel[item.value]}`
+                            : ""
+                        }
                         }`
                       : item.title + " - " + LevelLabel[item.value]}
                   </span>
