@@ -56,6 +56,7 @@ export default ({ showPop, setShowPop, available, bonus }: PopUpgradeProps) => {
       shouldPollResponse: true,
     });
     setLoading(false);
+    setApprove(true);
     setSuccess(true);
   };
   return (

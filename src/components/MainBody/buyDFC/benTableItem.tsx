@@ -26,9 +26,9 @@ export default ({ id, name, volume, bonus, txs, lastItem }: BenItemProps) => {
       <div className="bdfcmmct_bonus">
         <span>{bonus}</span>
       </div>
-      <div className="bdfcmmct_tx">
+      {/* <div className="bdfcmmct_tx">
         <span>{txs}</span>
-      </div>
+      </div> */}
     </BenItemWrap>
   );
 };

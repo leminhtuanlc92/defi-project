@@ -130,9 +130,9 @@ export default () => {
                 <div className="bdfcmmct_bonus">
                   <span>{i18n.t("bonus")}</span>
                 </div>
-                <div className="bdfcmmct_tx">
+                {/* <div className="bdfcmmct_tx">
                   <span>{i18n.t("tx")}</span>
-                </div>
+                </div> */}
               </div>
               <div className="bdfcmmct_body">
                 {benData.map((item, index) => {
