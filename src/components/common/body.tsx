@@ -209,10 +209,11 @@ const MainBody = memo(styled.div`
         }
     }
     #wrap_main_content{
-        height: calc(100% - (1em*2));
+        /* height: calc(100% - (1em*2)); */
         width:100%;
         overflow:hidden;
         flex:1;
+        flex-grow:12;
         @media (max-width:991px){
           ${(props: any) => props.horizontal ?
             css`height:auto;overflow:inherit` :

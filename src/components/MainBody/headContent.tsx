@@ -88,15 +88,15 @@ const HeadContentWrap = memo(styled.div`
     width:100%;
     justify-content:space-between;
     align-items:center;
-    /* background-color:${Colors.green2}; */
-    height: calc(2em*2);
+    /* height: calc(2em * 2); */
+    flex:1;
     #affiliate-link{
         align-items:center;
         background-color:red;
         @media (max-width:399px){
           width:100%;
         }
-        >span{
+        &>span{
             font-size:${Texts.size.large};
             line-height: ${Texts.size.large};
             color: ${Colors.black1};
