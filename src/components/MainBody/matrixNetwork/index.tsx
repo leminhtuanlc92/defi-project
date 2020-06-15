@@ -141,7 +141,7 @@ const MatrixNetworkWrap = memo(styled.div`
             span {
               color: ${Colors.black};
               font-size: ${Texts.size.large};
-              line-height: ${Texts.size.large};
+              line-height: ${Texts.size.huge};
               &:first-child {
                 flex: 0.4;
                 text-transform: uppercase;

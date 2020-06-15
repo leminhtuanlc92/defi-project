@@ -92,6 +92,10 @@ const HeadContentWrap = memo(styled.div`
     height: calc(2em*2);
     #affiliate-link{
         align-items:center;
+        background-color:red;
+        @media (max-width:399px){
+          width:100%;
+        }
         >span{
             font-size:${Texts.size.large};
             line-height: ${Texts.size.large};
@@ -124,6 +128,7 @@ const HeadContentWrap = memo(styled.div`
       }
     }
     #top_account_info{
+      background-color:orange;
       #tai_lang{
         @media (max-width:499px){
           display:none;
@@ -211,8 +216,10 @@ const HeadContentWrap = memo(styled.div`
         }
         #aff-link-box{
           width:100%;
+          align-items: center;
+          justify-content: center;
           #aff_link_text{
-            max-width:200px;
+            max-width:180px;
           }
         }
       }
