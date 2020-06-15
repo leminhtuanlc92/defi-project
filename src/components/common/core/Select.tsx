@@ -104,7 +104,10 @@ const SelectInput = memo(styled.div`
     flex: 1;
     justify-content: space-between;
     align-items: center;
-    padding: 10px 20px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    padding-left:20px;
+    padding-right:20px;
     background:orange;
     #slics_name {
       font-size: ${Texts.size.large};
