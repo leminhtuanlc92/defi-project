@@ -121,7 +121,7 @@ export default () => {
   };
   return (
     <DashboardWrap horizontalView={horizontalView}>
-      <Fragment>
+      <Hana>
         <div id="db_personal_info_panel">
           <span id="db_info_title">{i18n.t("personalInfo")}</span>
           <div id="db_blocks">
@@ -157,7 +157,7 @@ export default () => {
         {showPop ? (
           <PopUpgrade showPop={showPop} setShowPop={setShowPop} />
         ) : null}
-      </Fragment>
+      </Hana>
       {showPopApprove ? (
         <div id="confirm-pop">
           <div id="pop-content">
@@ -352,3 +352,10 @@ const DashboardWrap = memo(styled.div`
     }
   }
 `);
+const Hana = memo(styled.div`
+    background-color: orange;
+    flex-direction: column;
+    flex: 1;
+    padding: 15px;
+    border-radius: 10px;
+`)

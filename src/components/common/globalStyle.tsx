@@ -66,7 +66,7 @@ const GlobalStyle = createGlobalStyle`
         @media (min-width: 992px) and(max-width:1199px) {
             font-size:15px;
         }
-        @media (max-width:768px) {
+        @media (max-width:767px) {
             font-size: 16px
         }
         ::-webkit-scrollbar {

@@ -106,16 +106,16 @@ const HeadContentWrap = memo(styled.div`
           height:40px;
           align-items:center;
           #aff_link_text{
-          overflow: hidden;
-          max-width: 300px;
-          height:40px;
-          align-items:center;
-          justify-content:center;
-          box-shadow: 0 3px 4px 1px rgba(0, 0, 0, .1);
-          background-color:${Colors.white};
-          padding:0 20px;
-          border-top-left-radius:3px;
-          border-bottom-left-radius:3px;
+            overflow: hidden;
+            max-width: 300px;
+            height:40px;
+            align-items:center;
+            justify-content:center;
+            box-shadow: 0 3px 4px 1px rgba(0, 0, 0, .1);
+            background-color:${Colors.white};
+            padding:0 20px;
+            border-top-left-radius:3px;
+            border-bottom-left-radius:3px;
           span{
               font-size:${Texts.size.large};
               line-height: ${Texts.size.large};
@@ -218,9 +218,6 @@ const HeadContentWrap = memo(styled.div`
           width:100%;
           align-items: center;
           justify-content: center;
-          #aff_link_text{
-            max-width:180px;
-          }
         }
       }
       #top_account_info{
