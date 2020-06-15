@@ -1,4 +1,4 @@
-import React, { memo, useState, useContext, useEffect, Fragment } from "react";
+import React, { memo, useState, useContext } from "react";
 import styled, { css } from "styled-components/macro";
 import Colors from "../../../constants/Colors";
 import Texts from "../../../constants/Texts";
@@ -176,6 +176,7 @@ const PartnerskWrap = memo(styled.div`
   width: 100%;
   flex-direction: column;
   overflow-y: scroll;
+  overflow-x:hidden;
   #partner_main_title {
     font-size: ${Texts.size.huge};
     line-height: ${Texts.size.huge};
@@ -217,9 +218,12 @@ const PartnerskWrap = memo(styled.div`
           .pmf1l_block {
             flex-direction: column;
             flex: 1;
+            height: auto;
+            width: 100%;
             &:first-child {
               margin-right: 30px;
-              @media (max-width: 480px) {
+              @media (max-width: 767px) {
+                margin-right: 0;
                 margin-bottom: 15px;
               }
               input {

@@ -1,4 +1,4 @@
-import React, { memo, useState, useContext, useEffect, Fragment } from "react";
+import React, { memo, useState, useContext, useEffect } from "react";
 import styled, { css } from "styled-components/macro";
 import Colors from "../../../constants/Colors";
 import Texts from "../../../constants/Texts";
@@ -12,13 +12,13 @@ import Loading from "../../common/loading";
 import { toast } from "react-toastify";
 import {SiteContext} from '../../../contexts/siteContext'
 const closeImg = require("../../../assets/images/close.png");
-const confirmImg = require("../../../assets/images/confirm-ref.svg");
+// const confirmImg = require("../../../assets/images/confirm-ref.svg");
 const confirmImg1 = require("../../../assets/images/confirm.svg");
 export default () => {
   const [showPop, setShowPop] = useState(false);
   const [loading, setLoading] = useState(false);
   const { siteState: { horizontalView } } = useContext(SiteContext)
-  const { ref, usdt, address, userData, token, matrixMember } = useContext(TronContract);
+  const { usdt, address, userData, token, matrixMember } = useContext(TronContract);
 
   const [userInfo, setUserInfo] = useState([
     { category: "totalReceive", value: 0 },

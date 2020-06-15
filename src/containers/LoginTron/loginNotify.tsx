@@ -1,4 +1,4 @@
-import React, { memo, useState } from 'react'
+import React, { memo } from 'react'
 import styled from 'styled-components/macro'
 import Colors from '../../constants/Colors'
 import Texts from '../../constants/Texts'
@@ -9,18 +9,6 @@ const tronImg = require('../../assets/images/tronlink.png')
 const tronScan = require('../../assets/images/tronscan.png')
 const defiImg = require('../../assets/images/icon-defi.png')
 export default () => {
-    // const [operatingSystem] = useState(() => {
-    //     let userAgent = navigator.userAgent || navigator.vendor;
-    //     if (/windows phone/i.test(userAgent)) {
-    //         return "Windows Phone"
-    //     }
-    //     if (/android/i.test(userAgent)) {
-    //         return "Android"
-    //     }
-    //     if (/iPad|iPhone|iPod/.test(userAgent) && !window.MSStream) {
-    //         return "iOS"
-    //     }
-    // })
     return (
         <LoginNotifyWrapper>
             <div id="login_notify_head">

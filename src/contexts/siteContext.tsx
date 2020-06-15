@@ -1,6 +1,7 @@
 import React, { useEffect, useReducer, useRef } from "react";
 import i18n from "i18n-js";
 import SiteLocale from "../language";
+import Loading from '../components/common/loading'
 i18n.fallbacks = false;
 i18n.translations = SiteLocale;
 i18n.missingTranslationPrefix = "miss: ";
@@ -96,7 +97,7 @@ export default ({ children }: any) => {
         toggleAside,
       }}
     >
-      {siteState.isLoading ? <div>...</div> : children}
+      {siteState.isLoading ? <Loading/> : children}
     </SiteContext.Provider>
   );
 };
