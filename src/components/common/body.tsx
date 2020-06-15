@@ -17,6 +17,23 @@ export default () => {
   } = useContext(SiteContext);
   const [update, setUpdate] = useState(0);
 
+  const [horizontal, setHorizontal] = useState(() => {
+    return window.innerWidth > window.innerHeight
+  })
+  const resizeScreen = () => {
+    setHorizontal(window.innerWidth > window.innerHeight)
+  }
+
+  useEffect(() => {
+    window.addEventListener('resize', () => {
+      resizeScreen()
+    })
+    return () => {
+      window.removeEventListener('resize', () => {
+        resizeScreen()
+      })
+    }
+  }, [])
   return (
     <WrapBody>
       <TronWrap>
@@ -32,11 +49,11 @@ export default () => {
                 {aside ? (
                   <img src={closeImg} style={{ objectFit: "contain" }} alt="" />
                 ) : (
-                  <img src={openImg} style={{ objectFit: "contain" }} alt="" />
-                )}
+                    <img src={openImg} style={{ objectFit: "contain" }} alt="" />
+                  )}
               </div>
             </ToggleButton>
-            <MainBody aside={aside}>
+            <MainBody aside={aside} horizontal={horizontal}>
               <div id="wrap-main">
                 <div id="scroll_section">
                   <HeadContent update={update} />
@@ -172,11 +189,11 @@ const MainBody = memo(styled.div`
     align-items:center;
     justify-content:center;
     /* ${(props: any) =>
-      props.aside !== 3
-        ? css`
+    props.aside !== 3
+      ? css`
             padding: 0 16% 0 12%;
           `
-        : css`
+      : css`
             padding: 0 16% 0 0;
           `} */
     #wrap-main{
@@ -196,6 +213,12 @@ const MainBody = memo(styled.div`
         width:100%;
         overflow:hidden;
         flex:1;
+        @media (max-width:991px){
+          ${(props: any) => props.horizontal ?
+            css`height:auto;overflow:inherit` :
+            css``
+            }
+        }
     }
     @media (max-width:991px){
       width:100%;

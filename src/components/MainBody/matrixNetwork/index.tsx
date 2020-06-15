@@ -88,6 +88,7 @@ const MatrixNetworkWrap = memo(styled.div`
       justify-content: space-around;
       align-items: center;
       padding: 15px;
+      width:calc(100% - 30px);
       #mtnmb_notlog_left {
         flex: 0.4;
         flex-direction: column;
@@ -164,7 +165,6 @@ const MatrixNetworkWrap = memo(styled.div`
       }
       @media (max-width: 991px) {
         flex-direction: column;
-        width: 100%;
         #mtnmb_notlog_right,
         #mtnmb_notlog_left {
           flex: 1;

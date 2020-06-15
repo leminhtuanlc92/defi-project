@@ -104,6 +104,9 @@ const PopUpgradeWrap = memo(styled.div`
             @media (max-width:767px){
               flex:1;
             }
+            @media (max-width:399px){
+              padding:0;
+            }
             #pscir_head{
                 flex-direction:column;
                 align-items:center;

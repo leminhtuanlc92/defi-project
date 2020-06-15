@@ -129,8 +129,19 @@ const HeadContentWrap = memo(styled.div`
           display:none;
         }
       }
+      @media (max-width:499px){
+          width:100%;
+        }
       #tai_user{
         margin-left:15px;
+        @media (max-width:767px){
+          margin-left:0;
+        }
+        @media (max-width:399px){
+          margin-left:0;
+          width:100%;
+          justify-content:space-between;
+        }
         #avt_lvl{
             flex-direction:column;
             align-items:center;
@@ -164,6 +175,14 @@ const HeadContentWrap = memo(styled.div`
                     display:flex;
                   }
                 }
+                @media (max-width:399px){
+                  &:nth-child(3){
+                    white-space:nowrap;
+                    text-overflow:ellipsis;
+                    overflow:hidden;
+                    display:block;
+                  }
+                }
             }
         }
       }
@@ -185,6 +204,7 @@ const HeadContentWrap = memo(styled.div`
         flex-direction:column;
         align-items:center;
         justify-content:center;
+        flex:1;
         >span{
           margin-bottom:5px;
           margin-right:0;
@@ -198,6 +218,7 @@ const HeadContentWrap = memo(styled.div`
       }
       #top_account_info{
         width:100%;
+        flex:1;
         #username_address{
           width:70%;
           span{

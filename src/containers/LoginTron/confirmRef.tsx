@@ -36,59 +36,46 @@ export default ({ confirm }: ConfirmProps) => {
             <Language />
           </div>
           {ref !== null ? (
-            <div id="inner-right">
-              <h4
-                style={{
-                  fontSize: Texts.size.extra,
-                  lineHeight: Texts.size.extra,
-                  color: Colors.green1,
-                  textTransform: "uppercase",
-                  marginBottom: "40px",
-                  textAlign: "center",
-                }}
-              >
+            <div id="inner_right">
+              <span id="ir_title">
                 {i18n.t("confirmrefInfo")}
-              </h4>
+              </span>
               <div id="form-confirm">
-                <div id="inner-form">
+                <div id="inner_form">
                   <div id="user-wrap">
-                    <span
-                      style={{
-                        color: Colors.black1,
-                        fontSize: Texts.size.large,
-                        lineHeight: Texts.size.large,
-                        marginBottom: "10px",
-                      }}
+                    <span style={{
+                      color: Colors.black1,
+                      fontSize: Texts.size.large,
+                      lineHeight: Texts.size.large,
+                      marginBottom: "10px",
+                    }}
                     >
                       {i18n.t("username")}:
                     </span>
-                    <span
-                      style={{
-                        color: Colors.black,
-                        fontSize: Texts.size.large,
-                        lineHeight: Texts.size.large,
-                      }}
+                    <span style={{
+                      color: Colors.black,
+                      fontSize: Texts.size.large,
+                      lineHeight: Texts.size.large,
+                    }}
                     >
                       {username}
                     </span>
                   </div>
-                  <div id="addres-wrap">
-                    <span
-                      style={{
-                        color: Colors.black1,
-                        fontSize: Texts.size.large,
-                        lineHeight: Texts.size.large,
-                        marginBottom: "10px",
-                      }}
+                  <div id="addres_wrap">
+                    <span style={{
+                      color: Colors.black1,
+                      fontSize: Texts.size.large,
+                      lineHeight: Texts.size.large,
+                      marginBottom: "10px",
+                    }}
                     >
                       {i18n.t("address")}:
                     </span>
-                    <span
-                      style={{
-                        color: Colors.black,
-                        fontSize: Texts.size.large,
-                        lineHeight: Texts.size.large,
-                      }}
+                    <span style={{
+                      color: Colors.black,
+                      fontSize: Texts.size.large,
+                      lineHeight: Texts.size.large,
+                    }}
                     >
                       {ref}
                     </span>
@@ -100,37 +87,37 @@ export default ({ confirm }: ConfirmProps) => {
               </div>
             </div>
           ) : (
-            <div id="inner-right">
-              <h4
-                style={{
-                  fontSize: Texts.size.extra,
-                  lineHeight: Texts.size.extra,
-                  color: Colors.green1,
-                  textTransform: "uppercase",
-                  marginBottom: "40px",
-                  textAlign: "center",
-                }}
-              >
-                {i18n.t("refError")}
-              </h4>
-              <div id="form-confirm">
-                <div id="inner-form">
-                  <div id="user-wrap">
-                    <span
-                      style={{
-                        color: Colors.black1,
-                        fontSize: Texts.size.large,
-                        lineHeight: Texts.size.large,
-                        marginBottom: "10px",
-                      }}
-                    >
-                      {i18n.t("refErrorMessage")}:
+              <div id="inner_right">
+                <h4
+                  style={{
+                    fontSize: Texts.size.extra,
+                    lineHeight: Texts.size.extra,
+                    color: Colors.green1,
+                    textTransform: "uppercase",
+                    marginBottom: "40px",
+                    textAlign: "center",
+                  }}
+                >
+                  {i18n.t("refError")}
+                </h4>
+                <div id="form-confirm">
+                  <div id="inner_form">
+                    <div id="user-wrap">
+                      <span
+                        style={{
+                          color: Colors.black1,
+                          fontSize: Texts.size.large,
+                          lineHeight: Texts.size.huge,
+                          marginBottom: "10px",
+                        }}
+                      >
+                        {i18n.t("refErrorMessage")}:
                     </span>
+                    </div>
                   </div>
                 </div>
               </div>
-            </div>
-          )}
+            )}
         </div>
       </Fragment>
     </ConfirmRefWrap>
@@ -168,6 +155,9 @@ const ConfirmRefWrap = memo(styled.div`
     align-items: center;
     justify-content: center;
     position: relative;
+    @media (max-width:399px){
+      width:100%;
+    }
     #crwrp_lang {
       position: absolute;
       top: 30px;
@@ -175,13 +165,27 @@ const ConfirmRefWrap = memo(styled.div`
       width: 100px;
       justify-content: flex-end;
     }
-    #inner-right {
+    #inner_right {
       max-width: 680px;
       min-width: 300px;
       width: 60%;
       flex-direction: column;
       align-items: center;
       margin-bottom: 40px;
+      @media (max-width:399px){
+        width:90%;
+        min-width:initial;
+        max-width:initial;
+      }
+      #ir_title{
+        font-size: ${Texts.size.extra};
+        line-height: ${Texts.size.extra};
+        color: ${Colors.green1};
+        text-transform: uppercase;
+        margin-bottom: 40px;
+        text-align: center;
+        font-weight:700;
+      }
       #form-confirm {
         border: solid 1px ${Colors.green1};
         border-radius: 5px;
@@ -189,11 +193,16 @@ const ConfirmRefWrap = memo(styled.div`
         align-items: center;
         justify-content: center;
         width: 100%;
-        #inner-form {
+        #inner_form {
           flex: 1;
           padding: 30px;
           flex-direction: column;
           align-items: center;
+          overflow:hidden;
+          @media (max-width:399px){
+            padding:10px;
+            width: calc(100% - 20px);
+          }
           > div {
             width: 100%;
             margin-bottom: 20px;
@@ -204,7 +213,14 @@ const ConfirmRefWrap = memo(styled.div`
           }
           #user-wrap {
           }
-          #addres-wrap {
+          #addres_wrap {
+            span:nth-child(2){
+              @media (max-width:399px){
+                overflow:hidden;
+                text-overflow:ellipsis;
+                white-space:nowrap;
+              }
+            }
           }
         }
         button {

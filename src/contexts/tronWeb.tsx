@@ -194,15 +194,11 @@ export default ({ children }: IProps) => {
   return (
     <TronContract.Provider value={{ ...tronState, ref, refConfirm }}>
       <Fragment>
-        {tronState.isConnect && tronState.address ? (
-          refConfirm ? (
-            children
-          ) : (
-            <ConfirmRef confirm={confirm} />
-          )
-        ) : (
+        {(tronState.isConnect && tronState.address) ?
+          refConfirm ? children : <ConfirmRef confirm={confirm} />
+          :
           <LoginNotify />
-        )}
+        }
       </Fragment>
     </TronContract.Provider>
   );

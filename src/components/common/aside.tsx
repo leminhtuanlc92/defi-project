@@ -274,6 +274,7 @@ const MainMenu = memo(styled.div`
   margin-top: 40px;
   #mainmenu-wrapper {
     flex-direction: column;
+    overflow:scroll;
   }
   @media (max-width: 991px) {
     position: absolute;
@@ -283,6 +284,8 @@ const MainMenu = memo(styled.div`
     width: 100%;
     margin: 0;
     z-index: 2;
+    max-height: calc(100vh - 40px);
+    background-color: ${Colors.white};
     box-shadow: 0 4px 6px 1px rgba(78, 78, 78, 0.16);
     ${(props: any) =>
       props.showDropMenu

@@ -49,7 +49,9 @@ const InfoBlock = memo(styled.div`
         color: ${Colors.black1};
         text-align: left;
         max-width: 100%;
-        overflow-x: scroll;
+        overflow: hidden;
+        white-space:nowrap;
+        text-overflow:ellipsis;
       }
       #info-content-value {
         font-size: ${Texts.size.gigantic};
@@ -58,7 +60,9 @@ const InfoBlock = memo(styled.div`
         text-align: center;
         font-weight: 700;
         max-width: 100%;
-        overflow-x: scroll;
+        overflow: hidden;
+        white-space:nowrap;
+        text-overflow:ellipsis;
         @media (max-width: 480px) {
           line-height: inherit;
         }

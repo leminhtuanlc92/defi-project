@@ -9,11 +9,12 @@ const initState = {
   baseCurrency: "usd",
   isLoading: true,
   locale: "en",
+  horizontalView: window.innerWidth > window.innerHeight
 };
 const initSiteContext = {
   siteState: initState,
   changeLocale: (locale: string) => {},
-  toggleAside: (aside: boolean) => {},
+  toggleAside: (aside: boolean) => {}
 };
 const SiteContext = React.createContext(initSiteContext);
 export default ({ children }: any) => {
@@ -86,6 +87,7 @@ export default ({ children }: any) => {
   useEffect(() => {
     initConfig();
   }, []);
+  console.log('site', siteState)
   return (
     <SiteContext.Provider
       value={{

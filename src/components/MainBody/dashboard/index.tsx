@@ -10,15 +10,15 @@ import { TronContract } from "../../../contexts/tronWeb";
 import { contract } from "../../../config";
 import Loading from "../../common/loading";
 import { toast } from "react-toastify";
+import {SiteContext} from '../../../contexts/siteContext'
 const closeImg = require("../../../assets/images/close.png");
 const confirmImg = require("../../../assets/images/confirm-ref.svg");
 const confirmImg1 = require("../../../assets/images/confirm.svg");
 export default () => {
   const [showPop, setShowPop] = useState(false);
   const [loading, setLoading] = useState(false);
-  const { ref, usdt, address, userData, token, matrixMember } = useContext(
-    TronContract
-  );
+  const { siteState: { horizontalView } } = useContext(SiteContext)
+  const { ref, usdt, address, userData, token, matrixMember } = useContext(TronContract);
 
   const [userInfo, setUserInfo] = useState([
     { category: "totalReceive", value: 0 },
@@ -120,7 +120,7 @@ export default () => {
     }
   };
   return (
-    <DashboardWrap>
+    <DashboardWrap horizontalView={horizontalView}>
       <Fragment>
         <div id="db_personal_info_panel">
           <span id="db_info_title">{i18n.t("personalInfo")}</span>
@@ -179,8 +179,8 @@ export default () => {
                 {loading ? (
                   <Loading color={Colors.white} size={20} />
                 ) : (
-                  i18n.t("yes")
-                )}
+                    i18n.t("yes")
+                  )}
               </button>
             </div>
             <div id="close-button" onClick={() => setShowPopApprove(false)}>
@@ -276,6 +276,18 @@ const DashboardWrap = memo(styled.div`
       align-items: center;
       justify-content: center;
       position: relative;
+      @media (max-width:767px){
+        ${(props:any)=>props.horizontalView?
+          css`
+            height:90%;
+          `:
+          css`
+            height:auto;
+            width:calc(90% - 40px);
+            padding:20px;
+          `
+        }
+      }
       img {
         max-width: 400px;
         margin-bottom: 40px;
@@ -285,6 +297,7 @@ const DashboardWrap = memo(styled.div`
         font-size: ${Texts.size.large};
         line-height: ${Texts.size.large};
         margin-bottom: 40px;
+        text-align:center;
       }
       #close-button {
         position: absolute;
