@@ -105,11 +105,13 @@ const SelectInput = memo(styled.div`
     justify-content: space-between;
     align-items: center;
     padding: 10px 20px;
+    background:orange;
     #slics_name {
       font-size: ${Texts.size.large};
       line-height: ${Texts.size.large};
       color: ${Colors.black3};
       font-style: italic;
+      flex:1;
     }
     @media (max-width: 480px) {
       padding: 10px;

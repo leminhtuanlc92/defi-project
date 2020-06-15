@@ -178,6 +178,7 @@ const HeadContentWrap = memo(styled.div`
                   }
                   &:nth-child(3){
                     display:flex;
+                    flex:1;
                   }
                 }
                 @media (max-width:399px){
@@ -186,6 +187,7 @@ const HeadContentWrap = memo(styled.div`
                     text-overflow:ellipsis;
                     overflow:hidden;
                     display:block;
+                    align-items: flex-end;
                   }
                 }
             }
