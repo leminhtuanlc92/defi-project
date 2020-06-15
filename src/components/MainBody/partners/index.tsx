@@ -215,11 +215,13 @@ const PartnerskWrap = memo(styled.div`
         #pmf1_left {
           flex: 0.6;
           justify-content: space-between;
+          flex-wrap:wrap;
           .pmf1l_block {
             flex-direction: column;
             flex: 1;
             height: auto;
             width: 100%;
+            flex-wrap:wrap;
             &:first-child {
               margin-right: 30px;
               @media (max-width: 767px) {

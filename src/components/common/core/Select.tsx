@@ -87,7 +87,7 @@ export default ({
 };
 
 const SelectInput = memo(styled.div`
-  width: 100%;
+  /* width: 100%; */
   border: solid 1px ${Colors.black};
   border-radius: 5px;
   position: relative;

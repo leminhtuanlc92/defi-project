@@ -92,7 +92,7 @@ const HeadContentWrap = memo(styled.div`
     flex:1;
     #affiliate-link{
         align-items:center;
-        background-color:red;
+        /* background-color:red; */
         @media (max-width:399px){
           width:100%;
         }
@@ -128,7 +128,7 @@ const HeadContentWrap = memo(styled.div`
       }
     }
     #top_account_info{
-      background-color:orange;
+      /* background-color:orange; */
       #tai_lang{
         @media (max-width:499px){
           display:none;

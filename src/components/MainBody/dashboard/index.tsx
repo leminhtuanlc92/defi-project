@@ -10,7 +10,7 @@ import { TronContract } from "../../../contexts/tronWeb";
 import { contract } from "../../../config";
 import Loading from "../../common/loading";
 import { toast } from "react-toastify";
-import {SiteContext} from '../../../contexts/siteContext'
+import { SiteContext } from '../../../contexts/siteContext'
 const closeImg = require("../../../assets/images/close.png");
 // const confirmImg = require("../../../assets/images/confirm-ref.svg");
 const confirmImg1 = require("../../../assets/images/confirm.svg");
@@ -277,16 +277,16 @@ const DashboardWrap = memo(styled.div`
       justify-content: center;
       position: relative;
       @media (max-width:767px){
-        ${(props:any)=>props.horizontalView?
-          css`
-            height:90%;
-          `:
-          css`
-            height:auto;
-            width:calc(90% - 40px);
-            padding:20px;
-          `
-        }
+        ${(props: any) => props.horizontalView ?
+        css`
+          height:90%;
+        `:
+        css`
+          height:auto;
+          width:calc(90% - 40px);
+          padding:20px;
+        `
+  }
       }
       img {
         max-width: 400px;
@@ -352,10 +352,10 @@ const DashboardWrap = memo(styled.div`
     }
   }
 `);
+
 const Hana = memo(styled.div`
-    background-color: orange;
+    /* background-color: orange; */
     flex-direction: column;
     flex: 1;
-    padding: 15px;
     border-radius: 10px;
 `)
