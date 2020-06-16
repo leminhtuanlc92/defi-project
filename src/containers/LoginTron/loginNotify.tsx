@@ -1,16 +1,18 @@
-import React, { memo } from 'react'
-import styled from 'styled-components/macro'
+import React, { memo, useContext } from 'react'
+import styled, { css } from 'styled-components/macro'
 import Colors from '../../constants/Colors'
 import Texts from '../../constants/Texts'
 import i18n from 'i18n-js'
 import Language from '../../components/common/core/Language'
+import { SiteContext } from '../../contexts/siteContext'
 const errorImg = require('../../assets/images/not-login.svg')
 const tronImg = require('../../assets/images/tronlink.png')
 const tronScan = require('../../assets/images/tronscan.png')
 const defiImg = require('../../assets/images/icon-defi.png')
 export default () => {
+    const { siteState: { horizontalView } } = useContext(SiteContext)
     return (
-        <LoginNotifyWrapper>
+        <LoginNotifyWrapper horizontalView={horizontalView}>
             <div id="login_notify_head">
                 <img id="lnh_logo" src={defiImg} alt="" />
                 <div id="login_notify_lang">
@@ -23,7 +25,7 @@ export default () => {
                         <img src={errorImg} style={{ height: '40vh' }} alt="" />
                     </div>
                     <div id="content">
-                        <h3 style={{ color: Colors.orange, fontSize: '45px', fontWeight: 'bold', lineHeight: "45px", marginBottom: '30px' }}>Oops</h3>
+                        <span className="content_title">Oops</span>
                         <span style={{ color: Colors.black, fontSize: Texts.size.large }}>{i18n.t('tronLoginErorquote1')}</span>
                         <span style={{ color: Colors.black, fontSize: Texts.size.large }}>{i18n.t('tronLoginErorquote2')}</span>
                         <span style={{ color: Colors.black, fontSize: Texts.size.large }}>{i18n.t('tronLoginErorquote3')}</span>
@@ -66,7 +68,7 @@ const LoginNotifyWrapper = memo(styled.div`
         width: calc(100% - 60px);
         justify-content:space-between;
         align-items:center;
-        margin:10px 30px;
+        padding:10px 30px;
         #lnh_logo{
             width:40px;
             object-fit:contain;
@@ -102,6 +104,16 @@ const LoginNotifyWrapper = memo(styled.div`
             #content{
                 flex-direction:column;
                 align-items:flex-start;
+                .content_title{
+                    color: ${Colors.orange};
+                    font-size: 45px;
+                    font-weight: bold;
+                    line-height: 45px;
+                    margin-bottom: 30px;
+                    @media (max-width:767px){
+                        ${(props: any) => props.horizontalView && css`margin:0;`}
+                    }
+                }
                 span{
                     margin-bottom:10px;
                     @media (max-width:480px){
@@ -114,6 +126,13 @@ const LoginNotifyWrapper = memo(styled.div`
                     flex:1;
                     align-items:center;
                     justify-content:center;
+                    ${(props: any) => props.horizontalView && css`
+                        display:block;
+                        text-align:center;
+                        span{
+                            display:inherit;
+                        }
+                    `}
                 }
             }
             #setup_button{
@@ -121,6 +140,7 @@ const LoginNotifyWrapper = memo(styled.div`
                 border: solid 1px ${Colors.green1};
                 border-radius:5px;
                 box-shadow:0px 3px 6px 0px rgba(0,0,0,0.16);
+                justify-content:center;
                 a.pc_link{
                     display:flex;
                     flex:1;
@@ -159,14 +179,22 @@ const LoginNotifyWrapper = memo(styled.div`
                         }
                     }
                 }
+                @media (max-width:767px){
+                    ${(props: any) => props.horizontalView && css`margin-bottom:20px;`}
+                }
+            }
+            @media (max-width:767px){
+                ${(props: any) => props.horizontalView && css`padding:0;`}
             }
         }
         @media (max-width:767px){
             padding:0;
+            ${(props: any) => props.horizontalView && css`overflow-y:scroll;overflow-x:hidden;display:block;`}
         }
     }
     @media (max-width:991px){
         width:100vw;
         height:100vh;
     }
+
 `)

@@ -35,7 +35,7 @@ export default ({
         member.users(_startUser).call(),
         member.isParent(address, _startUser).call(),
       ]);
-      console.log("check", address, _startUser, isParent);
+      // console.log("check", address, _startUser, isParent);
       setCurretnNodeData({
         address: (window as any).tronWeb.address.fromHex(result.parent),
         level: Number(level),

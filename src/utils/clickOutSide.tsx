@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 interface ClickOutsideProps {
     children: any;
     handleClickOutSide: (event?: any) => void;
-    style: any;
+    style?: any;
 }
 export default ({ children, handleClickOutSide, style }: ClickOutsideProps) => {
     let wrapperRef = {} as any

@@ -7,8 +7,6 @@ import SearchNodes from "./searchNodes";
 import ChartNodes from "./chartNodes";
 import MatchPendingUser from "./matchPendingUser";
 import { TronContract } from "../../../contexts/tronWeb";
-import NotActive from "./notActive";
-import { contract } from "../../../config";
 export default () => {
   const [isActive, setIsActive] = useState(false);
   const { address, matrixMember } = useContext(TronContract);

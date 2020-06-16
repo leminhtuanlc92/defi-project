@@ -139,6 +139,7 @@ const HeadContentWrap = memo(styled.div`
         }
       #tai_user{
         margin-left:15px;
+        overflow:hidden;
         @media (max-width:767px){
           margin-left:0;
         }

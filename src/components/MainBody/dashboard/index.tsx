@@ -161,30 +161,32 @@ export default () => {
       {showPopApprove ? (
         <div id="confirm-pop">
           <div id="pop-content">
-            <img src={confirmImg1} alt="" />
-            <span id="pop-content-confirm-usdt-quote">
-              {i18n.t("popConfirmUsdtquote")}
-            </span>
-            <div id="pop-confirm-usdt-buttons">
-              <button
-                id="refuse-button"
-                onClick={() => setShowPopApprove(false)}
-              >
-                {i18n.t("no")}
-              </button>
-              <button
-                id="confirm-button"
-                onClick={() => !loading && approveUSDT()}
-              >
-                {loading ? (
-                  <Loading color={Colors.white} size={20} />
-                ) : (
-                    i18n.t("yes")
-                  )}
-              </button>
-            </div>
-            <div id="close-button" onClick={() => setShowPopApprove(false)}>
-              <img src={closeImg} alt="" />
+            <div id="pc_inner">
+              <img src={confirmImg1} alt="" />
+              <span id="pop-content-confirm-usdt-quote">
+                {i18n.t("popConfirmUsdtquote")}
+              </span>
+              <div id="pop-confirm-usdt-buttons">
+                <button
+                  id="refuse-button"
+                  onClick={() => setShowPopApprove(false)}
+                >
+                  {i18n.t("no")}
+                </button>
+                <button
+                  id="confirm-button"
+                  onClick={() => !loading && approveUSDT()}
+                >
+                  {loading ? (
+                    <Loading color={Colors.white} size={20} />
+                  ) : (
+                      i18n.t("yes")
+                    )}
+                </button>
+              </div>
+              <div id="close-button" onClick={() => setShowPopApprove(false)}>
+                <img src={closeImg} alt="" />
+              </div>
             </div>
           </div>
         </div>
@@ -276,83 +278,108 @@ const DashboardWrap = memo(styled.div`
       align-items: center;
       justify-content: center;
       position: relative;
+      #pc_inner{
+        width:100%;
+        height:100%;
+        overflow-y:scroll;
+        overflow-x:hidden;
+        flex-direction: column;
+        align-items: center;
+        img {
+          max-width: 400px;
+          margin-bottom: 40px;
+        }
+        #pop-content-confirm-usdt-quote {
+          color: ${Colors.black1};
+          font-size: ${Texts.size.large};
+          line-height: ${Texts.size.large};
+          margin-bottom: 40px;
+          text-align:center;
+          @media (max-width:767px){
+            ${(props: any) => props.horizontalView ?
+              css`
+                margin-bottom: 15px;
+              `:
+              css`
+                margin-bottom: 30px;
+              `
+            }
+          }
+        }
+        #close-button {
+          position: absolute;
+          top: 20px;
+          right: 20px;
+          cursor: pointer;
+        }
+        #pop-confirm-usdt-buttons {
+          align-items: center;
+          justify-content: center;
+          width: 80%;
+          button {
+            width: 40%;
+            margin: 5px 10px;
+            padding: 20px 0;
+            border-radius: 5px;
+            box-shadow: none;
+            color: ${Colors.white};
+            font-size: ${Texts.size.large};
+            text-transform: uppercase;
+            border: none;
+            &#confirm-button {
+              background-color: ${Colors.orange};
+              display: flex;
+              justify-content: center;
+              &:hover {
+                background-color: ${Colors.orange1};
+                box-shadow: 0 3px 6px 1px rgba(255, 159, 91, 0.2);
+              }
+              &:disabled {
+                background-color: ${Colors.orange2};
+                color: ${Colors.orange3};
+                box-shadow: none;
+                cursor: not-allowed;
+              }
+            }
+            &#refuse-button {
+              background-color: ${Colors.black6};
+              &:hover {
+                background-color: ${Colors.black3};
+                box-shadow: 0 3px 6px 1px rgba(0, 0, 0, 0.16);
+              }
+              &:disabled {
+                background-color: ${Colors.black4};
+                color: ${Colors.black7};
+                box-shadow: none;
+                cursor: not-allowed;
+              }
+            }
+            @media (max-width:767px){
+              padding:10px 0;
+            }
+        }
+      }
       @media (max-width:767px){
         ${(props: any) => props.horizontalView ?
-        css`
-          height:90%;
-        `:
-        css`
-          height:auto;
-          width:calc(90% - 40px);
-          padding:20px;
-        `
-  }
-      }
-      img {
-        max-width: 400px;
-        margin-bottom: 40px;
-      }
-      #pop-content-confirm-usdt-quote {
-        color: ${Colors.black1};
-        font-size: ${Texts.size.large};
-        line-height: ${Texts.size.large};
-        margin-bottom: 40px;
-        text-align:center;
-      }
-      #close-button {
-        position: absolute;
-        top: 20px;
-        right: 20px;
-        cursor: pointer;
-      }
-      #pop-confirm-usdt-buttons {
-        align-items: center;
-        justify-content: center;
-        width: 80%;
-        button {
-          width: 40%;
-          margin: 5px 10px;
-          padding: 20px 0;
-          border-radius: 5px;
-          box-shadow: none;
-          color: ${Colors.white};
-          font-size: ${Texts.size.large};
-          text-transform: uppercase;
-          border: none;
-          &#confirm-button {
-            background-color: ${Colors.orange};
-            display: flex;
-            justify-content: center;
-            &:hover {
-              background-color: ${Colors.orange1};
-              box-shadow: 0 3px 6px 1px rgba(255, 159, 91, 0.2);
+          css`
+            height:90%;
+            padding:10px 20px;
+            img{
+              max-width: 250px;
+              margin-bottom:15px;
             }
-            &:disabled {
-              background-color: ${Colors.orange2};
-              color: ${Colors.orange3};
-              box-shadow: none;
-              cursor: not-allowed;
-            }
-          }
-          &#refuse-button {
-            background-color: ${Colors.black6};
-            &:hover {
-              background-color: ${Colors.black3};
-              box-shadow: 0 3px 6px 1px rgba(0, 0, 0, 0.16);
-            }
-            &:disabled {
-              background-color: ${Colors.black4};
-              color: ${Colors.black7};
-              box-shadow: none;
-              cursor: not-allowed;
-            }
-          }
+          `:
+          css`
+            height:auto;
+            width:calc(90% - 40px);
+            padding:20px;
+          `
         }
       }
     }
   }
-`);
-
+}
+`)
 const Hana = memo(styled.div`
     /* background-color: orange; */
     flex-direction: column;

@@ -1,57 +1,54 @@
-import React, { memo, useState, Fragment, useContext } from "react";
+import React, { memo, useContext } from "react";
 import styled, { css } from "styled-components/macro";
 import Colors from "../../../constants/Colors";
 import Texts from "../../../constants/Texts";
 import i18n from "i18n-js";
-import moment from "moment";
-import Select from "../../common/core/Select";
+import { SiteContext } from '../../../contexts/siteContext'
 import ClickOutside from "../../../utils/clickOutSide";
 const closeImg = require("../../../assets/images/close.png");
 const successImg = require("../../../assets/images/join-successful.svg");
 const failImg = require("../../../assets/images/join-error.svg");
 interface PopUpgradeProps {
-    showPop: boolean;
-    setShowPop: any;
-    type: string;
+  setShowPop: any;
+  type: string;
 }
 
-export default ({ showPop, setShowPop, type }: PopUpgradeProps) => {
-
-    return (
-        <MergePopWrap type={type}>
-            <ClickOutside
-                style={{ minWidth: "60%", minHeight: "70%" }}
-                handleClickOutSide={() => {
-                    setShowPop(false);
+export default ({ setShowPop, type }: PopUpgradeProps) => {
+  const { siteState: { horizontalView } } = useContext(SiteContext)
+  return (
+    <MergePopWrap type={type} horizontalView={horizontalView}>
+      <ClickOutside
+        handleClickOutSide={() => {
+          setShowPop({ result: '', show: false });
+        }}
+      >
+        <div id="merge_pop_content">
+          <div id="mpcinner">
+            <div id="mpcmain">
+              <img className="mpcms_img" src={type === 'success' ? successImg : failImg} alt="" />
+              <div className="mpcms_quotes">
+                <span>{i18n.t(`${type === 'success' ? 'mergeSuccess' : 'mergeFail'}`)}</span>
+              </div>
+              <button id="mpcms_button"
+                onClick={() => {
+                  setShowPop({ result: '', show: false });
                 }}
+              >
+                {i18n.t("backToDashboard")}
+              </button>
+            </div>
+            <div id="mpc_close_button"
+              onClick={() => {
+                setShowPop({ result: '', show: false });
+              }}
             >
-                <div id="merge_pop_content">
-                    <div id="mpcinner">
-                        <div id="mpcmain">
-                            <img className="mpcms_img" src={type === 'success' ? successImg : failImg} alt="" />
-                            <div className="mpcms_quotes">
-                                <span>{i18n.t(`${type === 'success' ? 'mergeSuccess' : 'megeFail'}`)}</span>
-                            </div>
-                            <button id="mpcms_button"
-                                onClick={() => {
-                                    setShowPop(false);
-                                }}
-                            >
-                                {i18n.t("backToDashboard")}
-                            </button>
-                        </div>
-                        <div id="mpc_close_button"
-                            onClick={() => {
-                                setShowPop(!showPop);
-                            }}
-                        >
-                            <img src={closeImg} alt="" />
-                        </div>
-                    </div>
-                </div>
-            </ClickOutside>
-        </MergePopWrap>
-    );
+              <img src={closeImg} alt="" />
+            </div>
+          </div>
+        </div>
+      </ClickOutside>
+    </MergePopWrap>
+  );
 };
 
 const MergePopWrap = memo(styled.div`
@@ -64,6 +61,13 @@ const MergePopWrap = memo(styled.div`
   justify-content: center;
   width: 100vw;
   height: 100vh;
+  >div{
+    min-width:60%;
+    min-height:70%;
+    @media (max-width:991px){
+      ${(props:any)=>props.horizontalView && css`height:90%;width:90%;`}
+    }
+  }
   #merge_pop_content {
     flex: 1;
     background: ${Colors.white};
@@ -73,11 +77,20 @@ const MergePopWrap = memo(styled.div`
     align-items: center;
     justify-content: center;
     position: relative;
+    @media (max-width:991px){
+      ${(props:any)=>props.horizontalView && css`padding:20px;overflow:hidden`}
+    }
+    @media (max-width:399px){
+      padding:20p;x
+    }
     #mpcinner {
       flex: 1;
       flex-direction: column;
       align-items: center;
       width: 100%;
+      @media (max-width:991px){
+        ${(props:any)=>props.horizontalView && css`height:100%;`}
+      }
       #mpcmain {
         background: ${Colors.white4};
         border-radius: 10px;
@@ -87,6 +100,9 @@ const MergePopWrap = memo(styled.div`
         padding: 20px;
         flex-direction: column;
         align-items: center;
+        @media (max-width:991px){
+          ${(props:any)=>props.horizontalView && css`height:100%;overflow-y:scroll;overflow-x:hidden`}
+        }
         .mpcm_label {
           font-size: ${Texts.size.large};
           line-height: ${Texts.size.large};
@@ -187,6 +203,7 @@ const MergePopWrap = memo(styled.div`
           align-items: center;
           justify-content: center;
           margin: 30px 0;
+          text-align:center;
           span {
             font-size: ${Texts.size.large};
             line-height: ${Texts.size.large};
@@ -207,15 +224,15 @@ const MergePopWrap = memo(styled.div`
             border: none;
             color: ${Colors.white};
             ${(props: any) => props.type === 'success' ?
-                css`background-color: ${Colors.orange}`
-                :
-                css`background-color: ${Colors.red}`
+              css`background-color: ${Colors.orange}`
+              :
+              css`background-color: ${Colors.red}`
             };
             &:hover {
                 ${(props: any) => props.type === 'success' ?
-                    css`background-color: ${Colors.orange1}`
-                    :
-                    css`background-color: ${Colors.red1}`
+                  css`background-color: ${Colors.orange1}`
+                  :
+                  css`background-color: ${Colors.red1}`
                 };
                 box-shadow: 0 3px 6px 1px rgba(255, 159, 91, 0.2);
             }
@@ -224,6 +241,10 @@ const MergePopWrap = memo(styled.div`
             color: ${Colors.orange3};
             box-shadow: none;
             cursor: not-allowed;
+            }
+            @media (max-width:767px){
+              width:auto;
+              padding:20px;
             }
         }
       }

@@ -15,13 +15,12 @@ export default () => {
   const [selectPending, setSelectPending] = useState({ title: "", value: "" });
   const [userInput, setUserInput] = useState("");
   const [loading, setLoading] = useState(false);
-  const [type, setType] = useState("fail");
   const [userEmptyNode, setUserEmptyNode] = useState({
     username: "",
     address: "",
     level: "",
   });
-  const [showPop, setShowPop] = useState(false);
+  const [showPop, setShowPop] = useState({ result: '', show: true });
   const [validAddress, setValidAddress] = useState(false);
   const validate = (value) => {
     let valid = WAValidator.validate(value, "trx");
@@ -66,13 +65,10 @@ export default () => {
         shouldPollResponse: true,
       });
       setLoading(false);
-      setShowPop(true);
-      setType("success");
-      toast.success(i18n.t("mergeSuccess"), { position: "top-center" });
+      setShowPop({ result: 'success', show: true });
     } catch (error) {
       console.log(error);
-      setShowPop(true);
-      setType("fail");
+      setShowPop({ result: 'fail', show: true });
       setLoading(false);
     }
   };
@@ -150,12 +146,12 @@ export default () => {
           {loading ? (
             <Loading color={Colors.white} size={15} />
           ) : (
-            i18n.t("match")
-          )}
+              i18n.t("match")
+            )}
         </button>
       </div>
-      {showPop ? (
-        <MergePop showPop={showPop} setShowPop={setShowPop} type="success" />
+      {showPop.show && showPop.result !== '' ? (
+        <MergePop setShowPop={setShowPop} type={showPop.result} />
       ) : null}
     </MatchPendingUserWrap>
   );
@@ -207,15 +203,15 @@ const MatchPendingUserWrap = memo(styled.div`
             flex: 1;
             padding: 0 10px;
             ${(props: any) =>
-              props.userInput === ""
-                ? css`
+    props.userInput === ""
+      ? css`
                     border: solid 1px ${Colors.black};
                   `
-                : props.validAddress
-                ? css`
+      : props.validAddress
+        ? css`
                     border: solid 1px ${Colors.black};
                   `
-                : css`
+        : css`
                     border: solid 1px ${Colors.red};
                   `};
             border-top-left-radius: 5px;

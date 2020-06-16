@@ -10,8 +10,10 @@ import WAValidator from "multicoin-address-validator";
 import Select from "../../common/core/Select";
 import Loading from "../../common/loading";
 import { toast } from "react-toastify";
+import { SiteContext } from "../../../contexts/siteContext";
 export default () => {
   const { address } = useContext(TronContract);
+  const { siteState: { horizontalView } } = useContext(SiteContext)
   const [startUser, setStartUser] = useState(address);
   const [loading, setLoading] = useState(false);
   const [level, setLevel] = useState({
@@ -76,6 +78,7 @@ export default () => {
       validAddress={validAddress}
       startUser={startUser}
       address={address}
+      horizontalView={horizontalView}
     >
       <span id="partner_main_title">{i18n.t("partners")}</span>
       <div id="partner_mainbody">
@@ -127,8 +130,8 @@ export default () => {
                   {loading ? (
                     <Loading color={Colors.white} size={18} />
                   ) : (
-                    i18n.t("filterV")
-                  )}
+                      i18n.t("filterV")
+                    )}
                 </button>
               </div>
             </div>
@@ -229,21 +232,21 @@ const PartnerskWrap = memo(styled.div`
                 margin-bottom: 15px;
               }
               input {
-                ${(props: any) =>
-                  (props.startUser !== props.address && props.validAddress) ||
-                  props.startUser === props.address
-                    ? css`
-                        border-color: ${Colors.black};
-                      `
-                    : css`
-                        border-color: ${Colors.red};
-                      `}
+                ${(props: any) =>(props.startUser !== props.address && props.validAddress) ||props.startUser === props.address?
+                 css`
+                    border-color: ${Colors.black};
+                  `: 
+                  css`
+                    border-color: ${Colors.red};
+                  `
+                }
               }
             }
           }
           @media (max-width: 767px) {
             flex: 1;
             width: 100%;
+            ${(props:any)=>props.horizontalView && css`flex-direction: column;`}
           }
           @media (max-width: 480px) {
             flex-direction: column;

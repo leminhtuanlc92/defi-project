@@ -15,7 +15,8 @@ const initState = {
 const initSiteContext = {
   siteState: initState,
   changeLocale: (locale: string) => {},
-  toggleAside: (aside: boolean) => {}
+  toggleAside: (aside: boolean) => {},
+  checkScreen: (value: boolean)=>{}
 };
 const SiteContext = React.createContext(initSiteContext);
 export default ({ children }: any) => {
@@ -31,6 +32,9 @@ export default ({ children }: any) => {
       }
       case "toggleAside": {
         return { ...preState, aside: action.aside };
+      }
+      case "checkScreen": {
+        return { ...preState, horizontalView: action.horizontalView };
       }
       default:
         return preState;
@@ -85,16 +89,38 @@ export default ({ children }: any) => {
       type: "toggleAside",
     });
   };
+
+  const checkScreen = (value) => {
+    dispatchSite({
+      horizontalView: value,
+      type: "checkScreen",
+    });
+  };
   useEffect(() => {
     initConfig();
+    const handleResize = () => {
+      if (window.innerWidth < 992) {
+        if (window.innerWidth > window.innerHeight) {
+          checkScreen(true)
+        }
+        else {
+          checkScreen(false)
+        }
+      }
+    }
+    window.addEventListener('resize', () => handleResize());
+    return () => {
+      window.removeEventListener('resize', () => handleResize());
+    }
   }, []);
-  console.log('site', siteState)
+  // console.log('site', siteState)
   return (
     <SiteContext.Provider
       value={{
         siteState,
         changeLocale,
         toggleAside,
+        checkScreen
       }}
     >
       {siteState.isLoading ? <Loading/> : children}

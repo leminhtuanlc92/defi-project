@@ -1,7 +1,6 @@
-import React, { memo, useState, useContext, useEffect, useRef } from "react";
+import React, { memo, useState, useContext, useEffect } from "react";
 import styled, { css } from "styled-components/macro";
 import Colors from "../../../../constants/Colors";
-import Texts from "../../../../constants/Texts";
 import { SiteContext } from "../../../../contexts/siteContext";
 import { TronContract } from "../../../../contexts/tronWeb";
 import NodeItemWrap from "./nodeItem";
@@ -9,6 +8,7 @@ import i18n from "i18n-js";
 import Loading from "../../../common/loading";
 import { toast } from "react-toastify";
 export default () => {
+  const { siteState: { horizontalView } } = useContext(SiteContext)
   const { matrixMember, address, member, userData } = useContext(TronContract);
   const {
     siteState: { aside },
@@ -46,81 +46,82 @@ export default () => {
   useEffect(() => {
     getNode(address);
   }, []);
+
   return (
-    <ChartNodesWrap>
+    <ChartNodesWrap horizontalView={horizontalView}>
       {nodeData === null ? (
         <Loading />
       ) : (
-        <div id="cni">
-          <div id="cni_sponsor">
-            <NodeItemWrap
-              node="sponsor"
-              data={nodeData.parent}
-              getNode={getNode}
-              status={
-                nodeData.parent === "T9yD14Nj9j7xAB4dbGeiX9h8unkKHxuWwb"
-                  ? "empty"
-                  : "active"
-              }
-            />
-          </div>
-          <div id="cni_user">
-            <NodeItemWrap
-              node="user"
-              data={nodeData.address}
-              level={nodeData.level}
-              name={nodeData.name !== "" ? nodeData.name : nodeData.parent}
-              getNode={getNode}
-            />
-          </div>
-          <div id="cni_F1">
-            <NodeItemWrap
-              node="f1"
-              status={
-                nodeData.F1[0] === "T9yD14Nj9j7xAB4dbGeiX9h8unkKHxuWwb"
-                  ? "empty"
-                  : "active"
-              }
-              data={nodeData.F1[0]}
-              getNode={getNode}
-            />
-            <NodeItemWrap
-              node="f1"
-              status={
-                nodeData.F1[1] === "T9yD14Nj9j7xAB4dbGeiX9h8unkKHxuWwb"
-                  ? "empty"
-                  : "active"
-              }
-              data={nodeData.F1[1]}
-              getNode={getNode}
-            />
-            <NodeItemWrap
-              node="f1"
-              status={
-                nodeData.F1[2] === "T9yD14Nj9j7xAB4dbGeiX9h8unkKHxuWwb"
-                  ? "empty"
-                  : "active"
-              }
-              data={nodeData.F1[2]}
-              getNode={getNode}
-            />
-          </div>
-          <div id="cni_note">
-            <div className="cnin_block">
-              <div className="cninb_mascot"></div>
-              <span className="cninb_text">{i18n.t("emptyNode")}</span>
+          <div id="cni">
+            <div id="cni_sponsor">
+              <NodeItemWrap
+                node="sponsor"
+                data={nodeData.parent}
+                getNode={getNode}
+                status={
+                  nodeData.parent === "T9yD14Nj9j7xAB4dbGeiX9h8unkKHxuWwb"
+                    ? "empty"
+                    : "active"
+                }
+              />
             </div>
-            <div className="cnin_block">
-              <div className="cninb_mascot"></div>
-              <span className="cninb_text">{i18n.t("directNode")}</span>
+            <div id="cni_user">
+              <NodeItemWrap
+                node="user"
+                data={nodeData.address}
+                level={nodeData.level}
+                name={nodeData.name !== "" ? nodeData.name : nodeData.parent}
+                getNode={getNode}
+              />
             </div>
-            <div className="cnin_block">
-              <div className="cninb_mascot"></div>
-              <span className="cninb_text">{i18n.t("indirectNode")}</span>
+            <div id="cni_F1">
+              <NodeItemWrap
+                node="f1"
+                status={
+                  nodeData.F1[0] === "T9yD14Nj9j7xAB4dbGeiX9h8unkKHxuWwb"
+                    ? "empty"
+                    : "active"
+                }
+                data={nodeData.F1[0]}
+                getNode={getNode}
+              />
+              <NodeItemWrap
+                node="f1"
+                status={
+                  nodeData.F1[1] === "T9yD14Nj9j7xAB4dbGeiX9h8unkKHxuWwb"
+                    ? "empty"
+                    : "active"
+                }
+                data={nodeData.F1[1]}
+                getNode={getNode}
+              />
+              <NodeItemWrap
+                node="f1"
+                status={
+                  nodeData.F1[2] === "T9yD14Nj9j7xAB4dbGeiX9h8unkKHxuWwb"
+                    ? "empty"
+                    : "active"
+                }
+                data={nodeData.F1[2]}
+                getNode={getNode}
+              />
+            </div>
+            <div id="cni_note">
+              <div className="cnin_block">
+                <div className="cninb_mascot"></div>
+                <span className="cninb_text">{i18n.t("emptyNode")}</span>
+              </div>
+              <div className="cnin_block">
+                <div className="cninb_mascot"></div>
+                <span className="cninb_text">{i18n.t("directNode")}</span>
+              </div>
+              <div className="cnin_block">
+                <div className="cninb_mascot"></div>
+                <span className="cninb_text">{i18n.t("indirectNode")}</span>
+              </div>
             </div>
           </div>
-        </div>
-      )}
+        )}
     </ChartNodesWrap>
   );
 };
@@ -135,17 +136,24 @@ const ChartNodesWrap = memo(styled.div`
   border-radius: 10px;
   margin-bottom: 30px;
   flex-grow: 2;
+
   @media (max-width: 1199px) {
-    height: 40vh;
-  }
-  @media (max-width: 399px) {
     height: 50vh;
+  }
+  @media (max-width: 991px) {
+    ${(props: any) => props.horizontalView ?
+    css`
+        height:100vh;
+      `:
+    css`
+        height:50vh;
+      `
+  }
     padding: 10px 0;
   }
   #cni {
     width: 100%;
     height: calc(100% * 0.9);
-    /* background-color: #c7c7c7; */
     max-width: 100%;
     max-height: 100%;
     flex-direction: column;
