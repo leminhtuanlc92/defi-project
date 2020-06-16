@@ -92,23 +92,18 @@ const SelectInput = memo(styled.div`
   border-radius: 5px;
   position: relative;
   background-color: ${Colors.white};
-  ${(props: any) =>
-    props.disabled
+  ${(props: any) =>props.disabled
       ? css`
           cursor: not-allowed;
         `
       : css`
           cursor: pointer;
-        `}
+  `}
   #sli_current_select {
     flex: 1;
     justify-content: space-between;
     align-items: center;
-    padding-top: 10px;
-    padding-bottom: 10px;
-    padding-left:20px;
-    padding-right:20px;
-    background:orange;
+    padding: 10px 20px;
     #slics_name {
       font-size: ${Texts.size.large};
       line-height: ${Texts.size.large};

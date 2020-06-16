@@ -140,7 +140,7 @@ const ChartNodesWrap = memo(styled.div`
   }
   @media (max-width: 399px) {
     height: 50vh;
-    padding: 10px;
+    padding: 10px 0;
   }
   #cni {
     width: 100%;

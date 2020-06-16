@@ -97,7 +97,6 @@ export default () => {
                   >
                     <MenuItemWrapper
                       aside={siteState.aside}
-                      mobile={(window as any).innerHeight < 992}
                       active={
                         item.url === currentPath.pathname ||
                         (currentPath.pathname.includes(item.url) &&
@@ -136,7 +135,6 @@ export default () => {
                   >
                     <MenuItemWrapper
                       aside={siteState.aside}
-                      mobile={(window as any).innerHeight < 992}
                       active={
                         item.url === currentPath.pathname ||
                         (currentPath.pathname.includes(item.url) &&
@@ -283,7 +281,7 @@ const MainMenu = memo(styled.div`
     right: 0;
     width: 100%;
     margin: 0;
-    z-index: 2;
+    z-index: 3;
     max-height: calc(100vh - 40px);
     background-color: ${Colors.white};
     box-shadow: 0 4px 6px 1px rgba(78, 78, 78, 0.16);

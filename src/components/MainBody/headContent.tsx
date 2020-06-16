@@ -179,6 +179,7 @@ const HeadContentWrap = memo(styled.div`
                   &:nth-child(3){
                     display:flex;
                     flex:1;
+                    align-items:flex-end;
                   }
                 }
                 @media (max-width:399px){

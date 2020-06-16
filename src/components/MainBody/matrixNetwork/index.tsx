@@ -35,7 +35,7 @@ export default () => {
     <MatrixNetworkWrap>
       <span id="matrixnetwork_main_title">{i18n.t("matrixNetwork")}</span>
       <div id="matrixnetwork_mainbody">
-        {isActive || address === contract.adminAddress ? (
+        {/* {isActive || address === contract.adminAddress ? ( */}
           <Fragment>
             <div id="mtnmb_left">
               <ChartNodes />
@@ -45,9 +45,9 @@ export default () => {
               <SearchNodes />
             </div>
           </Fragment>
-        ) : (
+        {/* ) : (
           <NotActive sponsor={sponsor} />
-        )}
+        )} */}
       </div>
     </MatrixNetworkWrap>
   );

@@ -84,10 +84,13 @@ const MultiLanguageWrap = memo(styled.div`
         min-width:100px;
         right:0;
         left:0;
-        z-index:2;
+        z-index:3;
         background-color:${Colors.white};
         flex-direction:column;
         box-shadow: 0 3px 6px 1px rgba(100, 161, 94, 0.2);
+        @media (max-width:499px){
+            left:-10px;
+        }
     }
 `)
 

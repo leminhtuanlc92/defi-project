@@ -204,21 +204,26 @@ const MainBody = memo(styled.div`
         overflow:scroll;
         #scroll_section{
             width:100%;
+            display:block;
             flex-direction:column;
             min-height:100%;
         }
     }
     #wrap_main_content{
-        /* height: calc(100% - (1em*2)); */
         width:100%;
         overflow:hidden;
         flex:1;
         flex-grow:12;
+        min-height:95%;
         @media (max-width:991px){
+          display:block;
+          height:auto;
           ${(props: any) => props.horizontal ?
-            css`height:auto;overflow:inherit` :
-            css``
-            }
+          css`
+            overflow:inherit;
+          ` :
+          css``
+          }
         }
     }
     @media (max-width:991px){
