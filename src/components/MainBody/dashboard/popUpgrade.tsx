@@ -56,7 +56,7 @@ export default ({ showPop, setShowPop }: PopUpgradeProps) => {
     };
   };
   const [level, setLevel] = useState(0);
-  for (let i = 1; i <= 8; i++) {
+  for (let i = 4; i <= 8; i++) {
     if (i > level) {
       dataSelect.push({ value: i, title: `${i18n.t("level")} ${i}` });
     }
