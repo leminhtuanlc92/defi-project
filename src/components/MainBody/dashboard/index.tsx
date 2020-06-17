@@ -10,15 +10,19 @@ import { TronContract } from "../../../contexts/tronWeb";
 import { contract } from "../../../config";
 import Loading from "../../common/loading";
 import { toast } from "react-toastify";
-import { SiteContext } from '../../../contexts/siteContext'
+import { SiteContext } from "../../../contexts/siteContext";
 const closeImg = require("../../../assets/images/close.png");
 // const confirmImg = require("../../../assets/images/confirm-ref.svg");
 const confirmImg1 = require("../../../assets/images/confirm.svg");
 export default () => {
   const [showPop, setShowPop] = useState(false);
   const [loading, setLoading] = useState(false);
-  const { siteState: { horizontalView } } = useContext(SiteContext)
-  const { usdt, address, userData, token, matrixMember } = useContext(TronContract);
+  const {
+    siteState: { horizontalView },
+  } = useContext(SiteContext);
+  const { usdt, address, userData, token, matrixMember } = useContext(
+    TronContract
+  );
 
   const [userInfo, setUserInfo] = useState([
     { category: "totalReceive", value: 0 },
@@ -46,14 +50,20 @@ export default () => {
         token.balanceOf(address).call(),
       ]);
       setUserInfo([
-        { category: "totalBalance", value: Number(data.balances) / 10 ** 6 },
+        {
+          category: "totalBalance",
+          value: Math.floor(Number(data.balances) / 10 ** 6),
+        },
         {
           category: "stockRightBalance",
-          value: Number(data.stockRight) / 10 ** 6,
+          value: Math.floor(Number(data.stockRight) / 10 ** 6),
         },
-        { category: "fine", value: Number(data.fine) / 10 ** 6 },
+        { category: "fine", value: Math.floor(Number(data.fine) / 10 ** 6) },
         { category: "level", value: LevelLabel[Number(data.level)] },
-        { category: "shareHolding", value: Number(tokenBalance) / 10 ** 6 },
+        {
+          category: "shareHolding",
+          value: Math.floor(Number(tokenBalance) / 10 ** 6),
+        },
       ]);
     };
     getData();
@@ -180,8 +190,8 @@ export default () => {
                   {loading ? (
                     <Loading color={Colors.white} size={20} />
                   ) : (
-                      i18n.t("yes")
-                    )}
+                    i18n.t("yes")
+                  )}
                 </button>
               </div>
               <div id="close-button" onClick={() => setShowPopApprove(false)}>
@@ -278,11 +288,11 @@ const DashboardWrap = memo(styled.div`
       align-items: center;
       justify-content: center;
       position: relative;
-      #pc_inner{
-        width:100%;
-        height:100%;
-        overflow-y:scroll;
-        overflow-x:hidden;
+      #pc_inner {
+        width: 100%;
+        height: 100%;
+        overflow-y: scroll;
+        overflow-x: hidden;
         flex-direction: column;
         align-items: center;
         img {
@@ -294,16 +304,16 @@ const DashboardWrap = memo(styled.div`
           font-size: ${Texts.size.large};
           line-height: ${Texts.size.large};
           margin-bottom: 40px;
-          text-align:center;
-          @media (max-width:767px){
-            ${(props: any) => props.horizontalView ?
-              css`
-                margin-bottom: 15px;
-              `:
-              css`
-                margin-bottom: 30px;
-              `
-            }
+          text-align: center;
+          @media (max-width: 767px) {
+            ${(props: any) =>
+              props.horizontalView
+                ? css`
+                    margin-bottom: 15px;
+                  `
+                : css`
+                    margin-bottom: 30px;
+                  `}
           }
         }
         #close-button {
@@ -354,35 +364,35 @@ const DashboardWrap = memo(styled.div`
                 cursor: not-allowed;
               }
             }
-            @media (max-width:767px){
-              padding:10px 0;
+            @media (max-width: 767px) {
+              padding: 10px 0;
             }
+          }
         }
-      }
-      @media (max-width:767px){
-        ${(props: any) => props.horizontalView ?
-          css`
-            height:90%;
-            padding:10px 20px;
-            img{
-              max-width: 250px;
-              margin-bottom:15px;
-            }
-          `:
-          css`
-            height:auto;
-            width:calc(90% - 40px);
-            padding:20px;
-          `
+        @media (max-width: 767px) {
+          ${(props: any) =>
+            props.horizontalView
+              ? css`
+                  height: 90%;
+                  padding: 10px 20px;
+                  img {
+                    max-width: 250px;
+                    margin-bottom: 15px;
+                  }
+                `
+              : css`
+                  height: auto;
+                  width: calc(90% - 40px);
+                  padding: 20px;
+                `}
         }
       }
     }
   }
-}
-`)
+`);
 const Hana = memo(styled.div`
-    /* background-color: orange; */
-    flex-direction: column;
-    flex: 1;
-    border-radius: 10px;
-`)
+  /* background-color: orange; */
+  flex-direction: column;
+  flex: 1;
+  border-radius: 10px;
+`);
