@@ -45,7 +45,7 @@ const InfoBlock = memo(styled.div`
       padding: 15px;
       #info-content-title {
         font-size: ${Texts.size.large};
-        line-height: ${Texts.size.large};
+        line-height: ${Texts.size.huge};
         color: ${Colors.black1};
         text-align: left;
         max-width: 100%;

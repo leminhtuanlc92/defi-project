@@ -11,8 +11,9 @@ const avtImg = require("../../../assets/images/avt.png");
 const endNodeImg = require("../../../assets/images/ic-k-nhanh.svg");
 interface SunUserItemChildProps {
   data: any;
+  index: number;
 }
-export default ({ data }: SunUserItemChildProps) => {
+export default ({ data, index }: SunUserItemChildProps) => {
   const [showChild, setShowChild] = useState(false);
   const { member, userData } = useContext(TronContract);
   const [nodeData, setNodeData] = useState({
@@ -32,7 +33,7 @@ export default ({ data }: SunUserItemChildProps) => {
     getUser(data);
   }, []);
   return (
-    <SunUserItemChildWrap showChild={showChild}>
+    <SunUserItemChildWrap showChild={showChild} oneChildLeft={nodeData.user.refs.length === 1}>
       {nodeData.user.parent !== "" && nodeData.user.userId !== "" ? (
         <Fragment>
           <SunUserItemChildNodeMain
@@ -64,14 +65,14 @@ export default ({ data }: SunUserItemChildProps) => {
           {nodeData.user.refs.length > 0 && showChild ? (
             <div className="su_childnodes">
               {nodeData.user.refs.map((item: any, index: number) => {
-                return <SunUserItem item={item} key={index} />;
+                return <SunUserItem item={item} key={index} index={index}/>;
               })}
             </div>
           ) : null}
         </Fragment>
       ) : (
-        <Loading />
-      )}
+          <Loading />
+        )}
     </SunUserItemChildWrap>
   );
 };
@@ -80,6 +81,72 @@ const SunUserItemChildWrap = memo(styled.div`
   flex-direction: column;
   position: relative;
   margin-bottom: 10px;
+  &:before{
+    ${(props: any) => (props.showChild && props.firstChild) || (!props.showChild) ? css`content:'';` : css``}
+    position:absolute;
+    width:10px;
+    height:1px;
+    left:-10px;
+    top:50%;
+    transform: translate(0, -50%);
+    background-color:${Colors.green};
+  }
+  &:after{
+    ${(props: any) => props.showChild && css`content:'';`}
+    position:absolute;
+    width:1px;
+    height:calc(100% - 48px);
+    ${(props: any) => props.showChild ? css`
+        top:0;
+      `: css`
+        top:10px;
+      `
+  }
+    left:0;
+    background-color:${Colors.green};
+  }
+  .su_childnodes{
+    position:relative;
+    &:before{
+      ${(props: any) => props.showChild && css`content:'';`}
+      position:absolute;
+      width:10px;
+      height:1px;
+      left:-10px;
+      top:-48px;
+      transform: translate(0, -50%);
+      background-color:${Colors.green};
+    }
+    &:after{
+      content:'';
+      position:absolute;
+      width:1px;
+      height:calc(100% - 48px);
+      z-index:2;
+      ${(props: any) => props.showChild ? css`
+        ${(props: any) => props.oneChildLeft ? css`
+            top:39px;
+            width:5px;
+            background-color:red;
+          `: css`
+            top:0;
+            left:0;
+            background-color:${Colors.green};
+          `
+        }` 
+        : css`${(props: any) => props.oneChildLeft ? css`
+              top:39px;
+              width:5px;
+            `: css`
+                left:0;
+                top:10px;
+                background-color:${Colors.green};
+              `
+            }
+          `
+      } 
+    }
+  }
 `);
 
 const SunChildNodeImage = memo(styled.img`

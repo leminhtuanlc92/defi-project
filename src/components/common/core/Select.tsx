@@ -72,7 +72,6 @@ export default ({
                           typeof item.value === "number"
                             ? ` - ${LevelLabel[item.value]}`
                             : ""
-                        }
                         }`
                       : item.title + " - " + LevelLabel[item.value]}
                   </span>
@@ -119,7 +118,7 @@ const SelectInput = memo(styled.div`
 const DropList = memo(styled.div`
   position: absolute;
   z-index: 2;
-  top: calc(100% - 2px);
+  top: calc(100% - 3px);
   left: -1px;
   width: 100%;
   flex-direction: column;
@@ -133,8 +132,9 @@ const DropList = memo(styled.div`
   overflow-y: scroll;
   max-height: 200px;
   #slidl_wrap {
-    flex-direction: column;
-    flex-wrap: wrap;
+    display:block;
+    width:100%;
+    overflow:hidden;
   }
 `);
 
@@ -149,6 +149,7 @@ const DropListItem = memo(styled.div`
     text-overflow: ellipsis;
     overflow: hidden;
     white-space: nowrap;
+    width:100%;
   }
   &:hover {
     background-color: ${Colors.white4};

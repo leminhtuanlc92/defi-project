@@ -1,13 +1,9 @@
-import React, { memo, useState, Fragment, useContext, useEffect } from "react";
-import styled, { css } from "styled-components/macro";
+import React, { memo} from "react";
+import styled from "styled-components/macro";
 import Colors from "../../../constants/Colors";
 import Texts from "../../../constants/Texts";
 import i18n from "i18n-js";
-import moment from "moment";
-import Select from "../../common/core/Select";
 import ClickOutside from "../../../utils/clickOutSide";
-import { TronContract } from "../../../contexts/tronWeb";
-import { contract } from "../../../config";
 import Loading from '../../common/loading'
 const closeImg = require("../../../assets/images/close.png");
 const signUpImg = require('../../../assets/images/sign-up.svg')

@@ -1,4 +1,4 @@
-import React, { memo, useState, useContext, useEffect, Fragment } from "react";
+import React, { memo, useState, useContext, useEffect } from "react";
 import styled, { css } from "styled-components/macro";
 import Colors from "../../../../constants/Colors";
 import Texts from "../../../../constants/Texts";
@@ -7,7 +7,6 @@ import i18n from "i18n-js";
 import { TronContract } from "../../../../contexts/tronWeb";
 import MergePop from "../mergePop";
 import WAValidator from "multicoin-address-validator";
-import { toast } from "react-toastify";
 import Loading from "../../../common/loading";
 export default () => {
   const { matrixMember, address, member, userData } = useContext(TronContract);
@@ -54,6 +53,7 @@ export default () => {
         value: (window as any).tronWeb.address.fromHex(result[i]),
       });
     }
+    console.log('setUserList', users)
     setUserList(users);
   };
   const mergeNode = async (empty: any, pendingUser: any) => {
@@ -202,18 +202,20 @@ const MatchPendingUserWrap = memo(styled.div`
           input {
             flex: 1;
             padding: 0 10px;
-            ${(props: any) =>
-    props.userInput === ""
-      ? css`
+            ${(props: any) =>props.userInput === ""? 
+                css`
+                  border: solid 1px ${Colors.black};
+                `
+                : 
+                props.validAddress? 
+                  css`
                     border: solid 1px ${Colors.black};
                   `
-      : props.validAddress
-        ? css`
-                    border: solid 1px ${Colors.black};
-                  `
-        : css`
+                  : 
+                  css`
                     border: solid 1px ${Colors.red};
-                  `};
+                  `
+            }
             border-top-left-radius: 5px;
             border-bottom-left-radius: 5px;
             border-right: none;
@@ -223,6 +225,9 @@ const MatchPendingUserWrap = memo(styled.div`
           padding: 10px 20px;
           border-top-left-radius: 0px;
           border-bottom-left-radius: 0px;
+          @media (max-width:399px){
+            padding: 10px;
+          }
         }
       }
       #mpilen_gathered_data {

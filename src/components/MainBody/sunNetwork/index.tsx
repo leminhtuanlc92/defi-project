@@ -49,7 +49,7 @@ export default () => {
       <span id="sunnetwork_main_title">{i18n.t("sunNetwork")}</span>
       <div id="sunnetwork_mainbody">
         {isMember && nodeData.user.parent !== "" ? (
-          <SunUserItem item={nodeData} topNode={true} />
+          <SunUserItem item={nodeData} topNode={true} index={0}/>
         ) : (
           <span id="snmb_nodata">{i18n.t("noData")}</span>
         )}

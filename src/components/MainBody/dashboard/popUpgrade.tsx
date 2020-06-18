@@ -3,11 +3,9 @@ import styled, { css } from "styled-components/macro";
 import Colors from "../../../constants/Colors";
 import Texts from "../../../constants/Texts";
 import i18n from "i18n-js";
-import moment from "moment";
 import Select from "../../common/core/Select";
 import ClickOutside from "../../../utils/clickOutSide";
 import { TronContract } from "../../../contexts/tronWeb";
-import { contract } from "../../../config";
 import Loading from "../../common/loading";
 import { toast } from "react-toastify";
 import { SiteContext } from "../../../contexts/siteContext";
@@ -33,6 +31,7 @@ const LevelLabel = [
 ];
 
 export default ({ showPop, setShowPop }: PopUpgradeProps) => {
+  const { siteState: { horizontalView } } = useContext(SiteContext)
   const [step, setStep] = useState(1);
   const [currentSelect, setCurrentSelect] = useState({ title: "", value: 0 });
   const [loading, setLoading] = useState(false);
@@ -109,9 +108,8 @@ export default ({ showPop, setShowPop }: PopUpgradeProps) => {
   };
 
   return (
-    <PopUpgradeWrap>
+    <PopUpgradeWrap horizontalView={horizontalView}>
       <ClickOutside
-        style={{ minWidth: "60%", minHeight: "70%" }}
         handleClickOutSide={() => {
           setShowPop(false);
           step === 2 && setStep(1);
@@ -130,7 +128,9 @@ export default ({ showPop, setShowPop }: PopUpgradeProps) => {
                     </div>
                     <span className="pum-title">{i18n.t("approveUsdt")}</span>
                   </PumStep1>
-                  <PumDivider step={step}></PumDivider>
+                  <PumDivider step={step}>
+                    <div></div>
+                  </PumDivider>
                   <PumStep2 step={step}>
                     <div className="p-u-m-icon">
                       {step === 2 ? (
@@ -254,6 +254,21 @@ const PopUpgradeWrap = memo(styled.div`
   justify-content: center;
   width: 100vw;
   height: 100vh;
+  >div{
+    width: 60%;
+    height: 70%;
+    @media (min-width:768px) and (max-width:1199px){
+      width: 80%;
+      height: 70%;
+    }
+    @media (max-width:991px){
+      width: 100%;
+      max-height: 100%;
+      ${(props:any)=>props.horizontalView && css`
+        height:100%;
+      `}
+    }
+  }
   #pop-upgrade-content {
     flex: 1;
     background: ${Colors.white};
@@ -263,11 +278,16 @@ const PopUpgradeWrap = memo(styled.div`
     align-items: center;
     justify-content: center;
     position: relative;
+    @media (max-width:991px){
+      padding:20px;
+    }
     #pop-upgrade-content-inner {
       flex: 1;
       flex-direction: column;
       align-items: center;
       width: 100%;
+      overflow-y:scroll;
+      overflow-x:hidden;
       #pop-upgrade-title {
         font-size: ${Texts.size.extra};
         line-height: ${Texts.size.extra};
@@ -275,8 +295,9 @@ const PopUpgradeWrap = memo(styled.div`
       }
       #pop-upgrade-quote {
         font-size: ${Texts.size.large};
-        line-height: ${Texts.size.large};
+        line-height: ${Texts.size.larger};
         color: ${Colors.black};
+        text-align:center;
       }
       #pop-upgrade-main {
         background: ${Colors.white4};
@@ -286,6 +307,12 @@ const PopUpgradeWrap = memo(styled.div`
         flex: 1;
         flex-direction: column;
         align-items: center;
+        @media (max-width:991px){
+          margin-top: 20px;
+        }
+        @media (max-width:399px){
+          margin-top: 10px;
+        }
         #pum_inner {
           padding: 20px;
           flex: 1;
@@ -293,9 +320,19 @@ const PopUpgradeWrap = memo(styled.div`
           align-items: center;
           justify-content: space-between;
           width: calc(100% - 40px);
+          @media (max-width:991px){
+            padding:10px;
+            width: calc(100% - 20px);
+          }
           #pum_step {
-            align-items: center;
+            align-items: flex-start;
+            justify-content: center;
             margin-bottom: 30px;
+            width: calc(100% - 40px);
+            @media (max-width:991px){
+              margin-bottom: 10px;
+              width: calc(100% - 20px);
+            }
             div {
               flex-direction: column;
               align-items: center;
@@ -318,12 +355,19 @@ const PopUpgradeWrap = memo(styled.div`
             flex-direction: column;
             border: solid 1px ${Colors.green};
             border-radius: 5px;
+            @media (max-width:991px){
+              width:100%;
+            }
             #pumclv_inner {
               flex: 1;
               padding: 20px 0;
               width: 80%;
               flex-direction: column;
               justify-content: space-between;
+              @media (max-width:399px){
+                padding: 10px 0;
+                width: 90%;
+              }
               #pumclvi_lv {
                 justify-content: space-between;
                 align-items: center;
@@ -349,6 +393,9 @@ const PopUpgradeWrap = memo(styled.div`
                 #pumcl_select {
                   width: 100%;
                   margin-top: 10px;
+                  >div{
+                    width:100%;
+                  }
                 }
               }
               #pumclvi_purchase {
@@ -356,6 +403,7 @@ const PopUpgradeWrap = memo(styled.div`
                 #pumclvip_amount {
                   align-items: center;
                   justify-content: space-between;
+                  margin-bottom:10px;
                   span {
                     font-size: ${Texts.size.large};
                     line-height: ${Texts.size.large};
@@ -371,6 +419,7 @@ const PopUpgradeWrap = memo(styled.div`
                 #pumclvip_cal1 {
                   align-items: center;
                   justify-content: space-between;
+                  margin-bottom:5px;
                   span {
                     &:first-child {
                       font-size: ${Texts.size.normal};
@@ -385,6 +434,7 @@ const PopUpgradeWrap = memo(styled.div`
                   }
                 }
                 #pumclvip_cal2 {
+                  margin-bottom:5px;
                   span {
                     &:first-child {
                       font-size: ${Texts.size.normal};
@@ -464,53 +514,68 @@ const PopUpgradeWrap = memo(styled.div`
   }
 `);
 const PumDivider = memo(styled.div`
-  width: 50px;
-  height: 5px;
-  ${(props: any) =>
+  width: 10%;
+  height: 40px;
+  div{
+    width: 100%;
+    height: 5px;
+    ${(props: any) =>
     props.step === 2
       ? css`
           background-color: ${Colors.orange};
         `
       : css`
           background-color: ${Colors.green3};
-        `};
+    `}
+    margin: 0 2%;
+  }
   margin: 0 20px 10px 20px;
 `);
 const PumStep1 = memo(styled.div`
+  width:25%;
   .p-u-m-icon {
     border-radius: 50%;
     background-color: ${Colors.orange};
+    margin-bottom:5px;
     span {
       color: ${Colors.orange};
     }
   }
   .pum-title {
     font-size: ${Texts.size.normal};
-    line-height: ${Texts.size.normal};
+    line-height: ${Texts.size.large};
+    text-transform:uppercase;
     color: ${Colors.orange};
+    text-align:center;
   }
 `);
 const PumStep2 = memo(styled.div`
+  width:25%;    
   .p-u-m-icon {
     border-radius: 50%;
+    margin-bottom:5px;
     ${(props: any) =>
-    props.step === 2
-      ? css`
-            background-color: ${Colors.orange};
-            span {
-              color: ${Colors.orange};
-            }
-          `
-      : css`
-            background-color: ${Colors.green};
-            span {
-              color: ${Colors.green3};
-            }
-          `}
+    props.step === 2 ?
+      css`
+        background-color: ${Colors.orange};
+        span {
+          color: ${Colors.orange};
+        }
+      `
+      :
+      css`
+        background-color: ${Colors.green};
+        span {
+          color: ${Colors.green3};
+        }
+      `
+  }
   }
   .pum-title {
     font-size: ${Texts.size.normal};
-    line-height: ${Texts.size.normal};
+    line-height: ${Texts.size.large};
+    text-transform:uppercase;
+    text-align:center;
     ${(props: any) =>
     props.step === 2
       ? css`
