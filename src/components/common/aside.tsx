@@ -61,7 +61,7 @@ export default () => {
     },
     {
       name: "slide",
-      url: "./eng_slide.pdf",
+      url: "./Tronlink_guideline.pdf",
       raw: true,
       img: require("../../assets/images/ic-logout.svg"),
       imgActive: require("../../assets/images/ic-logout-active.svg"),
@@ -74,13 +74,11 @@ export default () => {
       </div>
       <Link to="/">
         <Logo aside={siteState.aside}>
-
           {siteState.aside ? (
             <img src={logoImg} alt="" />
           ) : (
-              <img src={iconLogo} alt="" />
-            )}
-
+            <img src={iconLogo} alt="" />
+          )}
         </Logo>
       </Link>
       <ToggleMenu onClick={() => setShowDropMenu(!showDropMenu)}>
@@ -110,8 +108,8 @@ export default () => {
                       <img
                         src={
                           item.url === currentPath.pathname ||
-                            (currentPath.pathname.includes(item.url) &&
-                              item.url !== "/")
+                          (currentPath.pathname.includes(item.url) &&
+                            item.url !== "/")
                             ? item.imgActive
                             : item.img
                         }
@@ -128,44 +126,44 @@ export default () => {
                     </MenuItemWrapper>
                   </a>
                 ) : (
-                    <Link
-                      to={item.url}
-                      key={index}
-                      onClick={() => setShowDropMenu(false)}
-                      // data-tip-disable={siteState.aside}
-                      data-tip={`${i18n.t(`${item.name}`)}`}
-                      data-delay-show={500}
-                      style={{ width: "100%" }}
+                  <Link
+                    to={item.url}
+                    key={index}
+                    onClick={() => setShowDropMenu(false)}
+                    // data-tip-disable={siteState.aside}
+                    data-tip={`${i18n.t(`${item.name}`)}`}
+                    data-delay-show={500}
+                    style={{ width: "100%" }}
+                  >
+                    <MenuItemWrapper
+                      aside={siteState.aside}
+                      active={
+                        item.url === currentPath.pathname ||
+                        (currentPath.pathname.includes(item.url) &&
+                          item.url !== "/")
+                      }
                     >
-                      <MenuItemWrapper
-                        aside={siteState.aside}
-                        active={
+                      <img
+                        src={
                           item.url === currentPath.pathname ||
                           (currentPath.pathname.includes(item.url) &&
                             item.url !== "/")
+                            ? item.imgActive
+                            : item.img
                         }
-                      >
-                        <img
-                          src={
-                            item.url === currentPath.pathname ||
-                              (currentPath.pathname.includes(item.url) &&
-                                item.url !== "/")
-                              ? item.imgActive
-                              : item.img
-                          }
-                          style={{
-                            marginRight: siteState.aside ? "20px" : 0,
-                            objectFit: "contain",
-                            width: "20px",
-                          }}
-                          alt=""
-                        />
-                        {siteState.aside ? (
-                          <span>{i18n.t(item.name)}</span>
-                        ) : null}
-                      </MenuItemWrapper>
-                    </Link>
-                  )}
+                        style={{
+                          marginRight: siteState.aside ? "20px" : 0,
+                          objectFit: "contain",
+                          width: "20px",
+                        }}
+                        alt=""
+                      />
+                      {siteState.aside ? (
+                        <span>{i18n.t(item.name)}</span>
+                      ) : null}
+                    </MenuItemWrapper>
+                  </Link>
+                )}
               </div>
             );
           })}
@@ -200,7 +198,7 @@ export default () => {
           </InnerLogout>
         </div>
       </Logout> */}
-    </AsideWrap >
+    </AsideWrap>
   );
 };
 const AsideWrap = memo(styled.div`
@@ -251,11 +249,11 @@ const Logo = memo(styled.div`
   justify-content: center;
   img {
     ${(props: any) =>
-    props.aside
-      ? css`
+      props.aside
+        ? css`
             max-width: 120px;
           `
-      : css`
+        : css`
             max-width: 35px;
           `}
   }
@@ -276,7 +274,7 @@ const MainMenu = memo(styled.div`
   margin-top: 40px;
   #mainmenu-wrapper {
     flex-direction: column;
-    overflow:scroll;
+    overflow: scroll;
   }
   @media (max-width: 991px) {
     position: absolute;
@@ -290,11 +288,11 @@ const MainMenu = memo(styled.div`
     background-color: ${Colors.white};
     box-shadow: 0 4px 6px 1px rgba(78, 78, 78, 0.16);
     ${(props: any) =>
-    props.showDropMenu
-      ? css`
+      props.showDropMenu
+        ? css`
             display: flex;
           `
-      : css`
+        : css`
             display: none;
           `}
   }
