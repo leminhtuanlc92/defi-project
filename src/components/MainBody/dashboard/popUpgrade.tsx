@@ -121,109 +121,111 @@ export default ({ showPop, setShowPop }: PopUpgradeProps) => {
             <span id="pop-upgrade-quote">{i18n.t("upgradeAccountquote")}</span>
             <div id="pop-upgrade-main">
               <div id="pum_inner">
-                <div id="pum_step">
-                  <PumStep1 step={step}>
-                    <div className="p-u-m-icon">
-                      <img src={checkImg} alt="" />
-                    </div>
-                    <span className="pum-title">{i18n.t("approveUsdt")}</span>
-                  </PumStep1>
-                  <PumDivider step={step}>
-                    <div></div>
-                  </PumDivider>
-                  <PumStep2 step={step}>
-                    <div className="p-u-m-icon">
-                      {step === 2 ? (
+                <div id="pumi_wrap">
+                  <div id="pum_step">
+                    <PumStep1 step={step}>
+                      <div className="p-u-m-icon">
                         <img src={checkImg} alt="" />
-                      ) : (
-                          <span className="pum-">2</span>
-                        )}
-                    </div>
-                    <span className="pum-title">
-                      {i18n.t("upgradePackage")}
-                    </span>
-                  </PumStep2>
-                </div>
-                <div id="pum_current_lv">
-                  <div id="pumclv_inner">
-                    {step === 1 ? (
-                      <Fragment>
-                        <div id="pumclvi_lv">
-                          <span>{i18n.t("currentLevel")}:</span>
-                          <span>{level}</span>
-                        </div>
-                        <div id="pumclvilv_upgrade">
-                          <span id="pumclvilvu_title">
-                            {i18n.t("levelUpgrade")}:
-                          </span>
-                          <div id="pumcl_select">
-                            <Select
-                              listSelect={dataSelect}
-                              action={setCurrentSelect}
-                              defaultSelect={i18n.t("selectUpdate")}
-                              currentSelect={currentSelect}
-                            />
-                          </div>
-                        </div>
-                        {detail.total > 0 ? (
-                          <div id="pumclvi_purchase">
-                            <div id="pumclvip_amount">
-                              <span>{i18n.t("purchaseAmount")}</span>
-                              <span>{detail.total} USDT</span>
-                            </div>
-                            {detail.detail.map((item: any, index: any) => (
-                              <div
-                                id="pumclvip_cal1"
-                                key={`detail-level-${index}`}
-                              >
-                                <span>
-                                  {i18n.t("level")} {item.level} -{" "}
-                                  {LevelLabel[item.level]}
-                                </span>
-                                <span>{item.price} USDT</span>
-                              </div>
-                            ))}
-                          </div>
-                        ) : null}
-                        <div id="pumclvi_button">
-                          <div id="pumclvib_inner">
-                            <button
-                              onClick={() => !loading && handleConfirm()}
-                              disabled={!(currentSelect.title !== "")}
-                            >
-                              {loading ? (
-                                <Loading color={Colors.white} size={20} />
-                              ) : (
-                                  i18n.t("confirm")
-                                )}
-                            </button>
-                          </div>
-                        </div>
-                      </Fragment>
-                    ) : (
+                      </div>
+                      <span className="pum-title">{i18n.t("approveUsdt")}</span>
+                    </PumStep1>
+                    <PumDivider step={step}>
+                      <div></div>
+                    </PumDivider>
+                    <PumStep2 step={step}>
+                      <div className="p-u-m-icon">
+                        {step === 2 ? (
+                          <img src={checkImg} alt="" />
+                        ) : (
+                            <span className="pum-">2</span>
+                          )}
+                      </div>
+                      <span className="pum-title">
+                        {i18n.t("upgradePackage")}
+                      </span>
+                    </PumStep2>
+                  </div>
+                  <div id="pum_current_lv">
+                    <div id="pumclv_inner">
+                      {step === 1 ? (
                         <Fragment>
-                          <div id="pumclvi_success">
-                            <img src={upgradeSuccess} alt="" />
+                          <div id="pumclvi_lv">
+                            <span>{i18n.t("currentLevel")}:</span>
+                            <span>{level}</span>
                           </div>
-                          <div id="pumclvi_quote">
-                            <span>{i18n.t("upgradeSuccessQuote1")}</span>
-                            <span>{i18n.t("upgradeSuccessQuote2")}</span>
+                          <div id="pumclvilv_upgrade">
+                            <span id="pumclvilvu_title">
+                              {i18n.t("levelUpgrade")}:
+                          </span>
+                            <div id="pumcl_select">
+                              <Select
+                                listSelect={dataSelect}
+                                action={setCurrentSelect}
+                                defaultSelect={i18n.t("selectUpdate")}
+                                currentSelect={currentSelect}
+                              />
+                            </div>
                           </div>
+                          {detail.total > 0 ? (
+                            <div id="pumclvi_purchase">
+                              <div id="pumclvip_amount">
+                                <span>{i18n.t("purchaseAmount")}</span>
+                                <span>{detail.total} USDT</span>
+                              </div>
+                              {detail.detail.map((item: any, index: any) => (
+                                <div
+                                  id="pumclvip_cal1"
+                                  key={`detail-level-${index}`}
+                                >
+                                  <span>
+                                    {i18n.t("level")} {item.level} -{" "}
+                                    {LevelLabel[item.level]}
+                                  </span>
+                                  <span>{item.price} USDT</span>
+                                </div>
+                              ))}
+                            </div>
+                          ) : null}
                           <div id="pumclvi_button">
                             <div id="pumclvib_inner">
                               <button
-                                onClick={() => {
-                                  setShowPop(false);
-                                  setStep(1);
-                                }}
+                                onClick={() => !loading && handleConfirm()}
+                                disabled={!(currentSelect.title !== "")}
                               >
-                                <img src={backImg} alt="" />{" "}
-                                {i18n.t("backToDashboard")}
+                                {loading ? (
+                                  <Loading color={Colors.white} size={20} />
+                                ) : (
+                                    i18n.t("confirm")
+                                  )}
                               </button>
                             </div>
                           </div>
                         </Fragment>
-                      )}
+                      ) : (
+                          <Fragment>
+                            <div id="pumclvi_success">
+                              <img src={upgradeSuccess} alt="" />
+                            </div>
+                            <div id="pumclvi_quote">
+                              <span>{i18n.t("upgradeSuccessQuote1")}</span>
+                              <span>{i18n.t("upgradeSuccessQuote2")}</span>
+                            </div>
+                            <div id="pumclvi_button">
+                              <div id="pumclvib_inner">
+                                <button
+                                  onClick={() => {
+                                    setShowPop(false);
+                                    setStep(1);
+                                  }}
+                                >
+                                  <img src={backImg} alt="" />{" "}
+                                  {i18n.t("backToDashboard")}
+                                </button>
+                              </div>
+                            </div>
+                          </Fragment>
+                        )}
+                    </div>
                   </div>
                 </div>
               </div>
@@ -256,7 +258,7 @@ const PopUpgradeWrap = memo(styled.div`
   height: 100vh;
   >div{
     width: 60%;
-    height: 70%;
+    /* height: 70%; */
     @media (min-width:768px) and (max-width:1199px){
       width: 80%;
       height: 70%;
@@ -264,7 +266,7 @@ const PopUpgradeWrap = memo(styled.div`
     @media (max-width:991px){
       width: 100%;
       max-height: 100%;
-      ${(props:any)=>props.horizontalView && css`
+      ${(props: any) => props.horizontalView && css`
         height:100%;
       `}
     }
@@ -300,8 +302,6 @@ const PopUpgradeWrap = memo(styled.div`
         text-align:center;
       }
       #pop-upgrade-main {
-        background: ${Colors.white4};
-        border-radius: 10px;
         margin-top: 30px;
         width: 95%;
         flex: 1;
@@ -314,96 +314,74 @@ const PopUpgradeWrap = memo(styled.div`
           margin-top: 10px;
         }
         #pum_inner {
-          padding: 20px;
           flex: 1;
           flex-direction: column;
           align-items: center;
           justify-content: space-between;
-          width: calc(100% - 40px);
-          @media (max-width:991px){
-            padding:10px;
-            width: calc(100% - 20px);
-          }
-          #pum_step {
-            align-items: flex-start;
-            justify-content: center;
-            margin-bottom: 30px;
+          width:100%;
+          #pumi_wrap{
+            display:block;
+            background: ${Colors.white4};
+            border-radius: 10px;
+            padding: 20px;
             width: calc(100% - 40px);
             @media (max-width:991px){
-              margin-bottom: 10px;
+              padding:10px;
               width: calc(100% - 20px);
             }
-            div {
-              flex-direction: column;
-              align-items: center;
+            #pum_step {
+              align-items: flex-start;
               justify-content: center;
-              img {
-                width: 20px;
-                object-fit: contain;
+              margin-bottom: 30px;
+              width: calc(100% - 40px);
+              position:relative;
+              left: 50%;
+              transform: translate(-50%, 0);
+              @media (max-width:991px){
+                margin-bottom: 10px;
+                width: calc(100% - 20px);
               }
-            }
-            .p-u-m-icon {
-              width: 40px;
-              height: 40px;
-            }
-          }
-          #pum_current_lv {
-            flex: 1;
-            width: 80%;
-            justify-content: center;
-            align-items: center;
-            flex-direction: column;
-            border: solid 1px ${Colors.green};
-            border-radius: 5px;
-            @media (max-width:991px){
-              width:100%;
-            }
-            #pumclv_inner {
-              flex: 1;
-              padding: 20px 0;
-              width: 80%;
-              flex-direction: column;
-              justify-content: space-between;
-              @media (max-width:399px){
-                padding: 10px 0;
-                width: 90%;
-              }
-              #pumclvi_lv {
-                justify-content: space-between;
+              div {
+                flex-direction: column;
                 align-items: center;
-                margin-bottom: 20px;
-                span {
-                  font-size: ${Texts.size.large};
-                  line-height: ${Texts.size.large};
-                  color: ${Colors.black};
-                  &:first-child {
-                    text-transform: uppercase;
-                  }
+                justify-content: center;
+                img {
+                  width: 20px;
+                  object-fit: contain;
                 }
               }
-              #pumclvilv_upgrade {
-                flex-direction: column;
-                margin-bottom: 20px;
-                #pumclvilvu_title {
-                  font-size: ${Texts.size.large};
-                  line-height: ${Texts.size.large};
-                  color: ${Colors.black};
-                  text-transform: uppercase;
-                }
-                #pumcl_select {
-                  width: 100%;
-                  margin-top: 10px;
-                  >div{
-                    width:100%;
-                  }
-                }
+              .p-u-m-icon {
+                width: 40px;
+                height: 40px;
               }
-              #pumclvi_purchase {
+            }
+            #pum_current_lv {
+              flex: 1;
+              width: 80%;
+              justify-content: center;
+              align-items: center;
+              flex-direction: column;
+              border: solid 1px ${Colors.green};
+              border-radius: 5px;
+              position: relative;
+              left: 50%;
+              transform: translate(-50%, 0);
+              @media (max-width:991px){
+                width:90%;
+                display:block;
+                height:90%;
+                padding:0;
+
+              }
+              #pumclv_inner {
+                padding: 5%;
+                width: 90%;
                 flex-direction: column;
-                #pumclvip_amount {
-                  align-items: center;
+                justify-content: space-between;
+                #pumclvi_lv {
                   justify-content: space-between;
-                  margin-bottom:10px;
+                  align-items: center;
+                  margin-bottom: 20px;
                   span {
                     font-size: ${Texts.size.large};
                     line-height: ${Texts.size.large};
@@ -411,93 +389,125 @@ const PopUpgradeWrap = memo(styled.div`
                     &:first-child {
                       text-transform: uppercase;
                     }
-                    &:nth-child(2) {
-                      font-weight: 700;
-                    }
                   }
                 }
-                #pumclvip_cal1 {
-                  align-items: center;
-                  justify-content: space-between;
-                  margin-bottom:5px;
-                  span {
-                    &:first-child {
-                      font-size: ${Texts.size.normal};
-                      line-height: ${Texts.size.normal};
-                      color: ${Colors.black};
-                    }
-                    &:nth-child(2) {
-                      font-size: ${Texts.size.large};
-                      line-height: ${Texts.size.large};
-                      color: ${Colors.black};
-                    }
-                  }
-                }
-                #pumclvip_cal2 {
-                  margin-bottom:5px;
-                  span {
-                    &:first-child {
-                      font-size: ${Texts.size.normal};
-                      line-height: ${Texts.size.normal};
-                      color: ${Colors.black};
-                    }
-                    &:nth-child(1) {
-                      font-size: ${Texts.size.large};
-                      line-height: ${Texts.size.large};
-                      color: ${Colors.black};
-                    }
-                  }
-                }
-              }
-              #pumclvi_button {
-                width: 100%;
-                align-items: center;
-                justify-content: center;
-                #pumclvib_inner {
-                  width: 60%;
-                  justify-content: center;
-                  button {
-                    width: 100%;
-                    border-radius: 5px;
-                    background-color: ${Colors.orange};
-                    box-shadow: none;
-                    color: ${Colors.white};
+                #pumclvilv_upgrade {
+                  flex-direction: column;
+                  margin-bottom: 20px;
+                  #pumclvilvu_title {
                     font-size: ${Texts.size.large};
-                    border: none;
-                    padding: 15px 40px;
-                    &:hover {
-                      background-color: ${Colors.orange1};
-                      box-shadow: 0 3px 6px 1px rgba(255, 159, 91, 0.2);
-                    }
-                    &:disabled {
-                      background-color: ${Colors.orange2};
-                      color: ${Colors.orange3};
-                      box-shadow: none;
-                      cursor: not-allowed;
+                    line-height: ${Texts.size.large};
+                    color: ${Colors.black};
+                    text-transform: uppercase;
+                  }
+                  #pumcl_select {
+                    width: 100%;
+                    margin-top: 10px;
+                    >div{
+                      width:100%;
                     }
                   }
                 }
-              }
-              #pumclvi_success {
-                justify-content: center;
-                margin: 10px 0;
-              }
-              #pumclvi_quote {
-                margin: 10px 0 20px;
-                flex-direction: column;
-                align-items: center;
-                span {
-                  font-size: ${Texts.size.large};
-                  line-height: ${Texts.size.large};
-                  color: ${Colors.black8};
+                #pumclvi_purchase {
+                  flex-direction: column;
+                  #pumclvip_amount {
+                    align-items: center;
+                    justify-content: space-between;
+                    margin-bottom:10px;
+                    span {
+                      font-size: ${Texts.size.large};
+                      line-height: ${Texts.size.large};
+                      color: ${Colors.black};
+                      &:first-child {
+                        text-transform: uppercase;
+                      }
+                      &:nth-child(2) {
+                        font-weight: 700;
+                      }
+                    }
+                  }
+                  #pumclvip_cal1 {
+                    align-items: center;
+                    justify-content: space-between;
+                    margin-bottom:5px;
+                    span {
+                      &:first-child {
+                        font-size: ${Texts.size.normal};
+                        line-height: ${Texts.size.normal};
+                        color: ${Colors.black};
+                      }
+                      &:nth-child(2) {
+                        font-size: ${Texts.size.large};
+                        line-height: ${Texts.size.large};
+                        color: ${Colors.black};
+                      }
+                    }
+                  }
+                  #pumclvip_cal2 {
+                    margin-bottom:5px;
+                    span {
+                      &:first-child {
+                        font-size: ${Texts.size.normal};
+                        line-height: ${Texts.size.normal};
+                        color: ${Colors.black};
+                      }
+                      &:nth-child(1) {
+                        font-size: ${Texts.size.large};
+                        line-height: ${Texts.size.large};
+                        color: ${Colors.black};
+                      }
+                    }
+                  }
                 }
-              }
-              #pumclvi_button {
-                margin: 10px 0;
-                button {
-                  display: flex;
+                #pumclvi_button {
+                  width: 100%;
                   align-items: center;
                   justify-content: center;
+                  #pumclvib_inner {
+                    width: 60%;
+                    justify-content: center;
+                    button {
+                      width: 100%;
+                      border-radius: 5px;
+                      background-color: ${Colors.orange};
+                      box-shadow: none;
+                      color: ${Colors.white};
+                      font-size: ${Texts.size.large};
+                      border: none;
+                      padding: 15px 40px;
+                      &:hover {
+                        background-color: ${Colors.orange1};
+                        box-shadow: 0 3px 6px 1px rgba(255, 159, 91, 0.2);
+                      }
+                      &:disabled {
+                        background-color: ${Colors.orange2};
+                        color: ${Colors.orange3};
+                        box-shadow: none;
+                        cursor: not-allowed;
+                      }
+                    }
+                  }
+                }
+                #pumclvi_success {
+                  justify-content: center;
+                  margin: 10px 0;
+                }
+                #pumclvi_quote {
+                  margin: 10px 0 20px;
+                  flex-direction: column;
+                  align-items: center;
+                  span {
+                    font-size: ${Texts.size.large};
+                    line-height: ${Texts.size.large};
+                    color: ${Colors.black8};
+                  }
+                }
+                #pumclvi_button {
+                  button {
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                  }
                 }
               }
             }
