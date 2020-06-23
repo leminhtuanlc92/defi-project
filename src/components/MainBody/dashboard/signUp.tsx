@@ -1,4 +1,4 @@
-import React, { memo} from "react";
+import React, { memo } from "react";
 import styled from "styled-components/macro";
 import Colors from "../../../constants/Colors";
 import Texts from "../../../constants/Texts";
@@ -19,12 +19,13 @@ interface PopUpgradeProps {
 export default ({ showPop, setShowPop, register, username, setUsername, loading }: PopUpgradeProps) => {
     return (
         <PopUpgradeWrap>
-            <ClickOutside
+            {/* <ClickOutside
                 style={{ minWidth: "60%", minHeight: "50%" }}
                 handleClickOutSide={() => {
                     setShowPop(false);
                 }}
-            >
+            > */}
+            <div style={{minWidth: "60%", minHeight: "50%"}}>
                 <div id="pop_signup_content">
                     <div id="pop_signup_content_inner">
                         <div id="psci_left">
@@ -45,13 +46,14 @@ export default ({ showPop, setShowPop, register, username, setUsername, loading 
                             </button>
                         </div>
                     </div>
-                    <div id="pop_signup_close_button"
+                    {/* <div id="pop_signup_close_button"
                         onClick={() => { setShowPop(!showPop); }}
                     >
                         <img src={closeImg} alt="" />
-                    </div>
+                    </div> */}
                 </div>
-            </ClickOutside>
+            </div>
+            {/* </ClickOutside> */}
         </PopUpgradeWrap>
     );
 };

@@ -134,7 +134,7 @@ const DropList = memo(styled.div`
   #slidl_wrap {
     display:block;
     width:100%;
-    overflow:hidden;
+    /* overflow:hidden; */
   }
 `);
 
