@@ -29,7 +29,7 @@ export default ({
         </div>
         <div id="bpi_main">
           <div id="bpim_first">
-            <span className="bpim_title">{i18n.t("DFC")}</span>
+            <span className="bpim_title">{i18n.t("DFCRound")}</span>
             <span className="bpim_value">{dfc} </span>
           </div>
           <div id="bpim_second">
