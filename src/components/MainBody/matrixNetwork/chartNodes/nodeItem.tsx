@@ -46,11 +46,13 @@ export default ({
       });
     }
   };
+
   useEffect(() => {
     if (data !== "") {
       getCurrentNode(data);
     }
   }, [data]);
+
   return (
     <NodeItemWrap
       node={node}
