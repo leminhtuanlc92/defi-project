@@ -8,8 +8,12 @@ import i18n from "i18n-js";
 import Loading from "../../../common/loading";
 import { toast } from "react-toastify";
 export default () => {
-  const { siteState: { horizontalView } } = useContext(SiteContext)
-  const { matrixMember, address, member, userData } = useContext(TronContract);
+  const {
+    siteState: { horizontalView },
+  } = useContext(SiteContext);
+  const { matrixMember, address, member, userData, tronWeb } = useContext(
+    TronContract
+  );
   const {
     siteState: { aside },
   } = useContext(SiteContext);
@@ -34,11 +38,9 @@ export default () => {
     ]);
     setNodeData({
       address: _startUser,
-      sponsor: (window as any).tronWeb.address.fromHex(result.sponsor),
-      parent: (window as any).tronWeb.address.fromHex(result.parent),
-      F1: result.F1.map((item) =>
-        (window as any).tronWeb.address.fromHex(item)
-      ),
+      sponsor: tronWeb.address.fromHex(result.sponsor),
+      parent: tronWeb.address.fromHex(result.parent),
+      F1: result.F1.map((item) => tronWeb.address.fromHex(item)),
       level: Number(level),
       name: name.username,
     });
@@ -52,76 +54,76 @@ export default () => {
       {nodeData === null ? (
         <Loading />
       ) : (
-          <div id="cni">
-            <div id="cni_sponsor">
-              <NodeItemWrap
-                node="sponsor"
-                data={nodeData.parent}
-                getNode={getNode}
-                status={
-                  nodeData.parent === "T9yD14Nj9j7xAB4dbGeiX9h8unkKHxuWwb"
-                    ? "empty"
-                    : "active"
-                }
-              />
+        <div id="cni">
+          <div id="cni_sponsor">
+            <NodeItemWrap
+              node="sponsor"
+              data={nodeData.parent}
+              getNode={getNode}
+              status={
+                nodeData.parent === "T9yD14Nj9j7xAB4dbGeiX9h8unkKHxuWwb"
+                  ? "empty"
+                  : "active"
+              }
+            />
+          </div>
+          <div id="cni_user">
+            <NodeItemWrap
+              node="user"
+              data={nodeData.address}
+              level={nodeData.level}
+              name={nodeData.name !== "" ? nodeData.name : nodeData.parent}
+              getNode={getNode}
+            />
+          </div>
+          <div id="cni_F1">
+            <NodeItemWrap
+              node="f1"
+              status={
+                nodeData.F1[0] === "T9yD14Nj9j7xAB4dbGeiX9h8unkKHxuWwb"
+                  ? "empty"
+                  : "active"
+              }
+              data={nodeData.F1[0]}
+              getNode={getNode}
+            />
+            <NodeItemWrap
+              node="f1"
+              status={
+                nodeData.F1[1] === "T9yD14Nj9j7xAB4dbGeiX9h8unkKHxuWwb"
+                  ? "empty"
+                  : "active"
+              }
+              data={nodeData.F1[1]}
+              getNode={getNode}
+            />
+            <NodeItemWrap
+              node="f1"
+              status={
+                nodeData.F1[2] === "T9yD14Nj9j7xAB4dbGeiX9h8unkKHxuWwb"
+                  ? "empty"
+                  : "active"
+              }
+              data={nodeData.F1[2]}
+              getNode={getNode}
+            />
+          </div>
+          <div id="cni_note">
+            <div className="cnin_block">
+              <div className="cninb_mascot"></div>
+              <span className="cninb_text">{i18n.t("emptyNode")}</span>
             </div>
-            <div id="cni_user">
-              <NodeItemWrap
-                node="user"
-                data={nodeData.address}
-                level={nodeData.level}
-                name={nodeData.name !== "" ? nodeData.name : nodeData.parent}
-                getNode={getNode}
-              />
+            <div className="cnin_block">
+              <div className="cninb_mascot"></div>
+              <span className="cninb_text">{i18n.t("directNode")}</span>
             </div>
-            <div id="cni_F1">
-              <NodeItemWrap
-                node="f1"
-                status={
-                  nodeData.F1[0] === "T9yD14Nj9j7xAB4dbGeiX9h8unkKHxuWwb"
-                    ? "empty"
-                    : "active"
-                }
-                data={nodeData.F1[0]}
-                getNode={getNode}
-              />
-              <NodeItemWrap
-                node="f1"
-                status={
-                  nodeData.F1[1] === "T9yD14Nj9j7xAB4dbGeiX9h8unkKHxuWwb"
-                    ? "empty"
-                    : "active"
-                }
-                data={nodeData.F1[1]}
-                getNode={getNode}
-              />
-              <NodeItemWrap
-                node="f1"
-                status={
-                  nodeData.F1[2] === "T9yD14Nj9j7xAB4dbGeiX9h8unkKHxuWwb"
-                    ? "empty"
-                    : "active"
-                }
-                data={nodeData.F1[2]}
-                getNode={getNode}
-              />
-            </div>
-            <div id="cni_note">
-              <div className="cnin_block">
-                <div className="cninb_mascot"></div>
-                <span className="cninb_text">{i18n.t("emptyNode")}</span>
-              </div>
-              <div className="cnin_block">
-                <div className="cninb_mascot"></div>
-                <span className="cninb_text">{i18n.t("directNode")}</span>
-              </div>
-              <div className="cnin_block">
-                <div className="cninb_mascot"></div>
-                <span className="cninb_text">{i18n.t("indirectNode")}</span>
-              </div>
+            <div className="cnin_block">
+              <div className="cninb_mascot"></div>
+              <span className="cninb_text">{i18n.t("indirectNode")}</span>
             </div>
           </div>
-        )}
+        </div>
+      )}
     </ChartNodesWrap>
   );
 };
@@ -141,14 +143,14 @@ const ChartNodesWrap = memo(styled.div`
     height: 50vh;
   }
   @media (max-width: 991px) {
-    ${(props: any) => props.horizontalView ?
-    css`
-        height:100vh;
-      `:
-    css`
-        height:50vh;
-      `
-  }
+    ${(props: any) =>
+      props.horizontalView
+        ? css`
+            height: 100vh;
+          `
+        : css`
+            height: 50vh;
+          `}
     padding: 10px 0;
   }
   #cni {

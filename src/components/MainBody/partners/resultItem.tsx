@@ -3,6 +3,7 @@ import styled, { css } from "styled-components/macro";
 import Colors from "../../../constants/Colors";
 import Texts from "../../../constants/Texts";
 import i18n from "i18n-js";
+import { TronContract } from "../../../contexts/tronWeb";
 interface PartnerItemProps {
   id: number;
   username: string;
@@ -21,6 +22,7 @@ export default ({
   partners,
   lastItem,
 }: PartnerItemProps) => {
+  const { tronWeb } = useContext(TronContract);
   return (
     <PartnerItemWrap lastItem={lastItem}>
       <div className="psl_number">
@@ -30,13 +32,13 @@ export default ({
         <span>{username}</span>
       </div>
       <div className="psl_address">
-        <span>{(window as any).tronWeb.address.fromHex(address)}</span>
+        <span>{tronWeb.address.fromHex(address)}</span>
       </div>
       <div className="psl_level">
         <span>{level}</span>
       </div>
       <div className="psl_sponsor">
-        <span>{(window as any).tronWeb.address.fromHex(sponsor)}</span>
+        <span>{tronWeb.address.fromHex(sponsor)}</span>
       </div>
       {/* <div className="psl_partners">
                 <span>{partners}</span>

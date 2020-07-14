@@ -16,7 +16,7 @@ interface SunUserItemProps {
 }
 export default ({ item, topNode, index }: SunUserItemProps) => {
   const [showChild, setShowChild] = useState(false);
-  const { member, userData } = useContext(TronContract);
+  const { member, userData, tronWeb } = useContext(TronContract);
   const [nodeData, setNodeData] = useState({
     user: {
       parent: "",
@@ -39,7 +39,12 @@ export default ({ item, topNode, index }: SunUserItemProps) => {
   }, []);
 
   return (
-    <SunUserItemWrap showChild={showChild} topNode={topNode} firstChild={index === 0} oneChildLeft={nodeData.user.refs.length === 1}>
+    <SunUserItemWrap
+      showChild={showChild}
+      topNode={topNode}
+      firstChild={index === 0}
+      oneChildLeft={nodeData.user.refs.length === 1}
+    >
       {nodeData.user.parent !== "" && nodeData.user.userId !== "" ? (
         <Fragment>
           <SunUserItemNodeMain
@@ -65,7 +70,7 @@ export default ({ item, topNode, index }: SunUserItemProps) => {
                   {topNode ? item.user.userId : nodeData.user.userId}
                 </span>
                 <span className="sunuser_address">
-                  {topNode ? item.user.parent : (window as any).tronWeb.address.fromHex(item)}
+                  {topNode ? item.user.parent : tronWeb.address.fromHex(item)}
                 </span>
               </div>
             </div>
@@ -73,92 +78,114 @@ export default ({ item, topNode, index }: SunUserItemProps) => {
           {nodeData.user.refs.length > 0 && showChild ? (
             <div className="su_childnodes">
               {nodeData.user.refs.map((data: any, index: number) => {
-                return <SunUserItemChild data={data} key={index} index={index} />;
+                return (
+                  <SunUserItemChild data={data} key={index} index={index} />
+                );
               })}
             </div>
           ) : null}
         </Fragment>
       ) : (
-          <Loading />
-        )}
+        <Loading />
+      )}
     </SunUserItemWrap>
   );
 };
 
 const SunUserItemWrap = memo(styled.div`
-    flex-direction:column;
-    position:relative;
-    margin-bottom:10px;
-    .su_childnodes{
-        flex-direction:column;
-        padding-left:10px;
-        position:relative;
-        &:before{
-          ${(props: any) => !props.topNode && props.showChild && css`content:'';`}
-          position:absolute;
-          width:10px;
-          height:1px;
-          left:-10px;
-          top:-48px;
-          transform: translate(0, -50%);
-          background-color:${Colors.green};
-        }
-        &:after{
-          content:'';
-          position:absolute;
-          width:1px;
-          height:calc(100% - 48px);
-          z-index:2;
-          ${(props: any) => props.showChild ? css`
-            ${(props: any) => props.oneChildLeft ? css`
-                top:30px;
-                width:5px;
-                background-color:${Colors.white};
-              `: css`
-                top:0;
-                left:0;
-                background-color:${Colors.green};
-              `
-            }` 
-            : css`${(props: any) => props.oneChildLeft ? css`
-                  top:39px;
-                  width:5px;
-                  background-color:orange;
-                `: css`
-                    left:0;
-                    top:10px;
-                    background-color:${Colors.orange};
-                  `
-                }
-              `
-          } 
-        }
-    }
-    &:before{
-      ${(props: any) => (!props.topNode && props.showChild && props.firstChild) || (!props.topNode && !props.showChild) ? css`content:'';` : css``}
+  flex-direction: column;
+  position: relative;
+  margin-bottom: 10px;
+  .su_childnodes {
+    flex-direction: column;
+    padding-left: 10px;
+    position: relative;
+    &:before {
+      ${(props: any) =>
+        !props.topNode &&
+        props.showChild &&
+        css`
+          content: "";
+        `}
       position:absolute;
-      width:10px;
-      height:1px;
-      left:-10px;
-      top:50%;
+      width: 10px;
+      height: 1px;
+      left: -10px;
+      top: -48px;
       transform: translate(0, -50%);
-      background-color:${Colors.green};
+      background-color: ${Colors.green};
     }
-    &:after{
-        content:'';
-        position:absolute;
-        width:1px;
-        height:calc(100% - 48px);
-        ${(props: any) => props.showChild ? css`
-            top:0;
-          `: css`
-            top:10px;
-          `
+    &:after {
+      content: "";
+      position: absolute;
+      width: 1px;
+      height: calc(100% - 48px);
+      z-index: 2;
+      ${(props: any) =>
+        props.showChild
+          ? css`
+              ${(props: any) =>
+                props.oneChildLeft
+                  ? css`
+                      top: 30px;
+                      width: 5px;
+                      background-color: ${Colors.white};
+                    `
+                  : css`
+                      top: 0;
+                      left: 0;
+                      background-color: ${Colors.green};
+                    `}
+            `
+          : css`
+              ${(props: any) =>
+                props.oneChildLeft
+                  ? css`
+                      top: 39px;
+                      width: 5px;
+                      background-color: orange;
+                    `
+                  : css`
+                      left: 0;
+                      top: 10px;
+                      background-color: ${Colors.orange};
+                    `}
+            `}
+    }
   }
-        left:0;
-        background-color:${Colors.green};
-    }
-`)
+  &:before {
+    ${(props: any) =>
+      (!props.topNode && props.showChild && props.firstChild) ||
+      (!props.topNode && !props.showChild)
+        ? css`
+            content: "";
+          `
+        : css``}
+    position:absolute;
+    width: 10px;
+    height: 1px;
+    left: -10px;
+    top: 50%;
+    transform: translate(0, -50%);
+    background-color: ${Colors.green};
+  }
+  &:after {
+    content: "";
+    position: absolute;
+    width: 1px;
+    height: calc(100% - 48px);
+    ${(props: any) =>
+      props.showChild
+        ? css`
+            top: 0;
+          `
+        : css`
+            top: 10px;
+          `}
+    left:0;
+    background-color: ${Colors.green};
+  }
+`);
 
 const SunChildNodeImage = memo(styled.img`
   width: 24px;
@@ -183,15 +210,17 @@ const SunUserItemNodeMain = memo(styled.div`
   padding: 10px;
   margin-bottom: 10px;
   border: solid 1px ${Colors.green};
-  ${(props: any) => props.showChild ? css`
-    border-radius: 0px;
-    `: css`
-      border-radius: 10px;
-    `
-  };
+  ${(props: any) =>
+    props.showChild
+      ? css`
+          border-radius: 0px;
+        `
+      : css`
+          border-radius: 10px;
+        `};
   .sunm_info {
     margin-left: 10px;
-    flex:1;
+    flex: 1;
     .sunmi_avt {
       flex-direction: column;
       justify-content: center;

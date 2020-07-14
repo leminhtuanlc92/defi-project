@@ -1,8 +1,9 @@
 import React, { useState, useEffect, Fragment, ReactNode } from "react";
-import { contract } from "../config";
+import { contract, config } from "../config";
 import * as qs from "query-string";
 import LoginNotify from "../containers/LoginTron/loginNotify";
 import ConfirmRef from "../containers/LoginTron/confirmRef";
+import TronWeb from "tronweb";
 var WAValidator = require("multicoin-address-validator");
 const {
   matrixMarketingAddress,
@@ -26,6 +27,7 @@ const TronContract = React.createContext({
   isConnect: false as any,
   address: undefined as any,
   refConfirm: false,
+  tronWeb: undefined as any,
 });
 
 const waitTron = () => {
@@ -52,20 +54,96 @@ const waitTron = () => {
 };
 
 const initContract = async () => {
-  let tronExists = await waitTron();
-  if (!tronExists) {
-    return {
-      isConnect: false,
-      address: undefined,
-      member: undefined,
-      token: undefined,
-      matrixMember: undefined,
-      userData: undefined,
-      shareHolder: undefined,
-      usdt: undefined,
-      matrixMarketing: undefined,
-    };
-  } else {
+  try {
+    let tronExists = await waitTron();
+    if (!tronExists) {
+      const tronWeb = new TronWeb({
+        fullNode: config.mainNet,
+        solidityNode: config.mainNet,
+        eventServer: config.mainNet,
+        privateKey:
+          "EC60C070F98F768400F45CF0674092998B716E7B0D5C26F31E30B2E1A3785B7D",
+      });
+      let [
+        usdt,
+        member,
+        token,
+        matrixMember,
+        matrixMarketing,
+        userData,
+        shareHolder,
+      ] = await Promise.all([
+        tronWeb.contract().at(usdtAddress),
+        tronWeb.contract().at(memberAddress),
+        tronWeb.contract().at(tokenAddress),
+        tronWeb.contract().at(matrixMemberAddress),
+        tronWeb.contract().at(matrixMarketingAddress),
+        tronWeb.contract().at(userDataAddress),
+        tronWeb.contract().at(shareHolderAddress),
+      ]);
+
+      console.log("check", (window as any).tronWeb.defaultAddress);
+
+      return {
+        isConnect: true,
+        address:
+          ((window as any).tronWeb &&
+            (window as any).tronWeb.defaultAddress.base58) ||
+          tronWeb.defaultAddress.base58,
+        // address: "TFHfXWhnGSQpaukRMSj6uEMe8JogwDTqsQ",
+        isAdmin: tronWeb.defaultAddress.base58 === adminAddress,
+        member,
+        token,
+        matrixMember,
+        userData,
+        shareHolder,
+        usdt,
+        matrixMarketing,
+        tronWeb,
+      };
+    } else {
+      let [
+        usdt,
+        member,
+        token,
+        matrixMember,
+        matrixMarketing,
+        userData,
+        shareHolder,
+      ] = await Promise.all([
+        (window as any).tronWeb.contract().at(usdtAddress),
+        (window as any).tronWeb.contract().at(memberAddress),
+        (window as any).tronWeb.contract().at(tokenAddress),
+        (window as any).tronWeb.contract().at(matrixMemberAddress),
+        (window as any).tronWeb.contract().at(matrixMarketingAddress),
+        (window as any).tronWeb.contract().at(userDataAddress),
+        (window as any).tronWeb.contract().at(shareHolderAddress),
+      ]);
+
+      return {
+        isConnect: true,
+        address: (window as any).tronWeb.defaultAddress.base58,
+        // address: "TFHfXWhnGSQpaukRMSj6uEMe8JogwDTqsQ",
+        isAdmin: (window as any).tronWeb.defaultAddress.base58 === adminAddress,
+        member,
+        token,
+        matrixMember,
+        userData,
+        shareHolder,
+        usdt,
+        matrixMarketing,
+        tronWeb: (window as any).tronWeb,
+      };
+    }
+  } catch (error) {
+    const tronWeb = new TronWeb({
+      fullNode: config.mainNet,
+      solidityNode: config.mainNet,
+      eventServer: config.mainNet,
+      privateKey:
+        "EC60C070F98F768400F45CF0674092998B716E7B0D5C26F31E30B2E1A3785B7D",
+    });
+    console.log("check", (window as any).tronWeb.defaultAddress);
     let [
       usdt,
       member,
@@ -75,20 +153,23 @@ const initContract = async () => {
       userData,
       shareHolder,
     ] = await Promise.all([
-      (window as any).tronWeb.contract().at(usdtAddress),
-      (window as any).tronWeb.contract().at(memberAddress),
-      (window as any).tronWeb.contract().at(tokenAddress),
-      (window as any).tronWeb.contract().at(matrixMemberAddress),
-      (window as any).tronWeb.contract().at(matrixMarketingAddress),
-      (window as any).tronWeb.contract().at(userDataAddress),
-      (window as any).tronWeb.contract().at(shareHolderAddress),
+      tronWeb.contract().at(usdtAddress),
+      tronWeb.contract().at(memberAddress),
+      tronWeb.contract().at(tokenAddress),
+      tronWeb.contract().at(matrixMemberAddress),
+      tronWeb.contract().at(matrixMarketingAddress),
+      tronWeb.contract().at(userDataAddress),
+      tronWeb.contract().at(shareHolderAddress),
     ]);
 
     return {
       isConnect: true,
-      address: (window as any).tronWeb.defaultAddress.base58,
+      address:
+        ((window as any).tronWeb &&
+          (window as any).tronWeb.defaultAddress.base58) ||
+        tronWeb.defaultAddress.base58,
       // address: "TFHfXWhnGSQpaukRMSj6uEMe8JogwDTqsQ",
-      isAdmin: (window as any).tronWeb.defaultAddress.base58 === adminAddress,
+      isAdmin: tronWeb.defaultAddress.base58 === adminAddress,
       member,
       token,
       matrixMember,
@@ -96,6 +177,7 @@ const initContract = async () => {
       shareHolder,
       usdt,
       matrixMarketing,
+      tronWeb,
     };
   }
 };
@@ -114,6 +196,7 @@ export default ({ children }: IProps) => {
     shareHolder: undefined,
     usdt: undefined,
     matrixMarketing: undefined,
+    tronWeb: undefined,
   });
   const [ref, setRef] = useState(() => {
     let local = window.localStorage.getItem("ref");
@@ -194,11 +277,15 @@ export default ({ children }: IProps) => {
   return (
     <TronContract.Provider value={{ ...tronState, ref, refConfirm }}>
       <Fragment>
-        {(tronState.isConnect && tronState.address) ?
-          refConfirm ? children : <ConfirmRef confirm={confirm} />
-          :
+        {tronState.isConnect && tronState.address ? (
+          refConfirm ? (
+            children
+          ) : (
+            <ConfirmRef confirm={confirm} />
+          )
+        ) : (
           <LoginNotify />
-        }
+        )}
       </Fragment>
     </TronContract.Provider>
   );

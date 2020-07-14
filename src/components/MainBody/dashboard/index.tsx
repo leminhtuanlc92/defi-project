@@ -20,9 +20,14 @@ export default () => {
   const {
     siteState: { horizontalView },
   } = useContext(SiteContext);
-  const { usdt, address, userData, token, matrixMember } = useContext(
-    TronContract
-  );
+  const {
+    usdt,
+    address,
+    userData,
+    token,
+    matrixMember,
+    matrixMarketing,
+  } = useContext(TronContract);
 
   const [userInfo, setUserInfo] = useState([
     { category: "totalReceive", value: 0 },
@@ -45,14 +50,15 @@ export default () => {
   useEffect(() => {
     const getData = async () => {
       //TODO get Data
-      const [data, tokenBalance] = await Promise.all([
+      const [data, tokenBalance, totalReceived] = await Promise.all([
         userData.users(address).call(),
         token.balanceOf(address).call(),
+        matrixMarketing.totalReceived(address).call(),
       ]);
       setUserInfo([
         {
-          category: "totalBalance",
-          value: Math.floor(Number(data.balances) / 10 ** 6),
+          category: "totalReceive",
+          value: Math.floor(Number(totalReceived) / 10 ** 6),
         },
         {
           category: "stockRightBalance",

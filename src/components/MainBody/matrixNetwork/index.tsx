@@ -9,7 +9,7 @@ import MatchPendingUser from "./matchPendingUser";
 import { TronContract } from "../../../contexts/tronWeb";
 export default () => {
   const [isActive, setIsActive] = useState(false);
-  const { address, matrixMember } = useContext(TronContract);
+  const { address, matrixMember, tronWeb } = useContext(TronContract);
   useEffect(() => {
     matrixMember
       .isActiveMatrix(address)
@@ -25,7 +25,7 @@ export default () => {
         .getNode(address)
         .call()
         .then((node) => {
-          setSponsor((window as any).tronWeb.address.fromHex(node.sponsor));
+          setSponsor(tronWeb.address.fromHex(node.sponsor));
         });
     }
   }, [isActive]);
@@ -34,15 +34,15 @@ export default () => {
       <span id="matrixnetwork_main_title">{i18n.t("matrixNetwork")}</span>
       <div id="matrixnetwork_mainbody">
         {/* {isActive || address === contract.adminAddress ? ( */}
-          <Fragment>
-            <div id="mtnmb_left">
-              <ChartNodes />
-              <MatchPendingUser />
-            </div>
-            <div id="mtnmb_right">
-              <SearchNodes />
-            </div>
-          </Fragment>
+        <Fragment>
+          <div id="mtnmb_left">
+            <ChartNodes />
+            <MatchPendingUser />
+          </div>
+          <div id="mtnmb_right">
+            <SearchNodes />
+          </div>
+        </Fragment>
         {/* ) : (
           <NotActive sponsor={sponsor} />
         )} */}
@@ -86,7 +86,7 @@ const MatrixNetworkWrap = memo(styled.div`
       justify-content: space-around;
       align-items: center;
       padding: 15px;
-      width:calc(100% - 30px);
+      width: calc(100% - 30px);
       #mtnmb_notlog_left {
         flex: 0.4;
         flex-direction: column;

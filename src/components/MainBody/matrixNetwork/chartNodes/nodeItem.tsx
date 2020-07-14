@@ -20,7 +20,9 @@ export default ({
   name,
   getNode,
 }: NodeItemProps) => {
-  const { member, userData, matrixMember, address } = useContext(TronContract);
+  const { member, userData, matrixMember, address, tronWeb } = useContext(
+    TronContract
+  );
   const [curretnNodeData, setCurretnNodeData] = useState({
     address: "",
     level: 0,
@@ -37,7 +39,7 @@ export default ({
       ]);
       // console.log("check", address, _startUser, isParent);
       setCurretnNodeData({
-        address: (window as any).tronWeb.address.fromHex(result.parent),
+        address: tronWeb.address.fromHex(result.parent),
         level: Number(level),
         name: name.username,
         direct: isParent,

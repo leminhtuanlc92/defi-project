@@ -9,7 +9,9 @@ import MergePop from "../mergePop";
 import WAValidator from "multicoin-address-validator";
 import Loading from "../../../common/loading";
 export default () => {
-  const { matrixMember, address, member, userData } = useContext(TronContract);
+  const { matrixMember, address, member, userData, tronWeb } = useContext(
+    TronContract
+  );
   const [listUser, setUserList] = useState([] as any);
   const [selectPending, setSelectPending] = useState({ title: "", value: "" });
   const [userInput, setUserInput] = useState("");
@@ -19,7 +21,7 @@ export default () => {
     address: "",
     level: "",
   });
-  const [showPop, setShowPop] = useState({ result: '', show: true });
+  const [showPop, setShowPop] = useState({ result: "", show: true });
   const [validAddress, setValidAddress] = useState(false);
   const validate = (value) => {
     let valid = WAValidator.validate(value, "trx");
@@ -50,10 +52,10 @@ export default () => {
       let username = await member.getUsername(result[i]).call();
       users.push({
         title: username,
-        value: (window as any).tronWeb.address.fromHex(result[i]),
+        value: tronWeb.address.fromHex(result[i]),
       });
     }
-    console.log('setUserList', users)
+    console.log("setUserList", users);
     setUserList(users);
   };
   const mergeNode = async (empty: any, pendingUser: any) => {
@@ -65,10 +67,10 @@ export default () => {
         shouldPollResponse: true,
       });
       setLoading(false);
-      setShowPop({ result: 'success', show: true });
+      setShowPop({ result: "success", show: true });
     } catch (error) {
       console.log(error);
-      setShowPop({ result: 'fail', show: true });
+      setShowPop({ result: "fail", show: true });
       setLoading(false);
     }
   };
@@ -146,11 +148,11 @@ export default () => {
           {loading ? (
             <Loading color={Colors.white} size={15} />
           ) : (
-              i18n.t("match")
-            )}
+            i18n.t("match")
+          )}
         </button>
       </div>
-      {showPop.show && showPop.result !== '' ? (
+      {showPop.show && showPop.result !== "" ? (
         <MergePop setShowPop={setShowPop} type={showPop.result} />
       ) : null}
     </MatchPendingUserWrap>
@@ -202,20 +204,18 @@ const MatchPendingUserWrap = memo(styled.div`
           input {
             flex: 1;
             padding: 0 10px;
-            ${(props: any) =>props.userInput === ""? 
-                css`
-                  border: solid 1px ${Colors.black};
-                `
-                : 
-                props.validAddress? 
-                  css`
+            ${(props: any) =>
+              props.userInput === ""
+                ? css`
                     border: solid 1px ${Colors.black};
                   `
-                  : 
-                  css`
-                    border: solid 1px ${Colors.red};
+                : props.validAddress
+                ? css`
+                    border: solid 1px ${Colors.black};
                   `
-            }
+                : css`
+                    border: solid 1px ${Colors.red};
+                  `}
             border-top-left-radius: 5px;
             border-bottom-left-radius: 5px;
             border-right: none;
@@ -225,7 +225,7 @@ const MatchPendingUserWrap = memo(styled.div`
           padding: 10px 20px;
           border-top-left-radius: 0px;
           border-bottom-left-radius: 0px;
-          @media (max-width:399px){
+          @media (max-width: 399px) {
             padding: 10px;
           }
         }

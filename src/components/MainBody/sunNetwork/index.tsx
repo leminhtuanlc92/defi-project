@@ -4,10 +4,10 @@ import Colors from "../../../constants/Colors";
 import Texts from "../../../constants/Texts";
 import i18n from "i18n-js";
 import SunUserItem from "./sunUserItem";
-import Loading from '../../common/loading'
+import Loading from "../../common/loading";
 import { TronContract } from "../../../contexts/tronWeb";
 export default () => {
-  const { member, userData, address } = useContext(TronContract);
+  const { member, userData, address, tronWeb } = useContext(TronContract);
   const [isMember, setIsMember] = useState(false);
   useEffect(() => {
     member
@@ -33,9 +33,7 @@ export default () => {
     setNodeData({
       user: {
         parent: address,
-        refs: user.refs.map((item) =>
-          (window as any).tronWeb.address.fromHex(item)
-        ),
+        refs: user.refs.map((item) => tronWeb.address.fromHex(item)),
         userId: user.userId,
       },
       level: Number(level),
@@ -49,7 +47,7 @@ export default () => {
       <span id="sunnetwork_main_title">{i18n.t("sunNetwork")}</span>
       <div id="sunnetwork_mainbody">
         {isMember && nodeData.user.parent !== "" ? (
-          <SunUserItem item={nodeData} topNode={true} index={0}/>
+          <SunUserItem item={nodeData} topNode={true} index={0} />
         ) : (
           <span id="snmb_nodata">{i18n.t("noData")}</span>
         )}
@@ -75,13 +73,13 @@ const SunNetworkWrap = memo(styled.div`
     flex: 1;
     padding: 15px;
     border-radius: 10px;
-    #snmb_nodata{
+    #snmb_nodata {
       font-size: ${Texts.size.large};
       line-height: ${Texts.size.large};
       color: ${Colors.black};
-      margin-top:10px;
-      width:100%;
-      text-align:center;
+      margin-top: 10px;
+      width: 100%;
+      text-align: center;
     }
   }
 `);
