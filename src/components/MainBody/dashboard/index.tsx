@@ -121,7 +121,7 @@ export default () => {
   const approveUSDT = async () => {
     setLoading(true);
     try {
-      await usdt.approve(contract.matrixMarketingAddress, 10 ** 15).send({
+      await usdt.approve(contract.fundAddress, 10 ** 15).send({
         callValue: 0,
         feeLimit: 1e7,
         shouldPollResponse: false,
