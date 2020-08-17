@@ -22,7 +22,7 @@ const contract = {
   memberAddress: "TNDGkMzv7GsUS5jUFRMwnN6Z9hvTHj3ZPK",
   shareHolderAddress: "TJouzaZuJFsomjkFy21ZE1zLaJsDffEp9Q",
   matrixMemberAddress: "TWRX8YGZmM7FifASsgwV9KTwaaMvtX1EFD",
-  matrixMarketingAddress: "TLBtCWGzACSv4PF88tXgkoVuxSDjFgUcWc",
+  matrixMarketingAddress: "TCwdL8fxcnFWP5qQxJFt73Jt8k72QY37sL",
   fundAddress: "TVz5DomRgT4o6tewNWjJWUynSQirLfG7Km",
 };
 export { config, contract };
