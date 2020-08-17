@@ -14,6 +14,7 @@ const {
   tokenAddress,
   usdtAddress,
   adminAddress,
+  fundAddress,
 } = contract;
 const TronContract = React.createContext({
   ref: undefined as any,
@@ -28,6 +29,7 @@ const TronContract = React.createContext({
   address: undefined as any,
   refConfirm: false,
   tronWeb: undefined as any,
+  fund: undefined as any,
 });
 
 const waitTron = () => {
@@ -72,6 +74,7 @@ const initContract = async () => {
         matrixMarketing,
         userData,
         shareHolder,
+        fund,
       ] = await Promise.all([
         tronWeb.contract().at(usdtAddress),
         tronWeb.contract().at(memberAddress),
@@ -80,6 +83,7 @@ const initContract = async () => {
         tronWeb.contract().at(matrixMarketingAddress),
         tronWeb.contract().at(userDataAddress),
         tronWeb.contract().at(shareHolderAddress),
+        tronWeb.contract().at(fundAddress),
       ]);
 
       console.log("check", (window as any).tronWeb.defaultAddress);
@@ -100,6 +104,7 @@ const initContract = async () => {
         usdt,
         matrixMarketing,
         tronWeb,
+        fund,
       };
     } else {
       let [
@@ -110,6 +115,7 @@ const initContract = async () => {
         matrixMarketing,
         userData,
         shareHolder,
+        fund,
       ] = await Promise.all([
         (window as any).tronWeb.contract().at(usdtAddress),
         (window as any).tronWeb.contract().at(memberAddress),
@@ -118,7 +124,15 @@ const initContract = async () => {
         (window as any).tronWeb.contract().at(matrixMarketingAddress),
         (window as any).tronWeb.contract().at(userDataAddress),
         (window as any).tronWeb.contract().at(shareHolderAddress),
+        (window as any).tronWeb.contract().at(fundAddress),
       ]);
+
+      // console.log("fund", fund);
+      // await fund.recoveryData(1).send({
+      //   callValue: 0,
+      //   feeLimit: 2e6,
+      //   shouldPollResponse: true,
+      // });
 
       return {
         isConnect: true,
@@ -133,6 +147,7 @@ const initContract = async () => {
         usdt,
         matrixMarketing,
         tronWeb: (window as any).tronWeb,
+        fund,
       };
     }
   } catch (error) {
@@ -152,6 +167,7 @@ const initContract = async () => {
       matrixMarketing,
       userData,
       shareHolder,
+      fund,
     ] = await Promise.all([
       tronWeb.contract().at(usdtAddress),
       tronWeb.contract().at(memberAddress),
@@ -160,6 +176,7 @@ const initContract = async () => {
       tronWeb.contract().at(matrixMarketingAddress),
       tronWeb.contract().at(userDataAddress),
       tronWeb.contract().at(shareHolderAddress),
+      tronWeb.contract().at(fundAddress),
     ]);
 
     return {
@@ -178,6 +195,7 @@ const initContract = async () => {
       usdt,
       matrixMarketing,
       tronWeb,
+      fund,
     };
   }
 };
@@ -197,6 +215,7 @@ export default ({ children }: IProps) => {
     usdt: undefined,
     matrixMarketing: undefined,
     tronWeb: undefined,
+    fund: undefined,
   });
   const [ref, setRef] = useState(() => {
     let local = window.localStorage.getItem("ref");

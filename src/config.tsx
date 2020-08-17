@@ -20,8 +20,9 @@ const contract = {
   usdtAddress: "TR7NHqjeKQxGTCi8q8ZY4pL8otSzgjLj6t",
   userDataAddress: "TRxz3Ry8kD8yHuRj68u1J42MPvRMJQ5Nsn",
   memberAddress: "TNDGkMzv7GsUS5jUFRMwnN6Z9hvTHj3ZPK",
-  shareHolderAddress: "TAQqEb5BpPYpe8PbxiYN6HN9jk5RrGaWV6",
+  shareHolderAddress: "TJouzaZuJFsomjkFy21ZE1zLaJsDffEp9Q",
   matrixMemberAddress: "TWRX8YGZmM7FifASsgwV9KTwaaMvtX1EFD",
   matrixMarketingAddress: "TLBtCWGzACSv4PF88tXgkoVuxSDjFgUcWc",
+  fundAddress: "TVz5DomRgT4o6tewNWjJWUynSQirLfG7Km",
 };
 export { config, contract };

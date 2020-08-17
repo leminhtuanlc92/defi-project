@@ -27,6 +27,7 @@ export default () => {
     token,
     matrixMember,
     matrixMarketing,
+    fund,
   } = useContext(TronContract);
 
   const [userInfo, setUserInfo] = useState([
@@ -53,7 +54,7 @@ export default () => {
       const [data, tokenBalance, totalReceived] = await Promise.all([
         userData.users(address).call(),
         token.balanceOf(address).call(),
-        matrixMarketing.totalReceived(address).call(),
+        fund.totalReceived(address).call(),
       ]);
       setUserInfo([
         {
