@@ -94,7 +94,7 @@
   "prelisting": "Pre-Listing",
   "listing": "Listing",
   "DFC": "DFC",
-  "DFCRound":"Round Cap",
+  "DFCRound": "Round Cap",
   "DFCsold": "Sold",
   "DFCavailable": "Avaiable",
   "DFCbonus": "Bonus",
@@ -139,5 +139,18 @@
   "REVERT opcode executed": "REVERT opcode executed",
   "Confirmation declined by user": "Confirmation declined by user",
   "whitepaper": "Whitepaper",
-  "slide": "Document"
+  "slide": "Document",
+  "staking": "Staking",
+  "interest": "Interest",
+  "totalStaking": "Total staking",
+  "earned": "Earned",
+  "priceLumi": "Price LUMI",
+  "maxPayout": "Max payout",
+  "feeSwap": "Fee swap",
+  "lumiBalance": "LUMI balance",
+  "currentPayout": "Current payout",
+  "minimumAmount10k": "Minimum amount is 10000",
+  "invalidInput": "Invalid input",
+  "swap": "Swap",
+  "amountExceededBalance": "Amount input exceeded current available balance"
 }

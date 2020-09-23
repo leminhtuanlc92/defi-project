@@ -40,12 +40,12 @@ export default () => {
       img: require("../../assets/images/ic-partner.svg"),
       imgActive: require("../../assets/images/ic-partner-active.svg"),
     },
-    // {
-    //   name: "transactionHistory",
-    //   url: "/transaction-history",
-    //   img: require("../../assets/images/ic-ds-giaodich.svg"),
-    //   imgActive: require("../../assets/images/ic-ds-giaodich-active.svg"),
-    // },
+    {
+      name: "staking",
+      url: "/staking",
+      img: require("../../assets/images/ic-dashboard.svg"),
+      imgActive: require("../../assets/images/ic-dashboard-active.svg"),
+    },
     {
       name: "buyDfc",
       url: "/buy-dfc",

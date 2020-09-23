@@ -21,6 +21,7 @@ const Partners = lazy(() => import("../src/containers/partners"));
 const Transactions = lazy(() => import("../src/containers/transactionHistory"));
 const BuyDFC = lazy(() => import("../src/containers/buyDFC"));
 const Instruction = lazy(() => import("../src/containers/dashboard"));
+const Staking = lazy(() => import("../src/containers/staking"));
 
 export default ({ setUpdate }) => {
   const { usdt, address, member } = useContext(TronContract);
@@ -93,6 +94,7 @@ export default ({ setUpdate }) => {
           <Route path="/partners" component={Partners} />
           <Route path="/transaction-history" component={Transactions} />
           <Route path="/buy-dfc" component={BuyDFC} />
+          <Route path="/staking" component={Staking} />
           {/* <Route path="/instructions" component={Instruction} /> */}
         </Switch>
       </Suspense>

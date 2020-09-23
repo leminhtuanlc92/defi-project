@@ -214,7 +214,7 @@ const MainBody = memo(styled.div`
         overflow:hidden;
         flex:1;
         flex-grow:12;
-        min-height:95%;
+        height:calc(100% - 40px - 1rem);
         @media (max-width:991px){
           display:block;
           height:auto;
