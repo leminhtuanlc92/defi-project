@@ -217,6 +217,12 @@ const DashboardWrap = memo(styled.div`
   width: 100%;
   flex-direction: column;
   overflow-y: scroll;
+  padding:2rem;
+  background:${Colors.white};
+  border-radius:10px;
+  @media (max-width:991px){
+    padding:1rem;
+  }
   #db_personal_info_panel {
     flex-direction: column;
     width: 100%;

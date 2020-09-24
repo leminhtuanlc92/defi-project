@@ -3,6 +3,13 @@ import styled, { css } from "styled-components/macro";
 import Colors from "../../../constants/Colors";
 import Texts from "../../../constants/Texts";
 import i18n from "i18n-js";
+const imgs = {
+  totalReceive: require('assets/images/coins.svg'),
+  stockRightBalance: require('assets/images/money-coin.svg'),
+  fine: require('assets/images/moneys.svg'),
+  level: require('assets/images/badge.svg'),
+  shareHolding: require('assets/images/ticket.svg'),
+}
 interface InfoBlockProps {
   item: Item;
   length: number;
@@ -15,6 +22,9 @@ export default ({ item, length }: InfoBlockProps) => {
   return (
     <InfoBlock length={length}>
       <div id="inner-content-info">
+        <div className="ici_icon">
+          <img src={imgs[item.category]} alt="" />
+        </div>
         <div id="inner-info-wrap">
           <span id="info-content-title">{i18n.t(item.category)}</span>
           <span id="info-content-value">
@@ -33,16 +43,29 @@ const InfoBlock = memo(styled.div`
   align-items: center;
   justify-content: space-between;
   border-radius: 10px;
-  background-color: ${Colors.white};
-  box-shadow: 0 4px 6px 1px rgba(78, 78, 78, 0.16);
+  background-color: ${Colors.orange5};
+  border:solid 1px #EF89404D;
   position: relative;
-  width: 18%;
+  width: 18.5%;
   #inner-content-info {
-    width: 100%;
+    padding:1rem;
+    width: calc(100% - 2rem);
+    .ici_icon{
+        width:46px;
+        height:46px;
+        display:flex;
+        align-items:center;
+        justify-content:center;
+        background-color:${Colors.white};
+        border:solid 1px ${Colors.orange6};
+        border-radius:5px;
+        img{
+            width:30px;
+        }
+    }
     #inner-info-wrap {
-      flex: 1;
       flex-direction: column;
-      padding: 15px;
+      padding: 0 0 0 1rem;
       #info-content-title {
         font-size: ${Texts.size.large};
         line-height: ${Texts.size.huge};
@@ -57,7 +80,7 @@ const InfoBlock = memo(styled.div`
         font-size: ${Texts.size.gigantic};
         line-height: ${Texts.size.gigantic};
         color: #ed8c47;
-        text-align: center;
+        text-align: left;
         font-weight: 700;
         max-width: 100%;
         overflow: hidden;
@@ -69,7 +92,7 @@ const InfoBlock = memo(styled.div`
       }
     }
   }
-  @media (max-width: 991px) {
+  @media (max-width: 1360px) {
     width: 48%;
     margin-bottom: 20px;
     &:last-child {

@@ -17,6 +17,8 @@ export default {
     'orange2': '#F5AB76',
     'orange3': '#FFDEC6',
     'orange4': '#F8BA8E',
+    'orange5':'#FEF9F3',
+    'orange6':'#FFEEE2',
     'red': '#F04444',
     'red1': '#FF6E6E',
     'red2': '#F58484',
@@ -34,5 +36,6 @@ export default {
     'black7': '#AFAFAF',
     'black8': '#525252',
     'black9': '#707070',
+    'black10': "#141414",
     'mainbodyBg': '#F4F5F9',
 }

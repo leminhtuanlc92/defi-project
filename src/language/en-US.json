@@ -152,5 +152,6 @@
   "minimumAmount10k": "Minimum amount is 10000",
   "invalidInput": "Invalid input",
   "swap": "Swap",
-  "amountExceededBalance": "Amount input exceeded current available balance"
+  "amountExceededBalance": "Amount input exceeded current available balance",
+  "inputStakeAmount": "Input stake amount"
 }

@@ -17,10 +17,11 @@ interface SwapBlockProps {
 }
 export default ({ value, setAmountSwap, type, balance, errorInput, setErrorInput }: SwapBlockProps) => {
     return (
-        <SwapBlockWrap>
+        <SwapBlockWrap trx={type === 'trx'}>
             <div className="sb">
                 <div className="sb_logo">
                     <img src={coinImg[type]} alt="" />
+                    <span>{type.toUpperCase()}</span>
                 </div>
                 <div className="sb_input">
                     <input
@@ -53,30 +54,42 @@ export default ({ value, setAmountSwap, type, balance, errorInput, setErrorInput
 const SwapBlockWrap = memo(styled.div`
     width:40%;
     display:block;
+    @media (max-width:500px){
+        width:100%;
+    }
     .sb{
-        display:block;
         text-align:center;
+        border: solid 1px ${Colors.black9};
+        border-radius:5px;
         .sb_logo{
-            margin-bottom:1rem;
-            display:block;
-            text-align:center;
+            background:${Colors.mainbodyBg};
+            align-items:center;
+            justify-content:center;
+            width:40%;
+            border-top-left-radius:5px;
+            border-bottom-left-radius:5px;
+            span{
+                color:${Colors.black10};
+            }
             img{
-                width:40px;
-                height:40px;
+                width:20px;
+                height:20px;
+                margin-right:1rem;
             }
         }
         .sb_input{
             display:block;
             text-align:center;
+            width:60%;
+            border-top-right-radius:5px;
+            border-bottom-right-radius:5px;
             input {
                 padding: 0 10px;
                 height:37px;
                 width:calc(100% - 20px);
                 border-radius: 5px;
-                border: solid 1px ${Colors.black9};
-                @media (min-width:992px){
-                    min-width:200px;
-                }
+                border: none;
+                cursor:${(props: any) => props.trx ? 'default' : 'text'};
                 &::placeholder {
                     color: ${Colors.black3};
                     font-style: italic;

@@ -6,7 +6,7 @@ import Texts from 'constants/Texts'
 import SwapBlock from 'components/MainBody/staking/swapBlock'
 import BigNumber from 'bignumber.js'
 import Loading from 'components/common/loading'
-const exchangeImg = require('assets/images/up-arrow.svg')
+const exchangeImg = require('assets/images/right-arrow.svg')
 interface SwapProps {
     priceLumi: number;
     lumiBalance: number;
@@ -31,6 +31,7 @@ export default ({ priceLumi, lumiBalance }: SwapProps) => {
                         setErrorInput={setErrorInput}
                     />
                     <div className="mbsi_icon">
+                        <span>3%</span>
                         <img src={exchangeImg} alt="" />
                     </div>
                     <SwapBlock
@@ -38,22 +39,22 @@ export default ({ priceLumi, lumiBalance }: SwapProps) => {
                         type="trx"
                         balance={lumiBalance}
                     />
+                    <div className="mbs_btn">
+                        <button onClick={() => handleSwap()}
+                            disabled={loading || errorInput !== '' || amountSwap <= 0}
+                        >
+                            {loading ?
+                                <Loading size={20} color={Colors.white} />
+                                :
+                                <span>{i18n.t('swap')}</span>
+                            }
+                        </button>
+                    </div>
                 </div>
                 <div className="swap_error">
                     {errorInput !== '' ?
                         <span>{i18n.t(errorInput)}</span>
                         : null}
-                </div>
-                <div className="mbs_btn">
-                    <button onClick={() => handleSwap()}
-                        disabled={loading || errorInput !== '' || amountSwap <= 0}
-                    >
-                        {loading ?
-                            <Loading size={20} color={Colors.white} />
-                            :
-                            <span>{i18n.t('swap')}</span>
-                        }
-                    </button>
                 </div>
             </div>
         </SwapWrap>
@@ -61,10 +62,8 @@ export default ({ priceLumi, lumiBalance }: SwapProps) => {
 }
 
 const SwapWrap = memo(styled.div`
-    width:50%;
-    @media (max-width:991px){
-        width:100%;
-    }
+    display:block;
+    margin:0 auto;
     .s_inner{
         display:block;
         width:100%;
@@ -75,57 +74,98 @@ const SwapWrap = memo(styled.div`
             margin-bottom: 1rem;
             font-weight: 500;
             display:block;
+            text-align:left;
         }
         .mbs_input{
             align-items:center;
             justify-content:space-between;
+            width: 80%;
+            margin: 0 auto;
+            @media (min-width:1600px){
+                width:70%;
+            }
+            @media (max-width:767px){
+                width:100%;
+            }
+            @media (max-width:500px){
+                display:block;
+            }
             .mbsi_icon{
+                flex-direction:column;
+                align-items:center;
+                justify-content:center;
+                margin:0 2rem;
+                @media (max-width:767px){
+                    margin:0 1rem;
+                }
+                @media (max-width:500px){
+                    flex-direction: row-reverse;
+                    margin:1rem 0;
+                }
+                span{
+                    color:${Colors.black};
+                }
                 img{
                     width:35px;
                     height:35px;
-                    transform:rotate(90deg);
                     @media (max-width:767px){
                         width:20px;
                         height:20px;
+                    }
+                    @media (max-width:500px){
+                        transform:rotate(90deg);
+                        margin-right:0.5rem;
+                    }
+                }
+            }
+            .mbs_btn{
+                margin-left:2rem;
+                @media (max-width:767px){
+                    margin-left:1rem;
+                }
+                @media (max-width:500px){
+                    margin:1rem 0 0 0;
+                }
+                button{
+                    border-radius: 5px;
+                    background-color: ${Colors.orange};
+                    box-shadow: none;
+                    color: ${Colors.white};
+                    font-size: ${Texts.size.large};
+                    min-width:100px;
+                    height:37px;
+                    display: flex;
+                    justify-content: center;
+                    align-items:center;
+                    border:none;
+                    @media (max-width:500px){
+                        margin:0 auto;
+                    }
+                    &:hover {
+                        background-color: ${Colors.orange1};
+                        box-shadow: 0 3px 6px 1px rgba(255, 159, 91, 0.2);
+                    }
+                    &:disabled {
+                        background-color: ${Colors.orange2};
+                        color: ${Colors.orange3};
+                        box-shadow: none;
+                        cursor: not-allowed;
                     }
                 }
             }
         }
         .swap_error{
             height:20px;
-            width:100%;
+            width:80%;
+            margin:0 auto;
             line-height:20px;
+            @media (max-width:500px){
+                height:auto;
+                margin: 1rem auto 0;
+            }
             span{
                 font-size:0.8rem;
                 color:${Colors.red};
-            }
-        }
-        .mbs_btn{
-            margin-top:1rem;
-            /* align-items:center;
-            justify-content:center; */
-            button{
-                border-radius: 5px;
-                background-color: ${Colors.orange};
-                box-shadow: none;
-                color: ${Colors.white};
-                font-size: ${Texts.size.large};
-                min-width:100px;
-                height:37px;
-                display: flex;
-                justify-content: center;
-                align-items:center;
-                border:none;
-                &:hover {
-                    background-color: ${Colors.orange1};
-                    box-shadow: 0 3px 6px 1px rgba(255, 159, 91, 0.2);
-                }
-                &:disabled {
-                    background-color: ${Colors.orange2};
-                    color: ${Colors.orange3};
-                    box-shadow: none;
-                    cursor: not-allowed;
-                }
             }
         }
     }
