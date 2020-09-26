@@ -8,11 +8,13 @@ import Regex from "constants/Regex";
 import Loading from "components/common/loading";
 import Swap from "components/MainBody/staking/swap";
 import { TronContract } from "contexts/tronWeb";
+import * as Config from "config";
 const interestImg = require("assets/images/high.svg");
 export default ({ contract }) => {
-  const { address } = useContext(TronContract);
+  const { address, ref, tronWeb } = useContext(TronContract);
   const [amountStake, setAmountStake] = useState(0);
   const [loading, setLoading] = useState(false);
+  const [approve, setApprove] = useState(false)
   const [stats, setStats] = useState([
     { title: "totalStaking", value: 0 },
     { title: "earned", value: 0 },
@@ -23,6 +25,16 @@ export default ({ contract }) => {
     { title: "currentPayout", value: 0 },
   ]);
   const [errorInput, setErrorInput] = useState("");
+
+  useEffect(() => {
+    if (contract.lumi) {
+      contract.lumi.allowance(address, Config.contract.stakingAddress).call().then((allow) => {
+        if (Number(allow.remaining) > 10 ** 10) {
+          setApprove(true);
+        }
+      });
+    }
+  }, [contract])
   useEffect(() => {
     if (contract.staking) {
       getInfomation();
@@ -56,10 +68,42 @@ export default ({ contract }) => {
     ]);
   };
   const handleStake = async () => {
-    console.log("stake", amountStake);
+    //TODO Loading
+    try {
+      contract.staking.stake(ref || Config.contract.adminAddress).send({
+        callValue: Math.round(amountStake * 10 ** 6),
+        feeLimit: 1e7,
+        shouldPollResponse: true,
+      })
+    } catch (error) {
+
+    }
   };
   const handleSwap = async (amount) => {
-    console.log("swap", amount);
+    //TODO Loading
+    if (approve) {
+      await contract.staking.swapLumi(Math.round(amount * 10 ** 6)).send({
+        callValue: 0,
+        feeLimit: 1e7,
+        shouldPollResponse: true,
+      });
+      setLoading(false)
+    } else {
+      await contract.lumi
+        .approve(Config.contract.stakingAddress, tronWeb.fromDecimal(10 ** 25))
+        .send({
+          callValue: 0,
+          feeLimit: 1e7,
+          shouldPollResponse: true,
+        });
+      setApprove(true);
+      await contract.staking.swapLumi(Math.round(amount * 10 ** 6)).send({
+        callValue: 0,
+        feeLimit: 1e7,
+        shouldPollResponse: true,
+      });
+      setLoading(false)
+    }
   };
   return (
     <StakingWrap>
@@ -87,9 +131,8 @@ export default ({ contract }) => {
                 }}
               />
               <div
-                className={`mbi_interest ${
-                  amountStake < 10000 ? "unavailable" : ""
-                }`}
+                className={`mbi_interest ${amountStake < 10000 ? "unavailable" : ""
+                  }`}
                 title={i18n.t("interest")}
               >
                 <img src={interestImg} alt="" />
@@ -97,17 +140,17 @@ export default ({ contract }) => {
                   {amountStake + stats[0].value >= 500000
                     ? "12%"
                     : amountStake + stats[0].value >= 100000
-                    ? "10%"
-                    : amountStake >= 10000
-                    ? "8%"
-                    : "0%"}
+                      ? "10%"
+                      : amountStake >= 10000
+                        ? "8%"
+                        : "0%"}
                 </span>
               </div>
               <div className="mbi_error">
                 {errorInput === "minimumAmount10k" ||
-                errorInput === "invalidInput" ? (
-                  <span>{i18n.t(errorInput)}</span>
-                ) : null}
+                  errorInput === "invalidInput" ? (
+                    <span>{i18n.t(errorInput)}</span>
+                  ) : null}
               </div>
             </div>
             <button
@@ -117,8 +160,8 @@ export default ({ contract }) => {
               {loading ? (
                 <Loading size={20} color={Colors.white} />
               ) : (
-                <span>{i18n.t("staking")}</span>
-              )}
+                  <span>{i18n.t("staking")}</span>
+                )}
             </button>
           </div>
         </div>
