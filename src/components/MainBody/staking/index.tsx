@@ -72,18 +72,17 @@ export default ({ contract }) => {
   const handleStake = async () => {
     setStakeLoading(true)
     try {
-      contract.staking.stake(ref || Config.contract.adminAddress).send({
+      let result = await contract.staking.stake(ref || Config.contract.adminAddress).send({
         callValue: Math.round(amountStake * 10 ** 6),
         feeLimit: 1e7,
         shouldPollResponse: true,
       })
-      setStakeLoading(false)
+      result && setStakeLoading(false)
     } catch (error) {
       console.log('error', error)
-      setStakeLoading(false)
       Swal.fire({
         title: i18n.t('error'),
-        text: error,
+        text: error.message ? error.message : error,
         icon: 'warning',
         confirmButtonText: 'ok'
       })
@@ -133,10 +132,9 @@ export default ({ contract }) => {
       }
     } catch (error) {
       console.log('error', error)
-      setLoading(false)
       Swal.fire({
         title: i18n.t('error'),
-        text: error,
+        text: error.message ? error.message : error,
         icon: 'warning',
         confirmButtonText: 'ok'
       })

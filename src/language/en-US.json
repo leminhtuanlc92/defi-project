@@ -154,5 +154,6 @@
   "swap": "Swap",
   "amountExceededBalance": "Amount input exceeded current available balance",
   "inputStakeAmount": "Input stake amount",
-  "processing": "Processing"
+  "processing": "Processing",
+  "error": "Error"
 }
