@@ -9,13 +9,13 @@ import Loading from "components/common/loading";
 import Swap from "components/MainBody/staking/swap";
 import { TronContract } from "contexts/tronWeb";
 import * as Config from "config";
-import Swal from 'sweetalert2'
+import Swal from "sweetalert2";
 const interestImg = require("assets/images/high.svg");
 export default ({ contract }) => {
   const { address, ref, tronWeb } = useContext(TronContract);
   const [amountStake, setAmountStake] = useState(0);
   const [loading, setLoading] = useState(false);
-  const [approve, setApprove] = useState(false)
+  const [approve, setApprove] = useState(false);
   const [stats, setStats] = useState([
     { title: "totalStaking", value: 0 },
     { title: "earned", value: 0 },
@@ -29,13 +29,16 @@ export default ({ contract }) => {
 
   useEffect(() => {
     if (contract.lumi) {
-      contract.lumi.allowance(address, Config.contract.stakingAddress).call().then((allow) => {
-        if (Number(allow.remaining) > 10 ** 10) {
-          setApprove(true);
-        }
-      });
+      contract.lumi
+        .allowance(address, Config.contract.stakingAddress)
+        .call()
+        .then((allow) => {
+          if (Number(allow.remaining) > 10 ** 10) {
+            setApprove(true);
+          }
+        });
     }
-  }, [contract])
+  }, [contract]);
   useEffect(() => {
     if (contract.staking) {
       getInfomation();
@@ -68,44 +71,45 @@ export default ({ contract }) => {
       { title: "currentPayout", value: Number(info.paid) / 10 ** 6 },
     ]);
   };
-  const [stakeLoading, setStakeLoading] = useState(false)
+  const [stakeLoading, setStakeLoading] = useState(false);
   const handleStake = async () => {
-    setStakeLoading(true)
+    setStakeLoading(true);
     try {
-      let result = await contract.staking.stake(ref || Config.contract.adminAddress).send({
-        callValue: Math.round(amountStake * 10 ** 6),
-        feeLimit: 1e7,
-        shouldPollResponse: true,
-      })
-      result && setStakeLoading(false)
+      let result = await contract.staking
+        .stake(ref || Config.contract.adminAddress)
+        .send({
+          callValue: Math.round(amountStake * 10 ** 6),
+          feeLimit: 1e7,
+          shouldPollResponse: true,
+        });
+      result && setStakeLoading(false);
     } catch (error) {
-      console.log('error', error)
+      console.log("error", error);
       Swal.fire({
-        title: i18n.t('error'),
+        title: i18n.t("error"),
         text: error.message ? error.message : error,
-        icon: 'warning',
-        confirmButtonText: 'ok'
-      })
+        icon: "warning",
+        confirmButtonText: "ok",
+      });
     }
   };
   useEffect(() => {
     if (stakeLoading) {
       Swal.fire({
-        title: i18n.t('processing'),
-        icon: 'warning',
-        confirmButtonText: 'ok',
+        title: i18n.t("processing"),
+        icon: "warning",
+        confirmButtonText: "ok",
         willOpen: () => {
-          Swal.showLoading()
-        }
-      })
+          Swal.showLoading();
+        },
+      });
+    } else {
+      Swal.close();
     }
-    else {
-      Swal.close()
-    }
-  }, [stakeLoading])
+  }, [stakeLoading]);
 
   const handleSwap = async (amount) => {
-    setLoading(true)
+    setLoading(true);
     try {
       if (approve) {
         await contract.staking.swapLumi(Math.round(amount * 10 ** 6)).send({
@@ -113,10 +117,13 @@ export default ({ contract }) => {
           feeLimit: 1e7,
           shouldPollResponse: true,
         });
-        setLoading(false)
+        setLoading(false);
       } else {
         await contract.lumi
-          .approve(Config.contract.stakingAddress, tronWeb.fromDecimal(10 ** 25))
+          .approve(
+            Config.contract.stakingAddress,
+            tronWeb.fromDecimal(10 ** 25)
+          )
           .send({
             callValue: 0,
             feeLimit: 1e7,
@@ -128,33 +135,32 @@ export default ({ contract }) => {
           feeLimit: 1e7,
           shouldPollResponse: true,
         });
-        setLoading(false)
+        setLoading(false);
       }
     } catch (error) {
-      console.log('error', error)
+      console.log("error", error);
       Swal.fire({
-        title: i18n.t('error'),
+        title: i18n.t("error"),
         text: error.message ? error.message : error,
-        icon: 'warning',
-        confirmButtonText: 'ok'
-      })
+        icon: "warning",
+        confirmButtonText: "ok",
+      });
     }
   };
   useEffect(() => {
     if (loading) {
       Swal.fire({
-        title: i18n.t('processing'),
-        icon: 'warning',
-        confirmButtonText: 'ok',
+        title: i18n.t("processing"),
+        icon: "warning",
+        confirmButtonText: "ok",
         willOpen: () => {
-          Swal.showLoading()
-        }
-      })
+          Swal.showLoading();
+        },
+      });
+    } else {
+      Swal.close();
     }
-    else {
-      Swal.close()
-    }
-  }, [loading])
+  }, [loading]);
   return (
     <StakingWrap>
       <span id="staking_main_title">{i18n.t("staking")}</span>
@@ -170,7 +176,7 @@ export default ({ contract }) => {
                 onChange={(e) => {
                   setAmountStake(+e.target.value);
                   if (e.target.value.match(Regex.money) !== null) {
-                    if (+e.target.value < 10000) {
+                    if (+e.target.value < 1000) {
                       setErrorInput("minimumAmount10k");
                     } else {
                       setErrorInput("");
@@ -181,8 +187,9 @@ export default ({ contract }) => {
                 }}
               />
               <div
-                className={`mbi_interest ${amountStake < 10000 ? "unavailable" : ""
-                  }`}
+                className={`mbi_interest ${
+                  amountStake < 1000 ? "unavailable" : ""
+                }`}
                 title={i18n.t("interest")}
               >
                 <img src={interestImg} alt="" />
@@ -190,28 +197,28 @@ export default ({ contract }) => {
                   {amountStake + stats[0].value >= 500000
                     ? "12%"
                     : amountStake + stats[0].value >= 100000
-                      ? "10%"
-                      : amountStake >= 10000
-                        ? "8%"
-                        : "0%"}
+                    ? "10%"
+                    : amountStake >= 1000
+                    ? "8%"
+                    : "0%"}
                 </span>
               </div>
               <div className="mbi_error">
                 {errorInput === "minimumAmount10k" ||
-                  errorInput === "invalidInput" ? (
-                    <span>{i18n.t(errorInput)}</span>
-                  ) : null}
+                errorInput === "invalidInput" ? (
+                  <span>{i18n.t(errorInput)}</span>
+                ) : null}
               </div>
             </div>
             <button
               onClick={() => handleStake()}
-              disabled={loading || errorInput !== "" || amountStake < 10000}
+              disabled={loading || errorInput !== "" || amountStake < 1000}
             >
               {loading ? (
                 <Loading size={20} color={Colors.white} />
               ) : (
-                  <span>{i18n.t("staking")}</span>
-                )}
+                <span>{i18n.t("staking")}</span>
+              )}
             </button>
           </div>
         </div>

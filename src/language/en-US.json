@@ -149,7 +149,7 @@
   "feeSwap": "Fee swap",
   "lumiBalance": "LUMI balance",
   "currentPayout": "Current payout",
-  "minimumAmount10k": "Minimum amount is 10000",
+  "minimumAmount10k": "Minimum amount is 1000",
   "invalidInput": "Invalid input",
   "swap": "Swap",
   "amountExceededBalance": "Amount input exceeded current available balance",
