@@ -9,6 +9,7 @@ import Loading from "components/common/loading";
 import Swap from "components/MainBody/staking/swap";
 import { TronContract } from "contexts/tronWeb";
 import * as Config from "config";
+import Swal from 'sweetalert2'
 const interestImg = require("assets/images/high.svg");
 export default ({ contract }) => {
   const { address, ref, tronWeb } = useContext(TronContract);
@@ -67,44 +68,93 @@ export default ({ contract }) => {
       { title: "currentPayout", value: Number(info.paid) / 10 ** 6 },
     ]);
   };
+  const [stakeLoading, setStakeLoading] = useState(false)
   const handleStake = async () => {
-    //TODO Loading
+    setStakeLoading(true)
     try {
-      contract.staking.stake(ref || Config.contract.adminAddress).send({
+      let result = await contract.staking.stake(ref || Config.contract.adminAddress).send({
         callValue: Math.round(amountStake * 10 ** 6),
         feeLimit: 1e7,
         shouldPollResponse: true,
       })
+      result && setStakeLoading(false)
     } catch (error) {
-
+      console.log('error', error)
+      Swal.fire({
+        title: i18n.t('error'),
+        text: error.message ? error.message : error,
+        icon: 'warning',
+        confirmButtonText: 'ok'
+      })
     }
   };
+  useEffect(() => {
+    if (stakeLoading) {
+      Swal.fire({
+        title: i18n.t('processing'),
+        icon: 'warning',
+        confirmButtonText: 'ok',
+        willOpen: () => {
+          Swal.showLoading()
+        }
+      })
+    }
+    else {
+      Swal.close()
+    }
+  }, [stakeLoading])
+
   const handleSwap = async (amount) => {
-    //TODO Loading
-    if (approve) {
-      await contract.staking.swapLumi(Math.round(amount * 10 ** 6)).send({
-        callValue: 0,
-        feeLimit: 1e7,
-        shouldPollResponse: true,
-      });
-      setLoading(false)
-    } else {
-      await contract.lumi
-        .approve(Config.contract.stakingAddress, tronWeb.fromDecimal(10 ** 25))
-        .send({
+    setLoading(true)
+    try {
+      if (approve) {
+        await contract.staking.swapLumi(Math.round(amount * 10 ** 6)).send({
           callValue: 0,
           feeLimit: 1e7,
           shouldPollResponse: true,
         });
-      setApprove(true);
-      await contract.staking.swapLumi(Math.round(amount * 10 ** 6)).send({
-        callValue: 0,
-        feeLimit: 1e7,
-        shouldPollResponse: true,
-      });
-      setLoading(false)
+        setLoading(false)
+      } else {
+        await contract.lumi
+          .approve(Config.contract.stakingAddress, tronWeb.fromDecimal(10 ** 25))
+          .send({
+            callValue: 0,
+            feeLimit: 1e7,
+            shouldPollResponse: true,
+          });
+        setApprove(true);
+        await contract.staking.swapLumi(Math.round(amount * 10 ** 6)).send({
+          callValue: 0,
+          feeLimit: 1e7,
+          shouldPollResponse: true,
+        });
+        setLoading(false)
+      }
+    } catch (error) {
+      console.log('error', error)
+      Swal.fire({
+        title: i18n.t('error'),
+        text: error.message ? error.message : error,
+        icon: 'warning',
+        confirmButtonText: 'ok'
+      })
     }
   };
+  useEffect(() => {
+    if (loading) {
+      Swal.fire({
+        title: i18n.t('processing'),
+        icon: 'warning',
+        confirmButtonText: 'ok',
+        willOpen: () => {
+          Swal.showLoading()
+        }
+      })
+    }
+    else {
+      Swal.close()
+    }
+  }, [loading])
   return (
     <StakingWrap>
       <span id="staking_main_title">{i18n.t("staking")}</span>
