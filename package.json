@@ -26,6 +26,7 @@
     "react-toastify": "^6.0.5",
     "react-tooltip": "^4.2.6",
     "styled-components": "^5.1.1",
+    "sweetalert2": "^10.3.5",
     "trongrid": "^1.2.6",
     "tronweb": "^2.10.2",
     "typescript": "^3.9.3",
