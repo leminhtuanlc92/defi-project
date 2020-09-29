@@ -33,7 +33,9 @@ export default ({ contract }) => {
         .allowance(address, Config.contract.stakingAddress)
         .call()
         .then((allow) => {
-          if (Number(allow.remaining) > 10 ** 10) {
+          console.log("allow", allow);
+          if (Number(allow.remaining || allow) > 10 ** 10) {
+            console.log("lskjfdsfj");
             setApprove(true);
           }
         });
@@ -111,6 +113,7 @@ export default ({ contract }) => {
   const handleSwap = async (amount) => {
     setLoading(true);
     try {
+      console.log("approve", approve);
       if (approve) {
         await contract.staking.swapLumi(Math.round(amount * 10 ** 6)).send({
           callValue: 0,
@@ -127,7 +130,7 @@ export default ({ contract }) => {
           .send({
             callValue: 0,
             feeLimit: 1e7,
-            shouldPollResponse: true,
+            shouldPollResponse: false,
           });
         setApprove(true);
         await contract.staking.swapLumi(Math.round(amount * 10 ** 6)).send({
@@ -195,11 +198,11 @@ export default ({ contract }) => {
                 <img src={interestImg} alt="" />
                 <span>
                   {amountStake + stats[0].value >= 500000
-                    ? "12%"
+                    ? "15%"
                     : amountStake + stats[0].value >= 100000
-                    ? "10%"
+                    ? "12%"
                     : amountStake >= 1000
-                    ? "8%"
+                    ? "9%"
                     : "0%"}
                 </span>
               </div>

@@ -25,6 +25,6 @@ const contract = {
   matrixMarketingAddress: "TCwdL8fxcnFWP5qQxJFt73Jt8k72QY37sL",
   fundAddress: "TVz5DomRgT4o6tewNWjJWUynSQirLfG7Km",
   lumiAddress: "TQAq1DtwhV2X9XJQCodXAyeFR7aDU8eLkk",
-  stakingAddress: "TQccdiEPQ46JZFpreTNx7qZcfHD9Sm3KNa",
+  stakingAddress: "TWhVVGVDDg8FBho1aAgeXkugLQhrVy2zds",
 };
 export { config, contract };
