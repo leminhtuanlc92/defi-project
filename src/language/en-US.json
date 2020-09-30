@@ -155,5 +155,12 @@
   "amountExceededBalance": "Amount input exceeded current available balance",
   "inputStakeAmount": "Input stake amount",
   "processing": "Processing",
-  "error": "Error"
+  "error": "Error",
+  "fee": "Fee",
+  "getLumi": "Get Lumi",
+  "swapLumiToTrx": "Swap LUMI to TRX",
+  "listStaking": "List staking",
+  "numberShorthand": "No.",
+  "fullfill": "Full fill",
+  "emptyList": "Empty list"
 }

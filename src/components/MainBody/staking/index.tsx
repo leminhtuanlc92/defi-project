@@ -9,7 +9,9 @@ import Loading from "components/common/loading";
 import Swap from "components/MainBody/staking/swap";
 import { TronContract } from "contexts/tronWeb";
 import * as Config from "config";
-import Swal from "sweetalert2";
+import Swal from 'sweetalert2'
+import GetLumi from 'components/MainBody/staking/getLumi'
+import ListStaking from 'components/MainBody/staking/listStaking'
 const interestImg = require("assets/images/high.svg");
 export default ({ contract }) => {
   const { address, ref, tronWeb } = useContext(TronContract);
@@ -224,6 +226,7 @@ export default ({ contract }) => {
               )}
             </button>
           </div>
+
         </div>
         <div className="mb_statistic">
           {stats.map((item, index) => {
@@ -237,11 +240,13 @@ export default ({ contract }) => {
           })}
           <div className="clear" />
         </div>
+        <GetLumi />
         <Swap
           priceLumi={stats[2].value}
           lumiBalance={stats[5].value}
           handleSwap={handleSwap}
         />
+        <ListStaking />
       </div>
     </StakingWrap>
   );
@@ -268,6 +273,7 @@ const StakingWrap = memo(styled.div`
     padding: 2rem;
     border-radius: 10px;
     text-align: center;
+    overflow:scroll;
     @media (max-width: 767px) {
       width: calc(100% - 2rem);
       height: calc(100% - 2rem);
@@ -410,7 +416,7 @@ const StakingWrap = memo(styled.div`
     }
     .mb_statistic {
       display: block;
-      margin-bottom: 3rem;
+      margin-bottom: 2rem;
       > div {
         &:not(:last-child) {
           width: calc(22% - 2px);
