@@ -3,7 +3,7 @@ import styled from 'styled-components'
 import Colors from 'constants/Colors'
 const icons = {
     earned: require('assets/images/fee.svg'),
-    lumi: require('assets/images/coin.svg')
+    lumi: require('assets/images/coin-lumi.svg')
 }
 export default ({ type, value }) => {
     return (

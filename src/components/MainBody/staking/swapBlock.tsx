@@ -1,10 +1,9 @@
-import React, { memo, useState } from 'react'
+import React, { memo } from 'react'
 import styled from 'styled-components'
-import i18n from 'i18n-js'
 import Colors from 'constants/Colors'
 import Regex from 'constants/Regex'
 const coinImg = {
-    lumi: require('assets/images/icon-defi.png'),
+    lumi: require('assets/images/coin-lumi.svg'),
     trx: require('assets/images/tron.svg')
 }
 interface SwapBlockProps {

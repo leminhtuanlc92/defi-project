@@ -185,7 +185,7 @@ export default ({ contract }) => {
     // console.log(info)
     info.amount.map((item, index) => {
       tempList.push({
-        amount: Number(item) / 10 ** 6, time: Number(info.time[index]), coin: 'lumi'
+        amount: Number(item) / 10 ** 6, time: Number(info.time[index]) * 1000, coin: 'lumi'
       })
     })
     setList(tempList)
@@ -246,9 +246,9 @@ export default ({ contract }) => {
             </div>
             <button
               onClick={() => handleStake()}
-              disabled={loading || errorInput !== "" || amountStake < 1000}
+              disabled={stakeLoading || errorInput !== "" || amountStake < 1000}
             >
-              {loading ? (
+              {stakeLoading ? (
                 <Loading size={20} color={Colors.white} />
               ) : (
                   <span>{i18n.t("staking")}</span>
