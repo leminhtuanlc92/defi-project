@@ -13,7 +13,7 @@ interface SwapProps {
   handleSwap: any;
 }
 export default ({ priceLumi, lumiBalance, handleSwap }: SwapProps) => {
-  const [loading, setLoading] = useState(false);
+  const [loadingSwap, setLoadingSwap] = useState(false);
   const [errorInput, setErrorInput] = useState("");
   const [amountSwap, setAmountSwap] = useState(0);
 
@@ -47,9 +47,9 @@ export default ({ priceLumi, lumiBalance, handleSwap }: SwapProps) => {
           <div className="mbs_btn">
             <button
               onClick={() => handleSwap(amountSwap)}
-              disabled={loading || errorInput !== "" || amountSwap <= 0}
+              disabled={loadingSwap || errorInput !== "" || amountSwap <= 0}
             >
-              {loading ? (
+              {loadingSwap ? (
                 <Loading size={20} color={Colors.white} />
               ) : (
                   <span>{i18n.t("swap")}</span>
