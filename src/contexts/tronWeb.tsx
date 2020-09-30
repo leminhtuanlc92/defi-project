@@ -49,7 +49,7 @@ const waitTron = () => {
         rej(false);
         return;
       }
-      setTimeout(checkTron, 10000);
+      setTimeout(checkTron, 100);
     };
     checkTron();
   });
