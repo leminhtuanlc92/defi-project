@@ -7,12 +7,17 @@ import Loading from 'components/common/loading'
 import Colors from 'constants/Colors'
 import Texts from 'constants/Texts'
 const convertImg = require('assets/images/convert.svg')
-export default () => {
-    const [earned, setEarned] = useState(0)
+export default ({ earn, price, contract }) => {
     const [loading, setLoading] = useState(false)
-    const getLumi = (value: number) => {
+    const getLumi = () => {
+        setLoading(true)
         try {
-            // TODO handle it
+            contract.getEarned().send({
+                callValue: 0,
+                feeLimit: 1e7,
+                shouldPollResponse: false,
+            })
+            setLoading(false)
         } catch (error) {
             console.log('error')
             Swal.fire({
@@ -41,14 +46,13 @@ export default () => {
     return (
         <GetLumiWrap>
             <div className="gl_input">
-                <LumiBlock value={earned} type="earned" />
+                <LumiBlock value={earn} type="earned" />
                 <div className="gli_icon">
                     <img src={convertImg} alt="" />
                 </div>
-                {/* TODO calculate lumi value */}
-                <LumiBlock value={earned * 1} type="lumi" />
+                <LumiBlock value={earn / price} type="lumi" />
                 <div className="gl_btn">
-                    <button onClick={() => getLumi(earned * 1)}                    >
+                    <button onClick={() => getLumi()}                    >
                         {loading ?
                             <Loading size={20} color={Colors.white} />
                             :

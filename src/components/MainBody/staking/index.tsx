@@ -20,12 +20,13 @@ export default ({ contract }) => {
   const [approve, setApprove] = useState(false);
   const [stats, setStats] = useState([
     { title: "totalStaking", value: 0 },
+    { title: "activeStaking", value: 0 },
+    { title: "currentPayout", value: 0 },
+    { title: "maxPayout", value: 0 },
     { title: "earned", value: 0 },
     { title: "priceLumi", value: 0 },
-    { title: "maxPayout", value: 0 },
     { title: "feeSwap", value: 0 },
     { title: "lumiBalance", value: 0 },
-    { title: "currentPayout", value: 0 },
   ]);
   const [errorInput, setErrorInput] = useState("");
 
@@ -59,7 +60,7 @@ export default ({ contract }) => {
     const earned = await contract.staking.earned(address).call();
     setStats((state) => {
       let old = [...state];
-      old[1] = { title: "earned", value: Number(earned) / 10 ** 6 };
+      old[4] = { title: "earned", value: Number(earned) / 10 ** 6 };
       return old;
     });
   };
@@ -67,12 +68,13 @@ export default ({ contract }) => {
     const info = await contract.staking.getStats(address).call();
     setStats([
       { title: "totalStaking", value: Number(info.total) / 10 ** 6 },
+      { title: "activeStaking", value: Number(info.active) / 10 ** 6 },
+      { title: "currentPayout", value: 0 },
+      { title: "maxPayout", value: (Number(info.active) * 3) / 10 ** 6 },
       { title: "earned", value: Number(info.earn) / 10 ** 6 },
       { title: "priceLumi", value: Number(info.price) / 10 ** 6 },
-      { title: "maxPayout", value: (Number(info.total) * 3) / 10 ** 6 },
       { title: "feeSwap", value: Number(info.fee) / 100 },
       { title: "lumiBalance", value: Number(info.balance) / 10 ** 6 },
-      { title: "currentPayout", value: Number(info.paid) / 10 ** 6 },
     ]);
   };
   const [stakeLoading, setStakeLoading] = useState(false);
@@ -166,6 +168,42 @@ export default ({ contract }) => {
       Swal.close();
     }
   }, [loading]);
+
+  const [currentStake, setCurrent] = useState(0)
+  useEffect(() => {
+    if (contract.staking) {
+      contract.staking.getCurrentPayout(address).call().then(info => {
+        setCurrent(Number(info.currentStake))
+        let temp = [...stats]
+        temp[2] = { title: "currentPayout", value: Number(info.currentPayout) / 10 ** 6 }
+        setStats(temp)
+      })
+    }
+  }, [address, contract])
+
+  //List Stake
+  const [page, setPage] = useState(0)
+  const [maxPage, setMaxPage] = useState(0)
+  const [list, setList] = useState([])
+  const getList = async () => {
+    const info = await contract.staking.getMyStake(address, 10, page * 10).call();
+    const max = Number(info.length) / 10;
+    if (max !== maxPage) setMaxPage(max);
+    let tempList = [] as any
+    // console.log(info)
+    info.amount.map((item, index) => {
+      tempList.push({
+        amount: Number(item) / 10 ** 6, time: Number(info.time[index]), coin: 'lumi'
+      })
+    })
+    setList(tempList)
+  }
+
+  useEffect(() => {
+    if (contract.staking) {
+      getList()
+    }
+  }, [page, address, contract])
   return (
     <StakingWrap>
       <span id="staking_main_title">{i18n.t("staking")}</span>
@@ -192,9 +230,8 @@ export default ({ contract }) => {
                 }}
               />
               <div
-                className={`mbi_interest ${
-                  amountStake < 1000 ? "unavailable" : ""
-                }`}
+                className={`mbi_interest ${amountStake < 1000 ? "unavailable" : ""
+                  }`}
                 title={i18n.t("interest")}
               >
                 <img src={interestImg} alt="" />
@@ -202,17 +239,17 @@ export default ({ contract }) => {
                   {amountStake + stats[0].value >= 500000
                     ? "15%"
                     : amountStake + stats[0].value >= 100000
-                    ? "12%"
-                    : amountStake >= 1000
-                    ? "9%"
-                    : "0%"}
+                      ? "12%"
+                      : amountStake >= 1000
+                        ? "9%"
+                        : "0%"}
                 </span>
               </div>
               <div className="mbi_error">
                 {errorInput === "minimumAmount10k" ||
-                errorInput === "invalidInput" ? (
-                  <span>{i18n.t(errorInput)}</span>
-                ) : null}
+                  errorInput === "invalidInput" ? (
+                    <span>{i18n.t(errorInput)}</span>
+                  ) : null}
               </div>
             </div>
             <button
@@ -222,8 +259,8 @@ export default ({ contract }) => {
               {loading ? (
                 <Loading size={20} color={Colors.white} />
               ) : (
-                <span>{i18n.t("staking")}</span>
-              )}
+                  <span>{i18n.t("staking")}</span>
+                )}
             </button>
           </div>
 
@@ -240,13 +277,13 @@ export default ({ contract }) => {
           })}
           <div className="clear" />
         </div>
-        <GetLumi />
+        <GetLumi earn={stats[4].value} price={stats[5].value} contract={contract?.staking} />
         <Swap
           priceLumi={stats[2].value}
           lumiBalance={stats[5].value}
           handleSwap={handleSwap}
         />
-        <ListStaking />
+        <ListStaking list={list} page={page} setPage={setPage} current={currentStake} />
       </div>
     </StakingWrap>
   );

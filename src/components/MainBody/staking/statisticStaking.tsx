@@ -5,6 +5,7 @@ import Texts from 'constants/Texts'
 import i18n from 'i18n-js'
 const imgs = {
     totalStaking: require('assets/images/coins.svg'),
+    activeStaking: require('assets/images/coins.svg'),
     earned: require('assets/images/fees.svg'),
     priceLumi: require('assets/images/coin.svg'),
     maxPayout: require('assets/images/salary.svg'),

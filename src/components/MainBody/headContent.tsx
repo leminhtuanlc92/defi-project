@@ -41,7 +41,6 @@ export default ({ update }) => {
   };
   useEffect(() => {
     if (member && userData) {
-      //TODO get UserData
       getUserData();
     }
   }, [address, userData, member, update]);

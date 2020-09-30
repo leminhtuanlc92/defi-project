@@ -50,7 +50,6 @@ export default () => {
   ];
   useEffect(() => {
     const getData = async () => {
-      //TODO get Data
       const [data, tokenBalance, totalReceived] = await Promise.all([
         userData.users(address).call(),
         token.balanceOf(address).call(),
@@ -197,8 +196,8 @@ export default () => {
                   {loading ? (
                     <Loading color={Colors.white} size={20} />
                   ) : (
-                    i18n.t("yes")
-                  )}
+                      i18n.t("yes")
+                    )}
                 </button>
               </div>
               <div id="close-button" onClick={() => setShowPopApprove(false)}>
@@ -320,11 +319,11 @@ const DashboardWrap = memo(styled.div`
           text-align: center;
           @media (max-width: 767px) {
             ${(props: any) =>
-              props.horizontalView
-                ? css`
+    props.horizontalView
+      ? css`
                     margin-bottom: 15px;
                   `
-                : css`
+      : css`
                     margin-bottom: 30px;
                   `}
           }
@@ -384,8 +383,8 @@ const DashboardWrap = memo(styled.div`
         }
         @media (max-width: 767px) {
           ${(props: any) =>
-            props.horizontalView
-              ? css`
+    props.horizontalView
+      ? css`
                   height: 90%;
                   padding: 10px 20px;
                   img {
@@ -393,7 +392,7 @@ const DashboardWrap = memo(styled.div`
                     margin-bottom: 15px;
                   }
                 `
-              : css`
+      : css`
                   height: auto;
                   width: calc(90% - 40px);
                   padding: 20px;

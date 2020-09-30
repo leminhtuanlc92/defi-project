@@ -47,7 +47,6 @@ export default () => {
   };
 
   const findFreeNode = async (_startNode, _level) => {
-    //TODO
     let result = undefined;
     let start = 0;
     while (result === undefined) {

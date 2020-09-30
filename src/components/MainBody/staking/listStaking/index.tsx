@@ -1,26 +1,12 @@
-import React, { memo, useState, Fragment } from 'react'
+import React, { memo, useState, useEffect, Fragment } from 'react'
 import styled from 'styled-components'
 import i18n from 'i18n-js'
 import Texts from 'constants/Texts'
 import Colors from 'constants/Colors'
 import StakingItem from 'components/MainBody/staking/listStaking/stakingItem'
 import Pagination from 'components/common/core/Pagination'
-export default () => {
-    //TODO get Data
-    // const [data, setData] = useState([] as any)
-    const [page, setPage] = useState(1)
-    const data = [
-        { amount: 0.001, time: 1601434610, fullfill: false, coin: 'eth' },
-        { amount: 0.002, time: 1601438210, fullfill: true, coin: 'eth' },
-        { amount: 0.003, time: 1601441810, fullfill: false, coin: 'eth' },
-        { amount: 0.004, time: 1601445410, fullfill: true, coin: 'eth' },
-        { amount: 0.005, time: 1601434610, fullfill: false, coin: 'eth' },
-        { amount: 0.006, time: 1601434610, fullfill: true, coin: 'eth' },
-        { amount: 0.007, time: 1601434610, fullfill: false, coin: 'eth' },
-        { amount: 0.008, time: 1601434610, fullfill: true, coin: 'eth' },
-        { amount: 0.009, time: 1601434610, fullfill: false, coin: 'eth' },
-        { amount: 0.010, time: 1601434610, fullfill: true, coin: 'eth' }
-    ]
+export default ({ list, page, setPage, current }) => {
+
     return (
         <ListStakingWrap>
             <div className="ls_inner">
@@ -41,9 +27,9 @@ export default () => {
                         </div>
                     </div>
                     <div className="lsib_list">
-                        {data.length > 0 ?
+                        {list.length > 0 ?
                             <Fragment>
-                                {(data as any).map((item, index) => {
+                                {(list as any).map((item, index) => {
                                     return (
                                         <StakingItem
                                             key={index}
@@ -62,7 +48,7 @@ export default () => {
                             </div>
                         }
 
-                        {data.length > 0 ? (
+                        {list.length > 0 ? (
                             <div className="lsibl_pagination">
                                 <Pagination
                                     currentPage={page}
