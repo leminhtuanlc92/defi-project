@@ -66,16 +66,18 @@ export default ({ contract }) => {
   };
   const getInfomation = async () => {
     const info = await contract.staking.getStats(address).call();
-    setStats([
-      { title: "totalStaking", value: Number(info.total) / 10 ** 6 },
-      { title: "activeStaking", value: Number(info.active) / 10 ** 6 },
-      { title: "currentPayout", value: 0 },
-      { title: "maxPayout", value: (Number(info.active) * 3) / 10 ** 6 },
-      { title: "earned", value: Number(info.earn) / 10 ** 6 },
-      { title: "priceLumi", value: Number(info.price) / 10 ** 6 },
-      { title: "feeSwap", value: Number(info.fee) / 100 },
-      { title: "lumiBalance", value: Number(info.balance) / 10 ** 6 },
-    ]);
+    const current = await contract.staking.getCurrentPayout(address).call()
+    setCurrent(Number(current.currentStake))
+    let temp = [...stats]
+    temp[0] = { title: "totalStaking", value: Number(info.total) / 10 ** 6 };
+    temp[1] = { title: "activeStaking", value: Number(info.active) / 10 ** 6 };
+    temp[2] = { title: "currentPayout", value: Number(info.paid) / 10 ** 6 };
+    temp[3] = { title: "maxPayout", value: Number(current.currentPayout) * 3 / 10 ** 6 }
+    temp[4] = { title: "earned", value: Number(info.earn) / 10 ** 6 };
+    temp[5] = { title: "priceLumi", value: Number(info.price) / 10 ** 6 };
+    temp[6] = { title: "feeSwap", value: Number(info.fee) / 100 };
+    temp[7] = { title: "lumiBalance", value: Number(info.balance) / 10 ** 6 };
+    setStats(temp);
   };
   const [stakeLoading, setStakeLoading] = useState(false);
   const handleStake = async () => {
@@ -170,16 +172,6 @@ export default ({ contract }) => {
   }, [loading]);
 
   const [currentStake, setCurrent] = useState(0)
-  useEffect(() => {
-    if (contract.staking) {
-      contract.staking.getCurrentPayout(address).call().then(info => {
-        setCurrent(Number(info.currentStake))
-        let temp = [...stats]
-        temp[2] = { title: "currentPayout", value: Number(info.currentPayout) / 10 ** 6 }
-        setStats(temp)
-      })
-    }
-  }, [address, contract])
 
   //List Stake
   const [page, setPage] = useState(0)
