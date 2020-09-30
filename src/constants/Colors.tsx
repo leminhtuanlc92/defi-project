@@ -19,6 +19,7 @@ export default {
     'orange4': '#F8BA8E',
     'orange5':'#FEF9F3',
     'orange6':'#FFEEE2',
+    'orange7':"#ED8C47",
     'red': '#F04444',
     'red1': '#FF6E6E',
     'red2': '#F58484',

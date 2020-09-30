@@ -31,9 +31,6 @@ export default ({ data, loading }: PartnerSearchListProps) => {
         <div className="psl_sponsor">
           <span>{i18n.t("sponsor")}</span>
         </div>
-        {/* <div className="psl_partners">
-          <span>{i18n.t("numberOfLv1Partner")}</span>
-        </div> */}
       </div>
       <div id="partner_search_list_body">
         <Router history={history}>

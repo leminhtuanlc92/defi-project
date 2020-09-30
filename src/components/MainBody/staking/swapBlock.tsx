@@ -74,7 +74,7 @@ const SwapBlockWrap = memo(styled.div`
             img{
                 width:20px;
                 height:20px;
-                margin-right:1rem;
+                margin-right:8px;
             }
         }
         .sb_input{

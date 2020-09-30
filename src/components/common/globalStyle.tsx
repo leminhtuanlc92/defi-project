@@ -59,15 +59,12 @@ const GlobalStyle = createGlobalStyle`
 
     body,html {
         height: 100%;
-        font-size: 14px;
+        font-size: 16px;
         /* font-size: calc(10px + (20 - 10) * ((100vw - 300px) / (1920 - 300))); */
         font-family: inherit;
         color:#fff;
-        @media (min-width: 992px) and(max-width:1199px) {
-            font-size:15px;
-        }
-        @media (max-width:767px) {
-            font-size: 16px
+        @media (max-width:991px) {
+            font-size: 14px
         }
         ::-webkit-scrollbar {
             width: 3px;
@@ -118,6 +115,7 @@ const GlobalStyle = createGlobalStyle`
             padding: 10px 20px;
             color: #fff;
             font-weight: bold;
+            font-size:1rem;
             cursor: pointer;
             font-size: 1em;
             @media (min-width: 992px) and (max-width: 1199px) {
@@ -135,6 +133,9 @@ const GlobalStyle = createGlobalStyle`
                 color: #bbdfff;
             }
         }
+    }
+    input{
+        font-size:1rem; 
     }
     .Toastify__toast-container {
         z-index: 99999999;

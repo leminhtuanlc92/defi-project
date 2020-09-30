@@ -22,6 +22,7 @@ export default ({ priceLumi, lumiBalance, handleSwap }: SwapProps) => {
       <div className="s_inner">
         <span className="mbs_title">{i18n.t("swap")}:</span>
         <div className="mbs_input">
+          <span className="mbsi_head">{i18n.t('swapLumiToTrx')}:</span>
           <SwapBlock
             value={amountSwap}
             balance={lumiBalance}
@@ -31,7 +32,7 @@ export default ({ priceLumi, lumiBalance, handleSwap }: SwapProps) => {
             setErrorInput={setErrorInput}
           />
           <div className="mbsi_icon">
-            <span>3%</span>
+            <span>{i18n.t('fee')} 3%</span>
             <img src={exchangeImg} alt="" />
           </div>
           <SwapBlock
@@ -51,8 +52,8 @@ export default ({ priceLumi, lumiBalance, handleSwap }: SwapProps) => {
               {loading ? (
                 <Loading size={20} color={Colors.white} />
               ) : (
-                <span>{i18n.t("swap")}</span>
-              )}
+                  <span>{i18n.t("swap")}</span>
+                )}
             </button>
           </div>
         </div>
@@ -66,7 +67,7 @@ export default ({ priceLumi, lumiBalance, handleSwap }: SwapProps) => {
 
 const SwapWrap = memo(styled.div`
   display: block;
-  margin: 0 auto;
+  margin: 0 auto 3rem;
   .s_inner {
     display: block;
     width: 100%;
@@ -82,13 +83,31 @@ const SwapWrap = memo(styled.div`
     .mbs_input {
       align-items: center;
       justify-content: space-between;
-      width: 80%;
       margin: 0 auto;
-      @media (min-width: 1600px) {
-        width: 70%;
+      padding-top:1rem;
+      position:relative;
+      @media (max-width:599px){
+        padding-top:1.5rem;
       }
-      @media (max-width: 767px) {
-        width: 100%;
+      .mbsi_head{
+        position:absolute;
+        top:0;
+        left:0;
+        color:${Colors.black};
+        width:100%;
+        text-align:left
+      }
+      @media (min-width: 1600px) {
+            width: 70%;
+      }
+      @media (min-width: 1200px) and (max-width:1599px) {
+          width: 80%;
+      }
+      @media (min-width: 992px) and (max-width:1199px) {
+          width: 90%;
+      }
+      @media (max-width: 991px) {
+          width: 100%;
       }
       @media (max-width: 500px) {
         display: block;
