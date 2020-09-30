@@ -1,4 +1,4 @@
-import React, { memo, useState, useEffect, Fragment } from 'react'
+import React, { memo, Fragment } from 'react'
 import styled from 'styled-components'
 import i18n from 'i18n-js'
 import Texts from 'constants/Texts'
@@ -36,7 +36,7 @@ export default ({ list, page, setPage, current }) => {
                                             index={index}
                                             amount={item.amount}
                                             time={item.time}
-                                            fullfill={item.fullfill}
+                                            fullfill={(index + 1) + (page * 10) < current}
                                             coin={item.coin}
                                         />
                                     )

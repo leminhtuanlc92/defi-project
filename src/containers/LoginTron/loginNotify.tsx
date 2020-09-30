@@ -96,6 +96,7 @@ const LoginNotifyWrapper = memo(styled.div`
                     justify-content: center;
                 }
                 @media (max-width:767px){
+                    padding:0;
                     &:first-child{
                         display:none;
                     }
