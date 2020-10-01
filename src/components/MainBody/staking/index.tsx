@@ -74,7 +74,7 @@ export default ({ contract }) => {
     temp[2] = { title: "currentPayout", value: Number(info.paid) / 10 ** 6 };
     temp[3] = {
       title: "maxPayout",
-      value: (Number(current.currentPayout) * 3) / 10 ** 6,
+      value: Number(info.active) * 3 / 10 ** 6,
     };
     temp[4] = { title: "earned", value: Number(info.earn) / 10 ** 6 };
     temp[5] = { title: "priceLumi", value: Number(info.price) / 10 ** 6 };
@@ -229,9 +229,8 @@ export default ({ contract }) => {
                 }}
               />
               <div
-                className={`mbi_interest ${
-                  amountStake < 1000 ? "unavailable" : ""
-                }`}
+                className={`mbi_interest ${amountStake < 1000 ? "unavailable" : ""
+                  }`}
                 title={i18n.t("interest")}
               >
                 <img src={interestImg} alt="" />
@@ -239,17 +238,17 @@ export default ({ contract }) => {
                   {amountStake + stats[0].value >= 500000
                     ? "15%"
                     : amountStake + stats[0].value >= 100000
-                    ? "12%"
-                    : amountStake >= 1000
-                    ? "9%"
-                    : "0%"}
+                      ? "12%"
+                      : amountStake >= 1000
+                        ? "9%"
+                        : "0%"}
                 </span>
               </div>
               <div className="mbi_error">
                 {errorInput === "minimumAmount10k" ||
-                errorInput === "invalidInput" ? (
-                  <span>{i18n.t(errorInput)}</span>
-                ) : null}
+                  errorInput === "invalidInput" ? (
+                    <span>{i18n.t(errorInput)}</span>
+                  ) : null}
               </div>
             </div>
             <button
@@ -259,8 +258,8 @@ export default ({ contract }) => {
               {stakeLoading ? (
                 <Loading size={20} color={Colors.white} />
               ) : (
-                <span>{i18n.t("staking")}</span>
-              )}
+                  <span>{i18n.t("staking")}</span>
+                )}
             </button>
           </div>
         </div>
