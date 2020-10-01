@@ -23,27 +23,29 @@ export default ({ value, setAmountSwap, type, balance, errorInput, setErrorInput
                     <span>{type.toUpperCase()}</span>
                 </div>
                 <div className="sb_input">
-                    <input
-                        type="number"
-                        value={value}
-                        readOnly={type === 'trx'}
-                        onChange={(e) => {
-                            if (type === 'lumi') {
-                                setAmountSwap(+e.target.value)
-                                if (e.target.value.match(Regex.money) !== null) {
-                                    if (+e.target.value > balance) {
-                                        setErrorInput('amountExceededBalance')
+                    {type === 'trx' ?
+                        <input value={value} readOnly />
+                        :
+                        <input
+                            type="number"
+                            onChange={(e) => {
+                                if (type === 'lumi') {
+                                    setAmountSwap(+e.target.value)
+                                    if (e.target.value.match(Regex.money) !== null) {
+                                        if (+e.target.value > balance) {
+                                            setErrorInput('amountExceededBalance')
+                                        }
+                                        else {
+                                            setErrorInput('')
+                                        }
                                     }
                                     else {
-                                        setErrorInput('')
+                                        setErrorInput('invalidInput')
                                     }
                                 }
-                                else {
-                                    setErrorInput('invalidInput')
-                                }
-                            }
-                        }}
-                    />
+                            }}
+                        />
+                    }
                 </div>
             </div>
         </SwapBlockWrap>
