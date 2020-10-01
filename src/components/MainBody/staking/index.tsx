@@ -9,9 +9,9 @@ import Loading from "components/common/loading";
 import Swap from "components/MainBody/staking/swap";
 import { TronContract } from "contexts/tronWeb";
 import * as Config from "config";
-import Swal from 'sweetalert2'
-import GetLumi from 'components/MainBody/staking/getLumi'
-import ListStaking from 'components/MainBody/staking/listStaking'
+import Swal from "sweetalert2";
+import GetLumi from "components/MainBody/staking/getLumi";
+import ListStaking from "components/MainBody/staking/listStaking";
 const interestImg = require("assets/images/high.svg");
 export default ({ contract }) => {
   const { address, ref, tronWeb } = useContext(TronContract);
@@ -66,13 +66,16 @@ export default ({ contract }) => {
   };
   const getInfomation = async () => {
     const info = await contract.staking.getStats(address).call();
-    const current = await contract.staking.getCurrentPayout(address).call()
-    setCurrent(Number(current.currentStake))
-    let temp = [...stats]
+    const current = await contract.staking.getCurrentPayout(address).call();
+    setCurrent(Number(current.currentStake));
+    let temp = [...stats];
     temp[0] = { title: "totalStaking", value: Number(info.total) / 10 ** 6 };
     temp[1] = { title: "activeStaking", value: Number(info.active) / 10 ** 6 };
     temp[2] = { title: "currentPayout", value: Number(info.paid) / 10 ** 6 };
-    temp[3] = { title: "maxPayout", value: Number(current.currentPayout) * 3 / 10 ** 6 }
+    temp[3] = {
+      title: "maxPayout",
+      value: (Number(current.currentPayout) * 3) / 10 ** 6,
+    };
     temp[4] = { title: "earned", value: Number(info.earn) / 10 ** 6 };
     temp[5] = { title: "priceLumi", value: Number(info.price) / 10 ** 6 };
     temp[6] = { title: "feeSwap", value: Number(info.fee) / 100 };
@@ -147,7 +150,7 @@ export default ({ contract }) => {
         setLoading(false);
       }
     } catch (error) {
-      console.log("error", error);
+      setLoading(false);
       Swal.fire({
         title: i18n.t("error"),
         text: error.message ? error.message : error,
@@ -171,31 +174,35 @@ export default ({ contract }) => {
     }
   }, [loading]);
 
-  const [currentStake, setCurrent] = useState(0)
+  const [currentStake, setCurrent] = useState(0);
 
   //List Stake
-  const [page, setPage] = useState(0)
-  const [maxPage, setMaxPage] = useState(0)
-  const [list, setList] = useState([])
+  const [page, setPage] = useState(0);
+  const [maxPage, setMaxPage] = useState(0);
+  const [list, setList] = useState([]);
   const getList = async () => {
-    const info = await contract.staking.getMyStake(address, 10, page * 10).call();
+    const info = await contract.staking
+      .getMyStake(address, 10, page * 10)
+      .call();
     const max = Number(info.length) / 10;
     if (max !== maxPage) setMaxPage(max);
-    let tempList = [] as any
+    let tempList = [] as any;
     // console.log(info)
     info.amount.map((item, index) => {
       tempList.push({
-        amount: Number(item) / 10 ** 6, time: Number(info.time[index]) * 1000, coin: 'lumi'
-      })
-    })
-    setList(tempList)
-  }
+        amount: Number(item) / 10 ** 6,
+        time: Number(info.time[index]) * 1000,
+        coin: "lumi",
+      });
+    });
+    setList(tempList);
+  };
 
   useEffect(() => {
     if (contract.staking) {
-      getList()
+      getList();
     }
-  }, [page, address, contract])
+  }, [page, address, contract]);
   return (
     <StakingWrap>
       <span id="staking_main_title">{i18n.t("staking")}</span>
@@ -222,8 +229,9 @@ export default ({ contract }) => {
                 }}
               />
               <div
-                className={`mbi_interest ${amountStake < 1000 ? "unavailable" : ""
-                  }`}
+                className={`mbi_interest ${
+                  amountStake < 1000 ? "unavailable" : ""
+                }`}
                 title={i18n.t("interest")}
               >
                 <img src={interestImg} alt="" />
@@ -231,17 +239,17 @@ export default ({ contract }) => {
                   {amountStake + stats[0].value >= 500000
                     ? "15%"
                     : amountStake + stats[0].value >= 100000
-                      ? "12%"
-                      : amountStake >= 1000
-                        ? "9%"
-                        : "0%"}
+                    ? "12%"
+                    : amountStake >= 1000
+                    ? "9%"
+                    : "0%"}
                 </span>
               </div>
               <div className="mbi_error">
                 {errorInput === "minimumAmount10k" ||
-                  errorInput === "invalidInput" ? (
-                    <span>{i18n.t(errorInput)}</span>
-                  ) : null}
+                errorInput === "invalidInput" ? (
+                  <span>{i18n.t(errorInput)}</span>
+                ) : null}
               </div>
             </div>
             <button
@@ -251,11 +259,10 @@ export default ({ contract }) => {
               {stakeLoading ? (
                 <Loading size={20} color={Colors.white} />
               ) : (
-                  <span>{i18n.t("staking")}</span>
-                )}
+                <span>{i18n.t("staking")}</span>
+              )}
             </button>
           </div>
-
         </div>
         <div className="mb_statistic">
           {stats.map((item, index) => {
@@ -269,13 +276,22 @@ export default ({ contract }) => {
           })}
           <div className="clear" />
         </div>
-        <GetLumi earn={stats[4].value} price={stats[5].value} contract={contract?.staking} />
+        <GetLumi
+          earn={stats[4].value}
+          price={stats[5].value}
+          contract={contract?.staking}
+        />
         <Swap
           priceLumi={stats[2].value}
           lumiBalance={stats[5].value}
           handleSwap={handleSwap}
         />
-        <ListStaking list={list} page={page} setPage={setPage} current={currentStake} />
+        <ListStaking
+          list={list}
+          page={page}
+          setPage={setPage}
+          current={currentStake}
+        />
       </div>
     </StakingWrap>
   );
@@ -302,7 +318,7 @@ const StakingWrap = memo(styled.div`
     padding: 2rem;
     border-radius: 10px;
     text-align: center;
-    overflow:scroll;
+    overflow: scroll;
     @media (max-width: 767px) {
       width: calc(100% - 2rem);
       height: calc(100% - 2rem);
