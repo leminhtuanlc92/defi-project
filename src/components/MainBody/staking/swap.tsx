@@ -109,7 +109,7 @@ const SwapWrap = memo(styled.div`
       @media (max-width: 991px) {
           width: 100%;
       } */
-      @media (max-width: 7670px) {
+      @media (max-width: 767px) {
         display: block;
       }
       .mbsi_icon {

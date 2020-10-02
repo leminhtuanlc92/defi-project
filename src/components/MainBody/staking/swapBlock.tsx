@@ -62,9 +62,9 @@ export default ({ value, setAmountSwap, type, balance, errorInput, setErrorInput
 const SwapBlockWrap = memo(styled.div`
     width:40%;
     display:block;
-    margin-bottom:1rem;
     @media (max-width:767px){
         width:100%;
+        margin-bottom:1rem;
     }
     .sb{
         text-align:center;
