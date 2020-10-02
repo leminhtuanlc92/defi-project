@@ -30,11 +30,14 @@ export default () => {
       member.getUser(_userAddress).call(),
       userData.getLevel(_userAddress).call(),
     ]);
+    //TODO get Staking
     setNodeData({
       user: {
         parent: address,
         refs: user.refs.map((item) => tronWeb.address.fromHex(item)),
         userId: user.userId,
+        activeStaking: 0,
+        teamStaking: 0
       },
       level: Number(level),
     });

@@ -1,4 +1,4 @@
-import React, { memo, useContext, useEffect, useState } from "react";
+import React, { memo, useContext, useEffect, useState, useRef } from "react";
 import styled from "styled-components";
 import i18n from "i18n-js";
 import Colors from "constants/Colors";
@@ -8,6 +8,7 @@ import Regex from "constants/Regex";
 import Loading from "components/common/loading";
 import Swap from "components/MainBody/staking/swap";
 import { TronContract } from "contexts/tronWeb";
+import RefBalance from 'components/MainBody/staking/refBalance'
 import * as Config from "config";
 import Swal from "sweetalert2";
 import GetLumi from "components/MainBody/staking/getLumi";
@@ -15,9 +16,14 @@ import ListStaking from "components/MainBody/staking/listStaking";
 const interestImg = require("assets/images/high.svg");
 export default ({ contract }) => {
   const { address, ref, tronWeb } = useContext(TronContract);
-  const [amountStake, setAmountStake] = useState(0);
+  const [amountStake, setAmountStake] = useState({
+    amount: 0,
+    balance: 0,
+    minAmount: 0,
+  });
   const [loading, setLoading] = useState(false);
   const [approve, setApprove] = useState(false);
+  const amountRef = useRef(null as any)
   const [stats, setStats] = useState([
     { title: "totalStaking", value: 0 },
     { title: "activeStaking", value: 0 },
@@ -29,7 +35,6 @@ export default ({ contract }) => {
     { title: "lumiBalance", value: 0 },
   ]);
   const [errorInput, setErrorInput] = useState("");
-
   useEffect(() => {
     if (contract.lumi) {
       contract.lumi
@@ -67,6 +72,9 @@ export default ({ contract }) => {
   const getInfomation = async () => {
     const info = await contract.staking.getStats(address).call();
     const current = await contract.staking.getCurrentPayout(address).call();
+    let balance = await tronWeb.trx.getBalance(address)
+    let minAmount = await contract.staking.getMinStake(address).call()
+    console.log('balance', balance, Number(minAmount))
     setCurrent(Number(current.currentStake));
     let temp = [...stats];
     temp[0] = { title: "totalStaking", value: Number(info.total) / 10 ** 6 };
@@ -81,6 +89,7 @@ export default ({ contract }) => {
     temp[6] = { title: "feeSwap", value: Number(info.fee) / 100 };
     temp[7] = { title: "lumiBalance", value: Number(info.balance) / 10 ** 6 };
     setStats(temp);
+    balance && minAmount && setAmountStake({ ...amountStake, balance, minAmount })
   };
   const [stakeLoading, setStakeLoading] = useState(false);
   const handleStake = async () => {
@@ -89,7 +98,7 @@ export default ({ contract }) => {
       let result = await contract.staking
         .stake(ref || Config.contract.adminAddress)
         .send({
-          callValue: Math.round(amountStake * 10 ** 6),
+          callValue: Math.round(amountStake.amount * 10 ** 6),
           feeLimit: 1e7,
           shouldPollResponse: true,
         });
@@ -212,55 +221,67 @@ export default ({ contract }) => {
           <div className="mbi_inner">
             <span className="mbii_title">{i18n.t("inputStakeAmount")}:</span>
             <div className="left_input">
-              <input
-                type="number"
-                placeholder={i18n.t("amount")}
-                onChange={(e) => {
-                  setAmountStake(+e.target.value);
-                  if (e.target.value.match(Regex.money) !== null) {
-                    if (+e.target.value < 1000) {
-                      setErrorInput("minimumAmount10k");
+              <div className="li">
+                <input
+                  ref={amountRef}
+                  type="number"
+                  placeholder={i18n.t("amount")}
+                  onChange={(e) => {
+                    setAmountStake({ ...amountStake, balance: +e.target.value });
+                    if (e.target.value.match(Regex.money) !== null) {
+                      if (+e.target.value < 1000) {
+                        setErrorInput("minimumAmount10k");
+                      } else {
+                        setErrorInput("");
+                      }
                     } else {
-                      setErrorInput("");
+                      setErrorInput("invalidInput");
                     }
-                  } else {
-                    setErrorInput("invalidInput");
-                  }
-                }}
-              />
+                  }}
+                />
+                <button className="max_value" onClick={() => {
+                  setAmountStake({ ...amountStake, balance: amountStake.balance - 10 })
+
+                  amountRef.current.value = amountStake.balance - 10
+                }
+                }>
+                  {i18n.t('max')}
+                </button>
+              </div>
               <div
-                className={`mbi_interest ${
-                  amountStake < 1000 ? "unavailable" : ""
-                }`}
+                className={`mbi_interest ${amountStake.amount < 1000 ? "unavailable" : ""
+                  }`}
                 title={i18n.t("interest")}
               >
                 <img src={interestImg} alt="" />
                 <span>
-                  {amountStake + stats[0].value >= 500000
+                  {amountStake.amount + stats[0].value >= 500000
                     ? "15%"
-                    : amountStake + stats[0].value >= 100000
-                    ? "12%"
-                    : amountStake >= 1000
-                    ? "9%"
-                    : "0%"}
+                    : amountStake.amount + stats[0].value >= 100000
+                      ? "12%"
+                      : amountStake.amount >= 1000
+                        ? "9%"
+                        : "0%"}
                 </span>
               </div>
               <div className="mbi_error">
-                {errorInput === "minimumAmount10k" ||
-                errorInput === "invalidInput" ? (
-                  <span>{i18n.t(errorInput)}</span>
-                ) : null}
+                {
+                  errorInput === "invalidInput" || errorInput === "minimumAmount1k" ?
+                    <span>{i18n.t(errorInput)}</span>
+                    :
+                    null
+                }
               </div>
             </div>
             <button
               onClick={() => handleStake()}
-              disabled={stakeLoading || errorInput !== "" || amountStake < 1000}
+              disabled={stakeLoading || errorInput !== "" || amountStake.amount < 1000 || amountStake.amount < amountStake.minAmount}
             >
               {stakeLoading ? (
                 <Loading size={20} color={Colors.white} />
               ) : (
-                <span>{i18n.t("staking")}</span>
-              )}
+                  <span>{i18n.t("staking")}</span>
+                )}
             </button>
           </div>
         </div>
@@ -269,6 +290,7 @@ export default ({ contract }) => {
             return (
               <StatisticStaking
                 key={index}
+                maxPayout={stats[3].value}
                 title={item.title}
                 value={item.value}
               />
@@ -281,6 +303,7 @@ export default ({ contract }) => {
           price={stats[5].value}
           contract={contract?.staking}
         />
+        <RefBalance />
         <Swap
           priceLumi={stats[5].value}
           lumiBalance={stats[7].value}
@@ -368,30 +391,47 @@ const StakingWrap = memo(styled.div`
           @media (max-width: 767px) {
             margin-bottom: 1rem;
           }
-          input {
-            padding: 0 1rem;
+          .li{
+            padding: 0 3rem 0 1rem;
             height: 37px;
             min-width: 250px;
             border: none;
             border-top-left-radius: 5px;
             border-bottom-left-radius: 5px;
-            &::placeholder {
-              color: ${Colors.black3};
-              font-style: italic;
+            position:relative;
+            input {
+              width:100%;
+              border:none;
+              &::placeholder {
+                color: ${Colors.black3};
+                font-style: italic;
+              }
+              &::-webkit-outer-spin-button,
+              &::-webkit-inner-spin-button {
+                -webkit-appearance: none;
+                margin: 0;
+              }
+              &[type="number"] {
+                -moz-appearance: textfield;
+              }
+              @media (max-width: 767px) {
+                width: calc(80% - 20px);
+                border-radius: 5px;
+                display: block;
+                min-width: initial;
+              }
             }
-            &::-webkit-outer-spin-button,
-            &::-webkit-inner-spin-button {
-              -webkit-appearance: none;
-              margin: 0;
-            }
-            &[type="number"] {
-              -moz-appearance: textfield;
-            }
-            @media (max-width: 767px) {
-              width: calc(80% - 20px);
-              border-radius: 5px;
-              display: block;
+            .max_value{
+              position: absolute;
+              top: 5px;
+              right: 0;
+              width: 2rem;
+              height: 27px;
               min-width: initial;
+              margin: 0;
+              padding: 0;
+              font-size:0.7rem;
+              background:${Colors.black};
             }
           }
           .mbi_error {
@@ -468,7 +508,7 @@ const StakingWrap = memo(styled.div`
           width: calc(22% - 2px);
           display: block;
           float: left;
-          @media (min-width: 1200px) {
+          @media (min-width: 1600px) {
             &:nth-child(4n + 1) {
               margin: 0 2% 2rem 0;
             }
@@ -482,26 +522,27 @@ const StakingWrap = memo(styled.div`
               margin: 0 0 2rem 2%;
             }
           }
-          @media (min-width: 768px) and (max-width: 1199px) {
+          @media (min-width: 1200px) and (max-width: 1599px) {
             width: calc(30% - 2px);
-            &:nth-child(3n + 1) {
-              margin: 0 2.5% 2rem 0;
-            }
-            &:nth-child(3n + 2) {
-              margin: 0 2.5% 2rem;
-            }
-            &:nth-child(3n + 3) {
-              margin: 0 0 2rem 2.5%;
-            }
+            &:nth-child(3n + 1) {margin: 0 2.5% 2rem 0;}
+            &:nth-child(3n + 2) {margin: 0 2.5% 2rem;}
+            &:nth-child(3n + 3) {margin: 0 0 2rem 2.5%;}
+          }
+          @media (min-width: 992px) and (max-width: 1199px) {
+            width: calc(48% - 2px);
+            &:nth-child(2n + 1) {margin: 0 2% 2rem 0;}
+            &:nth-child(2n + 2) {margin: 0 0 2rem 2%;}
+          }
+          @media (min-width: 768px) and (max-width: 991px) {
+            width: calc(30% - 2px);
+            &:nth-child(3n + 1) {margin: 0 2.5% 2rem 0;}
+            &:nth-child(3n + 2) {margin: 0 2.5% 2rem;}
+            &:nth-child(3n + 3) {margin: 0 0 2rem 2.5%;}
           }
           @media (min-width: 600px) and (max-width: 767px) {
             width: calc(48% - 2px);
-            &:nth-child(2n + 1) {
-              margin: 0 2% 2rem 0;
-            }
-            &:nth-child(2n + 2) {
-              margin: 0 0 2rem 2%;
-            }
+            &:nth-child(2n + 1) {margin: 0 2% 2rem 0;}
+            &:nth-child(2n + 2) {margin: 0 0 2rem 2%;}
           }
           @media (max-width: 599px) {
             width: calc(100% - 2px);

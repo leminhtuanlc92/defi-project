@@ -3,44 +3,30 @@ import styled from 'styled-components'
 import Colors from 'constants/Colors'
 import Texts from 'constants/Texts'
 import i18n from 'i18n-js'
-const imgs = {
-    totalStaking: require('assets/images/coins.svg'),
-    activeStaking: require('assets/images/coins.svg'),
-    earned: require('assets/images/fees.svg'),
-    priceLumi: require('assets/images/coin.svg'),
-    maxPayout: require('assets/images/salary.svg'),
-    feeSwap: require('assets/images/price-tag.svg'),
-    lumiBalance: require('assets/images/money.svg'),
-    currentPayout: require('assets/images/salary.svg'),
-}
+const imgs = require('assets/images/coins-1.svg')
 interface StatisticStakingProps {
     title: string;
     value: number;
-    maxPayout?: number
 }
-export default ({ title, value, maxPayout }: StatisticStakingProps) => {
-    //TODO get TRX price to usd
-    const [trxPrice, setTrxPrice] = useState(0)
+export default ({ title, value }: StatisticStakingProps) => {
     return (
-        <StatisticStakingWrap>
+        <RefItemWrap>
             <div id="inner_content_info">
                 <div className="ici_icon">
-                    <img src={imgs[title]} alt="" />
+                    <img src={imgs} alt="" />
                 </div>
                 <div id="inner_info_wrap">
-                    <span id="info_content_title">{i18n.t(title)}</span>
+                    <span id="info_content_title">{title}</span>
                     <span id="info_content_value">
                         {i18n.toNumber(value, { precision: 2 })} 
-                        {title === 'currentPayout' ? `/ ${i18n.toNumber(maxPayout||0, { precision: 2 })}` : ''}
-                        {title === 'priceLumi'? ` (${value * trxPrice}$)`:''}
                     </span>
                 </div>
             </div>
-        </StatisticStakingWrap>
+        </RefItemWrap>
     )
 }
 
-const StatisticStakingWrap = memo(styled.div`
+const RefItemWrap = memo(styled.div`
     flex-direction: column;
     align-items: center;
     justify-content: space-between;

@@ -21,6 +21,8 @@ export default ({ data, index }: SunUserItemChildProps) => {
       parent: "",
       refs: [],
       userId: "",
+      activeStaking: 0,
+      teamStaking: 0
     },
     level: 0,
   } as any);
@@ -63,6 +65,10 @@ export default ({ data, index }: SunUserItemChildProps) => {
                   {tronWeb.address.fromHex(data)}
                 </span>
               </div>
+              <div className="sunmi_bio">
+                <span className="sunuser_nodename">{i18n.t('activeStakings')}: {nodeData.user.activeStaking}</span>
+                <span className="sunuser_address">{i18n.t('teamStakings')}: {nodeData.user.teamStaking}</span>
+              </div>
             </div>
           </SunUserItemChildNodeMain>
           {nodeData.user.refs.length > 0 && showChild ? (
@@ -74,8 +80,8 @@ export default ({ data, index }: SunUserItemChildProps) => {
           ) : null}
         </Fragment>
       ) : (
-        <Loading />
-      )}
+          <Loading />
+        )}
     </SunUserItemChildWrap>
   );
 };
@@ -86,11 +92,11 @@ const SunUserItemChildWrap = memo(styled.div`
   margin-bottom: 10px;
   &:before {
     ${(props: any) =>
-      (props.showChild && props.firstChild) || !props.showChild
-        ? css`
+    (props.showChild && props.firstChild) || !props.showChild
+      ? css`
             content: "";
           `
-        : css``}
+      : css``}
     position:absolute;
     width: 10px;
     height: 1px;
@@ -101,19 +107,19 @@ const SunUserItemChildWrap = memo(styled.div`
   }
   &:after {
     ${(props: any) =>
-      props.showChild &&
-      css`
+    props.showChild &&
+    css`
         content: "";
       `}
     position:absolute;
     width: 1px;
     height: calc(100% - 48px);
     ${(props: any) =>
-      props.showChild
-        ? css`
+    props.showChild
+      ? css`
             top: 0;
           `
-        : css`
+      : css`
             top: 10px;
           `}
     left:0;
@@ -123,8 +129,8 @@ const SunUserItemChildWrap = memo(styled.div`
     position: relative;
     &:before {
       ${(props: any) =>
-        props.showChild &&
-        css`
+    props.showChild &&
+    css`
           content: "";
         `}
       position:absolute;
@@ -142,29 +148,29 @@ const SunUserItemChildWrap = memo(styled.div`
       height: calc(100% - 48px);
       z-index: 2;
       ${(props: any) =>
-        props.showChild
-          ? css`
+    props.showChild
+      ? css`
               ${(props: any) =>
-                props.oneChildLeft
-                  ? css`
+          props.oneChildLeft
+            ? css`
                       top: 39px;
                       width: 5px;
                       background-color: red;
                     `
-                  : css`
+            : css`
                       top: 0;
                       left: 0;
                       background-color: ${Colors.green};
                     `}
             `
-          : css`
+      : css`
               ${(props: any) =>
-                props.oneChildLeft
-                  ? css`
+          props.oneChildLeft
+            ? css`
                       top: 39px;
                       width: 5px;
                     `
-                  : css`
+            : css`
                       left: 0;
                       top: 10px;
                       background-color: ${Colors.green};

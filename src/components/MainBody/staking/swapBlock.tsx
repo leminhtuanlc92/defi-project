@@ -1,7 +1,8 @@
-import React, { memo } from 'react'
+import React, { memo, useState } from 'react'
 import styled from 'styled-components'
 import Colors from 'constants/Colors'
 import Regex from 'constants/Regex'
+import i18n from 'i18n-js'
 const coinImg = {
     lumi: require('assets/images/coin-lumi.svg'),
     trx: require('assets/images/tron.svg')
@@ -15,14 +16,20 @@ interface SwapBlockProps {
     setErrorInput?: any
 }
 export default ({ value, setAmountSwap, type, balance, errorInput, setErrorInput }: SwapBlockProps) => {
+    //TODO get block balance
+    const [blockBalance, setBlockBalance] = useState(1250)
     return (
         <SwapBlockWrap trx={type === 'trx'}>
             <div className="sb">
                 <div className="sb_logo">
-                    <img src={coinImg[type]} alt="" />
-                    <span>{type.toUpperCase()}</span>
+                    <span className="block_title">{type === 'trx' ? 'TRON - TRX' : 'LUMI - LUMI'}</span>
+                    <div className="block_balance">
+                        <img src={coinImg[type]} alt="" />
+                        <span>{i18n.toNumber(blockBalance, { precision: 2 })}</span>
+                    </div>
                 </div>
                 <div className="sb_input">
+                    <label>{type === 'trx' ? i18n.t('youGot') : i18n.t('youSend')}</label>
                     {type === 'trx' ?
                         <input value={value} readOnly />
                         :
@@ -55,7 +62,8 @@ export default ({ value, setAmountSwap, type, balance, errorInput, setErrorInput
 const SwapBlockWrap = memo(styled.div`
     width:40%;
     display:block;
-    @media (max-width:500px){
+    margin-bottom:1rem;
+    @media (max-width:767px){
         width:100%;
     }
     .sb{
@@ -69,14 +77,23 @@ const SwapBlockWrap = memo(styled.div`
             width:40%;
             border-top-left-radius:5px;
             border-bottom-left-radius:5px;
-            span{
+            flex-direction:column;
+            padding:0.5rem 0;
+            .block_title{
                 color:${Colors.black10};
+                margin-bottom:0.5rem;
             }
-            img{
-                width:20px;
-                height:20px;
-                margin-right:8px;
+            .block_balance{
+                span{
+                    color:${Colors.black10};
+                }
+                img{
+                    width:20px;
+                    height:20px;
+                    margin-right:8px;
+                }
             }
+            
         }
         .sb_input{
             display:block;

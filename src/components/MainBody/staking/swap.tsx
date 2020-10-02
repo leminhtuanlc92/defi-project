@@ -32,7 +32,7 @@ export default ({ priceLumi, lumiBalance, handleSwap }: SwapProps) => {
             setErrorInput={setErrorInput}
           />
           <div className="mbsi_icon">
-            <span>{i18n.t('fee')} 3%</span>
+            <span>{i18n.t('feeDynamic', { value: '3%' })}</span>
             <img src={exchangeImg} alt="" />
           </div>
           <SwapBlock
@@ -84,7 +84,7 @@ const SwapWrap = memo(styled.div`
       align-items: center;
       justify-content: space-between;
       margin: 0 auto;
-      padding-top:1rem;
+      padding-top:2rem;
       position:relative;
       @media (max-width:599px){
         padding-top:1.5rem;
@@ -100,16 +100,16 @@ const SwapWrap = memo(styled.div`
       @media (min-width: 1600px) {
             width: 70%;
       }
-      @media (min-width: 1200px) and (max-width:1599px) {
-          width: 80%;
+      @media (max-width:1599px) {
+        width: 100%;
       }
-      @media (min-width: 992px) and (max-width:1199px) {
+      /* @media (min-width: 992px) and (max-width:1199px) {
           width: 90%;
       }
       @media (max-width: 991px) {
           width: 100%;
-      }
-      @media (max-width: 500px) {
+      } */
+      @media (max-width: 7670px) {
         display: block;
       }
       .mbsi_icon {
@@ -118,9 +118,6 @@ const SwapWrap = memo(styled.div`
         justify-content: center;
         margin: 0 2rem;
         @media (max-width: 767px) {
-          margin: 0 1rem;
-        }
-        @media (max-width: 500px) {
           flex-direction: row-reverse;
           margin: 1rem 0;
         }
@@ -133,19 +130,13 @@ const SwapWrap = memo(styled.div`
           @media (max-width: 767px) {
             width: 20px;
             height: 20px;
-          }
-          @media (max-width: 500px) {
             transform: rotate(90deg);
-            margin-right: 0.5rem;
           }
         }
       }
       .mbs_btn {
         margin-left: 2rem;
         @media (max-width: 767px) {
-          margin-left: 1rem;
-        }
-        @media (max-width: 500px) {
           margin: 1rem 0 0 0;
         }
         button {
@@ -155,13 +146,14 @@ const SwapWrap = memo(styled.div`
           color: ${Colors.white};
           font-size: ${Texts.size.large};
           min-width: 100px;
-          height: 37px;
+          height: 62px;
           display: flex;
           justify-content: center;
           align-items: center;
           border: none;
-          @media (max-width: 500px) {
+          @media (max-width: 767px) {
             margin: 0 auto;
+            height:37px;
           }
           &:hover {
             background-color: ${Colors.orange1};

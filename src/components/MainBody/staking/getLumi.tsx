@@ -46,13 +46,15 @@ export default ({ earn, price, contract }) => {
     return (
         <GetLumiWrap>
             <div className="gl_input">
-                <LumiBlock value={earn} type="earned" />
-                <div className="gli_icon">
-                    <img src={convertImg} alt="" />
+                <div className="gli">
+                    <LumiBlock value={earn} type="earned" />
+                    <div className="gli_icon">
+                        <img src={convertImg} alt="" />
+                    </div>
+                    <LumiBlock value={earn / price} type="lumi" />
                 </div>
-                <LumiBlock value={earn / price} type="lumi" />
                 <div className="gl_btn">
-                    <button onClick={() => getLumi()}                    >
+                    <button onClick={() => getLumi()}>
                         {loading ?
                             <Loading size={20} color={Colors.white} />
                             :
@@ -65,52 +67,64 @@ export default ({ earn, price, contract }) => {
     )
 }
 const GetLumiWrap = memo(styled.div`
-    margin-bottom:3rem;
+    margin:0 auto 3rem;
+    @media (min-width: 1600px) {
+        width: 70%;
+    }
+    @media (min-width: 1200px) and (max-width:1599px) {
+        width: 80%;
+    }
+    @media (min-width: 992px) and (max-width:1199px) {
+        width: 90%;
+    }
+    @media (max-width: 991px) {
+        width: 100%;
+    }
+    @media (max-width: 500px) {
+        display: block;
+    }
     .gl_input{
         align-items: center;
         justify-content: space-between;
         margin: 0 auto;
-        @media (min-width: 1600px) {
-            width: 70%;
-        }
-        @media (min-width: 1200px) and (max-width:1599px) {
-            width: 80%;
-        }
-        @media (min-width: 992px) and (max-width:1199px) {
-            width: 90%;
-        }
-        @media (max-width: 991px) {
-            width: 100%;
-        }
+        border: solid 1px #EF89404D;
+        background:${Colors.orange5};
+        padding: 1rem 2rem;
+        border-radius:10px;
         @media (max-width: 500px) {
             display: block;
         }
-        .gli_icon {
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            margin: 0 2rem;
-            @media (max-width: 767px) {
-            margin: 0 1rem;
-            }
+        .gli{
             @media (max-width: 500px) {
-            flex-direction: row-reverse;
-            margin: 1rem 0;
+                display: block;
             }
-            span {
-            color: ${Colors.black};
-            }
-            img {
-            width: 35px;
-            height: 35px;
-            @media (max-width: 767px) {
-                width: 20px;
-                height: 20px;
-            }
-            @media (max-width: 500px) {
-                transform: rotate(90deg);
-                margin-right: 0.5rem;
-            }
+            .gli_icon {
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+                margin: 0 2rem;
+                @media (max-width: 767px) {
+                    margin: 0 1rem;
+                }
+                @media (max-width: 500px) {
+                    flex-direction: row-reverse;
+                    margin: 1rem 0;
+                }
+                span {
+                    color: ${Colors.black};
+                }
+                img {
+                    width: 35px;
+                    height: 35px;
+                    @media (max-width: 767px) {
+                        width: 20px;
+                        height: 20px;
+                    }
+                    @media (max-width: 500px) {
+                        transform: rotate(90deg);
+                        margin-right: 0.5rem;
+                    }
+                }
             }
         }
         .gl_btn {

@@ -25,6 +25,7 @@
   "stockRightBalance": "Stock right",
   "totalBalance": "Total balance",
   "fine": "Fine",
+  "feeDynamic": "Fee {{value}}",
   "goldMemeber": "Gold memeber",
   "shareHolding": "Credits holding",
   "personalInfo": "Personal information",
@@ -117,6 +118,8 @@
   "noData": "No data",
   "unSet": "Not set",
   "activeStaking": "Active Staking (TRX)",
+  "activeStakings": "Active staking",
+  "teamStakings": "Team staking",
   "signUp": "Sign up",
   "signUpQuote": "Please create a username for convenience in using the system",
   "signupUsernameSuccessful": "Username registration successed",
@@ -150,7 +153,7 @@
   "feeSwap": "Fee swap (%)",
   "lumiBalance": "LUMI balance",
   "currentPayout": "Current payout (TRX)",
-  "minimumAmount10k": "Minimum amount is 1000",
+  "minimumAmount1k": "Minimum amount is 1000",
   "invalidInput": "Invalid input",
   "swap": "Swap",
   "amountExceededBalance": "Amount input exceeded current available balance",
@@ -163,5 +166,9 @@
   "listStaking": "List staking",
   "numberShorthand": "No.",
   "fullfill": "Full fill",
-  "emptyList": "Empty list"
+  "emptyList": "Empty list",
+  "max": "Max",
+  "refBalance": "Ref balance",
+  "youSend": "You send",
+  "youGot": "You got"
 }
