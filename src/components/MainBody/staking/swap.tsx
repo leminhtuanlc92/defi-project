@@ -10,9 +10,15 @@ const exchangeImg = require("assets/images/right-arrow.svg");
 interface SwapProps {
   priceLumi: number;
   lumiBalance: number;
+  trxBalance: number;
   handleSwap: any;
 }
-export default ({ priceLumi, lumiBalance, handleSwap }: SwapProps) => {
+export default ({
+  priceLumi,
+  lumiBalance,
+  handleSwap,
+  trxBalance,
+}: SwapProps) => {
   const [loadingSwap, setLoadingSwap] = useState(false);
   const [errorInput, setErrorInput] = useState("");
   const [amountSwap, setAmountSwap] = useState(0);
@@ -22,7 +28,7 @@ export default ({ priceLumi, lumiBalance, handleSwap }: SwapProps) => {
       <div className="s_inner">
         <span className="mbs_title">{i18n.t("swap")}:</span>
         <div className="mbs_input">
-          <span className="mbsi_head">{i18n.t('swapLumiToTrx')}:</span>
+          <span className="mbsi_head">{i18n.t("swapLumiToTrx")}:</span>
           <SwapBlock
             value={amountSwap}
             balance={lumiBalance}
@@ -32,7 +38,7 @@ export default ({ priceLumi, lumiBalance, handleSwap }: SwapProps) => {
             setErrorInput={setErrorInput}
           />
           <div className="mbsi_icon">
-            <span>{i18n.t('feeDynamic', { value: '3%' })}</span>
+            <span>{i18n.t("feeDynamic", { value: "3%" })}</span>
             <img src={exchangeImg} alt="" />
           </div>
           <SwapBlock
@@ -42,7 +48,7 @@ export default ({ priceLumi, lumiBalance, handleSwap }: SwapProps) => {
               .dividedBy(100)
               .toNumber()}
             type="trx"
-            balance={lumiBalance}
+            balance={trxBalance}
           />
           <div className="mbs_btn">
             <button
@@ -52,8 +58,8 @@ export default ({ priceLumi, lumiBalance, handleSwap }: SwapProps) => {
               {loadingSwap ? (
                 <Loading size={20} color={Colors.white} />
               ) : (
-                  <span>{i18n.t("swap")}</span>
-                )}
+                <span>{i18n.t("swap")}</span>
+              )}
             </button>
           </div>
         </div>
@@ -84,23 +90,23 @@ const SwapWrap = memo(styled.div`
       align-items: center;
       justify-content: space-between;
       margin: 0 auto;
-      padding-top:2rem;
-      position:relative;
-      @media (max-width:599px){
-        padding-top:1.5rem;
+      padding-top: 2rem;
+      position: relative;
+      @media (max-width: 599px) {
+        padding-top: 1.5rem;
       }
-      .mbsi_head{
-        position:absolute;
-        top:0;
-        left:0;
-        color:${Colors.black};
-        width:100%;
-        text-align:left
+      .mbsi_head {
+        position: absolute;
+        top: 0;
+        left: 0;
+        color: ${Colors.black};
+        width: 100%;
+        text-align: left;
       }
       @media (min-width: 1600px) {
-            width: 70%;
+        width: 70%;
       }
-      @media (max-width:1599px) {
+      @media (max-width: 1599px) {
         width: 100%;
       }
       /* @media (min-width: 992px) and (max-width:1199px) {
@@ -153,7 +159,7 @@ const SwapWrap = memo(styled.div`
           border: none;
           @media (max-width: 767px) {
             margin: 0 auto;
-            height:37px;
+            height: 37px;
           }
           &:hover {
             background-color: ${Colors.orange1};
