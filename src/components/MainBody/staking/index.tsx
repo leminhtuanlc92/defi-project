@@ -13,7 +13,9 @@ import * as Config from "config";
 import Swal from "sweetalert2";
 import GetLumi from "components/MainBody/staking/getLumi";
 import ListStaking from "components/MainBody/staking/listStaking";
+import axios from "axios";
 const interestImg = require("assets/images/high.svg");
+
 export default ({ contract }) => {
   const { address, ref, tronWeb } = useContext(TronContract);
   const [amountStake, setAmountStake] = useState({
@@ -61,6 +63,22 @@ export default ({ contract }) => {
       }, 2000);
     }
   }, [contract]);
+  const [trxPrice, setTrxPrice] = useState(0)
+  useEffect(() => {
+    getTRXPrice()
+  }, [])
+  const getTRXPrice = async () => {
+    axios
+      .get(
+        "https://api.coingecko.com/api/v3/simple/price?ids=tron&vs_currencies=usd"
+      )
+      .then((res) => {
+        setTrxPrice(res.data?.tron?.usd || 0);
+      })
+      .catch((err) => {
+        console.log("err get trx pricce", err);
+      });
+  };
   const getEarned = async () => {
     const earned = await contract.staking.earned(address).call();
     setStats((state) => {
@@ -261,9 +279,8 @@ export default ({ contract }) => {
                 </button>
               </div>
               <div
-                className={`mbi_interest ${
-                  amountStake.amount < 1000 ? "unavailable" : ""
-                }`}
+                className={`mbi_interest ${amountStake.amount < 1000 ? "unavailable" : ""
+                  }`}
                 title={i18n.t("interest")}
               >
                 <img src={interestImg} alt="" />
@@ -271,17 +288,17 @@ export default ({ contract }) => {
                   {amountStake.amount + stats[0].value >= 500000
                     ? "15%"
                     : amountStake.amount + stats[0].value >= 100000
-                    ? "12%"
-                    : amountStake.amount >= 1000
-                    ? "9%"
-                    : "0%"}
+                      ? "12%"
+                      : amountStake.amount >= 1000
+                        ? "9%"
+                        : "0%"}
                 </span>
               </div>
               <div className="mbi_error">
                 {errorInput === "invalidInput" ||
-                errorInput === "minimumAmount1k" ? (
-                  <span>{i18n.t(errorInput)}</span>
-                ) : null}
+                  errorInput === "minimumAmount1k" ? (
+                    <span>{i18n.t(errorInput)}</span>
+                  ) : null}
               </div>
             </div>
             <button
@@ -296,8 +313,8 @@ export default ({ contract }) => {
               {stakeLoading ? (
                 <Loading size={20} color={Colors.white} />
               ) : (
-                <span>{i18n.t("staking")}</span>
-              )}
+                  <span>{i18n.t("staking")}</span>
+                )}
             </button>
           </div>
         </div>
@@ -307,6 +324,7 @@ export default ({ contract }) => {
               <StatisticStaking
                 key={index}
                 maxPayout={stats[3].value}
+                trxPrice={trxPrice}
                 title={item.title}
                 value={item.value}
               />

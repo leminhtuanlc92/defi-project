@@ -1,8 +1,9 @@
-import React, { memo, useState } from 'react'
+import React, { memo, useEffect, useState } from 'react'
 import styled from 'styled-components'
 import Colors from 'constants/Colors'
 import Texts from 'constants/Texts'
 import i18n from 'i18n-js'
+
 const imgs = {
     totalStaking: require('assets/images/coins.svg'),
     activeStaking: require('assets/images/coins.svg'),
@@ -17,10 +18,9 @@ interface StatisticStakingProps {
     title: string;
     value: number;
     maxPayout?: number
+    trxPrice?: number
 }
-export default ({ title, value, maxPayout }: StatisticStakingProps) => {
-    //TODO get TRX price to usd
-    const [trxPrice, setTrxPrice] = useState(0)
+export default ({ title, value, maxPayout, trxPrice }: StatisticStakingProps) => {
     return (
         <StatisticStakingWrap>
             <div id="inner_content_info">
@@ -30,9 +30,9 @@ export default ({ title, value, maxPayout }: StatisticStakingProps) => {
                 <div id="inner_info_wrap">
                     <span id="info_content_title">{i18n.t(title)}</span>
                     <span id="info_content_value">
-                        {i18n.toNumber(value, { precision: 2 })} 
-                        {title === 'currentPayout' ? `/ ${i18n.toNumber(maxPayout||0, { precision: 2 })}` : ''}
-                        {title === 'priceLumi'? ` (${value * trxPrice}$)`:''}
+                        {i18n.toNumber(value, { precision: 2 })}
+                        {title === 'currentPayout' ? `/ ${i18n.toNumber(maxPayout || 0, { precision: 2 })}` : ''}
+                        {title === 'priceLumi' || title === 'lumiBalance' ? ` (${i18n.toNumber(value * (trxPrice || 0), { precision: 3 })}$)` : ''}
                     </span>
                 </div>
             </div>
