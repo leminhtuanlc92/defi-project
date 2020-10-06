@@ -16,7 +16,7 @@ interface SunUserItemProps {
 }
 export default ({ item, topNode, index }: SunUserItemProps) => {
   const [showChild, setShowChild] = useState(false);
-  const { member, userData, tronWeb } = useContext(TronContract);
+  const { member, userData, tronWeb, staking } = useContext(TronContract);
   const [nodeData, setNodeData] = useState({
     user: {
       parent: "",
@@ -28,9 +28,8 @@ export default ({ item, topNode, index }: SunUserItemProps) => {
     level: 0,
   } as any);
   const getUser = async (_userAddress) => {
-    let user = await member.getUser(_userAddress).call();
-    let level = await userData.getLevel(_userAddress).call();
-    setNodeData({ user, level: Number(level) });
+    const [user, level, stake] = await Promise.all([member.getUser(_userAddress).call(), userData.getLevel(_userAddress).call(), staking.getUserStaking(_userAddress).call])
+    setNodeData({ user, level: Number(level), activeStaking: Number(stake.myStake) / 10 ** 6, teamStaking: Number(stake.teamStake) / 10 ** 6 });
   };
   useEffect(() => {
     if (topNode) {
