@@ -7,7 +7,7 @@ import SunUserItem from "./sunUserItem";
 import Loading from "../../common/loading";
 import { TronContract } from "../../../contexts/tronWeb";
 export default () => {
-  const { member, userData, address, tronWeb } = useContext(TronContract);
+  const { member, userData, address, tronWeb, staking } = useContext(TronContract);
   const [isMember, setIsMember] = useState(false);
   useEffect(() => {
     member
@@ -26,18 +26,18 @@ export default () => {
     level: 0,
   } as any);
   const getUser = async (_userAddress) => {
-    const [user, level] = await Promise.all([
+    const [user, level, stake] = await Promise.all([
       member.getUser(_userAddress).call(),
       userData.getLevel(_userAddress).call(),
+      staking.getUserStaking(_userAddress).call()
     ]);
-    //TODO get Staking
     setNodeData({
       user: {
         parent: address,
         refs: user.refs.map((item) => tronWeb.address.fromHex(item)),
         userId: user.userId,
-        activeStaking: 0,
-        teamStaking: 0
+        activeStaking: Number(stake.myStake) / 10 ** 6,
+        teamStaking: Number(stake.teamStake) / 10 ** 6
       },
       level: Number(level),
     });
@@ -52,8 +52,8 @@ export default () => {
         {isMember && nodeData.user.parent !== "" ? (
           <SunUserItem item={nodeData} topNode={true} index={0} />
         ) : (
-          <span id="snmb_nodata">{i18n.t("noData")}</span>
-        )}
+            <span id="snmb_nodata">{i18n.t("noData")}</span>
+          )}
       </div>
     </SunNetworkWrap>
   );
