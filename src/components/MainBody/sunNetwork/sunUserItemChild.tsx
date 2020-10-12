@@ -28,7 +28,7 @@ export default ({ data, index }: SunUserItemChildProps) => {
   } as any);
   const getUser = async (_userAddress) => {
     const [user, level, stake] = await Promise.all([member.getUser(_userAddress).call(), userData.getLevel(_userAddress).call(), staking.getUserStaking(_userAddress).call])
-    setNodeData({ user, level: Number(level), activeStaking: Number(stake.myStake) / 10 ** 6, teamStaking: Number(stake.teamStake) / 10 ** 6 });
+    setNodeData({ user: {...user, activeStaking: Number(stake.myStake) / 10 ** 6, teamStaking: Number(stake.teamStake) / 10 ** 6 }, level: Number(level) });
   };
   useEffect(() => {
     getUser(data);
