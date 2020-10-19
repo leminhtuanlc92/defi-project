@@ -434,6 +434,10 @@ const StakingWrap = memo(styled.div`
             border-top-left-radius: 5px;
             border-bottom-left-radius: 5px;
             position: relative;
+            @media (max-width:480px){
+              width: calc(80% - 4rem);
+              min-width: inherit;
+            }
             input {
               width: 100%;
               border: none;
