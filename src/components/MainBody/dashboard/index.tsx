@@ -213,7 +213,8 @@ export default () => {
 
 const DashboardWrap = memo(styled.div`
   flex: 1;
-  width: 100%;
+  /* width: 100%; */
+  display:flex;
   flex-direction: column;
   overflow-y: scroll;
   padding:2rem;
@@ -225,6 +226,7 @@ const DashboardWrap = memo(styled.div`
   }
   #db_personal_info_panel {
     flex-direction: column;
+    display:flex;
     width: 100%;
     margin-bottom: 50px;
     #db_info_title {
@@ -236,12 +238,14 @@ const DashboardWrap = memo(styled.div`
     }
     #db_blocks {
       width: 100%;
+      display:flex;
       align-items: center;
       justify-content: space-between;
       flex-wrap: wrap;
     }
   }
   #db-back-office {
+    display:flex;
     flex-direction: column;
     width: 100%;
     flex: 1;
@@ -276,6 +280,7 @@ const DashboardWrap = memo(styled.div`
       }
     }
     #db_blocks-office {
+      display:flex;
       flex-wrap: wrap;
       align-items: center;
       justify-content: space-between;
@@ -297,6 +302,7 @@ const DashboardWrap = memo(styled.div`
       background: ${Colors.white};
       border-radius: 15px;
       flex-direction: column;
+      display:flex;
       padding: 20px 40px;
       align-items: center;
       justify-content: center;
@@ -304,6 +310,7 @@ const DashboardWrap = memo(styled.div`
       #pc_inner {
         width: 100%;
         height: 100%;
+        display:flex;
         overflow-y: scroll;
         overflow-x: hidden;
         flex-direction: column;
@@ -336,6 +343,7 @@ const DashboardWrap = memo(styled.div`
           cursor: pointer;
         }
         #pop-confirm-usdt-buttons {
+          display:flex;
           align-items: center;
           justify-content: center;
           width: 80%;
@@ -405,6 +413,7 @@ const DashboardWrap = memo(styled.div`
 `);
 const Hana = memo(styled.div`
   /* background-color: orange; */
+  display:flex;
   flex-direction: column;
   flex: 1;
   border-radius: 10px;

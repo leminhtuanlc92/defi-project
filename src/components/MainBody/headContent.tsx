@@ -85,13 +85,14 @@ export default ({ update }) => {
 
 const HeadContentWrap = memo(styled.div`
     width:100%;
+    display:flex;
     justify-content:space-between;
     align-items:center;
     flex:1;
     margin-bottom:1rem;
     #affiliate-link{
         align-items:center;
-        /* background-color:red; */
+        display:flex;
         @media (max-width:399px){
           width:100%;
         }
@@ -104,8 +105,10 @@ const HeadContentWrap = memo(styled.div`
         #aff-link-box{
           height:40px;
           align-items:center;
+          display:flex;
           #aff_link_text{
             overflow: hidden;
+            display:flex;
             max-width: 300px;
             height:40px;
             align-items:center;
@@ -127,7 +130,7 @@ const HeadContentWrap = memo(styled.div`
       }
     }
     #top_account_info{
-      /* background-color:orange; */
+      display:flex;
       #tai_lang{
         @media (max-width:499px){
           display:none;
@@ -139,6 +142,7 @@ const HeadContentWrap = memo(styled.div`
       #tai_user{
         margin-left:15px;
         overflow:hidden;
+        display:flex;
         @media (max-width:767px){
           margin-left:0;
         }
@@ -148,6 +152,7 @@ const HeadContentWrap = memo(styled.div`
           justify-content:space-between;
         }
         #avt_lvl{
+            display:flex;
             flex-direction:column;
             align-items:center;
             margin-right:10px;
@@ -163,6 +168,7 @@ const HeadContentWrap = memo(styled.div`
             }
         }
         #username_address{
+            display:flex;
             flex-direction:column;
             justify-content:space-between;
             span{
@@ -219,6 +225,7 @@ const HeadContentWrap = memo(styled.div`
         }
         #aff-link-box{
           width:100%;
+          display:flex;
           align-items: center;
           justify-content: center;
         }
@@ -240,6 +247,7 @@ const HeadContentWrap = memo(styled.div`
 `);
 
 const CopyButton = memo(styled.div`
+  display:flex;
   align-items: center;
   justify-content: center;
   ${(props: any) =>

@@ -36,7 +36,7 @@ const GlobalStyle = createGlobalStyle`
         line-height:inherit;
     }
     div{
-        display:flex;
+        display:block;
     }
     blockquote, q {
         quotes: none;

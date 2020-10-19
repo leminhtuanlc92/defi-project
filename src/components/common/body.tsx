@@ -178,6 +178,7 @@ const MainContentWrap = memo(styled.div`
 `);
 
 const MainBody = memo(styled.div`
+    display:flex;
     width: calc(100% - 60px);
     padding: 0 20px;
     height:calc(100% - 40px);
