@@ -35,6 +35,10 @@ const RefItemWrap = memo(styled.div`
     border:solid 1px #EF89404D;
     position: relative;
     width: 18%;
+    display:flex;
+    div{
+        display:flex;
+    }
     #inner_content_info {
         padding:1rem;
         .ici_icon{

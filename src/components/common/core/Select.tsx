@@ -100,6 +100,7 @@ const SelectInput = memo(styled.div`
   `}
   #sli_current_select {
     flex: 1;
+    display:flex;
     justify-content: space-between;
     align-items: center;
     padding: 10px 20px;

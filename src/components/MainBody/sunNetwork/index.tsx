@@ -69,6 +69,7 @@ const SunNetworkWrap = memo(styled.div`
     color: ${Colors.black};
     margin-bottom: 10px;
     font-weight: 500;
+    display:block;
   }
   #sunnetwork_mainbody {
     background-color: ${Colors.white};

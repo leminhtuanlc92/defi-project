@@ -51,6 +51,7 @@ export default ({ data, loading }: PartnerSearchListProps) => {
 const PartnerSearchListWrap = memo(styled.div`
   flex: 1;
   flex-direction: column;
+  margin-bottom:20px;
   #partner_search_list_header {
     flex: 1;
     justify-content: space-between;

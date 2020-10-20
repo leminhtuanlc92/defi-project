@@ -250,6 +250,7 @@ const DashboardWrap = memo(styled.div`
     width: 100%;
     flex: 1;
     #db_back_office_top {
+      display:flex;
       justify-content: space-between;
       align-items: center;
       margin-bottom: 10px;
@@ -291,6 +292,7 @@ const DashboardWrap = memo(styled.div`
     z-index: 2;
     top: 0;
     left: 0;
+    display:flex;
     background-color: rgba(34, 34, 34, 0.8);
     align-items: center;
     justify-content: center;

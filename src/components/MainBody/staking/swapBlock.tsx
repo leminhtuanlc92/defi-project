@@ -83,6 +83,7 @@ const SwapBlockWrap = memo(styled.div`
       border-top-left-radius: 5px;
       border-bottom-left-radius: 5px;
       flex-direction: column;
+      display:flex;
       padding: 0.5rem 0;
       .block_title {
         color: ${Colors.black10};

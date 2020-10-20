@@ -52,10 +52,14 @@ export default () => {
 };
 
 const MatrixNetworkWrap = memo(styled.div`
+  display:flex;
   flex: 1;
   width: 100%;
   flex-direction: column;
   overflow-y: scroll;
+  div{
+    display:flex;
+  }
   #matrixnetwork_main_title {
     font-size: ${Texts.size.huge};
     line-height: ${Texts.size.huge};

@@ -73,8 +73,10 @@ export default ({ contract }) => {
 const RefBalanceWrap = memo(styled.div`
   display: block;
   .rb_total {
+    display:flex;
     .rbt {
       flex-direction: column;
+      display:flex;
       align-items: center;
       justify-content: space-between;
       border-radius: 10px;
@@ -87,6 +89,7 @@ const RefBalanceWrap = memo(styled.div`
         width: 100%;
       }
       #inner_content_info {
+        display:flex;
         padding: 1rem;
         width: calc(100% - 2rem);
         .ici_icon {
@@ -103,6 +106,7 @@ const RefBalanceWrap = memo(styled.div`
           }
         }
         #inner_info_wrap {
+          display:flex;
           flex-direction: column;
           padding: 0 0 0 1rem;
           #info_content_title {

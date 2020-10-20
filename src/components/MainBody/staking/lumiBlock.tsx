@@ -27,6 +27,9 @@ const LumiBlockWrap = memo(styled.div`
     @media (max-width:500px){
         width:100%;
     }
+    div{
+        display:flex;
+    }
     .lb{
         .lb_logo{
             background:${Colors.white};

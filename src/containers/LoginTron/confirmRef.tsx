@@ -129,6 +129,10 @@ const ConfirmRefWrap = memo(styled.div`
   height: 100%;
   flex: 1;
   align-items: center;
+  display:flex;
+  div{
+    display:flex;
+  }
   #left_part {
     flex: 0.4;
     height: 100%;

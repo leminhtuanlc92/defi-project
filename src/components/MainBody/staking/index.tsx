@@ -362,16 +362,17 @@ const StakingWrap = memo(styled.div`
   flex-direction: column;
   overflow-y: scroll;
   overflow-x: hidden;
+  display:flex;
   #staking_main_title {
     font-size: ${Texts.size.huge};
     line-height: ${Texts.size.huge};
     color: ${Colors.black};
     margin-bottom: 10px;
     font-weight: 500;
+    display:block;
   }
   #staking_mainbody {
     background-color: ${Colors.white};
-    display: block;
     width: calc(100% - 4rem);
     height: calc(100% - 4rem);
     padding: 2rem;
@@ -405,6 +406,7 @@ const StakingWrap = memo(styled.div`
       .mbi_inner {
         position: relative;
         margin-top: 25px;
+        display:flex;
         @media (max-width: 767px) {
           display: block;
           border: none;
@@ -423,10 +425,12 @@ const StakingWrap = memo(styled.div`
           position: relative;
           border: solid 1px ${Colors.black1};
           border-radius: 5px;
+          display:flex;
           @media (max-width: 767px) {
             margin-bottom: 1rem;
           }
           .li {
+            display:flex;
             padding: 0 3rem 0 1rem;
             height: 37px;
             min-width: 250px;
@@ -487,6 +491,7 @@ const StakingWrap = memo(styled.div`
           }
         }
         .mbi_interest {
+          display:flex;
           align-items: center;
           justify-content: center;
           padding: 0 1rem;

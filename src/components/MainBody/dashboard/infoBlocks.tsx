@@ -48,6 +48,7 @@ const InfoBlock = memo(styled.div`
   position: relative;
   width: 18.5%;
   #inner-content-info {
+    display:flex;
     padding:1rem;
     width: calc(100% - 2rem);
     .ici_icon{
@@ -64,6 +65,7 @@ const InfoBlock = memo(styled.div`
         }
     }
     #inner-info-wrap {
+      display:flex;
       flex-direction: column;
       padding: 0 0 0 1rem;
       #info-content-title {

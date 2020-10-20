@@ -248,6 +248,7 @@ export default ({ showPop, setShowPop }: PopUpgradeProps) => {
 
 const PopUpgradeWrap = memo(styled.div`
   position: fixed;
+  display:flex;
   z-index: 2;
   top: 0;
   left: 0;
@@ -275,6 +276,7 @@ const PopUpgradeWrap = memo(styled.div`
     flex: 1;
     background: ${Colors.white};
     border-radius: 15px;
+    display:flex;
     flex-direction: column;
     padding: 40px 50px;
     align-items: center;
@@ -285,6 +287,7 @@ const PopUpgradeWrap = memo(styled.div`
     }
     #pop-upgrade-content-inner {
       flex: 1;
+      display:flex;
       flex-direction: column;
       align-items: center;
       width: 100%;
@@ -305,6 +308,7 @@ const PopUpgradeWrap = memo(styled.div`
         margin-top: 30px;
         width: 95%;
         flex: 1;
+        display:flex;
         flex-direction: column;
         align-items: center;
         @media (max-width:991px){
@@ -330,6 +334,7 @@ const PopUpgradeWrap = memo(styled.div`
               width: calc(100% - 20px);
             }
             #pum_step {
+              display:flex;
               align-items: flex-start;
               justify-content: center;
               margin-bottom: 30px;
@@ -342,6 +347,7 @@ const PopUpgradeWrap = memo(styled.div`
                 width: calc(100% - 20px);
               }
               div {
+                display:flex;
                 flex-direction: column;
                 align-items: center;
                 justify-content: center;
@@ -358,6 +364,7 @@ const PopUpgradeWrap = memo(styled.div`
             #pum_current_lv {
               flex: 1;
               width: 80%;
+              display:flex;
               justify-content: center;
               align-items: center;
               flex-direction: column;
@@ -376,11 +383,13 @@ const PopUpgradeWrap = memo(styled.div`
               #pumclv_inner {
                 padding: 5%;
                 width: 90%;
+                display:flex;
                 flex-direction: column;
                 justify-content: space-between;
                 #pumclvi_lv {
                   justify-content: space-between;
                   align-items: center;
+                  display:flex;
                   margin-bottom: 20px;
                   span {
                     font-size: ${Texts.size.large};
@@ -392,6 +401,7 @@ const PopUpgradeWrap = memo(styled.div`
                   }
                 }
                 #pumclvilv_upgrade {
+                  display:flex;
                   flex-direction: column;
                   margin-bottom: 20px;
                   #pumclvilvu_title {
@@ -409,8 +419,8 @@ const PopUpgradeWrap = memo(styled.div`
                   }
                 }
                 #pumclvi_purchase {
-                  flex-direction: column;
                   #pumclvip_amount {
+                    display:flex;
                     align-items: center;
                     justify-content: space-between;
                     margin-bottom:10px;
@@ -427,6 +437,7 @@ const PopUpgradeWrap = memo(styled.div`
                     }
                   }
                   #pumclvip_cal1 {
+                    display:flex;
                     align-items: center;
                     justify-content: space-between;
                     margin-bottom:5px;
@@ -461,6 +472,7 @@ const PopUpgradeWrap = memo(styled.div`
                 }
                 #pumclvi_button {
                   width: 100%;
+                  display:flex;
                   align-items: center;
                   justify-content: center;
                   #pumclvib_inner {
@@ -489,11 +501,13 @@ const PopUpgradeWrap = memo(styled.div`
                   }
                 }
                 #pumclvi_success {
+                  display:flex;
                   justify-content: center;
                   margin: 10px 0;
                 }
                 #pumclvi_quote {
                   margin: 10px 0 20px;
+                  display:flex;
                   flex-direction: column;
                   align-items: center;
                   span {

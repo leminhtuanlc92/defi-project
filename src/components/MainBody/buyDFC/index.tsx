@@ -198,6 +198,10 @@ const BuyDFCWrap = memo(styled.div`
     width: 100%;
     flex-direction: column;
     overflow-y:scroll;
+    display:flex;
+    div{
+      display:flex;
+    }
     #buydfc_mainbody{
         /* background-color:${Colors.white}; */
         flex-direction:column;

@@ -203,6 +203,7 @@ const MainBody = memo(styled.div`
         justify-content:flex-start;
         flex-direction:column;
         overflow:scroll;
+        display:flex;
         #scroll_section{
             width:100%;
             display:block;
@@ -213,6 +214,7 @@ const MainBody = memo(styled.div`
     #wrap_main_content{
         width:100%;
         overflow:hidden;
+        display:flex;
         flex:1;
         flex-grow:12;
         height:calc(100% - 40px - 1rem);

@@ -64,6 +64,9 @@ const LoginNotifyWrapper = memo(styled.div`
     height:100%;
     flex:1;
     background-color:${Colors.white};
+    div{
+        display:flex;
+    }
     #login_notify_head{
         width: calc(100% - 60px);
         justify-content:space-between;

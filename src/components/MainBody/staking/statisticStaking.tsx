@@ -41,6 +41,7 @@ export default ({ title, value, maxPayout, trxPrice }: StatisticStakingProps) =>
 }
 
 const StatisticStakingWrap = memo(styled.div`
+    display:flex;
     flex-direction: column;
     align-items: center;
     justify-content: space-between;
@@ -51,6 +52,7 @@ const StatisticStakingWrap = memo(styled.div`
     width: 18%;
     #inner_content_info {
         padding:1rem;
+        display:flex;
         .ici_icon{
             width:46px;
             height:46px;
@@ -65,6 +67,7 @@ const StatisticStakingWrap = memo(styled.div`
             }
         }
         #inner_info_wrap {
+            display:flex;
             flex-direction: column;
             padding: 0 0 0 1rem;
             #info_content_title {

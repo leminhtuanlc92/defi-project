@@ -77,6 +77,9 @@ const SwapWrap = memo(styled.div`
   .s_inner {
     display: block;
     width: 100%;
+    div{
+      display:flex;
+    }
     .mbs_title {
       font-size: ${Texts.size.huge};
       line-height: ${Texts.size.huge};

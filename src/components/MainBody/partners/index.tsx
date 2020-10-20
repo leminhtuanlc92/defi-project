@@ -176,10 +176,14 @@ export default () => {
 
 const PartnerskWrap = memo(styled.div`
   flex: 1;
+  display:flex;
   width: 100%;
   flex-direction: column;
   overflow-y: scroll;
   overflow-x:hidden;
+  div{
+    display:flex;
+  }
   #partner_main_title {
     font-size: ${Texts.size.huge};
     line-height: ${Texts.size.huge};
@@ -211,6 +215,7 @@ const PartnerskWrap = memo(styled.div`
         color: ${Colors.black};
         margin-bottom: 10px;
         font-weight: 500;
+        display:block;
       }
       #pmf_1 {
         align-items: flex-end;

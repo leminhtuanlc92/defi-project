@@ -68,6 +68,10 @@ const PopUpgradeWrap = memo(styled.div`
   justify-content: center;
   width: 100vw;
   height: 100vh;
+  display:flex;
+  div{
+      display:flex;
+  }
   #pop_signup_content {
     flex: 1;
     background: ${Colors.white};

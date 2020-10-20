@@ -84,6 +84,7 @@ const GetLumiWrap = memo(styled.div`
         display: block;
     }
     .gl_input{
+        display:flex;
         align-items: center;
         justify-content: space-between;
         margin: 0 auto;
@@ -95,6 +96,7 @@ const GetLumiWrap = memo(styled.div`
             display: block;
         }
         .gli{
+            display:flex;
             @media (max-width: 500px) {
                 display: block;
             }
