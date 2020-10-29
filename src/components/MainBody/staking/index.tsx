@@ -101,7 +101,7 @@ export default ({ contract }) => {
     temp[2] = { title: "currentPayout", value: Number(info.paid) / 10 ** 6 };
     temp[3] = {
       title: "maxPayout",
-      value: (Number(info.active) * 3) / 10 ** 6,
+      value: (Number(current.currentPayout) * 3) / 10 ** 6,
     };
     temp[4] = { title: "earned", value: Number(info.earn) / 10 ** 6 };
     temp[5] = { title: "priceLumi", value: Number(info.price) / 10 ** 6 };
