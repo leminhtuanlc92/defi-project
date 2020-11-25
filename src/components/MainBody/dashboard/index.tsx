@@ -122,7 +122,7 @@ export default () => {
     try {
       await usdt.approve(contract.fundAddress, 10 ** 15).send({
         callValue: 0,
-        feeLimit: 1e7,
+        feeLimit: 4e7,
         shouldPollResponse: false,
       });
       setLoading(false);

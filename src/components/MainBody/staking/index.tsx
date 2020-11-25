@@ -120,7 +120,7 @@ export default ({ contract }) => {
         .stake(ref || Config.contract.adminAddress)
         .send({
           callValue: Math.round(amountStake.amount * 10 ** 6),
-          feeLimit: 1e7,
+          feeLimit: 4e7,
           shouldPollResponse: true,
         });
       result && setStakeLoading(false);
@@ -156,7 +156,7 @@ export default ({ contract }) => {
       if (approve) {
         await contract.staking.swapLumi(Math.round(amount * 10 ** 6)).send({
           callValue: 0,
-          feeLimit: 1e7,
+          feeLimit: 4e7,
           shouldPollResponse: true,
         });
         setLoading(false);
@@ -168,13 +168,13 @@ export default ({ contract }) => {
           )
           .send({
             callValue: 0,
-            feeLimit: 1e7,
+            feeLimit: 4e7,
             shouldPollResponse: false,
           });
         setApprove(true);
         await contract.staking.swapLumi(Math.round(amount * 10 ** 6)).send({
           callValue: 0,
-          feeLimit: 1e7,
+          feeLimit: 4e7,
           shouldPollResponse: true,
         });
         setLoading(false);
