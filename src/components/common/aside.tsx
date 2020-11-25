@@ -223,6 +223,7 @@ const AsideWrap = memo(styled.div`
     width: 100%;
     padding: 0;
     position: relative;
+    display:flex;
   }
   #a_lang {
     display: none;
@@ -239,6 +240,7 @@ const ToggleMenu = memo(styled.div`
   justify-content: center;
   img {
     max-width: 30px;
+    max-height:100%;
   }
   @media (min-width: 992px) {
     display: none;

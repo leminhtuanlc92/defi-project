@@ -53,6 +53,9 @@ const GlobalStyle = createGlobalStyle`
     *:focus {
         outline: none;
     }
+    /* *, :after, :before{
+        box-sizing: border-box;
+    } */
     ::-webkit-scrollbar {
         width: 0;
     }

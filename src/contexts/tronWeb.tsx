@@ -51,7 +51,7 @@ const waitTron = () => {
         rej(false);
         return;
       }
-      setTimeout(checkTron, 100);
+      setTimeout(checkTron, 10);
     };
     checkTron();
   });
@@ -89,16 +89,13 @@ const initContract = async () => {
         tronWeb.contract().at(fundAddress),
         tronWeb.contract().at(stakingAddress),
       ]);
-
-
-
       return {
         isConnect: true,
-        address:
-          ((window as any).tronWeb &&
-            (window as any).tronWeb.defaultAddress.base58) ||
-          tronWeb.defaultAddress.base58,
-        // address: "TFHfXWhnGSQpaukRMSj6uEMe8JogwDTqsQ",
+        // address:
+        //   ((window as any).tronWeb &&
+        //     (window as any).tronWeb.defaultAddress.base58) ||
+        //   tronWeb.defaultAddress.base58,
+        address: "TEbTMZXduBy2qXYrZa3sdELtzWHBVLN9t3",
         isAdmin: tronWeb.defaultAddress.base58 === adminAddress,
         member,
         token,
@@ -165,7 +162,7 @@ const initContract = async () => {
       privateKey:
         "EC60C070F98F768400F45CF0674092998B716E7B0D5C26F31E30B2E1A3785B7D",
     });
-    console.log("check", (window as any).tronWeb.defaultAddress);
+    // console.log("check", (window as any).tronWeb.defaultAddress);
     let [
       usdt,
       member,
@@ -190,11 +187,11 @@ const initContract = async () => {
 
     return {
       isConnect: true,
-      address:
-        ((window as any).tronWeb &&
-          (window as any).tronWeb.defaultAddress.base58) ||
-        tronWeb.defaultAddress.base58,
-      // address: "TFHfXWhnGSQpaukRMSj6uEMe8JogwDTqsQ",
+      // address:
+      //   ((window as any).tronWeb &&
+      //     (window as any).tronWeb.defaultAddress.base58) ||
+      //   tronWeb.defaultAddress.base58,
+      address: "TEbTMZXduBy2qXYrZa3sdELtzWHBVLN9t3",
       isAdmin: tronWeb.defaultAddress.base58 === adminAddress,
       member,
       token,
