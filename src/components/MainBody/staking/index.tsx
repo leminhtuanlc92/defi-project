@@ -326,7 +326,7 @@ export default ({ contract }) => {
                 maxPayout={stats[3].value}
                 trxPrice={trxPrice}
                 title={item.title}
-                value={item.value}
+                value={index === 3 ? stats[1].value * 3 : item.value}
               />
             );
           })}
