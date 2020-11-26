@@ -42,20 +42,21 @@ export default ({ list, page, setPage, current, maxPage }) => {
                 })}
               </Fragment>
             ) : (
-              <div className="empty_list">
-                <span>{i18n.t("emptyList")}</span>
+                <div className="empty_list">
+                  <span>{i18n.t("emptyList")}</span>
+                </div>
+              )}
+            {list.length > 0 &&
+              <div className="lsibl_pagination">
+                <Pagination
+                  currentPage={page}
+                  totalPage={maxPage}
+                  size={10}
+                  url="/staking"
+                  setPage={setPage}
+                />
               </div>
-            )}
-
-            <div className="lsibl_pagination">
-              <Pagination
-                currentPage={page}
-                totalPage={maxPage}
-                size={10}
-                url="/staking"
-                setPage={setPage}
-              />
-            </div>
+            }
           </div>
         </div>
       </div>
@@ -80,24 +81,25 @@ const ListStakingWrap = memo(styled.div`
     .lsi_body {
       display: block;
       .lsib_header {
+        display:flex;
         padding: 1rem 0;
         border-bottom: solid 1px ${Colors.black};
         > div {
           display: block;
           &:first-child {
-            flex: 1;
+            width:10%;
             text-align: left;
           }
           &:nth-child(2) {
-            flex: 3;
+            width:30%;
             text-align: center;
           }
           &:nth-child(3) {
-            flex: 4;
+            width: 40%;
             text-align: center;
           }
           &:last-child {
-            flex: 2;
+            width: 20%;
             text-align: right;
           }
           span {
@@ -109,6 +111,7 @@ const ListStakingWrap = memo(styled.div`
       .lsib_list {
         display: block;
         .empty_list {
+          display:flex;
           align-items: center;
           justify-content: center;
           padding: 1rem 0;

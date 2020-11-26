@@ -210,6 +210,7 @@ const SunChildNodeImage = memo(styled.img`
 `);
 
 const SunUserItemNodeMain = memo(styled.div`
+  display:flex;
   align-items: center;
   flex: 1;
   padding: 10px;
@@ -226,7 +227,9 @@ const SunUserItemNodeMain = memo(styled.div`
   .sunm_info {
     margin-left: 10px;
     flex: 1;
+    display:flex;
     .sunmi_avt {
+      display:flex;
       flex-direction: column;
       justify-content: center;
       align-items: center;
@@ -251,6 +254,7 @@ const SunUserItemNodeMain = memo(styled.div`
     }
   }
   .sunmi_bio {
+    display:flex;
     margin-left: 10px;
     flex-direction: column;
     justify-content: center;
