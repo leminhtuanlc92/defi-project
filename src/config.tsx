@@ -1,6 +1,6 @@
 const config = {
   // API
-  mainNet: "https://httpapi.tronex.io",
+  mainNet: "https://api.tronstack.io",
 };
 
 // const contract = {

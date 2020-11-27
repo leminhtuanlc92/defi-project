@@ -112,20 +112,27 @@ const initContract = async () => {
       let [
         usdt,
         member,
-        token,
-        matrixMember,
-        matrixMarketing,
-        userData,
-        shareHolder,
-        fund,
-        staking
+        token
       ] = await Promise.all([
         (window as any).tronWeb.contract().at(usdtAddress),
         (window as any).tronWeb.contract().at(memberAddress),
         (window as any).tronWeb.contract().at(tokenAddress),
+      ]);
+      let [
+        matrixMember,
+        matrixMarketing,
+        userData
+      ] = await Promise.all([
         (window as any).tronWeb.contract().at(matrixMemberAddress),
         (window as any).tronWeb.contract().at(matrixMarketingAddress),
-        (window as any).tronWeb.contract().at(userDataAddress),
+        (window as any).tronWeb.contract().at(userDataAddress)
+      ]);
+
+      let [
+        shareHolder,
+        fund,
+        staking
+      ] = await Promise.all([
         (window as any).tronWeb.contract().at(shareHolderAddress),
         (window as any).tronWeb.contract().at(fundAddress),
         (window as any).tronWeb.contract().at(stakingAddress),
@@ -162,7 +169,6 @@ const initContract = async () => {
       privateKey:
         "EC60C070F98F768400F45CF0674092998B716E7B0D5C26F31E30B2E1A3785B7D",
     });
-    // console.log("check", (window as any).tronWeb.defaultAddress);
     let [
       usdt,
       member,
