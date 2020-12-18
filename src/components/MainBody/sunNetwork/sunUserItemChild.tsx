@@ -86,6 +86,7 @@ export default ({ data, index }: SunUserItemChildProps) => {
 };
 
 const SunUserItemChildWrap = memo(styled.div`
+  display:flex;
   flex-direction: column;
   position: relative;
   margin-bottom: 10px;
@@ -197,6 +198,7 @@ const SunChildNodeImage = memo(styled.img`
 `);
 
 const SunUserItemChildNodeMain = memo(styled.div`
+  display:flex;
   align-items: center;
   flex: 1;
   padding: 10px;
@@ -211,9 +213,11 @@ const SunUserItemChildNodeMain = memo(styled.div`
           border-radius: 10px;
         `};
   .sunm_info {
+    display:flex;
     margin-left: 10px;
     flex: 1;
     .sunmi_avt {
+      display:flex;
       flex-direction: column;
       justify-content: center;
       align-items: center;
@@ -238,6 +242,7 @@ const SunUserItemChildNodeMain = memo(styled.div`
     }
   }
   .sunmi_bio {
+    display:flex;
     margin-left: 10px;
     flex-direction: column;
     justify-content: center;

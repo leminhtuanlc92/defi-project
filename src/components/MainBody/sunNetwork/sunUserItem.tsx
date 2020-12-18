@@ -98,10 +98,12 @@ export default ({ item, topNode, index }: SunUserItemProps) => {
 };
 
 const SunUserItemWrap = memo(styled.div`
+  display:flex;
   flex-direction: column;
   position: relative;
   margin-bottom: 10px;
   .su_childnodes {
+    display:flex;
     flex-direction: column;
     padding-left: 10px;
     position: relative;
@@ -225,6 +227,7 @@ const SunUserItemNodeMain = memo(styled.div`
           border-radius: 10px;
         `};
   .sunm_info {
+    display:flex;
     margin-left: 10px;
     flex: 1;
     display:flex;

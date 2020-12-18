@@ -95,7 +95,6 @@ const initContract = async () => {
           ((window as any).tronWeb &&
             (window as any).tronWeb.defaultAddress.base58) ||
           tronWeb.defaultAddress.base58,
-        // address: "TEbTMZXduBy2qXYrZa3sdELtzWHBVLN9t3",
         isAdmin: tronWeb.defaultAddress.base58 === adminAddress,
         member,
         token,
@@ -147,7 +146,6 @@ const initContract = async () => {
       return {
         isConnect: true,
         address: (window as any).tronWeb.defaultAddress.base58,
-        // address: "TFHfXWhnGSQpaukRMSj6uEMe8JogwDTqsQ",
         isAdmin: (window as any).tronWeb.defaultAddress.base58 === adminAddress,
         member,
         token,
@@ -193,11 +191,11 @@ const initContract = async () => {
 
     return {
       isConnect: true,
-      address:
-        ((window as any).tronWeb &&
-          (window as any).tronWeb.defaultAddress.base58) ||
-        tronWeb.defaultAddress.base58,
-      // address: "TEbTMZXduBy2qXYrZa3sdELtzWHBVLN9t3",
+      // address:
+      //   ((window as any).tronWeb &&
+      //     (window as any).tronWeb.defaultAddress.base58) ||
+      //   tronWeb.defaultAddress.base58,
+      address: "TSvbTxW6wXagNQFxkxSGuhaquMWhu8cxiE",
       isAdmin: tronWeb.defaultAddress.base58 === adminAddress,
       member,
       token,
