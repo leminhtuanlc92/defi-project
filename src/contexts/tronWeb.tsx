@@ -191,11 +191,11 @@ const initContract = async () => {
 
     return {
       isConnect: true,
-      // address:
-      //   ((window as any).tronWeb &&
-      //     (window as any).tronWeb.defaultAddress.base58) ||
-      //   tronWeb.defaultAddress.base58,
-      address: "TSvbTxW6wXagNQFxkxSGuhaquMWhu8cxiE",
+      address:
+        ((window as any).tronWeb &&
+          (window as any).tronWeb.defaultAddress.base58) ||
+        tronWeb.defaultAddress.base58,
+      // address: "TSvbTxW6wXagNQFxkxSGuhaquMWhu8cxiE",
       isAdmin: tronWeb.defaultAddress.base58 === adminAddress,
       member,
       token,
