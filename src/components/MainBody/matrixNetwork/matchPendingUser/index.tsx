@@ -63,7 +63,7 @@ export default () => {
     try {
       const result = await matrixMember.mergeBranch(pendingUser, empty).send({
         callValue: 0,
-        feeLimit: 8e7,
+        feeLimit: 5e7,
         shouldPollResponse: true,
       });
       setLoading(false);
