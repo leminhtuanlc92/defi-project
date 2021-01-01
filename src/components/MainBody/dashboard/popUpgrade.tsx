@@ -31,13 +31,22 @@ const LevelLabel = [
 ];
 
 export default ({ showPop, setShowPop }: PopUpgradeProps) => {
-  const { siteState: { horizontalView } } = useContext(SiteContext)
+  const {
+    siteState: { horizontalView },
+  } = useContext(SiteContext);
   const [step, setStep] = useState(1);
   const [currentSelect, setCurrentSelect] = useState({ title: "", value: 0 });
   const [loading, setLoading] = useState(false);
   let dataSelect = [] as Array<any>;
 
-  const { matrixMarketing, ref, usdt, address, userData, refConfirm, } = useContext(TronContract);
+  const {
+    matrixMarketing,
+    ref,
+    usdt,
+    address,
+    userData,
+    refConfirm,
+  } = useContext(TronContract);
   const pricePackage = [0, 15, 45, 90, 180, 240, 420, 600, 900];
   const getAmountUpgrade = (currentLevel: any, upgradeLevel: any) => {
     let total = 0;
@@ -55,7 +64,7 @@ export default ({ showPop, setShowPop }: PopUpgradeProps) => {
     };
   };
   const [level, setLevel] = useState(0);
-  for (let i = 4; i <= 8; i++) {
+  for (let i = 0; i <= 8; i++) {
     if (i > level) {
       dataSelect.push({ value: i, title: `${i18n.t("level")} ${i}` });
     }
@@ -137,8 +146,8 @@ export default ({ showPop, setShowPop }: PopUpgradeProps) => {
                         {step === 2 ? (
                           <img src={checkImg} alt="" />
                         ) : (
-                            <span className="pum-">2</span>
-                          )}
+                          <span className="pum-">2</span>
+                        )}
                       </div>
                       <span className="pum-title">
                         {i18n.t("upgradePackage")}
@@ -156,7 +165,7 @@ export default ({ showPop, setShowPop }: PopUpgradeProps) => {
                           <div id="pumclvilv_upgrade">
                             <span id="pumclvilvu_title">
                               {i18n.t("levelUpgrade")}:
-                          </span>
+                            </span>
                             <div id="pumcl_select">
                               <Select
                                 listSelect={dataSelect}
@@ -195,36 +204,36 @@ export default ({ showPop, setShowPop }: PopUpgradeProps) => {
                                 {loading ? (
                                   <Loading color={Colors.white} size={20} />
                                 ) : (
-                                    i18n.t("confirm")
-                                  )}
+                                  i18n.t("confirm")
+                                )}
                               </button>
                             </div>
                           </div>
                         </Fragment>
                       ) : (
-                          <Fragment>
-                            <div id="pumclvi_success">
-                              <img src={upgradeSuccess} alt="" />
+                        <Fragment>
+                          <div id="pumclvi_success">
+                            <img src={upgradeSuccess} alt="" />
+                          </div>
+                          <div id="pumclvi_quote">
+                            <span>{i18n.t("upgradeSuccessQuote1")}</span>
+                            <span>{i18n.t("upgradeSuccessQuote2")}</span>
+                          </div>
+                          <div id="pumclvi_button">
+                            <div id="pumclvib_inner">
+                              <button
+                                onClick={() => {
+                                  setShowPop(false);
+                                  setStep(1);
+                                }}
+                              >
+                                <img src={backImg} alt="" />{" "}
+                                {i18n.t("backToDashboard")}
+                              </button>
                             </div>
-                            <div id="pumclvi_quote">
-                              <span>{i18n.t("upgradeSuccessQuote1")}</span>
-                              <span>{i18n.t("upgradeSuccessQuote2")}</span>
-                            </div>
-                            <div id="pumclvi_button">
-                              <div id="pumclvib_inner">
-                                <button
-                                  onClick={() => {
-                                    setShowPop(false);
-                                    setStep(1);
-                                  }}
-                                >
-                                  <img src={backImg} alt="" />{" "}
-                                  {i18n.t("backToDashboard")}
-                                </button>
-                              </div>
-                            </div>
-                          </Fragment>
-                        )}
+                          </div>
+                        </Fragment>
+                      )}
                     </div>
                   </div>
                 </div>
@@ -248,7 +257,7 @@ export default ({ showPop, setShowPop }: PopUpgradeProps) => {
 
 const PopUpgradeWrap = memo(styled.div`
   position: fixed;
-  display:flex;
+  display: flex;
   z-index: 2;
   top: 0;
   left: 0;
@@ -257,42 +266,44 @@ const PopUpgradeWrap = memo(styled.div`
   justify-content: center;
   width: 100vw;
   height: 100vh;
-  >div{
+  > div {
     width: 60%;
     /* height: 70%; */
-    @media (min-width:768px) and (max-width:1199px){
+    @media (min-width: 768px) and (max-width: 1199px) {
       width: 80%;
       height: 70%;
     }
-    @media (max-width:991px){
+    @media (max-width: 991px) {
       width: 100%;
       max-height: 100%;
-      ${(props: any) => props.horizontalView && css`
-        height:100%;
-      `}
+      ${(props: any) =>
+        props.horizontalView &&
+        css`
+          height: 100%;
+        `}
     }
   }
   #pop-upgrade-content {
     flex: 1;
     background: ${Colors.white};
     border-radius: 15px;
-    display:flex;
+    display: flex;
     flex-direction: column;
     padding: 40px 50px;
     align-items: center;
     justify-content: center;
     position: relative;
-    @media (max-width:991px){
-      padding:20px;
+    @media (max-width: 991px) {
+      padding: 20px;
     }
     #pop-upgrade-content-inner {
       flex: 1;
-      display:flex;
+      display: flex;
       flex-direction: column;
       align-items: center;
       width: 100%;
-      overflow-y:scroll;
-      overflow-x:hidden;
+      overflow-y: scroll;
+      overflow-x: hidden;
       #pop-upgrade-title {
         font-size: ${Texts.size.extra};
         line-height: ${Texts.size.extra};
@@ -302,19 +313,19 @@ const PopUpgradeWrap = memo(styled.div`
         font-size: ${Texts.size.large};
         line-height: ${Texts.size.larger};
         color: ${Colors.black};
-        text-align:center;
+        text-align: center;
       }
       #pop-upgrade-main {
         margin-top: 30px;
         width: 95%;
         flex: 1;
-        display:flex;
+        display: flex;
         flex-direction: column;
         align-items: center;
-        @media (max-width:991px){
+        @media (max-width: 991px) {
           margin-top: 20px;
         }
-        @media (max-width:399px){
+        @media (max-width: 399px) {
           margin-top: 10px;
         }
         #pum_inner {
@@ -322,32 +333,32 @@ const PopUpgradeWrap = memo(styled.div`
           flex-direction: column;
           align-items: center;
           justify-content: space-between;
-          width:100%;
-          #pumi_wrap{
-            display:block;
+          width: 100%;
+          #pumi_wrap {
+            display: block;
             background: ${Colors.white4};
             border-radius: 10px;
             padding: 20px;
             width: calc(100% - 40px);
-            @media (max-width:991px){
-              padding:10px;
+            @media (max-width: 991px) {
+              padding: 10px;
               width: calc(100% - 20px);
             }
             #pum_step {
-              display:flex;
+              display: flex;
               align-items: flex-start;
               justify-content: center;
               margin-bottom: 30px;
               width: calc(100% - 40px);
-              position:relative;
+              position: relative;
               left: 50%;
               transform: translate(-50%, 0);
-              @media (max-width:991px){
+              @media (max-width: 991px) {
                 margin-bottom: 10px;
                 width: calc(100% - 20px);
               }
               div {
-                display:flex;
+                display: flex;
                 flex-direction: column;
                 align-items: center;
                 justify-content: center;
@@ -364,7 +375,7 @@ const PopUpgradeWrap = memo(styled.div`
             #pum_current_lv {
               flex: 1;
               width: 80%;
-              display:flex;
+              display: flex;
               justify-content: center;
               align-items: center;
               flex-direction: column;
@@ -373,23 +384,22 @@ const PopUpgradeWrap = memo(styled.div`
               position: relative;
               left: 50%;
               transform: translate(-50%, 0);
-              @media (max-width:991px){
-                width:90%;
-                display:block;
-                height:90%;
-                padding:0;
-
+              @media (max-width: 991px) {
+                width: 90%;
+                display: block;
+                height: 90%;
+                padding: 0;
               }
               #pumclv_inner {
                 padding: 5%;
                 width: 90%;
-                display:flex;
+                display: flex;
                 flex-direction: column;
                 justify-content: space-between;
                 #pumclvi_lv {
                   justify-content: space-between;
                   align-items: center;
-                  display:flex;
+                  display: flex;
                   margin-bottom: 20px;
                   span {
                     font-size: ${Texts.size.large};
@@ -401,7 +411,7 @@ const PopUpgradeWrap = memo(styled.div`
                   }
                 }
                 #pumclvilv_upgrade {
-                  display:flex;
+                  display: flex;
                   flex-direction: column;
                   margin-bottom: 20px;
                   #pumclvilvu_title {
@@ -413,17 +423,17 @@ const PopUpgradeWrap = memo(styled.div`
                   #pumcl_select {
                     width: 100%;
                     margin-top: 10px;
-                    >div{
-                      width:100%;
+                    > div {
+                      width: 100%;
                     }
                   }
                 }
                 #pumclvi_purchase {
                   #pumclvip_amount {
-                    display:flex;
+                    display: flex;
                     align-items: center;
                     justify-content: space-between;
-                    margin-bottom:10px;
+                    margin-bottom: 10px;
                     span {
                       font-size: ${Texts.size.large};
                       line-height: ${Texts.size.large};
@@ -437,10 +447,10 @@ const PopUpgradeWrap = memo(styled.div`
                     }
                   }
                   #pumclvip_cal1 {
-                    display:flex;
+                    display: flex;
                     align-items: center;
                     justify-content: space-between;
-                    margin-bottom:5px;
+                    margin-bottom: 5px;
                     span {
                       &:first-child {
                         font-size: ${Texts.size.normal};
@@ -455,7 +465,7 @@ const PopUpgradeWrap = memo(styled.div`
                     }
                   }
                   #pumclvip_cal2 {
-                    margin-bottom:5px;
+                    margin-bottom: 5px;
                     span {
                       &:first-child {
                         font-size: ${Texts.size.normal};
@@ -472,7 +482,7 @@ const PopUpgradeWrap = memo(styled.div`
                 }
                 #pumclvi_button {
                   width: 100%;
-                  display:flex;
+                  display: flex;
                   align-items: center;
                   justify-content: center;
                   #pumclvib_inner {
@@ -501,13 +511,13 @@ const PopUpgradeWrap = memo(styled.div`
                   }
                 }
                 #pumclvi_success {
-                  display:flex;
+                  display: flex;
                   justify-content: center;
                   margin: 10px 0;
                 }
                 #pumclvi_quote {
                   margin: 10px 0 20px;
-                  display:flex;
+                  display: flex;
                   flex-direction: column;
                   align-items: center;
                   span {
@@ -540,27 +550,27 @@ const PopUpgradeWrap = memo(styled.div`
 const PumDivider = memo(styled.div`
   width: 10%;
   height: 40px;
-  div{
+  div {
     width: 100%;
     height: 5px;
     ${(props: any) =>
-    props.step === 2
-      ? css`
-          background-color: ${Colors.orange};
-        `
-      : css`
-          background-color: ${Colors.green3};
-    `}
+      props.step === 2
+        ? css`
+            background-color: ${Colors.orange};
+          `
+        : css`
+            background-color: ${Colors.green3};
+          `}
     margin: 0 2%;
   }
   margin: 0 20px 10px 20px;
 `);
 const PumStep1 = memo(styled.div`
-  width:25%;
+  width: 25%;
   .p-u-m-icon {
     border-radius: 50%;
     background-color: ${Colors.orange};
-    margin-bottom:5px;
+    margin-bottom: 5px;
     span {
       color: ${Colors.orange};
     }
@@ -568,44 +578,42 @@ const PumStep1 = memo(styled.div`
   .pum-title {
     font-size: ${Texts.size.normal};
     line-height: ${Texts.size.large};
-    text-transform:uppercase;
+    text-transform: uppercase;
     color: ${Colors.orange};
-    text-align:center;
+    text-align: center;
   }
 `);
 const PumStep2 = memo(styled.div`
-  width:25%;    
+  width: 25%;
   .p-u-m-icon {
     border-radius: 50%;
-    margin-bottom:5px;
+    margin-bottom: 5px;
     ${(props: any) =>
-    props.step === 2 ?
-      css`
-        background-color: ${Colors.orange};
-        span {
-          color: ${Colors.orange};
-        }
-      `
-      :
-      css`
-        background-color: ${Colors.green};
-        span {
-          color: ${Colors.green3};
-        }
-      `
-  }
+      props.step === 2
+        ? css`
+            background-color: ${Colors.orange};
+            span {
+              color: ${Colors.orange};
+            }
+          `
+        : css`
+            background-color: ${Colors.green};
+            span {
+              color: ${Colors.green3};
+            }
+          `}
   }
   .pum-title {
     font-size: ${Texts.size.normal};
     line-height: ${Texts.size.large};
-    text-transform:uppercase;
-    text-align:center;
+    text-transform: uppercase;
+    text-align: center;
     ${(props: any) =>
-    props.step === 2
-      ? css`
+      props.step === 2
+        ? css`
             color: ${Colors.orange};
           `
-      : css`
+        : css`
             color: ${Colors.green3};
           `}
   }
