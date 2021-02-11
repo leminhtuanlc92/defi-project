@@ -30,7 +30,7 @@ export default ({ item }: OfficeBlockProps) => {
   const reinvest = async () => {
     await matrixMarketing.refeshPackage(item.level).send({
       callValue: 0,
-      feeLimit: 4e7,
+      feeLimit: 1e8,
       shouldPollResponse: true,
     });
   };
@@ -100,7 +100,7 @@ const OfficeBlock = memo(styled.div`
     padding: 10px;
     #office-first-main,
     #office-second-main {
-      display:flex;
+      display: flex;
       align-items: center;
       justify-content: space-between;
       padding: 10px 0;

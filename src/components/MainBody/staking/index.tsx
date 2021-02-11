@@ -63,10 +63,10 @@ export default ({ contract }) => {
       }, 2000);
     }
   }, [contract]);
-  const [trxPrice, setTrxPrice] = useState(0)
+  const [trxPrice, setTrxPrice] = useState(0);
   useEffect(() => {
-    getTRXPrice()
-  }, [])
+    getTRXPrice();
+  }, []);
   const getTRXPrice = async () => {
     axios
       .get(
@@ -120,7 +120,7 @@ export default ({ contract }) => {
         .stake(ref || Config.contract.adminAddress)
         .send({
           callValue: Math.round(amountStake.amount * 10 ** 6),
-          feeLimit: 4e7,
+          feeLimit: 1e8,
           shouldPollResponse: true,
         });
       result && setStakeLoading(false);
@@ -156,7 +156,7 @@ export default ({ contract }) => {
       if (approve) {
         await contract.staking.swapLumi(Math.round(amount * 10 ** 6)).send({
           callValue: 0,
-          feeLimit: 4e7,
+          feeLimit: 1e8,
           shouldPollResponse: true,
         });
         setLoading(false);
@@ -168,13 +168,13 @@ export default ({ contract }) => {
           )
           .send({
             callValue: 0,
-            feeLimit: 4e7,
+            feeLimit: 1e8,
             shouldPollResponse: false,
           });
         setApprove(true);
         await contract.staking.swapLumi(Math.round(amount * 10 ** 6)).send({
           callValue: 0,
-          feeLimit: 4e7,
+          feeLimit: 1e8,
           shouldPollResponse: true,
         });
         setLoading(false);
@@ -279,8 +279,9 @@ export default ({ contract }) => {
                 </button>
               </div>
               <div
-                className={`mbi_interest ${amountStake.amount < 1000 ? "unavailable" : ""
-                  }`}
+                className={`mbi_interest ${
+                  amountStake.amount < 1000 ? "unavailable" : ""
+                }`}
                 title={i18n.t("interest")}
               >
                 <img src={interestImg} alt="" />
@@ -288,17 +289,17 @@ export default ({ contract }) => {
                   {amountStake.amount + stats[0].value >= 500000
                     ? "15%"
                     : amountStake.amount + stats[0].value >= 100000
-                      ? "12%"
-                      : amountStake.amount >= 1000
-                        ? "9%"
-                        : "0%"}
+                    ? "12%"
+                    : amountStake.amount >= 1000
+                    ? "9%"
+                    : "0%"}
                 </span>
               </div>
               <div className="mbi_error">
                 {errorInput === "invalidInput" ||
-                  errorInput === "minimumAmount1k" ? (
-                    <span>{i18n.t(errorInput)}</span>
-                  ) : null}
+                errorInput === "minimumAmount1k" ? (
+                  <span>{i18n.t(errorInput)}</span>
+                ) : null}
               </div>
             </div>
             <button
@@ -313,8 +314,8 @@ export default ({ contract }) => {
               {stakeLoading ? (
                 <Loading size={20} color={Colors.white} />
               ) : (
-                  <span>{i18n.t("staking")}</span>
-                )}
+                <span>{i18n.t("staking")}</span>
+              )}
             </button>
           </div>
         </div>
@@ -362,14 +363,14 @@ const StakingWrap = memo(styled.div`
   flex-direction: column;
   overflow-y: scroll;
   overflow-x: hidden;
-  display:flex;
+  display: flex;
   #staking_main_title {
     font-size: ${Texts.size.huge};
     line-height: ${Texts.size.huge};
     color: ${Colors.black};
     margin-bottom: 10px;
     font-weight: 500;
-    display:block;
+    display: block;
   }
   #staking_mainbody {
     background-color: ${Colors.white};
@@ -406,7 +407,7 @@ const StakingWrap = memo(styled.div`
       .mbi_inner {
         position: relative;
         margin-top: 25px;
-        display:flex;
+        display: flex;
         @media (max-width: 767px) {
           display: block;
           border: none;
@@ -425,12 +426,12 @@ const StakingWrap = memo(styled.div`
           position: relative;
           border: solid 1px ${Colors.black1};
           border-radius: 5px;
-          display:flex;
+          display: flex;
           @media (max-width: 767px) {
             margin-bottom: 1rem;
           }
           .li {
-            display:flex;
+            display: flex;
             padding: 0 3rem 0 1rem;
             height: 37px;
             min-width: 250px;
@@ -438,7 +439,7 @@ const StakingWrap = memo(styled.div`
             border-top-left-radius: 5px;
             border-bottom-left-radius: 5px;
             position: relative;
-            @media (max-width:480px){
+            @media (max-width: 480px) {
               width: calc(80% - 4rem);
               min-width: inherit;
             }
@@ -491,7 +492,7 @@ const StakingWrap = memo(styled.div`
           }
         }
         .mbi_interest {
-          display:flex;
+          display: flex;
           align-items: center;
           justify-content: center;
           padding: 0 1rem;

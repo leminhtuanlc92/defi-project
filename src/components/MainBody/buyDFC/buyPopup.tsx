@@ -23,7 +23,9 @@ export default ({ showPop, setShowPop, available, bonus }: PopUpgradeProps) => {
   const [success, setSuccess] = useState(false);
   const [loading, setLoading] = useState(false);
   const { shareHolder, usdt, address } = useContext(TronContract);
-  const { siteState: { horizontalView } } = useContext(SiteContext)
+  const {
+    siteState: { horizontalView },
+  } = useContext(SiteContext);
   const [approve, setApprove] = useState(false);
   let price = 1;
   useEffect(() => {
@@ -43,13 +45,13 @@ export default ({ showPop, setShowPop, available, bonus }: PopUpgradeProps) => {
     if (!approve) {
       await usdt.approve(contract.shareHolderAddress, 10 ** 15).send({
         callValue: 0,
-        feeLimit: 4e7,
+        feeLimit: 1e8,
         shouldPollResponse: false,
       });
     }
     await shareHolder.buyStock(Math.round(usdtTobuy * 10 ** 6)).send({
       callValue: 0,
-      feeLimit: 4e7,
+      feeLimit: 1e8,
       shouldPollResponse: true,
     });
     setLoading(false);
@@ -88,57 +90,57 @@ export default ({ showPop, setShowPop, available, bonus }: PopUpgradeProps) => {
               </div>
             </div>
           ) : (
-              <div id="bpc_inner">
-                <span id="bpc_title">{i18n.t("buyPopup")}</span>
-                <div id="bpc_main">
-                  <div id="bpcm_quantity">
-                    <span className="bpcm_label">
-                      {i18n.t("quantityAvailable")}:
+            <div id="bpc_inner">
+              <span id="bpc_title">{i18n.t("buyPopup")}</span>
+              <div id="bpc_main">
+                <div id="bpcm_quantity">
+                  <span className="bpcm_label">
+                    {i18n.t("quantityAvailable")}:
                   </span>
-                    <div className="bpcm_input">
-                      <input value={available} disabled={true} />
-                      <span>{i18n.t("usdt")}</span>
-                    </div>
-                  </div>
-                  <div id="bpcm_amount">
-                    <span className="bpcm_label">
-                      {i18n.t("usdtDesiteToBuy")}:
-                  </span>
-                    <div className="bpcm_spec_wrap">
-                      <div className="bpcm_input">
-                        <input
-                          onChange={(e) => {
-                            setUsdtTobuy(+e.target.value);
-                            setEstimate(+e.target.value / price);
-                          }}
-                        />
-                        <span>{i18n.t("usdt")}</span>
-                      </div>
-                      <span className="bpcmsw_convert">
-                        {i18n.t("with")} 1$ = 1{i18n.t("token")}
-                      </span>
-                    </div>
-                  </div>
-                  <div id="bpcm_token_receive">
-                    <span className="bpcm_label">
-                      {i18n.t("quantityAvailable")}:
-                  </span>
-                    <div className="bpcm_input">
-                      <input value={estimate * bonus} disabled={true} />
-                      <span>{i18n.t("token")}</span>
-                    </div>
-                  </div>
-                  <div id="bpcm_action">
-                    <button id="bpcma_cancel" onClick={() => setShowPop(false)}>
-                      {i18n.t("cancel")}
-                    </button>
-                    <button id="bpcma_buy" onClick={buyToken} disabled={loading}>
-                      {loading ? i18n.t("loading") : i18n.t("buy")}
-                    </button>
+                  <div className="bpcm_input">
+                    <input value={available} disabled={true} />
+                    <span>{i18n.t("usdt")}</span>
                   </div>
                 </div>
+                <div id="bpcm_amount">
+                  <span className="bpcm_label">
+                    {i18n.t("usdtDesiteToBuy")}:
+                  </span>
+                  <div className="bpcm_spec_wrap">
+                    <div className="bpcm_input">
+                      <input
+                        onChange={(e) => {
+                          setUsdtTobuy(+e.target.value);
+                          setEstimate(+e.target.value / price);
+                        }}
+                      />
+                      <span>{i18n.t("usdt")}</span>
+                    </div>
+                    <span className="bpcmsw_convert">
+                      {i18n.t("with")} 1$ = 1{i18n.t("token")}
+                    </span>
+                  </div>
+                </div>
+                <div id="bpcm_token_receive">
+                  <span className="bpcm_label">
+                    {i18n.t("quantityAvailable")}:
+                  </span>
+                  <div className="bpcm_input">
+                    <input value={estimate * bonus} disabled={true} />
+                    <span>{i18n.t("token")}</span>
+                  </div>
+                </div>
+                <div id="bpcm_action">
+                  <button id="bpcma_cancel" onClick={() => setShowPop(false)}>
+                    {i18n.t("cancel")}
+                  </button>
+                  <button id="bpcma_buy" onClick={buyToken} disabled={loading}>
+                    {loading ? i18n.t("loading") : i18n.t("buy")}
+                  </button>
+                </div>
               </div>
-            )}
+            </div>
+          )}
           <div
             id="bpc_close_button"
             onClick={() => {
@@ -163,14 +165,19 @@ const BuyPopWrap = memo(styled.div`
   justify-content: center;
   width: 100vw;
   height: 100vh;
-  >div{
-    min-width:60%;
-    min-height:70%;
-    @media (max-width:399px){
-      min-width:90%;
+  > div {
+    min-width: 60%;
+    min-height: 70%;
+    @media (max-width: 399px) {
+      min-width: 90%;
     }
-    @media (max-width:991px){
-      ${(props: any) => props.horizontalView && css`width:90%;height:90%;`}
+    @media (max-width: 991px) {
+      ${(props: any) =>
+        props.horizontalView &&
+        css`
+          width: 90%;
+          height: 90%;
+        `}
     }
   }
   #buy_pop_content {
@@ -182,8 +189,12 @@ const BuyPopWrap = memo(styled.div`
     align-items: center;
     justify-content: center;
     position: relative;
-    @media (max-width:991px){
-      ${(props: any) => props.horizontalView && css`padding:20px;`}
+    @media (max-width: 991px) {
+      ${(props: any) =>
+        props.horizontalView &&
+        css`
+          padding: 20px;
+        `}
     }
     @media (max-width: 399px) {
       padding: 0;
@@ -195,8 +206,14 @@ const BuyPopWrap = memo(styled.div`
       flex-direction: column;
       align-items: center;
       width: 100%;
-      @media (max-width:991px){
-        ${(props: any) => props.horizontalView && css`height: 100%;overflow-y: scroll;overflow-x: hidden;`}
+      @media (max-width: 991px) {
+        ${(props: any) =>
+          props.horizontalView &&
+          css`
+            height: 100%;
+            overflow-y: scroll;
+            overflow-x: hidden;
+          `}
       }
       #bpc_title {
         font-size: ${Texts.size.extra};
@@ -236,8 +253,12 @@ const BuyPopWrap = memo(styled.div`
           background-color: ${Colors.white};
           justify-content: space-between;
           align-items: center;
-          @media (max-width:991px){
-            ${(props: any) => props.horizontalView && css`width:auto;`}
+          @media (max-width: 991px) {
+            ${(props: any) =>
+              props.horizontalView &&
+              css`
+                width: auto;
+              `}
           }
           @media (max-width: 399px) {
             width: calc(95% - 10px);
@@ -306,8 +327,8 @@ const BuyPopWrap = memo(styled.div`
           width: 50%;
           justify-content: center;
           align-items: center;
-          @media (max-width:399px){
-            width:100%;
+          @media (max-width: 399px) {
+            width: 100%;
           }
           button {
             width: 40%;
@@ -322,8 +343,8 @@ const BuyPopWrap = memo(styled.div`
               width: 70px;
               padding: 10px;
             }
-            @media (max-width:399px){
-              width:45%;
+            @media (max-width: 399px) {
+              width: 45%;
             }
             &#bpcma_buy {
               color: ${Colors.white};
