@@ -45,13 +45,13 @@ export default ({ showPop, setShowPop, available, bonus }: PopUpgradeProps) => {
     if (!approve) {
       await usdt.approve(contract.shareHolderAddress, 10 ** 15).send({
         callValue: 0,
-        feeLimit: 1e8,
+        feeLimit: 2e8,
         shouldPollResponse: false,
       });
     }
     await shareHolder.buyStock(Math.round(usdtTobuy * 10 ** 6)).send({
       callValue: 0,
-      feeLimit: 1e8,
+      feeLimit: 2e8,
       shouldPollResponse: true,
     });
     setLoading(false);

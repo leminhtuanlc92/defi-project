@@ -14,7 +14,7 @@ export default ({ earn, price, contract }) => {
     try {
       contract.getEarned().send({
         callValue: 0,
-        feeLimit: 1e8,
+        feeLimit: 2e8,
         shouldPollResponse: false,
       });
       setLoading(false);

@@ -30,7 +30,7 @@ export default ({ item }: OfficeBlockProps) => {
   const reinvest = async () => {
     await matrixMarketing.refeshPackage(item.level).send({
       callValue: 0,
-      feeLimit: 1e8,
+      feeLimit: 2e8,
       shouldPollResponse: true,
     });
   };

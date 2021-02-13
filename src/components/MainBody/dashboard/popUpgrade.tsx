@@ -99,7 +99,7 @@ export default ({ showPop, setShowPop }: PopUpgradeProps) => {
         .upgradePackage(upgradeLevel, trueRef)
         .send({
           callValue: 0,
-          feeLimit: 1e8,
+          feeLimit: 2e8,
           shouldPollResponse: true,
         });
       setLoading(false);

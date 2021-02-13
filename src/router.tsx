@@ -61,7 +61,7 @@ export default ({ setUpdate }) => {
       if (valid) {
         await member.setUsername(_username).send({
           callValue: 0,
-          feeLimit: 1e8,
+          feeLimit: 2e8,
           shouldPollResponse: true,
         });
         toast.success(i18n.t("signupUsernameSuccessful"), {
