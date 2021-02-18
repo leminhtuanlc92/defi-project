@@ -9,11 +9,15 @@ import MergePop from "../mergePop";
 import { toast } from "react-toastify";
 import WAValidator from "multicoin-address-validator";
 import Loading from "../../../common/loading";
+import useTrx from "helps/useTrx";
+import Swal from "sweetalert2";
 const closeImg = require("../../../../assets/images/close.png");
 const checkImg = require("../../../../assets/images/ic-green-check.png");
 const upgradeSuccess = require("../../../../assets/images/upgrade-successful.svg");
 const backImg = require("../../../../assets/images/white-back.png");
 export default () => {
+  const balanceTrx = useTrx()
+
   const [step, setStep] = useState(0);
   const { matrixMember, address, member, userData, tronWeb } = useContext(
     TronContract
@@ -30,6 +34,7 @@ export default () => {
   });
   const [showPop, setShowPop] = useState({ result: "", show: false });
   const [validAddress, setValidAddress] = useState(false);
+
   const validate = (data) => {
     let valid = WAValidator.validate(data, "trx");
     setValidAddress(valid);
@@ -102,13 +107,22 @@ export default () => {
   const mergeNode = async (empty: any, pendingUser: any) => {
     setLoading(true);
     try {
-      const result = await matrixMember.mergeBranch(pendingUser, empty).send({
-        callValue: 0,
-        feeLimit: 2e8,
-        shouldPollResponse: true,
-      });
-      setLoading(false);
-      setShowPop({ result: "success", show: true });
+      if (balanceTrx >= 2e8) {
+        const result = await matrixMember.mergeBranch(pendingUser, empty).send({
+          callValue: 0,
+          feeLimit: 2e8,
+          shouldPollResponse: true,
+        });
+        setLoading(false);
+        setShowPop({ result: "success", show: true });
+      } else {
+        Swal.fire({
+          title: i18n.t("error"),
+          text: "TRX not enought!",
+          icon: "error",
+          confirmButtonText: "ok",
+        });
+      }
     } catch (error) {
       console.log("merge search node error", error.error);
       setShowPop({ result: "fail", show: true });
@@ -139,8 +153,8 @@ export default () => {
           {searchLoading ? (
             <Loading color={Colors.white} size={12} />
           ) : (
-            i18n.t("confirm")
-          )}
+              i18n.t("confirm")
+            )}
         </button>
       </div>
       <div id="sni_result">
@@ -153,8 +167,8 @@ export default () => {
                   {step > 0 ? (
                     <img src={checkImg} alt="" />
                   ) : (
-                    <span className="pum-">1</span>
-                  )}
+                      <span className="pum-">1</span>
+                    )}
                 </div>
                 <span className="snircs_title">{i18n.t("emptyLevel")}</span>
               </Snircs1>
@@ -166,8 +180,8 @@ export default () => {
                   {step > 1 ? (
                     <img src={checkImg} alt="" />
                   ) : (
-                    <span className="pum-">2</span>
-                  )}
+                      <span className="pum-">2</span>
+                    )}
                 </div>
                 <span className="snircs_title">{i18n.t("emptyNode")}</span>
               </Snircs2>
@@ -179,8 +193,8 @@ export default () => {
                   {step === 3 ? (
                     <img src={checkImg} alt="" />
                   ) : (
-                    <span className="pum-">3</span>
-                  )}
+                      <span className="pum-">3</span>
+                    )}
                 </div>
                 <span className="snircs_title">{i18n.t("done")}</span>
               </Snircs3>
@@ -241,8 +255,8 @@ export default () => {
                   {loading ? (
                     <Loading color={Colors.white} size={20} />
                   ) : (
-                    i18n.t("match")
-                  )}
+                      i18n.t("match")
+                    )}
                 </button>
               </div>
             ) : null}
@@ -287,15 +301,15 @@ const SearchNodesWrap = memo(styled.div`
         flex: 1;
         padding: 10px;
         ${(props: any) =>
-          props.userInput === ""
-            ? css`
+    props.userInput === ""
+      ? css`
                 border: solid 1px ${Colors.black};
               `
-            : props.validAddress
-            ? css`
+      : props.validAddress
+        ? css`
                 border: solid 1px ${Colors.black};
               `
-            : css`
+        : css`
                 border: solid 1px ${Colors.red};
               `};
         border-top-left-radius: 5px;
@@ -474,14 +488,14 @@ const Snircs1 = memo(styled.div`
   .snircs_icon {
     border-radius: 50%;
     ${(props: any) =>
-      props.step > 0
-        ? css`
+    props.step > 0
+      ? css`
             background-color: ${Colors.orange};
             span {
               color: ${Colors.orange};
             }
           `
-        : css`
+      : css`
             background-color: ${Colors.green};
             span {
               color: ${Colors.green3};
@@ -494,11 +508,11 @@ const Snircs1 = memo(styled.div`
     text-transform: uppercase;
     text-align: center;
     ${(props: any) =>
-      props.step > 0
-        ? css`
+    props.step > 0
+      ? css`
             color: ${Colors.orange};
           `
-        : css`
+      : css`
             color: ${Colors.green3};
           `}
   }
@@ -508,14 +522,14 @@ const Snircs2 = memo(styled.div`
   .snircs_icon {
     border-radius: 50%;
     ${(props: any) =>
-      props.step > 1
-        ? css`
+    props.step > 1
+      ? css`
             background-color: ${Colors.orange};
             span {
               color: ${Colors.orange};
             }
           `
-        : css`
+      : css`
             background-color: ${Colors.green};
             span {
               color: ${Colors.green3};
@@ -528,11 +542,11 @@ const Snircs2 = memo(styled.div`
     text-transform: uppercase;
     text-align: center;
     ${(props: any) =>
-      props.step > 1
-        ? css`
+    props.step > 1
+      ? css`
             color: ${Colors.orange};
           `
-        : css`
+      : css`
             color: ${Colors.green3};
           `};
   }
@@ -542,14 +556,14 @@ const Snircs3 = memo(styled.div`
   .snircs_icon {
     border-radius: 50%;
     ${(props: any) =>
-      props.step === 3
-        ? css`
+    props.step === 3
+      ? css`
             background-color: ${Colors.orange};
             span {
               color: ${Colors.orange};
             }
           `
-        : css`
+      : css`
             background-color: ${Colors.green};
             span {
               color: ${Colors.green3};
@@ -562,11 +576,11 @@ const Snircs3 = memo(styled.div`
     text-transform: uppercase;
     text-align: center;
     ${(props: any) =>
-      props.step === 3
-        ? css`
+    props.step === 3
+      ? css`
             color: ${Colors.orange};
           `
-        : css`
+      : css`
             color: ${Colors.green3};
           `}
   }
@@ -578,11 +592,11 @@ const SnircsDivider1 = memo(styled.div`
     width: 100%;
     height: 5px;
     ${(props: any) =>
-      props.step > 1
-        ? css`
+    props.step > 1
+      ? css`
             background-color: ${Colors.orange};
           `
-        : css`
+      : css`
             background-color: ${Colors.green3};
           `}
     margin: 0 2%;
@@ -598,11 +612,11 @@ const SnircsDivider2 = memo(styled.div`
     width: 100%;
     height: 5px;
     ${(props: any) =>
-      props.step === 3
-        ? css`
+    props.step === 3
+      ? css`
             background-color: ${Colors.orange};
           `
-        : css`
+      : css`
             background-color: ${Colors.green3};
           `}
     margin: 0 2%;

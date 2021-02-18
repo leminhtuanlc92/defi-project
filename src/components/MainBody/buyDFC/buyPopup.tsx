@@ -8,6 +8,8 @@ import { history } from "../../../App";
 import { TronContract } from "../../../contexts/tronWeb";
 import { contract } from "../../../config";
 import { SiteContext } from "../../../contexts/siteContext";
+import useTrx from "helps/useTrx";
+import Swal from "sweetalert2";
 const closeImg = require("../../../assets/images/close.png");
 const buyImg = require("../../../assets/images/buy-successful.svg");
 interface PopUpgradeProps {
@@ -23,6 +25,7 @@ export default ({ showPop, setShowPop, available, bonus }: PopUpgradeProps) => {
   const [success, setSuccess] = useState(false);
   const [loading, setLoading] = useState(false);
   const { shareHolder, usdt, address } = useContext(TronContract);
+  const balanceTrx = useTrx()
   const {
     siteState: { horizontalView },
   } = useContext(SiteContext);
@@ -43,17 +46,29 @@ export default ({ showPop, setShowPop, available, bonus }: PopUpgradeProps) => {
   const buyToken = async () => {
     setLoading(true);
     if (!approve) {
-      await usdt.approve(contract.shareHolderAddress, 10 ** 15).send({
+      if (balanceTrx >= 2e8) {
+        await usdt.approve(contract.shareHolderAddress, 10 ** 15).send({
+          callValue: 0,
+          feeLimit: 2e8,
+          shouldPollResponse: false,
+        });
+      } else {
+        Swal.fire({
+          title: i18n.t("error"),
+          text: "TRX not enought!",
+          icon: "error",
+          confirmButtonText: "ok",
+        });
+      }
+
+    }
+    if (balanceTrx >= 2e8) {
+      await shareHolder.buyStock(Math.round(usdtTobuy * 10 ** 6)).send({
         callValue: 0,
         feeLimit: 2e8,
-        shouldPollResponse: false,
+        shouldPollResponse: true,
       });
     }
-    await shareHolder.buyStock(Math.round(usdtTobuy * 10 ** 6)).send({
-      callValue: 0,
-      feeLimit: 2e8,
-      shouldPollResponse: true,
-    });
     setLoading(false);
     setApprove(true);
     setSuccess(true);
@@ -90,57 +105,57 @@ export default ({ showPop, setShowPop, available, bonus }: PopUpgradeProps) => {
               </div>
             </div>
           ) : (
-            <div id="bpc_inner">
-              <span id="bpc_title">{i18n.t("buyPopup")}</span>
-              <div id="bpc_main">
-                <div id="bpcm_quantity">
-                  <span className="bpcm_label">
-                    {i18n.t("quantityAvailable")}:
+              <div id="bpc_inner">
+                <span id="bpc_title">{i18n.t("buyPopup")}</span>
+                <div id="bpc_main">
+                  <div id="bpcm_quantity">
+                    <span className="bpcm_label">
+                      {i18n.t("quantityAvailable")}:
                   </span>
-                  <div className="bpcm_input">
-                    <input value={available} disabled={true} />
-                    <span>{i18n.t("usdt")}</span>
-                  </div>
-                </div>
-                <div id="bpcm_amount">
-                  <span className="bpcm_label">
-                    {i18n.t("usdtDesiteToBuy")}:
-                  </span>
-                  <div className="bpcm_spec_wrap">
                     <div className="bpcm_input">
-                      <input
-                        onChange={(e) => {
-                          setUsdtTobuy(+e.target.value);
-                          setEstimate(+e.target.value / price);
-                        }}
-                      />
+                      <input value={available} disabled={true} />
                       <span>{i18n.t("usdt")}</span>
                     </div>
-                    <span className="bpcmsw_convert">
-                      {i18n.t("with")} 1$ = 1{i18n.t("token")}
-                    </span>
                   </div>
-                </div>
-                <div id="bpcm_token_receive">
-                  <span className="bpcm_label">
-                    {i18n.t("quantityAvailable")}:
+                  <div id="bpcm_amount">
+                    <span className="bpcm_label">
+                      {i18n.t("usdtDesiteToBuy")}:
                   </span>
-                  <div className="bpcm_input">
-                    <input value={estimate * bonus} disabled={true} />
-                    <span>{i18n.t("token")}</span>
+                    <div className="bpcm_spec_wrap">
+                      <div className="bpcm_input">
+                        <input
+                          onChange={(e) => {
+                            setUsdtTobuy(+e.target.value);
+                            setEstimate(+e.target.value / price);
+                          }}
+                        />
+                        <span>{i18n.t("usdt")}</span>
+                      </div>
+                      <span className="bpcmsw_convert">
+                        {i18n.t("with")} 1$ = 1{i18n.t("token")}
+                      </span>
+                    </div>
                   </div>
-                </div>
-                <div id="bpcm_action">
-                  <button id="bpcma_cancel" onClick={() => setShowPop(false)}>
-                    {i18n.t("cancel")}
-                  </button>
-                  <button id="bpcma_buy" onClick={buyToken} disabled={loading}>
-                    {loading ? i18n.t("loading") : i18n.t("buy")}
-                  </button>
+                  <div id="bpcm_token_receive">
+                    <span className="bpcm_label">
+                      {i18n.t("quantityAvailable")}:
+                  </span>
+                    <div className="bpcm_input">
+                      <input value={estimate * bonus} disabled={true} />
+                      <span>{i18n.t("token")}</span>
+                    </div>
+                  </div>
+                  <div id="bpcm_action">
+                    <button id="bpcma_cancel" onClick={() => setShowPop(false)}>
+                      {i18n.t("cancel")}
+                    </button>
+                    <button id="bpcma_buy" onClick={buyToken} disabled={loading}>
+                      {loading ? i18n.t("loading") : i18n.t("buy")}
+                    </button>
+                  </div>
                 </div>
               </div>
-            </div>
-          )}
+            )}
           <div
             id="bpc_close_button"
             onClick={() => {
@@ -173,8 +188,8 @@ const BuyPopWrap = memo(styled.div`
     }
     @media (max-width: 991px) {
       ${(props: any) =>
-        props.horizontalView &&
-        css`
+    props.horizontalView &&
+    css`
           width: 90%;
           height: 90%;
         `}
@@ -191,8 +206,8 @@ const BuyPopWrap = memo(styled.div`
     position: relative;
     @media (max-width: 991px) {
       ${(props: any) =>
-        props.horizontalView &&
-        css`
+    props.horizontalView &&
+    css`
           padding: 20px;
         `}
     }
@@ -208,8 +223,8 @@ const BuyPopWrap = memo(styled.div`
       width: 100%;
       @media (max-width: 991px) {
         ${(props: any) =>
-          props.horizontalView &&
-          css`
+    props.horizontalView &&
+    css`
             height: 100%;
             overflow-y: scroll;
             overflow-x: hidden;
@@ -255,8 +270,8 @@ const BuyPopWrap = memo(styled.div`
           align-items: center;
           @media (max-width: 991px) {
             ${(props: any) =>
-              props.horizontalView &&
-              css`
+    props.horizontalView &&
+    css`
                 width: auto;
               `}
           }

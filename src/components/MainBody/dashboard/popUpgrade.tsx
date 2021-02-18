@@ -9,6 +9,8 @@ import { TronContract } from "../../../contexts/tronWeb";
 import Loading from "../../common/loading";
 import { toast } from "react-toastify";
 import { SiteContext } from "../../../contexts/siteContext";
+import useTrx from "helps/useTrx";
+import Swal from "sweetalert2";
 const closeImg = require("../../../assets/images/close.png");
 const checkImg = require("../../../assets/images/ic-green-check.png");
 const upgradeSuccess = require("../../../assets/images/upgrade-successful.svg");
@@ -64,6 +66,7 @@ export default ({ showPop, setShowPop }: PopUpgradeProps) => {
     };
   };
   const [level, setLevel] = useState(0);
+  const balanceTrx = useTrx()
   for (let i = 0; i <= 8; i++) {
     if (i > level) {
       dataSelect.push({ value: i, title: `${i18n.t("level")} ${i}` });
@@ -95,15 +98,24 @@ export default ({ showPop, setShowPop }: PopUpgradeProps) => {
       if (ref === null && refConfirm === true) {
         trueRef = address;
       }
-      let result = await matrixMarketing
-        .upgradePackage(upgradeLevel, trueRef)
-        .send({
-          callValue: 0,
-          feeLimit: 2e8,
-          shouldPollResponse: true,
+      if (balanceTrx >= 2e8) {
+        let result = await matrixMarketing
+          .upgradePackage(upgradeLevel, trueRef)
+          .send({
+            callValue: 0,
+            feeLimit: 2e8,
+            shouldPollResponse: true,
+          });
+        setLoading(false);
+        setStep(2);
+      } else {
+        Swal.fire({
+          title: i18n.t("error"),
+          text: "TRX not enought!",
+          icon: "error",
+          confirmButtonText: "ok",
         });
-      setLoading(false);
-      setStep(2);
+      }
     } catch (error) {
       console.log("Upgrade Error", error);
       toast.error(i18n.t(error.message), { position: "top-center" });
@@ -146,8 +158,8 @@ export default ({ showPop, setShowPop }: PopUpgradeProps) => {
                         {step === 2 ? (
                           <img src={checkImg} alt="" />
                         ) : (
-                          <span className="pum-">2</span>
-                        )}
+                            <span className="pum-">2</span>
+                          )}
                       </div>
                       <span className="pum-title">
                         {i18n.t("upgradePackage")}
@@ -204,36 +216,36 @@ export default ({ showPop, setShowPop }: PopUpgradeProps) => {
                                 {loading ? (
                                   <Loading color={Colors.white} size={20} />
                                 ) : (
-                                  i18n.t("confirm")
-                                )}
+                                    i18n.t("confirm")
+                                  )}
                               </button>
                             </div>
                           </div>
                         </Fragment>
                       ) : (
-                        <Fragment>
-                          <div id="pumclvi_success">
-                            <img src={upgradeSuccess} alt="" />
-                          </div>
-                          <div id="pumclvi_quote">
-                            <span>{i18n.t("upgradeSuccessQuote1")}</span>
-                            <span>{i18n.t("upgradeSuccessQuote2")}</span>
-                          </div>
-                          <div id="pumclvi_button">
-                            <div id="pumclvib_inner">
-                              <button
-                                onClick={() => {
-                                  setShowPop(false);
-                                  setStep(1);
-                                }}
-                              >
-                                <img src={backImg} alt="" />{" "}
-                                {i18n.t("backToDashboard")}
-                              </button>
+                          <Fragment>
+                            <div id="pumclvi_success">
+                              <img src={upgradeSuccess} alt="" />
                             </div>
-                          </div>
-                        </Fragment>
-                      )}
+                            <div id="pumclvi_quote">
+                              <span>{i18n.t("upgradeSuccessQuote1")}</span>
+                              <span>{i18n.t("upgradeSuccessQuote2")}</span>
+                            </div>
+                            <div id="pumclvi_button">
+                              <div id="pumclvib_inner">
+                                <button
+                                  onClick={() => {
+                                    setShowPop(false);
+                                    setStep(1);
+                                  }}
+                                >
+                                  <img src={backImg} alt="" />{" "}
+                                  {i18n.t("backToDashboard")}
+                                </button>
+                              </div>
+                            </div>
+                          </Fragment>
+                        )}
                     </div>
                   </div>
                 </div>
@@ -277,8 +289,8 @@ const PopUpgradeWrap = memo(styled.div`
       width: 100%;
       max-height: 100%;
       ${(props: any) =>
-        props.horizontalView &&
-        css`
+    props.horizontalView &&
+    css`
           height: 100%;
         `}
     }
@@ -554,11 +566,11 @@ const PumDivider = memo(styled.div`
     width: 100%;
     height: 5px;
     ${(props: any) =>
-      props.step === 2
-        ? css`
+    props.step === 2
+      ? css`
             background-color: ${Colors.orange};
           `
-        : css`
+      : css`
             background-color: ${Colors.green3};
           `}
     margin: 0 2%;
@@ -589,14 +601,14 @@ const PumStep2 = memo(styled.div`
     border-radius: 50%;
     margin-bottom: 5px;
     ${(props: any) =>
-      props.step === 2
-        ? css`
+    props.step === 2
+      ? css`
             background-color: ${Colors.orange};
             span {
               color: ${Colors.orange};
             }
           `
-        : css`
+      : css`
             background-color: ${Colors.green};
             span {
               color: ${Colors.green3};
@@ -609,11 +621,11 @@ const PumStep2 = memo(styled.div`
     text-transform: uppercase;
     text-align: center;
     ${(props: any) =>
-      props.step === 2
-        ? css`
+    props.step === 2
+      ? css`
             color: ${Colors.orange};
           `
-        : css`
+      : css`
             color: ${Colors.green3};
           `}
   }

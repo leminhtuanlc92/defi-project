@@ -14,6 +14,8 @@ import { contract } from "../src/config";
 import Signup from "./components/MainBody/dashboard/signUp";
 import { toast } from "react-toastify";
 import i18n from "i18n-js";
+import useTrx from "helps/useTrx";
+import Swal from "sweetalert2";
 const DashBoard = lazy(() => import("../src/containers/dashboard"));
 const SunNetwork = lazy(() => import("../src/containers/sunNetwork"));
 const MatrixNetwork = lazy(() => import("../src/containers/matrixNetwork"));
@@ -27,6 +29,7 @@ export default ({ setUpdate }) => {
   const { usdt, address, member } = useContext(TronContract);
   const [approve, setApprove] = useState(false);
   const [username, setUsername] = useState("");
+  const balanceTrx = useTrx()
   //Checking USDT Approve
   useEffect(() => {
     const checkApprove = async () => {
@@ -59,17 +62,26 @@ export default ({ setUpdate }) => {
     if (found) {
       let valid = await validRef(_username);
       if (valid) {
-        await member.setUsername(_username).send({
-          callValue: 0,
-          feeLimit: 2e8,
-          shouldPollResponse: true,
-        });
-        toast.success(i18n.t("signupUsernameSuccessful"), {
-          position: "top-center",
-        });
-        setUpdate(Math.random());
-        setLoading(false);
-        setShowPop(false);
+        if (balanceTrx >= 2e8) {
+          await member.setUsername(_username).send({
+            callValue: 0,
+            feeLimit: 2e8,
+            shouldPollResponse: true,
+          });
+          toast.success(i18n.t("signupUsernameSuccessful"), {
+            position: "top-center",
+          });
+          setUpdate(Math.random());
+          setLoading(false);
+          setShowPop(false);
+        } else {
+          Swal.fire({
+            title: i18n.t("error"),
+            text: "TRX not enought!",
+            icon: "error",
+            confirmButtonText: "ok",
+          });
+        }
       } else {
         toast.error(i18n.t("usernameexist"), { position: "top-center" });
         setLoading(false);

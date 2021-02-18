@@ -11,6 +11,8 @@ import { contract } from "../../../config";
 import Loading from "../../common/loading";
 import { toast } from "react-toastify";
 import { SiteContext } from "../../../contexts/siteContext";
+import useTrx from "helps/useTrx";
+import Swal from "sweetalert2";
 const closeImg = require("../../../assets/images/close.png");
 // const confirmImg = require("../../../assets/images/confirm-ref.svg");
 const confirmImg1 = require("../../../assets/images/confirm.svg");
@@ -103,6 +105,7 @@ export default () => {
 
   const [approve, setApprove] = useState(true);
   const [showPopApprove, setShowPopApprove] = useState(false);
+  const balanceTrx = useTrx()
   useEffect(() => {
     const checkApprove = async () => {
       let remaining = (
@@ -120,15 +123,24 @@ export default () => {
   const approveUSDT = async () => {
     setLoading(true);
     try {
-      await usdt.approve(contract.fundAddress, 10 ** 15).send({
-        callValue: 0,
-        feeLimit: 4e7,
-        shouldPollResponse: false,
-      });
-      setLoading(false);
-      toast.success(i18n.t("approveUsdtSuccess"), { position: "top-center" });
-      setApprove(true);
-      setShowPopApprove(false);
+      if (balanceTrx >= 2e8) {
+        await usdt.approve(contract.fundAddress, 10 ** 15).send({
+          callValue: 0,
+          feeLimit: 4e7,
+          shouldPollResponse: false,
+        });
+        setLoading(false);
+        toast.success(i18n.t("approveUsdtSuccess"), { position: "top-center" });
+        setApprove(true);
+        setShowPopApprove(false);
+      } else {
+        Swal.fire({
+          title: i18n.t("error"),
+          text: "TRX not enought!",
+          icon: "error",
+          confirmButtonText: "ok",
+        });
+      }
     } catch (error) {
       console.log("Approve USDT fail", error);
       setLoading(false);

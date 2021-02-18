@@ -5,6 +5,8 @@ import Texts from "../../../constants/Texts";
 import moment from "moment";
 import i18n from "i18n-js";
 import { TronContract } from "../../../contexts/tronWeb";
+import useTrx from "helps/useTrx";
+import Swal from "sweetalert2";
 interface OfficeBlockProps {
   item: Item;
 }
@@ -27,12 +29,22 @@ const LevelLabel = [
 ];
 export default ({ item }: OfficeBlockProps) => {
   const { matrixMarketing } = useContext(TronContract);
+  const balanceTrx = useTrx()
   const reinvest = async () => {
-    await matrixMarketing.refeshPackage(item.level).send({
-      callValue: 0,
-      feeLimit: 2e8,
-      shouldPollResponse: true,
-    });
+    if (balanceTrx >= 2e8) {
+      await matrixMarketing.refeshPackage(item.level).send({
+        callValue: 0,
+        feeLimit: 2e8,
+        shouldPollResponse: true,
+      });
+    } else {
+      Swal.fire({
+        title: i18n.t("error"),
+        text: "TRX not enought!",
+        icon: "error",
+        confirmButtonText: "ok",
+      });
+    }
   };
   return (
     <OfficeBlock>

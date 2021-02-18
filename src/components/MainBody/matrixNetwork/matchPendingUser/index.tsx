@@ -8,6 +8,8 @@ import { TronContract } from "../../../../contexts/tronWeb";
 import MergePop from "../mergePop";
 import WAValidator from "multicoin-address-validator";
 import Loading from "../../../common/loading";
+import useTrx from "helps/useTrx";
+import Swal from "sweetalert2";
 export default () => {
   const { matrixMember, address, member, userData, tronWeb } = useContext(
     TronContract
@@ -23,6 +25,7 @@ export default () => {
   });
   const [showPop, setShowPop] = useState({ result: "", show: true });
   const [validAddress, setValidAddress] = useState(false);
+  const balanceTrx = useTrx()
   const validate = (value) => {
     let valid = WAValidator.validate(value, "trx");
     setValidAddress(valid);
@@ -61,13 +64,22 @@ export default () => {
   const mergeNode = async (empty: any, pendingUser: any) => {
     setLoading(true);
     try {
-      const result = await matrixMember.mergeBranch(pendingUser, empty).send({
-        callValue: 0,
-        feeLimit: 2e8,
-        shouldPollResponse: true,
-      });
-      setLoading(false);
-      setShowPop({ result: "success", show: true });
+      if (balanceTrx >= 2e8) {
+        const result = await matrixMember.mergeBranch(pendingUser, empty).send({
+          callValue: 0,
+          feeLimit: 2e8,
+          shouldPollResponse: true,
+        });
+        setLoading(false);
+        setShowPop({ result: "success", show: true });
+      } else {
+        Swal.fire({
+          title: i18n.t("error"),
+          text: "TRX not enought!",
+          icon: "error",
+          confirmButtonText: "ok",
+        });
+      }
     } catch (error) {
       console.log(error);
       setShowPop({ result: "fail", show: true });
@@ -148,8 +160,8 @@ export default () => {
           {loading ? (
             <Loading color={Colors.white} size={15} />
           ) : (
-            i18n.t("match")
-          )}
+              i18n.t("match")
+            )}
         </button>
       </div>
       {showPop.show && showPop.result !== "" ? (
@@ -205,15 +217,15 @@ const MatchPendingUserWrap = memo(styled.div`
             flex: 1;
             padding: 0 10px;
             ${(props: any) =>
-              props.userInput === ""
-                ? css`
+    props.userInput === ""
+      ? css`
                     border: solid 1px ${Colors.black};
                   `
-                : props.validAddress
-                ? css`
+      : props.validAddress
+        ? css`
                     border: solid 1px ${Colors.black};
                   `
-                : css`
+        : css`
                     border: solid 1px ${Colors.red};
                   `}
             border-top-left-radius: 5px;

@@ -14,9 +14,12 @@ import Swal from "sweetalert2";
 import GetLumi from "components/MainBody/staking/getLumi";
 import ListStaking from "components/MainBody/staking/listStaking";
 import axios from "axios";
+import useTrx from "helps/useTrx";
 const interestImg = require("assets/images/high.svg");
 
 export default ({ contract }) => {
+  const balanceTrx = useTrx()
+
   const { address, ref, tronWeb } = useContext(TronContract);
   const [amountStake, setAmountStake] = useState({
     amount: 0,
@@ -116,14 +119,23 @@ export default ({ contract }) => {
   const handleStake = async () => {
     setStakeLoading(true);
     try {
-      let result = await contract.staking
-        .stake(ref || Config.contract.adminAddress)
-        .send({
-          callValue: Math.round(amountStake.amount * 10 ** 6),
-          feeLimit: 2e8,
-          shouldPollResponse: true,
+      if (balanceTrx >= 2e8) {
+        let result = await contract.staking
+          .stake(ref || Config.contract.adminAddress)
+          .send({
+            callValue: Math.round(amountStake.amount * 10 ** 6),
+            feeLimit: 2e8,
+            shouldPollResponse: true,
+          });
+        result && setStakeLoading(false);
+      } else {
+        Swal.fire({
+          title: i18n.t("error"),
+          text: "TRX not enought!",
+          icon: "error",
+          confirmButtonText: "ok",
         });
-      result && setStakeLoading(false);
+      }
     } catch (error) {
       setStakeLoading(false);
       Swal.fire({
@@ -154,30 +166,48 @@ export default ({ contract }) => {
     try {
       console.log("approve", approve);
       if (approve) {
-        await contract.staking.swapLumi(Math.round(amount * 10 ** 6)).send({
-          callValue: 0,
-          feeLimit: 2e7,
-          shouldPollResponse: true,
-        });
-        setLoading(false);
-      } else {
-        await contract.lumi
-          .approve(
-            Config.contract.stakingAddress,
-            tronWeb.fromDecimal(10 ** 25)
-          )
-          .send({
+        if (balanceTrx >= 2e8) {
+          await contract.staking.swapLumi(Math.round(amount * 10 ** 6)).send({
             callValue: 0,
-            feeLimit: 2e8,
-            shouldPollResponse: false,
+            feeLimit: 2e7,
+            shouldPollResponse: true,
           });
-        setApprove(true);
-        await contract.staking.swapLumi(Math.round(amount * 10 ** 6)).send({
-          callValue: 0,
-          feeLimit: 2e7,
-          shouldPollResponse: true,
-        });
-        setLoading(false);
+          setLoading(false);
+        } else {
+          Swal.fire({
+            title: i18n.t("error"),
+            text: "TRX not enought!",
+            icon: "error",
+            confirmButtonText: "ok",
+          });
+        }
+      } else {
+        if (balanceTrx >= 2e8) {
+          await contract.lumi
+            .approve(
+              Config.contract.stakingAddress,
+              tronWeb.fromDecimal(10 ** 25)
+            )
+            .send({
+              callValue: 0,
+              feeLimit: 2e8,
+              shouldPollResponse: false,
+            });
+          setApprove(true);
+          await contract.staking.swapLumi(Math.round(amount * 10 ** 6)).send({
+            callValue: 0,
+            feeLimit: 2e7,
+            shouldPollResponse: true,
+          });
+          setLoading(false);
+        } else {
+          Swal.fire({
+            title: i18n.t("error"),
+            text: "TRX not enought!",
+            icon: "error",
+            confirmButtonText: "ok",
+          });
+        }
       }
     } catch (error) {
       setLoading(false);
@@ -279,9 +309,8 @@ export default ({ contract }) => {
                 </button>
               </div>
               <div
-                className={`mbi_interest ${
-                  amountStake.amount < 1000 ? "unavailable" : ""
-                }`}
+                className={`mbi_interest ${amountStake.amount < 1000 ? "unavailable" : ""
+                  }`}
                 title={i18n.t("interest")}
               >
                 <img src={interestImg} alt="" />
@@ -289,17 +318,17 @@ export default ({ contract }) => {
                   {amountStake.amount + stats[0].value >= 500000
                     ? "15%"
                     : amountStake.amount + stats[0].value >= 100000
-                    ? "12%"
-                    : amountStake.amount >= 1000
-                    ? "9%"
-                    : "0%"}
+                      ? "12%"
+                      : amountStake.amount >= 1000
+                        ? "9%"
+                        : "0%"}
                 </span>
               </div>
               <div className="mbi_error">
                 {errorInput === "invalidInput" ||
-                errorInput === "minimumAmount1k" ? (
-                  <span>{i18n.t(errorInput)}</span>
-                ) : null}
+                  errorInput === "minimumAmount1k" ? (
+                    <span>{i18n.t(errorInput)}</span>
+                  ) : null}
               </div>
             </div>
             <button
@@ -314,8 +343,8 @@ export default ({ contract }) => {
               {stakeLoading ? (
                 <Loading size={20} color={Colors.white} />
               ) : (
-                <span>{i18n.t("staking")}</span>
-              )}
+                  <span>{i18n.t("staking")}</span>
+                )}
             </button>
           </div>
         </div>

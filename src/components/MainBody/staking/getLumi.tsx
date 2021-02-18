@@ -6,18 +6,29 @@ import LumiBlock from "components/MainBody/staking/lumiBlock";
 import Loading from "components/common/loading";
 import Colors from "constants/Colors";
 import Texts from "constants/Texts";
+import useTrx from "helps/useTrx";
 const convertImg = require("assets/images/convert.svg");
 export default ({ earn, price, contract }) => {
+  const balanceTrx = useTrx()
   const [loading, setLoading] = useState(false);
   const getLumi = () => {
     setLoading(true);
     try {
-      contract.getEarned().send({
-        callValue: 0,
-        feeLimit: 2e8,
-        shouldPollResponse: false,
-      });
-      setLoading(false);
+      if (balanceTrx >= 2e8) {
+        contract.getEarned().send({
+          callValue: 0,
+          feeLimit: 2e8,
+          shouldPollResponse: false,
+        });
+        setLoading(false);
+      } else {
+        Swal.fire({
+          title: i18n.t("error"),
+          text: "TRX not enought!",
+          icon: "error",
+          confirmButtonText: "ok",
+        });
+      }
     } catch (error) {
       console.log("error");
       Swal.fire({
@@ -57,8 +68,8 @@ export default ({ earn, price, contract }) => {
             {loading ? (
               <Loading size={20} color={Colors.white} />
             ) : (
-              <span>{i18n.t("getLumi")}</span>
-            )}
+                <span>{i18n.t("getLumi")}</span>
+              )}
           </button>
         </div>
       </div>
