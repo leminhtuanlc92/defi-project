@@ -156,7 +156,7 @@ export default ({ contract }) => {
       if (approve) {
         await contract.staking.swapLumi(Math.round(amount * 10 ** 6)).send({
           callValue: 0,
-          feeLimit: 2e8,
+          feeLimit: 2e7,
           shouldPollResponse: true,
         });
         setLoading(false);
@@ -174,7 +174,7 @@ export default ({ contract }) => {
         setApprove(true);
         await contract.staking.swapLumi(Math.round(amount * 10 ** 6)).send({
           callValue: 0,
-          feeLimit: 2e8,
+          feeLimit: 2e7,
           shouldPollResponse: true,
         });
         setLoading(false);
