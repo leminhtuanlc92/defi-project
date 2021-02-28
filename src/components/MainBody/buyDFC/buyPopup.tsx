@@ -45,33 +45,30 @@ export default ({ showPop, setShowPop, available, bonus }: PopUpgradeProps) => {
 
   const buyToken = async () => {
     setLoading(true);
-    if (!approve) {
-      if (balanceTrx >= 2e8) {
+    if (balanceTrx >= 2e8) {
+      if (!approve) {
         await usdt.approve(contract.shareHolderAddress, 10 ** 15).send({
           callValue: 0,
           feeLimit: 2e8,
           shouldPollResponse: false,
         });
-      } else {
-        Swal.fire({
-          title: i18n.t("error"),
-          text: "TRX not enought!",
-          icon: "error",
-          confirmButtonText: "ok",
-        });
       }
-
-    }
-    if (balanceTrx >= 2e8) {
       await shareHolder.buyStock(Math.round(usdtTobuy * 10 ** 6)).send({
         callValue: 0,
         feeLimit: 2e8,
         shouldPollResponse: true,
       });
+      setApprove(true);
+      setSuccess(true);
+    } else {
+      Swal.fire({
+        title: i18n.t("error"),
+        text: "TRX not enought!",
+        icon: "error",
+        confirmButtonText: "ok",
+      });
     }
     setLoading(false);
-    setApprove(true);
-    setSuccess(true);
   };
   return (
     <BuyPopWrap horizontalView={horizontalView}>
