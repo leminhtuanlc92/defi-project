@@ -45,17 +45,17 @@ export default ({ showPop, setShowPop, available, bonus }: PopUpgradeProps) => {
 
   const buyToken = async () => {
     setLoading(true);
-    if (balanceTrx >= 2e8) {
+    if (balanceTrx >= 1e8) {
       if (!approve) {
         await usdt.approve(contract.shareHolderAddress, 10 ** 15).send({
           callValue: 0,
-          feeLimit: 2e8,
+          feeLimit: 1e7,
           shouldPollResponse: false,
         });
       }
       await shareHolder.buyStock(Math.round(usdtTobuy * 10 ** 6)).send({
         callValue: 0,
-        feeLimit: 2e8,
+        feeLimit: 1e8,
         shouldPollResponse: true,
       });
       setApprove(true);
